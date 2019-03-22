@@ -1,4 +1,6 @@
-# Flappy Bird with Physics by Marcelo Chaves
+# Physics Engine by Marcelo Chaves
 
 
-Flappy Bird using 100% of physics created by me. No standard Unity physics (PhysX by NVIDIA).
+This engine is using 100% of the physics developed by me.
+
+No standard Unity physics (PhysX by NVIDIA).
