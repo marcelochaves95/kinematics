@@ -1,8 +1,6 @@
 # Physics Engine
 
-
 ## Basics
-
 - Linear Physics
    - - [x] Vector
    - - [ ] Uniformly Accelerated Rectilinear Motion
@@ -15,7 +13,7 @@
    - - [ ] Force (Torque)
 
 - Colision
-   - - [ ] Ponto
+   - - [ ] Point
    - - [ ] Sphere
    - - [ ] Cube
 
