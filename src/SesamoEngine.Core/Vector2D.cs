@@ -175,7 +175,7 @@ namespace SesanoEngine.Core
 		}
 
 		/// <summary>
-		/// 
+		/// Dot Product
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
