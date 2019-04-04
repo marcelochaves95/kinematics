@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace SesanoEngine.Core
 {
 	/// <summary>
-	/// Vector3f is an utility class for manipulating 3 dimensional
+	/// Vec3 is an utility class for manipulating 3 dimensional
 	/// vectors with float components
 	/// </summary>
+	[StructLayout(LayoutKind.Sequential)]
 	public struct Vec3 : IEquatable<Vec3>
 	{
 		/// <summary>X (horizontal) component of the vector</summary>
