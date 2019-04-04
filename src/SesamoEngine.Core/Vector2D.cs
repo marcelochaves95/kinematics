@@ -145,7 +145,7 @@ namespace SesanoEngine.Core
 		/// 
 		/// </summary>
 		/// <returns>The length of the vector</returns>
-		public static float Magnitude(Vector2D v) { return Mathf.Sqrt(v.X * v.X + v.Y * v.Y); }
+		public static float Magnitude(Vector2D v) => Math.Sqrt(v.X * v.X + v.Y * v.Y);
 
 		/// <summary>
 		/// Makes this vector have a magnitude of 1
