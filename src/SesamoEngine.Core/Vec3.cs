@@ -1,9 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System;
 
 namespace SesanoEngine.Core
 {
+	/// <summary>
+	/// Vector3f is an utility class for manipulating 3 dimensional
+	/// vectors with float components
+	/// </summary>
 	public struct Vec3 : IEquatable<Vec3>
 	{
 		/// <summary>X (horizontal) component of the vector</summary>
@@ -16,7 +18,7 @@ namespace SesanoEngine.Core
 		public float Z { get; set; }
 
 		/// <summary>
-		/// Construct the vector from its coordinates
+		/// Construct the vector from it's coordinates
 		/// </summary>
 		/// <param name="x">X coordinate</param>
 		/// <param name="y">Y coordinate</param>
@@ -29,64 +31,52 @@ namespace SesanoEngine.Core
 		}
 
 		/// <summary>
-		/// Construct the vector from its coordinates
+		/// Shorthand for writing Vec3(0, 0, 1)
 		/// </summary>
-		/// <param name="x">X coordinate</param>
-		/// <param name="y">Y coordinate</param>
-		public Vec3(float x, float y)
-		{
-			this.x = x;
-			this.y = y;
-			this.z = 0;
-		}
+		/// <returns>Vector forward</returns>
+		public static Vec3 Forward() => new Vec3(0, 0, 1);
 
 		/// <summary>
 		/// Shorthand for writing Vec3(0, 0, -1)
 		/// </summary>
 		/// <returns>Vector back</returns>
-		public Vec3 Back() => new Vec3(0, 0, -1);
+		public static Vec3 Back() => new Vec3(0, 0, -1);
 		
+		/// <summary>
+		/// Shorthand for writing Vec3(0, 1, 0)
+		/// </summary>
+		/// <returns>Vector up</returns>
+		public static Vec3 Up() => new Vec3(0, 1, 0);
+
 		/// <summary>
 		/// Shorthand for writing Vec3(0, -1, 0)
 		/// </summary>
 		/// <returns>Vector down</returns>
-		public Vec3 Down() => new Vec3(0, -1, 0);
+		public static Vec3 Down() => new Vec3(0, -1, 0);
 
 		/// <summary>
 		/// Shorthand for writing Vec3(-1, 0, 0)
 		/// </summary>
 		/// <returns>Vector left</returns>
-		public Vec3 Left() => new Vec3(-1, 0, 0);
-
-		/// <summary>
-		/// Shorthand for writing Vec3(1, 1, 1)
-		/// </summary>
-		/// <returns>Vector one</returns>
-		public Vec3 One() => new Vec3(1, 1, 1);
-
-		/// <summary>
-		/// Shorthand for writing Vec3(0, 0, 1)
-		/// </summary>
-		/// <returns>Vector forward</returns>
-		public Vec3 Forward() => new Vec3(0, 0, 1);
+		public static Vec3 Left() => new Vec3(-1, 0, 0);
 
 		/// <summary>
 		/// Shorthand for writing Vec3(1, 0, 0)
 		/// </summary>
 		/// <returns>Vector right</returns>
-		public Vec3 Right() => new Vec3(1, 0, 0);
+		public static Vec3 Right() => new Vec3(1, 0, 0);
 
 		/// <summary>
-		/// Shorthand for writing Vec3(0, 1, 0)
+		/// Shorthand for writing Vec3(1, 1, 1)
 		/// </summary>
-		/// <returns>Vector up</returns>
-		public Vec3 Up() => new Vec3(0, 1, 0);
+		/// <returns>Vector one</returns>
+		public static Vec3 One() => new Vec3(1, 1, 1);
 
 		/// <summary>
 		/// Shorthand for writing Vec3(0, 0, 0)
 		/// </summary>
 		/// <returns>Vector zero</returns>
-		public Vec3 Zero() => new Vec3(0, 0, 0);
+		public static Vec3 Zero() => new Vec3(0, 0, 0);
 
 		/// <summary>
 		/// Operator + overload ; add two vectors
@@ -94,7 +84,7 @@ namespace SesanoEngine.Core
 		/// <param name="v1">First vector</param>
 		/// <param name="v2">Second vector</param>
 		/// <returns>v1 + v2</returns>
-		public static Vec3 operator +(Vec3 v1, Vec3 v2) => new Vec3 (v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+		public static Vec3 operator +(Vec3 v1, Vec3 v2) => new Vec3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
 
 		/// <summary>
 		/// Operator - overload ; subtracts two vectors
@@ -102,7 +92,7 @@ namespace SesanoEngine.Core
 		/// <param name="v1">First vector</param>
 		/// <param name="v2">Second vector</param>
 		/// <returns>v1 - v2</returns>
-		public static Vec3 operator -(Vec3 v1, Vec3 v2) => new Vec3 (v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+		public static Vec3 operator -(Vec3 v1, Vec3 v2) => new Vec3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
 
 		/// <summary>
 		/// Operator - overload ; returns the opposite of a vector
@@ -117,7 +107,7 @@ namespace SesanoEngine.Core
 		/// <param name="v">Vector</param>
 		/// <param name="s">Scalar value</param>
 		/// <returns>v * s</returns>
-		public static Vec3 operator *(Vec3 v, float s) => new Vec3 (v.X * s, v.Y * s, v.Z * s);
+		public static Vec3 operator *(Vec3 v, float s) => new Vec3(v.X * s, v.Y * s, v.Z * s);
 
 		/// <summary>
 		/// Operator * overload ; multiply a scalar value by a vector
@@ -125,7 +115,7 @@ namespace SesanoEngine.Core
 		/// <param name="s">Scalar value</param>
 		/// <param name="v">Vector</param>
 		/// <returns>s * v</returns>
-		public static Vec3 operator *(float s, Vec3 v) => new Vec3 (v.X * s, v.Y * s, v.Z * s);
+		public static Vec3 operator *(float s, Vec3 v) => new Vec3(v.X * s, v.Y * s, v.Z * s);
 
 		/// <summary>
 		/// Operator / overload ; divide a vector by a scalar value
@@ -133,7 +123,7 @@ namespace SesanoEngine.Core
 		/// <param name="v">Vector</param>
 		/// <param name="s">Scalar value</param>
 		/// <returns>v / s</returns>
-		public static Vec3 operator /(Vec3 v, float s) => new Vec3 (v.X / s, v.Y / s, v.Z / s);
+		public static Vec3 operator /(Vec3 v, float s) => new Vec3(v.X / s, v.Y / s, v.Z / s);
 
 		/// <summary>
 		/// Operator == overload ; check vector equality
@@ -175,28 +165,21 @@ namespace SesanoEngine.Core
 		/// Makes this vector have a magnitude of 1
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public Vec3 Normalize() => new Vec3(x / this.X.Magnitude(), y / this.Y.Magnitude(), z / this.Z.Magnitude());
+		public static Vec3 Normalize() => new Vec3(this.X / this.X.Magnitude(), this.Y / this.Y.Magnitude(), this.Z / this.Z.Magnitude());
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
-		public float DotProduct(Vec3 v) => this.X * v.X + this.Y * v.Y + this.Z * v.Z;
+		public static float DotProduct(Vec3 v) => this.X * v.X + this.Y * v.Y + this.Z * v.Z;
 
 		/// <summary>
 		/// 
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Cross Product of two vectors</returns>
-		public Vec3 CrossProduct(Vec3 v)
-		{
-			float cx = this.Y * v.Z - this.Z * v.Y;
-			float cy = this.Z * v.X - this.X * v.Z;
-			float cz = this.X * v.Y - this.Y * v.X;
-
-			return new Vec3(cx, cy, cz);
-		}
+		public static Vec3 CrossProduct(Vec3 v) => new Vec3(this.Y * v.Z - this.Z * v.Y, this.Z * v.X - this.X * v.Z, this.X * v.Y - this.Y * v.X);
 
 		/// <summary>
 		/// Provide a string describing the object
