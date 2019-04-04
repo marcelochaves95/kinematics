@@ -157,48 +157,34 @@ namespace SesanoEngine.Core
 		/// <returns>Vectors are equal</returns>
 		public bool Equals(Vector3D other) => (this.X == other.X) && (this.Y == other.Y) && (this.Z == other.Z);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns>The length of the vector</returns>
-		public static float Magnitude(Vector3D v) => new Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+        /// <summary>
+        /// Magnitude
+        /// </summary>
+        /// <returns>The length of the vector</returns>
+        public static float Magnitude(Vector3D v) => new Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
 
-		/// <summary>
-		/// Makes this vector have a magnitude of 1
-		/// </summary>
-		/// <param name="v">Vector</param>
-		/// <returns>Normalized vector</returns>
-		public static Vector3D Normalize(Vector3D v)
-        {
-            float magnitude = this.Magnitude(v);
-            if (magnitude > 0)
-                return v / magnitude;
-            else
-                return Vector3D.Zero();
-        }
+        /// <summary>
+        /// Makes this vector have a magnitude of 1
+        /// </summary>
+        /// <param name="v">Vector</param>
+        /// <returns>Normalized vector</returns>
+        public static Vector3D Normalize(Vector3D v) => v / this.Magnitude(v);
 
 		/// <summary>
 		/// Makes this vector have a magnitude of 1
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public static Vector3D Normalize()
-		{
-			float magnitude = this.Magnitude(this);
-            if (magnitude > 0)
-                this = this / magnitude;
-            else
-                this = Vector3D.Zero();
-		}
+		public static Vector3D Normalize() => this / this.Magnitude(this);
 
 		/// <summary>
-		/// 
+		/// Dot Product
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
 		public static float DotProduct(Vector3D v) => this.X * v.X + this.Y * v.Y + this.Z * v.Z;
 
 		/// <summary>
-		/// 
+		/// Cross Product
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Cross Product of two vectors</returns>

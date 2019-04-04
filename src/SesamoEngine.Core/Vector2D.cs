@@ -141,38 +141,24 @@ namespace SesanoEngine.Core
 		/// <returns>Vectors are equal</returns>
 		public bool Equals(Vector2D other) => (this.X == other.X) && (this.Y == other.Y);
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns>The length of the vector</returns>
-		public static float Magnitude(Vector2D v) => Math.Sqrt(v.X * v.X + v.Y * v.Y);
+        /// <summary>
+        /// Magnitude
+        /// </summary>
+        /// <returns>The length of the vector</returns>
+        public static float Magnitude(Vector2D v) => Math.Sqrt(v.X * v.X + v.Y * v.Y);
 
 		/// <summary>
 		/// Makes this vector have a magnitude of 1
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Normalized vector</returns>
-		public static Vector2D Normalize(Vector2D v)
-        {
-            float magnitude = this.Magnitude(v);
-            if (magnitude > 0)
-                return v / magnitude;
-            else
-                return Vector2D.Zero();
-        }
+		public static Vector2D Normalize(Vector2D v) => v / this.Magnitude(v);
 
 		/// <summary>
 		/// Makes this vector have a magnitude of 1
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public static Vector2D Normalize()
-		{
-			float magnitude = this.Magnitude(this);
-            if (magnitude > 0)
-                this = this / magnitude;
-            else
-                this = Vector2D.Zero();
-		}
+		public static Vector2D Normalize() => this / this.Magnitude(v);
 
 		/// <summary>
 		/// Dot Product
