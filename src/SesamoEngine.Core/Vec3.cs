@@ -161,13 +161,34 @@ namespace SesanoEngine.Core
 		/// 
 		/// </summary>
 		/// <returns>The length of the vector</returns>
-		public float Magnitude() => Mathf.Sqrt(this.X * this.X + this.Y * this.Y + this.Z * this.Z);
+		public static float Magnitude(Vec3 v) { return Mathf.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z); }
+
+		/// <summary>
+		/// Makes this vector have a magnitude of 1
+		/// </summary>
+		/// <param name="v">Vector</param>
+		/// <returns>Normalized vector</returns>
+		public static Vec3 Normalize(Vec3 v)
+        {
+            float magnitude = this.Magnitude(v);
+            if (magnitude > 0)
+                return v / magnitude;
+            else
+                return Vec3.Zero();
+        }
 
 		/// <summary>
 		/// Makes this vector have a magnitude of 1
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public static Vec3 Normalize() => new Vec3(this.X / this.X.Magnitude(), this.Y / this.Y.Magnitude(), this.Z / this.Z.Magnitude());
+		public static Vec3 Normalize()
+		{
+			float magnitude = this.Magnitude(this);
+            if (magnitude > 0)
+                this = this / magnitude;
+            else
+                this = Vec3.Zero();
+		}
 
 		/// <summary>
 		/// 
