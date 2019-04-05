@@ -12,7 +12,7 @@
    - - [ ] Rotation
    - - [ ] Force (Torque)
 
-- Colision
+- Collision
    - - [ ] Point
    - - [ ] Sphere
    - - [ ] Cube
