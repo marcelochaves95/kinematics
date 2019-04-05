@@ -1,5 +1,6 @@
 # Physics Library for Unity
 
+![](https://travis-ci.org/marcelochaves95/lib-physics.svg?branch=master)
 ## Basics
 - Linear Physics
    - - [x] Vector
