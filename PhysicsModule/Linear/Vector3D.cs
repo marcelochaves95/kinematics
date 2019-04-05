@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace SesanoEngine.Core
+namespace CoreModule.Linear
 {
 	/// <summary>
 	/// Vector3D is an utility class for manipulating 3 dimensional

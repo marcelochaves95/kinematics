@@ -1,0 +1,4 @@
+{
+    "csharpfixformat.style.newline.atEnd": true,
+    "csharpfixformat.style.newline.elseCatch": true
+}
