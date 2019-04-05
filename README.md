@@ -1,4 +1,4 @@
-# Physics Engine
+# Physics Library for Unity
 
 ## Basics
 - Linear Physics
@@ -20,3 +20,6 @@
 ## Extras
    - - [ ] Rig (Hook)
    - - [ ] Wheels
+
+## License
+Apache 2.0 license. See the [`LICENSE`](LICENSE) file for details.
