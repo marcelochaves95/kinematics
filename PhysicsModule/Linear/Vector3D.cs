@@ -27,9 +27,9 @@ namespace CoreModule.Linear
 		/// <param name="z">Z coordinate</param>
 		public Vector3D(float x, float y, float z)
 		{
-			this.X = x;
-			this.Y = y;
-			this.Z = z;
+			X = x;
+			Y = y;
+			Z = z;
 		}
 
 		/// <summary>
@@ -155,7 +155,7 @@ namespace CoreModule.Linear
 		/// </summary>
 		/// <param name="other">Vector to check</param>
 		/// <returns>Vectors are equal</returns>
-		public bool Equals(Vector3D other) => (this.X == other.X) && (this.Y == other.Y) && (this.Z == other.Z);
+		public bool Equals(Vector3D other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
 
         /// <summary>
         /// Magnitude
@@ -168,32 +168,39 @@ namespace CoreModule.Linear
         /// </summary>
         /// <param name="v">Vector</param>
         /// <returns>Normalized vector</returns>
-        public static Vector3D Normalize(Vector3D v) => v / this.Magnitude(v);
+        public static Vector3D Normalize(Vector3D v) => v / Magnitude(v);
 
 		/// <summary>
 		/// Makes this vector have a magnitude of 1
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public static Vector3D Normalize() => this / this.Magnitude(this);
+		public static Vector3D Normalize() => this / Magnitude(this);
 
 		/// <summary>
 		/// Dot Product
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
-		public static float DotProduct(Vector3D v) => this.X * v.X + this.Y * v.Y + this.Z * v.Z;
+		public static float DotProduct(Vector3D v) => X * v.X + Y * v.Y + Z * v.Z;
 
 		/// <summary>
 		/// Cross Product
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Cross Product of two vectors</returns>
-		public static Vector3D CrossProduct(Vector3D v) => new Vector3D(this.Y * v.Z - this.Z * v.Y, this.Z * v.X - this.X * v.Z, this.X * v.Y - this.Y * v.X);
+		public static Vector3D CrossProduct(Vector3D v) => new Vector3D(Y * v.Z - Z * v.Y, Z * v.X - X * v.Z, X * v.Y - Y * v.X);
 
-		/// <summary>
-		/// Provide a string describing the object
-		/// </summary>
-		/// <returns>String description of the object</returns>
-		public override string ToString() => $"[Vector3D] X({ this.X }) Y({ this.Y }) Z({ this.Z })";
+        /// <summary>
+        /// Used to allow Vector3Ds to be used as keys in hash tables
+        /// </summary>
+        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
+        /// hash table.</returns>
+        public override int GetHashCode() => X.GetHashCode() ^ (Y.GetHashCode() << 2) ^ (Z.GetHashCode() >> 2);
+
+        /// <summary>
+        /// Provide a string describing the object
+        /// </summary>
+        /// <returns>String description of the object</returns>
+        public override string ToString() => $"[Vector3D] X({ X }) Y({ Y }) Z({ Z })";
 	}
 }

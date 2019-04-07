@@ -24,8 +24,8 @@ namespace CoreModule.Linear
 		/// <param name="z">Z coordinate</param>
 		public Vector2D(float x, float y)
 		{
-			this.X = x;
-			this.Y = y;
+			X = x;
+			Y = y;
 		}
 
 		/// <summary>
@@ -139,7 +139,7 @@ namespace CoreModule.Linear
 		/// </summary>
 		/// <param name="other">Vector to check</param>
 		/// <returns>Vectors are equal</returns>
-		public bool Equals(Vector2D other) => (this.X == other.X) && (this.Y == other.Y);
+		public bool Equals(Vector2D other) => X.Equals(other.X) && Y.Equals(other.Y);
 
         /// <summary>
         /// Magnitude
@@ -152,25 +152,32 @@ namespace CoreModule.Linear
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Normalized vector</returns>
-		public static Vector2D Normalize(Vector2D v) => v / this.Magnitude(v);
+		public static Vector2D Normalize(Vector2D v) => v / Magnitude(v);
 
 		/// <summary>
 		/// Makes this vector have a magnitude of 1
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public static Vector2D Normalize() => this / this.Magnitude(v);
+		public static Vector2D Normalize() => this / Magnitude(v);
 
 		/// <summary>
 		/// Dot Product
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
-		public static float DotProduct(Vector2D v) => this.X * v.X + this.Y * v.Y;
+		public static float DotProduct(Vector2D v) => X * v.X + Y * v.Y;
 
-		/// <summary>
-		/// Provide a string describing the object
-		/// </summary>
-		/// <returns>String description of the object</returns>
-		public override string ToString() => $"[Vector2D] X({ this.X }) Y({ this.Y })";
+        /// <summary>
+        /// Used to allow Vector2s to be used as keys in hash tables
+        /// </summary>
+        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
+        /// hash table.</returns>
+        public override int GetHashCode() => X.GetHashCode() ^ (Y.GetHashCode() << 2);
+
+        /// <summary>
+        /// Provide a string describing the object
+        /// </summary>
+        /// <returns>String description of the object</returns>
+        public override string ToString() => $"[Vector2D] X({ X }) Y({ Y })";
 	}
 }
