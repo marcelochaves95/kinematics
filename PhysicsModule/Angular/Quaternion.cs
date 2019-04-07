@@ -39,15 +39,19 @@ namespace CoreModule.Angular
         /// <value>The identity matrix</value>
         public static Quaternion Identity => new Quaternion(0f, 0f, 0f, 1f);
 
+        /// <summary>
+        /// Compare quaternion and object and checks if they are equal
+        /// </summary>
+        /// <param name="obj">Object to check</param>
+        /// <returns>Object and quaternion are equal</returns>
         public override bool Equals(object obj) => (obj is Quaternion) && Equals((Quaternion)obj);
 
-        public bool Equals(Quaternion other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
-
         /// <summary>
-        /// Provide a string describing the object
+        /// Compare two quaternions and checks if they are equal
         /// </summary>
-        /// <returns>String description of the object</returns>
-        public override string ToString() => $"[Quaternion] X({ X }) Y({ Y }) Z({ Z }) W({ W })";
+        /// <param name="other">Quaternion to check</param>
+        /// <returns>Quaternions are equal</returns>
+        public bool Equals(Quaternion other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
 
         /// <summary>
         /// Used to allow Quaternions to be used as keys in hash tables
@@ -55,5 +59,11 @@ namespace CoreModule.Angular
         /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
         /// hash table.</returns>
         public override int GetHashCode() => X.GetHashCode() ^ (Y.GetHashCode() << 2) ^ (Z.GetHashCode() >> 2) ^ (W.GetHashCode() >> 1);
+
+        /// <summary>
+        /// Provide a string describing the object
+        /// </summary>
+        /// <returns>String description of the object</returns>
+        public override string ToString() => $"[Quaternion] X({ X }) Y({ Y }) Z({ Z }) W({ W })";
     }
 }
