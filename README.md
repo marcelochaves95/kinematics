@@ -1,4 +1,4 @@
-# Physics Library for Unity
+# Physics Engine for Games
 
 ## Basics
 - Linear Physics
