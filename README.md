@@ -1,5 +1,6 @@
 # Physics Engine for Games
 
+![](https://travis-ci.org/marcelochaves95/physics-engine.svg?branch=master)
 ## Basics
 - Linear Physics
    - - [x] Vector
