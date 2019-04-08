@@ -1,4 +1,4 @@
 language: csharp
-solution: "physics-engine.sln"
+solution: "./CoreModule/physics-engine.sln"
 install:
-- travis_retry nuget restore -source "https://www.nuget.org/api/v2" physics-engine.sln
+- travis_retry nuget restore -source "https://www.nuget.org/api/v2" ./CoreModule/physics-engine.sln

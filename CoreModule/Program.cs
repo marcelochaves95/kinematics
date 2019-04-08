@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace physicsengine
+namespace CoreModule
 {
-    class MainClass
+    class Program
     {
         public static void Main(string[] args)
         {
