@@ -89,7 +89,7 @@ namespace PhysicsModule.Angular
         /// </summary>
         /// <param name="dot"></param>
         /// <returns>The presence of NaN values</returns>
-        private static bool IsEqualUsingDotProduct(float dot) => dot > 1.0f - 0;
+        private static bool IsEqualUsingDotProduct(float dot) => dot > 1f - 0f;
 
         /// <summary>
         /// Are two quaternions equal to each other?
@@ -124,7 +124,7 @@ namespace PhysicsModule.Angular
         public static float Angle(Quaternion q1, Quaternion q2)
         {
             float dot = DotProduct(q1, q2);
-            return IsEqualUsingDotProduct(dot) ? 0.0f : Mathematics.Acos(Mathematica.Min(Mathematics.Abs(dot), 1f)) * 2f * Mathematics.RadToDeg();
+            return IsEqualUsingDotProduct(dot) ? 0f : Mathematics.Acos(Mathematica.Min(Mathematics.Abs(dot), 1f)) * 2f * Mathematics.RadToDeg();
         }
 
         /// <summary>
@@ -135,7 +135,7 @@ namespace PhysicsModule.Angular
         public static Quaternion Normalize(Quaternion q)
         {
             float magnitude = Mathematics.Sqrt(DotProduct(q, q));
-            if (magnitude < 0)
+            if (magnitude < 0f)
                 return Quaternion.Identity;
 
             return new Quaternion(q.X / magnitude, q.Y / magnitude, q.Z / magnitude, q.W / magnitude);
@@ -166,7 +166,7 @@ namespace PhysicsModule.Angular
         /// </summary>
         /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
         /// hash table.</returns>
-        public override int GetHashCode() => X.GetHashCode() ^ (Y.GetHashCode() << 2) ^ (Z.GetHashCode() >> 2) ^ (W.GetHashCode() >> 1);
+        public override int GetHashCode() => X.GetHashCode() ^ (Y.GetHashCode() << 2f) ^ (Z.GetHashCode() >> 2f) ^ (W.GetHashCode() >> 1f);
 
         /// <summary>
         /// Provide a string describing the object
