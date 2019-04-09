@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace CoreModule.Linear
+using CoreModule;
+
+namespace PhysicsModule.Linear
 {
 	/// <summary>
 	/// Vector3D is an utility class for manipulating 3 dimensional
@@ -161,7 +163,7 @@ namespace CoreModule.Linear
         /// Magnitude
         /// </summary>
         /// <returns>The length of the vector</returns>
-        public static float Magnitude(Vector3D v) => new Math.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+        public static float Magnitude(Vector3D v) => new Mathematics.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
 
         /// <summary>
         /// Makes this vector have a magnitude of 1
