@@ -1,8 +1,8 @@
 # Physics Engine for Games
 
 | **`Build`** | **`Documentation`** |
-| --- | ---|
-| ![Build](https://travis-ci.org/marcelochaves95/physics-engine.svg?branch=master) | [![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://github.com/marcelochaves95/physics-engine/wiki) |
+| --- | --- |
+| [![Build](https://travis-ci.org/marcelochaves95/physics-engine.svg?branch=master)](https://travis-ci.org/marcelochaves95/physics-engine) | [![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://github.com/marcelochaves95/physics-engine/wiki) |
 ## Basics
 - Linear Physics
    - - [x] Vector
