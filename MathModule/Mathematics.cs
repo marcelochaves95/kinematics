@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 
-namespace CoreModule
+namespace MathModule
 {
     /// <summary>
     /// A collection of common mathematics functions

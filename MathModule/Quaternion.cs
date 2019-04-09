@@ -1,9 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-using CoreModule;
-
-namespace PhysicsModule.Angular
+namespace MathModule
 {
     [StructLayout(LayoutKind.Sequential)]
     public struct Quaternion : IEquatable<Quaternion>
