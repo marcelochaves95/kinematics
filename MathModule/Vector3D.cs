@@ -83,25 +83,25 @@ namespace MathModule
 		/// <summary>
 		/// Operator + overload ; add two vectors
 		/// </summary>
-		/// <param name="v1">First vector</param>
-		/// <param name="v2">Second vector</param>
+		/// <param name="vector1">First vector</param>
+		/// <param name="vector2">Second vector</param>
 		/// <returns>v1 + v2</returns>
-		public static Vector3D operator +(Vector3D v1, Vector3D v2) => new Vector3D(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+		public static Vector3D operator +(Vector3D vector1, Vector3D vector2) => new Vector3D(vector1.X + vector2.X, vector1.Y + vector2.Y, vector1.Z + vector2.Z);
 
 		/// <summary>
 		/// Operator - overload ; subtracts two vectors
 		/// </summary>
-		/// <param name="v1">First vector</param>
-		/// <param name="v2">Second vector</param>
+		/// <param name="vector1">First vector</param>
+		/// <param name="vector2">Second vector</param>
 		/// <returns>v1 - v2</returns>
-		public static Vector3D operator -(Vector3D v1, Vector3D v2) => new Vector3D(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
+		public static Vector3D operator -(Vector3D vector1, Vector3D vector2) => new Vector3D(vector1.X - vector2.X, vector1.Y - vector2.Y, vector1.Z - vector2.Z);
 
 		/// <summary>
 		/// Operator - overload ; returns the opposite of a vector
 		/// </summary>
-		/// <param name="v">Vector to negate</param>
+		/// <param name="vector">Vector to negate</param>
 		/// <returns>-v</returns>
-		public static Vector3D operator -(Vector3D v) => new Vector3D(-v.X, -v.Y, -v.Z);
+		public static Vector3D operator -(Vector3D vector) => new Vector3D(-vector.X, -vector.Y, -vector.Z);
 
 		/// <summary>
 		/// Operator * overload ; multiply a vector by a scalar value
@@ -114,34 +114,34 @@ namespace MathModule
 		/// <summary>
 		/// Operator * overload ; multiply a scalar value by a vector
 		/// </summary>
-		/// <param name="s">Scalar value</param>
-		/// <param name="v">Vector</param>
+		/// <param name="scalar">Scalar value</param>
+		/// <param name="vector">Vector</param>
 		/// <returns>s * v</returns>
-		public static Vector3D operator *(float s, Vector3D v) => new Vector3D(v.X * s, v.Y * s, v.Z * s);
+		public static Vector3D operator *(float scalar, Vector3D vector) => new Vector3D(vector.X * scalar, vector.Y * scalar, vector.Z * scalar);
 
 		/// <summary>
 		/// Operator / overload ; divide a vector by a scalar value
 		/// </summary>
-		/// <param name="v">Vector</param>
-		/// <param name="s">Scalar value</param>
+		/// <param name="vector">Vector</param>
+		/// <param name="scalar">Scalar value</param>
 		/// <returns>v / s</returns>
-		public static Vector3D operator /(Vector3D v, float s) => new Vector3D(v.X / s, v.Y / s, v.Z / s);
+		public static Vector3D operator /(Vector3D vector, float scalar) => new Vector3D(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
 
 		/// <summary>
 		/// Operator == overload ; check vector equality
 		/// </summary>
-		/// <param name="v1">First vector</param>
-		/// <param name="v2">Second vector</param>
+		/// <param name="vector1">First vector</param>
+		/// <param name="vector2">Second vector</param>
 		/// <returns>v1 == v2</returns>
-		public static bool operator ==(Vector3D v1, Vector3D v2) => v1.Equals(v2);
+		public static bool operator ==(Vector3D vector1, Vector3D vector2) => vector1.Equals(vector2);
 
 		/// <summary>
 		/// Operator != overload ; check vector inequality
 		/// </summary>
-		/// <param name="v1">First vector</param>
-		/// <param name="v2">Second vector</param>
+		/// <param name="vector1">First vector</param>
+		/// <param name="vector2">Second vector</param>
 		/// <returns>v1 != v2</returns>
-		public static bool operator !=(Vector3D v1, Vector3D v2) => !v1.Equals(v2);
+		public static bool operator !=(Vector3D vector1, Vector3D vector2) => !vector1.Equals(vector2);
 
 		/// <summary>
 		/// Compare vector and object and checks if they are equal
@@ -161,14 +161,14 @@ namespace MathModule
 		/// Calculates the length of the vector
 		/// </summary>
 		/// <returns>The length of the vector</returns>
-		public static float Magnitude(Vector3D v) => new Mathematics.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
+		public static float Magnitude(Vector3D vector) => new Mathematics.Sqrt(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z);
 
 		/// <summary>
 		/// Converts the vector into a unit vector
 		/// </summary>
-		/// <param name="v">Vector</param>
+		/// <param name="vector">Vector</param>
 		/// <returns>Normalized vector</returns>
-		public static Vector3D Normalize(Vector3D v) => v / Magnitude(v);
+		public static Vector3D Normalize(Vector3D vector) => vector / Magnitude(vector);
 
 		/// <summary>
 		/// Converts the vector into a unit vector
@@ -179,16 +179,16 @@ namespace MathModule
 		/// <summary>
 		/// Calculates the dot product of two vectors
 		/// </summary>
-		/// <param name="v">Vector</param>
+		/// <param name="vector">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
-		public static float DotProduct(Vector3D v) => X * v.X + Y * v.Y + Z * v.Z;
+		public static float DotProduct(Vector3D vector) => X * vector.X + Y * vector.Y + Z * vector.Z;
 
 		/// <summary>
 		/// Calculates the cross product of two vectors
 		/// </summary>
-		/// <param name="v">Vector</param>
+		/// <param name="vector">Vector</param>
 		/// <returns>Cross Product of two vectors</returns>
-		public static Vector3D CrossProduct(Vector3D v) => new Vector3D(Y * v.Z - Z * v.Y, Z * v.X - X * v.Z, X * v.Y - Y * v.X);
+		public static Vector3D CrossProduct(Vector3D vector) => new Vector3D(Y * vector.Z - Z * vector.Y, Z * vector.X - X * vector.Z, X * vector.Y - Y * vector.X);
 
 		/// <summary>
 		/// Used to allow Vector3Ds to be used as keys in hash tables

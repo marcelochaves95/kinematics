@@ -6,7 +6,6 @@ namespace MathModule
     /// <summary>
     /// Represents a four dimensional mathematical vector.
     /// </summary>
-    [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector4D : IEquatable<Vector4D>
     {
@@ -195,6 +194,24 @@ namespace MathModule
         /// </summary>
         /// <returns>Normalized vector</returns>
         public Vector4D Normalize() => this / Magnitude(this);
+
+        /// <summary>
+        /// Returns a containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 4D triangle
+        /// </summary>
+        /// <param name="vector1">A containing the 4D Cartesian coordinates of vertex 1 of the triangle</param>
+        /// <param name="vector2">A containing the 4D Cartesian coordinates of vertex 2 of the triangle</param>
+        /// <param name="vector3">A containing the 4D Cartesian coordinates of vertex 3 of the triangle</param>
+        /// <param name="amount1">Barycentric coordinate b2, which expresses the weighting factor toward vertex 2 (specified in <paramref name="vector2"/>)</param>
+        /// <param name="amount2">Barycentric coordinate b3, which expresses the weighting factor toward vertex 3 (specified in <paramref name="vector3"/>)</param>
+        /// <returns>A new containing the 4D Cartesian coordinates of the specified point</returns>
+        public static Vector4 Barycentric(Vector4 vector1, Vector4 vector2, Vector4 vector3, float amount1, float amount2)
+        {
+            new Vector4(
+                (vector1.X + (amount1 * (vector2.X - vector1.X))) + (amount2 * (vector3.X - vector1.X)),
+                (vector1.Y + (amount1 * (vector2.Y - vector1.Y))) + (amount2 * (vector3.Y - vector1.Y)),
+                (vector1.Z + (amount1 * (vector2.Z - vector1.Z))) + (amount2 * (vector3.Z - vector1.Z)),
+                (vector1.W + (amount1 * (vector2.W - vector1.W))) + (amount2 * (vector3.W - vector1.W)));
+        }
 
         /// <summary>
         /// Restricts a value to be within a specified range
