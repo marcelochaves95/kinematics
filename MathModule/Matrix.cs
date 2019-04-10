@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace BulletSharp.Math
+namespace Mathematics
 {
     /// <summary>
     /// Represents a 4x4 mathematical matrix
@@ -23,114 +23,102 @@ namespace BulletSharp.Math
         /// <summary>
         /// Value at row 1 column 1 of the matrix
         /// </summary>
-        public float M11;
+        public float M11 { get; set; }
 
         /// <summary>
         /// Value at row 1 column 2 of the matrix
         /// </summary>
-        public float M12;
+        public float M12 { get; set; }
 
         /// <summary>
         /// Value at row 1 column 3 of the matrix
         /// </summary>
-        public float M13;
+        public float M13 { get; set; }
 
         /// <summary>
         /// Value at row 1 column 4 of the matrix
         /// </summary>
-        public float M14;
+        public float M14 { get; set; }
 
         /// <summary>
         /// Value at row 2 column 1 of the matrix
         /// </summary>
-        public float M21;
+        public float M21 { get; set; }
 
         /// <summary>
         /// Value at row 2 column 2 of the matrix
         /// </summary>
-        public float M22;
+        public float M22 { get; set; }
 
         /// <summary>
         /// Value at row 2 column 3 of the matrix
         /// </summary>
-        public float M23;
+        public float M23 { get; set; }
 
         /// <summary>
         /// Value at row 2 column 4 of the matrix
         /// </summary>
-        public float M24;
+        public float M24 { get; set; }
 
         /// <summary>
         /// Value at row 3 column 1 of the matrix
         /// </summary>
-        public float M31;
+        public float M31 { get; set; }
 
         /// <summary>
         /// Value at row 3 column 2 of the matrix
         /// </summary>
-        public float M32;
+        public float M32 { get; set; }
 
         /// <summary>
         /// Value at row 3 column 3 of the matrix
         /// </summary>
-        public float M33;
+        public float M33 { get; set; }
 
         /// <summary>
         /// Value at row 3 column 4 of the matrix
         /// </summary>
-        public float M34;
+        public float M34 { get; set; }
 
         /// <summary>
         /// Value at row 4 column 1 of the matrix
         /// </summary>
-        public float M41;
+        public float M41 { get; set; }
 
         /// <summary>
         /// Value at row 4 column 2 of the matrix
         /// </summary>
-        public float M42;
+        public float M42 { get; set; }
 
         /// <summary>
         /// Value at row 4 column 3 of the matrix
         /// </summary>
-        public float M43;
+        public float M43 { get; set; }
 
         /// <summary>
         /// Value at row 4 column 4 of the matrix
         /// </summary>
-        public float M44;
+        public float M44 { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SlimMath.Matrix"/> struct.
+        /// Initializes a new instance of the matrix struct
         /// </summary>
-        /// <param name="value">The value that will be assigned to all components.</param>
-        public Matrix(float value)
-        {
-            M11 = M12 = M13 = M14 =
-                M21 = M22 = M23 = M24 =
-                M31 = M32 = M33 = M34 =
-                M41 = M42 = M43 = M44 = value;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SlimMath.Matrix"/> struct.
-        /// </summary>
-        /// <param name="M11">The value to assign at row 1 column 1 of the matrix.</param>
-        /// <param name="M12">The value to assign at row 1 column 2 of the matrix.</param>
-        /// <param name="M13">The value to assign at row 1 column 3 of the matrix.</param>
-        /// <param name="M14">The value to assign at row 1 column 4 of the matrix.</param>
-        /// <param name="M21">The value to assign at row 2 column 1 of the matrix.</param>
-        /// <param name="M22">The value to assign at row 2 column 2 of the matrix.</param>
-        /// <param name="M23">The value to assign at row 2 column 3 of the matrix.</param>
-        /// <param name="M24">The value to assign at row 2 column 4 of the matrix.</param>
-        /// <param name="M31">The value to assign at row 3 column 1 of the matrix.</param>
-        /// <param name="M32">The value to assign at row 3 column 2 of the matrix.</param>
-        /// <param name="M33">The value to assign at row 3 column 3 of the matrix.</param>
-        /// <param name="M34">The value to assign at row 3 column 4 of the matrix.</param>
-        /// <param name="M41">The value to assign at row 4 column 1 of the matrix.</param>
-        /// <param name="M42">The value to assign at row 4 column 2 of the matrix.</param>
-        /// <param name="M43">The value to assign at row 4 column 3 of the matrix.</param>
-        /// <param name="M44">The value to assign at row 4 column 4 of the matrix.</param>
+        /// <param name="M11">The value to assign at row 1 column 1 of the matrix</param>
+        /// <param name="M12">The value to assign at row 1 column 2 of the matrix</param>
+        /// <param name="M13">The value to assign at row 1 column 3 of the matrix</param>
+        /// <param name="M14">The value to assign at row 1 column 4 of the matrix</param>
+        /// <param name="M21">The value to assign at row 2 column 1 of the matrix</param>
+        /// <param name="M22">The value to assign at row 2 column 2 of the matrix</param>
+        /// <param name="M23">The value to assign at row 2 column 3 of the matrix</param>
+        /// <param name="M24">The value to assign at row 2 column 4 of the matrix</param>
+        /// <param name="M31">The value to assign at row 3 column 1 of the matrix</param>
+        /// <param name="M32">The value to assign at row 3 column 2 of the matrix</param>
+        /// <param name="M33">The value to assign at row 3 column 3 of the matrix</param>
+        /// <param name="M34">The value to assign at row 3 column 4 of the matrix</param>
+        /// <param name="M41">The value to assign at row 4 column 1 of the matrix</param>
+        /// <param name="M42">The value to assign at row 4 column 2 of the matrix</param>
+        /// <param name="M43">The value to assign at row 4 column 3 of the matrix</param>
+        /// <param name="M44">The value to assign at row 4 column 4 of the matrix</param>
         public Matrix(float M11, float M12, float M13, float M14,
             float M21, float M22, float M23, float M24,
             float M31, float M32, float M33, float M34,
@@ -155,11 +143,11 @@ namespace BulletSharp.Math
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SlimMath.Matrix"/> struct.
+        /// Initializes a new instance of the matrix struct
         /// </summary>
-        /// <param name="values">The values to assign to the components of the matrix. This must be an array with sixteen elements.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c>.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than sixteen elements.</exception>
+        /// <param name="values">The values to assign to the components of the matrix. This must be an array with sixteen elements</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than sixteen elements</exception>
         public Matrix(float[] values)
         {
             if (values == null)
@@ -306,7 +294,7 @@ namespace BulletSharp.Math
 
                 if (trace > 0f)
                 {
-                    float s = UnityEngine.Mathf.Sqrt(trace + (1f));
+                    float s = Mathematics.Sqrt(trace + (1f));
                     temp[3] = (s * (0.5f));
                     s = (0.5f) / s;
 
@@ -322,7 +310,7 @@ namespace BulletSharp.Math
                     int j = (i + 1) % 3;
                     int k = (i + 2) % 3;
 
-                    float s = UnityEngine.Mathf.Sqrt(this [i, i] - this [j, j] - this [k, k] + 1f);
+                    float s = Mathematics.Sqrt(this [i, i] - this [j, j] - this [k, k] + 1f);
                     temp[i] = s * 0.5f;
                     s = 0.5f / s;
 
@@ -330,12 +318,12 @@ namespace BulletSharp.Math
                     temp[j] = (this [j, i] + this [i, j]) * s;
                     temp[k] = (this [k, i] + this [i, k]) * s;
                 }
-                return new BulletSharp.Math.Quaternion(temp[0], temp[1], temp[2], temp[3]);
+                return new Mathematics.Quaternion(temp[0], temp[1], temp[2], temp[3]);
             }
             set
             {
                 float d = value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W;
-                UnityEngine.Debug.Assert(d != 0f);
+                //UnityEngine.Debug.Assert(d != 0f);
                 float s = 2f / d;
                 float xs = value.X * s, ys = value.Y * s, zs = value.Z * s;
                 float wx = value.W * xs, wy = value.W * ys, wz = value.W * zs;
