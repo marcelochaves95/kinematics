@@ -177,14 +177,14 @@ namespace MathModule
 		public static Vector3D Normalize() => this / Magnitude(this);
 
 		/// <summary>
-		/// Dot Product
+		/// Calculates the dot product of two vectors
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
 		public static float DotProduct(Vector3D v) => X * v.X + Y * v.Y + Z * v.Z;
 
 		/// <summary>
-		/// Cross Product
+		/// Calculates the cross product of two vectors
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Cross Product of two vectors</returns>
