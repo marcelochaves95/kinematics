@@ -86,62 +86,62 @@ namespace MathModule
 		/// <param name="vector1">First vector</param>
 		/// <param name="vector2">Second vector</param>
 		/// <returns>v1 + v2</returns>
-		public static Vector3D operator +(Vector3D vector1, Vector3D vector2) => new Vector3D(vector1.X + vector2.X, vector1.Y + vector2.Y, vector1.Z + vector2.Z);
+		public static Vector3D operator +(Vector3D value1, Vector3D value2) => new Vector3D(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z);
 
 		/// <summary>
 		/// Operator - overload ; subtracts two vectors
 		/// </summary>
-		/// <param name="vector1">First vector</param>
-		/// <param name="vector2">Second vector</param>
+		/// <param name="value1">First vector</param>
+		/// <param name="value2">Second vector</param>
 		/// <returns>v1 - v2</returns>
-		public static Vector3D operator -(Vector3D vector1, Vector3D vector2) => new Vector3D(vector1.X - vector2.X, vector1.Y - vector2.Y, vector1.Z - vector2.Z);
+		public static Vector3D operator -(Vector3D value1, Vector3D value2) => new Vector3D(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);
 
 		/// <summary>
 		/// Operator - overload ; returns the opposite of a vector
 		/// </summary>
-		/// <param name="vector">Vector to negate</param>
+		/// <param name="value">Vector to negate</param>
 		/// <returns>-v</returns>
-		public static Vector3D operator -(Vector3D vector) => new Vector3D(-vector.X, -vector.Y, -vector.Z);
+		public static Vector3D operator -(Vector3D value) => new Vector3D(-value.X, -value.Y, -value.Z);
 
 		/// <summary>
 		/// Operator * overload ; multiply a vector by a scalar value
 		/// </summary>
-		/// <param name="v">Vector</param>
-		/// <param name="s">Scalar value</param>
+		/// <param name="value">Vector</param>
+		/// <param name="scalar">Scalar value</param>
 		/// <returns>v * s</returns>
-		public static Vector3D operator *(Vector3D v, float s) => new Vector3D(v.X * s, v.Y * s, v.Z * s);
+		public static Vector3D operator *(Vector3D value, float scalar) => new Vector3D(value.X * scalar, value.Y * scalar, value.Z * scalar);
 
 		/// <summary>
 		/// Operator * overload ; multiply a scalar value by a vector
 		/// </summary>
 		/// <param name="scalar">Scalar value</param>
-		/// <param name="vector">Vector</param>
+		/// <param name="value">Vector</param>
 		/// <returns>s * v</returns>
-		public static Vector3D operator *(float scalar, Vector3D vector) => new Vector3D(vector.X * scalar, vector.Y * scalar, vector.Z * scalar);
+		public static Vector3D operator *(float scalar, Vector3D value) => new Vector3D(value.X * scalar, value.Y * scalar, value.Z * scalar);
 
 		/// <summary>
 		/// Operator / overload ; divide a vector by a scalar value
 		/// </summary>
-		/// <param name="vector">Vector</param>
+		/// <param name="value">Vector</param>
 		/// <param name="scalar">Scalar value</param>
 		/// <returns>v / s</returns>
-		public static Vector3D operator /(Vector3D vector, float scalar) => new Vector3D(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
+		public static Vector3D operator /(Vector3D value, float scalar) => new Vector3D(value.X / scalar, value.Y / scalar, value.Z / scalar);
 
 		/// <summary>
 		/// Operator == overload ; check vector equality
 		/// </summary>
-		/// <param name="vector1">First vector</param>
-		/// <param name="vector2">Second vector</param>
+		/// <param name="value1">First vector</param>
+		/// <param name="value2">Second vector</param>
 		/// <returns>v1 == v2</returns>
-		public static bool operator ==(Vector3D vector1, Vector3D vector2) => vector1.Equals(vector2);
+		public static bool operator ==(Vector3D value1, Vector3D value2) => value1.Equals(value2);
 
 		/// <summary>
 		/// Operator != overload ; check vector inequality
 		/// </summary>
-		/// <param name="vector1">First vector</param>
-		/// <param name="vector2">Second vector</param>
+		/// <param name="value1">First vector</param>
+		/// <param name="value2">Second vector</param>
 		/// <returns>v1 != v2</returns>
-		public static bool operator !=(Vector3D vector1, Vector3D vector2) => !vector1.Equals(vector2);
+		public static bool operator !=(Vector3D value1, Vector3D value2) => !value1.Equals(value2);
 
 		/// <summary>
 		/// Compare vector and object and checks if they are equal
@@ -161,14 +161,14 @@ namespace MathModule
 		/// Calculates the length of the vector
 		/// </summary>
 		/// <returns>The length of the vector</returns>
-		public static float Magnitude(Vector3D vector) => new Mathematics.Sqrt(vector.X * vector.X + vector.Y * vector.Y + vector.Z * vector.Z);
+		public static float Magnitude(Vector3D value) => new Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z);
 
 		/// <summary>
 		/// Converts the vector into a unit vector
 		/// </summary>
-		/// <param name="vector">Vector</param>
+		/// <param name="value">Vector</param>
 		/// <returns>Normalized vector</returns>
-		public static Vector3D Normalize(Vector3D vector) => vector / Magnitude(vector);
+		public static Vector3D Normalize(Vector3D value) => value / Magnitude(value);
 
 		/// <summary>
 		/// Converts the vector into a unit vector
@@ -179,16 +179,16 @@ namespace MathModule
 		/// <summary>
 		/// Calculates the dot product of two vectors
 		/// </summary>
-		/// <param name="vector">Vector</param>
+		/// <param name="value">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
-		public static float DotProduct(Vector3D vector) => X * vector.X + Y * vector.Y + Z * vector.Z;
+		public static float DotProduct(Vector3D value) => X * value.X + Y * value.Y + Z * value.Z;
 
 		/// <summary>
 		/// Calculates the cross product of two vectors
 		/// </summary>
-		/// <param name="vector">Vector</param>
+		/// <param name="value">Vector</param>
 		/// <returns>Cross Product of two vectors</returns>
-		public static Vector3D CrossProduct(Vector3D vector) => new Vector3D(Y * vector.Z - Z * vector.Y, Z * vector.X - X * vector.Z, X * vector.Y - Y * vector.X);
+		public static Vector3D CrossProduct(Vector3D value) => new Vector3D(Y * value.Z - Z * value.Y, Z * value.X - X * value.Z, X * value.Y - Y * value.X);
 
 		/// <summary>
 		/// Used to allow Vector3Ds to be used as keys in hash tables
