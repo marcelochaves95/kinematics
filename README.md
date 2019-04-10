@@ -12,7 +12,7 @@
 
 - Angular Physics
    - - [ ] Matrix
-   - - [ ] Quaternion
+   - - [x] Quaternion
    - - [ ] Rotation
    - - [ ] Force (Torque)
 
