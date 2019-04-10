@@ -1,47 +1,16 @@
-﻿/*
-* Copyright (c) 2007-2010 SlimDX Group
-* 
-* Permission is hereby granted, free of charge, to any person obtaining a copy
-* of this software and associated documentation files (the "Software"), to deal
-* in the Software without restriction, including without limitation the rights
-* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-* copies of the Software, and to permit persons to whom the Software is
-* furnished to do so, subject to the following conditions:
-* 
-* The above copyright notice and this permission notice shall be included in
-* all copies or substantial portions of the Software.
-* 
-* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-* THE SOFTWARE.
-*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
-using System.ComponentModel;
-using System.Globalization;
 
 namespace BulletSharp.Math
 {
     /// <summary>
     /// Represents a 4x4 mathematical matrix.
     /// </summary>
-    [Serializable]
-    [StructLayout(LayoutKind.Sequential, Pack = 4)]
+    [StructLayout(LayoutKind.Sequential)]
     //[TypeConverter(typeof(SlimMath.Design.MatrixConverter))]
-    public struct Matrix : IEquatable<Matrix>, IFormattable
+    public struct Matrix : IEquatable<Matrix>
     {
-        /// <summary>
-        /// The size of the <see cref="SlimMath.Matrix"/> type, in bytes.
-        /// </summary>
-        public static readonly int SizeInBytes = Marshal.SizeOf(typeof(Matrix));
-
         /// <summary>
         /// A <see cref="SlimMath.Matrix"/> with all of its components set to zero.
         /// </summary>
@@ -139,9 +108,9 @@ namespace BulletSharp.Math
         public Matrix(float value)
         {
             M11 = M12 = M13 = M14 =
-            M21 = M22 = M23 = M24 =
-            M31 = M32 = M33 = M34 =
-            M41 = M42 = M43 = M44 = value;
+                M21 = M22 = M23 = M24 =
+                M31 = M32 = M33 = M34 =
+                M41 = M42 = M43 = M44 = value;
         }
 
         /// <summary>
@@ -168,10 +137,22 @@ namespace BulletSharp.Math
             float M31, float M32, float M33, float M34,
             float M41, float M42, float M43, float M44)
         {
-            this.M11 = M11; this.M12 = M12; this.M13 = M13; this.M14 = M14;
-            this.M21 = M21; this.M22 = M22; this.M23 = M23; this.M24 = M24;
-            this.M31 = M31; this.M32 = M32; this.M33 = M33; this.M34 = M34;
-            this.M41 = M41; this.M42 = M42; this.M43 = M43; this.M44 = M44;
+            this.M11 = M11;
+            this.M12 = M12;
+            this.M13 = M13;
+            this.M14 = M14;
+            this.M21 = M21;
+            this.M22 = M22;
+            this.M23 = M23;
+            this.M24 = M24;
+            this.M31 = M31;
+            this.M32 = M32;
+            this.M33 = M33;
+            this.M34 = M34;
+            this.M41 = M41;
+            this.M42 = M42;
+            this.M43 = M43;
+            this.M44 = M44;
         }
 
         /// <summary>
@@ -238,81 +219,81 @@ namespace BulletSharp.Math
         /// <summary>
         /// Gets or sets the first row in the matrix; that is M11, M12, M13, and M14.
         /// </summary>
-        public Vector4 Row1
+        public Vector4D Row1
         {
-            get { return new Vector4(M11, M12, M13, M14); }
+            get { return new Vector4D(M11, M12, M13, M14); }
             set { M11 = value.X; M12 = value.Y; M13 = value.Z; M14 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the second row in the matrix; that is M21, M22, M23, and M24.
         /// </summary>
-        public Vector4 Row2
+        public Vector4D Row2
         {
-            get { return new Vector4(M21, M22, M23, M24); }
+            get { return new Vector4D(M21, M22, M23, M24); }
             set { M21 = value.X; M22 = value.Y; M23 = value.Z; M24 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the third row in the matrix; that is M31, M32, M33, and M34.
         /// </summary>
-        public Vector4 Row3
+        public Vector4D Row3
         {
-            get { return new Vector4(M31, M32, M33, M34); }
+            get { return new Vector4D(M31, M32, M33, M34); }
             set { M31 = value.X; M32 = value.Y; M33 = value.Z; M34 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the fourth row in the matrix; that is M41, M42, M43, and M44.
         /// </summary>
-        public Vector4 Row4
+        public Vector4D Row4
         {
-            get { return new Vector4(M41, M42, M43, M44); }
+            get { return new Vector4D(M41, M42, M43, M44); }
             set { M41 = value.X; M42 = value.Y; M43 = value.Z; M44 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the first column in the matrix; that is M11, M21, M31, and M41.
         /// </summary>
-        public Vector4 Column1
+        public Vector4D Column1
         {
-            get { return new Vector4(M11, M21, M31, M41); }
+            get { return new Vector4D(M11, M21, M31, M41); }
             set { M11 = value.X; M21 = value.Y; M31 = value.Z; M41 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the second column in the matrix; that is M12, M22, M32, and M42.
         /// </summary>
-        public Vector4 Column2
+        public Vector4D Column2
         {
-            get { return new Vector4(M12, M22, M32, M42); }
+            get { return new Vector4D(M12, M22, M32, M42); }
             set { M12 = value.X; M22 = value.Y; M32 = value.Z; M42 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the third column in the matrix; that is M13, M23, M33, and M43.
         /// </summary>
-        public Vector4 Column3
+        public Vector4D Column3
         {
-            get { return new Vector4(M13, M23, M33, M43); }
+            get { return new Vector4D(M13, M23, M33, M43); }
             set { M13 = value.X; M23 = value.Y; M33 = value.Z; M43 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the fourth column in the matrix; that is M14, M24, M34, and M44.
         /// </summary>
-        public Vector4 Column4
+        public Vector4D Column4
         {
-            get { return new Vector4(M14, M24, M34, M44); }
+            get { return new Vector4D(M14, M24, M34, M44); }
             set { M14 = value.X; M24 = value.Y; M34 = value.Z; M44 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the translation of the matrix; that is M41, M42, and M43.
         /// </summary>
-        public Vector3 Origin
+        public Vector3D Origin
         {
-            get { return new Vector3(M41, M42, M43); }
+            get { return new Vector3D(M41, M42, M43); }
             set { M41 = value.X; M42 = value.Y; M43 = value.Z; }
         }
 
@@ -336,19 +317,19 @@ namespace BulletSharp.Math
                 }
                 else
                 {
-                    int i =  M11 < M22 ?
-                            (M22 < M33 ? 2 : 1) :
-                            (M11 < M33 ? 2 : 0);
+                    int i = M11 < M22 ?
+                        (M22 < M33 ? 2 : 1) :
+                        (M11 < M33 ? 2 : 0);
                     int j = (i + 1) % 3;
                     int k = (i + 2) % 3;
 
-                    float s = UnityEngine.Mathf.Sqrt(this[i,i] - this[j,j] - this[k,k] + 1.0f);
+                    float s = UnityEngine.Mathf.Sqrt(this [i, i] - this [j, j] - this [k, k] + 1.0f);
                     temp[i] = s * 0.5f;
                     s = 0.5f / s;
 
-                    temp[3] = (this[k,j] - this[j,k]) * s;
-                    temp[j] = (this[j,i] + this[i,j]) * s;
-                    temp[k] = (this[k,i] + this[i,k]) * s;
+                    temp[3] = (this [k, j] - this [j, k]) * s;
+                    temp[j] = (this [j, i] + this [i, j]) * s;
+                    temp[k] = (this [k, i] + this [i, k]) * s;
                 }
                 return new BulletSharp.Math.Quaternion(temp[0], temp[1], temp[2], temp[3]);
             }
@@ -362,18 +343,24 @@ namespace BulletSharp.Math
                 float xx = value.X * xs, xy = value.X * ys, xz = value.X * zs;
                 float yy = value.Y * ys, yz = value.Y * zs, zz = value.Z * zs;
 
-                M11 = 1.0f - (yy + zz); M12 = xy - wz; M13 = xz + wy;
-                M21 = xy + wz;   M22 = 1.0f - (xx + zz); M23 = yz - wx;
-                M31 = xz - wy;   M32 = yz + wx; M33 = 1.0f - (xx + yy);
+                M11 = 1.0f - (yy + zz);
+                M12 = xy - wz;
+                M13 = xz + wy;
+                M21 = xy + wz;
+                M22 = 1.0f - (xx + zz);
+                M23 = yz - wx;
+                M31 = xz - wy;
+                M32 = yz + wx;
+                M33 = 1.0f - (xx + yy);
             }
         }
 
         /// <summary>
         /// Gets or sets the scale of the matrix; that is M11, M22, and M33.
         /// </summary>
-        public Vector3 ScaleVector
+        public Vector3D ScaleVector
         {
-            get { return new Vector3(M11, M22, M33); }
+            get { return new Vector3D(M11, M22, M33); }
             set { M11 = value.X; M22 = value.Y; M33 = value.Z; }
         }
 
@@ -404,7 +391,7 @@ namespace BulletSharp.Math
                 float temp6 = (M31 * M42) - (M32 * M41);
 
                 return ((((M11 * (((M22 * temp1) - (M23 * temp2)) + (M24 * temp3))) - (M12 * (((M21 * temp1) -
-                    (M23 * temp4)) + (M24 * temp5)))) + (M13 * (((M21 * temp2) - (M22 * temp4)) + (M24 * temp6)))) -
+                        (M23 * temp4)) + (M24 * temp5)))) + (M13 * (((M21 * temp2) - (M22 * temp4)) + (M24 * temp6)))) -
                     (M14 * (((M21 * temp3) - (M22 * temp5)) + (M23 * temp6))));
             }
         }
@@ -416,28 +403,44 @@ namespace BulletSharp.Math
         /// <param name="index">The zero-based index of the component to access.</param>
         /// <returns>The value of the component at the specified index.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="index"/> is out of the range [0, 15].</exception>
-        public float this[int index]
+        public float this [int index]
         {
             get
             {
                 switch (index)
                 {
-                    case 0: return M11;
-                    case 1: return M12;
-                    case 2: return M13;
-                    case 3: return M14;
-                    case 4: return M21;
-                    case 5: return M22;
-                    case 6: return M23;
-                    case 7: return M24;
-                    case 8: return M31;
-                    case 9: return M32;
-                    case 10: return M33;
-                    case 11: return M34;
-                    case 12: return M41;
-                    case 13: return M42;
-                    case 14: return M43;
-                    case 15: return M44;
+                case 0:
+                    return M11;
+                case 1:
+                    return M12;
+                case 2:
+                    return M13;
+                case 3:
+                    return M14;
+                case 4:
+                    return M21;
+                case 5:
+                    return M22;
+                case 6:
+                    return M23;
+                case 7:
+                    return M24;
+                case 8:
+                    return M31;
+                case 9:
+                    return M32;
+                case 10:
+                    return M33;
+                case 11:
+                    return M34;
+                case 12:
+                    return M41;
+                case 13:
+                    return M42;
+                case 14:
+                    return M43;
+                case 15:
+                    return M44;
                 }
 
                 throw new ArgumentOutOfRangeException("index", "Indices for Matrix run from 0 to 15, inclusive.");
@@ -447,23 +450,56 @@ namespace BulletSharp.Math
             {
                 switch (index)
                 {
-                    case 0: M11 = value; break;
-                    case 1: M12 = value; break;
-                    case 2: M13 = value; break;
-                    case 3: M14 = value; break;
-                    case 4: M21 = value; break;
-                    case 5: M22 = value; break;
-                    case 6: M23 = value; break;
-                    case 7: M24 = value; break;
-                    case 8: M31 = value; break;
-                    case 9: M32 = value; break;
-                    case 10: M33 = value; break;
-                    case 11: M34 = value; break;
-                    case 12: M41 = value; break;
-                    case 13: M42 = value; break;
-                    case 14: M43 = value; break;
-                    case 15: M44 = value; break;
-                    default: throw new ArgumentOutOfRangeException("index", "Indices for Matrix run from 0 to 15, inclusive.");
+                case 0:
+                    M11 = value;
+                    break;
+                case 1:
+                    M12 = value;
+                    break;
+                case 2:
+                    M13 = value;
+                    break;
+                case 3:
+                    M14 = value;
+                    break;
+                case 4:
+                    M21 = value;
+                    break;
+                case 5:
+                    M22 = value;
+                    break;
+                case 6:
+                    M23 = value;
+                    break;
+                case 7:
+                    M24 = value;
+                    break;
+                case 8:
+                    M31 = value;
+                    break;
+                case 9:
+                    M32 = value;
+                    break;
+                case 10:
+                    M33 = value;
+                    break;
+                case 11:
+                    M34 = value;
+                    break;
+                case 12:
+                    M41 = value;
+                    break;
+                case 13:
+                    M42 = value;
+                    break;
+                case 14:
+                    M43 = value;
+                    break;
+                case 15:
+                    M44 = value;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("index", "Indices for Matrix run from 0 to 15, inclusive.");
                 }
             }
         }
@@ -476,7 +512,7 @@ namespace BulletSharp.Math
         /// <param name="column">The column of the matrix to access.</param>
         /// <returns>The value of the component at the specified index.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="row"/> or <paramref name="column"/>is out of the range [0, 3].</exception>
-        public float this[int row, int column]
+        public float this [int row, int column]
         {
             get
             {
@@ -485,7 +521,7 @@ namespace BulletSharp.Math
                 if (column < 0 || column > 3)
                     throw new ArgumentOutOfRangeException("column", "Rows and columns for matrices run from 0 to 3, inclusive.");
 
-                return this[(row * 4) + column];
+                return this [(row * 4) + column];
             }
 
             set
@@ -495,7 +531,7 @@ namespace BulletSharp.Math
                 if (column < 0 || column > 3)
                     throw new ArgumentOutOfRangeException("column", "Rows and columns for matrices run from 0 to 3, inclusive.");
 
-                this[(row * 4) + column] = value;
+                this [(row * 4) + column] = value;
             }
         }
 
@@ -586,19 +622,19 @@ namespace BulletSharp.Math
             Q.Transpose();
 
             R = new Matrix();
-            R.M11 = Vector4.Dot(Q.Column1, Column1);
-            R.M12 = Vector4.Dot(Q.Column1, Column2);
-            R.M13 = Vector4.Dot(Q.Column1, Column3);
-            R.M14 = Vector4.Dot(Q.Column1, Column4);
+            R.M11 = Vector4D.Dot(Q.Column1, Column1);
+            R.M12 = Vector4D.Dot(Q.Column1, Column2);
+            R.M13 = Vector4D.Dot(Q.Column1, Column3);
+            R.M14 = Vector4D.Dot(Q.Column1, Column4);
 
-            R.M22 = Vector4.Dot(Q.Column2, Column2);
-            R.M23 = Vector4.Dot(Q.Column2, Column3);
-            R.M24 = Vector4.Dot(Q.Column2, Column4);
+            R.M22 = Vector4D.Dot(Q.Column2, Column2);
+            R.M23 = Vector4D.Dot(Q.Column2, Column3);
+            R.M24 = Vector4D.Dot(Q.Column2, Column4);
 
-            R.M33 = Vector4.Dot(Q.Column3, Column3);
-            R.M34 = Vector4.Dot(Q.Column3, Column4);
+            R.M33 = Vector4D.Dot(Q.Column3, Column3);
+            R.M34 = Vector4D.Dot(Q.Column3, Column4);
 
-            R.M44 = Vector4.Dot(Q.Column4, Column4);
+            R.M44 = Vector4D.Dot(Q.Column4, Column4);
         }
 
         /// <summary>
@@ -611,19 +647,19 @@ namespace BulletSharp.Math
             Orthonormalize(ref this, out Q);
 
             L = new Matrix();
-            L.M11 = Vector4.Dot(Q.Row1, Row1);
+            L.M11 = Vector4D.Dot(Q.Row1, Row1);
 
-            L.M21 = Vector4.Dot(Q.Row1, Row2);
-            L.M22 = Vector4.Dot(Q.Row2, Row2);
+            L.M21 = Vector4D.Dot(Q.Row1, Row2);
+            L.M22 = Vector4D.Dot(Q.Row2, Row2);
 
-            L.M31 = Vector4.Dot(Q.Row1, Row3);
-            L.M32 = Vector4.Dot(Q.Row2, Row3);
-            L.M33 = Vector4.Dot(Q.Row3, Row3);
+            L.M31 = Vector4D.Dot(Q.Row1, Row3);
+            L.M32 = Vector4D.Dot(Q.Row2, Row3);
+            L.M33 = Vector4D.Dot(Q.Row3, Row3);
 
-            L.M41 = Vector4.Dot(Q.Row1, Row4);
-            L.M42 = Vector4.Dot(Q.Row2, Row4);
-            L.M43 = Vector4.Dot(Q.Row3, Row4);
-            L.M44 = Vector4.Dot(Q.Row4, Row4);
+            L.M41 = Vector4D.Dot(Q.Row1, Row4);
+            L.M42 = Vector4D.Dot(Q.Row2, Row4);
+            L.M43 = Vector4D.Dot(Q.Row3, Row4);
+            L.M44 = Vector4D.Dot(Q.Row4, Row4);
         }
 
         /// <summary>
@@ -635,7 +671,7 @@ namespace BulletSharp.Math
         /// <remarks>
         /// This method is designed to decompose an SRT transformation matrix only.
         /// </remarks>
-        public bool Decompose(out Vector3 scale, out Quaternion rotation, out Vector3 translation)
+        public bool Decompose(out Vector3D scale, out Quaternion rotation, out Vector3D translation)
         {
             //Source: Unknown
             //References: http://www.gamedev.net/community/forums/topic.asp?topic_id=441695
@@ -646,14 +682,14 @@ namespace BulletSharp.Math
             translation.Z = this.M43;
 
             //Scaling is the length of the rows.
-            scale.X = (float)System.Math.Sqrt((M11 * M11) + (M12 * M12) + (M13 * M13));
-            scale.Y = (float)System.Math.Sqrt((M21 * M21) + (M22 * M22) + (M23 * M23));
-            scale.Z = (float)System.Math.Sqrt((M31 * M31) + (M32 * M32) + (M33 * M33));
+            scale.X = Mathematics.Sqrt((M11 * M11) + (M12 * M12) + (M13 * M13));
+            scale.Y = Mathematics.Sqrt((M21 * M21) + (M22 * M22) + (M23 * M23));
+            scale.Z = Mathematics.Sqrt((M31 * M31) + (M32 * M32) + (M33 * M33));
 
             //If any of the scaling factors are zero, than the rotation matrix can not exist.
-            if (System.Math.Abs(scale.X) < Utilities.ZeroTolerance ||
-                System.Math.Abs(scale.Y) < Utilities.ZeroTolerance ||
-                System.Math.Abs(scale.Z) < Utilities.ZeroTolerance)
+            if (Mathematics.Abs(scale.X) < Utilities.ZeroTolerance ||
+                Mathematics.Abs(scale.Y) < Utilities.ZeroTolerance ||
+                Mathematics.Abs(scale.Z) < Utilities.ZeroTolerance)
             {
                 rotation = Quaternion.Identity;
                 return false;
@@ -698,20 +734,20 @@ namespace BulletSharp.Math
             if (firstRow == secondRow)
                 return;
 
-            float temp0 = this[secondRow, 0];
-            float temp1 = this[secondRow, 1];
-            float temp2 = this[secondRow, 2];
-            float temp3 = this[secondRow, 3];
+            float temp0 = this [secondRow, 0];
+            float temp1 = this [secondRow, 1];
+            float temp2 = this [secondRow, 2];
+            float temp3 = this [secondRow, 3];
 
-            this[secondRow, 0] = this[firstRow, 0];
-            this[secondRow, 1] = this[firstRow, 1];
-            this[secondRow, 2] = this[firstRow, 2];
-            this[secondRow, 3] = this[firstRow, 3];
+            this [secondRow, 0] = this [firstRow, 0];
+            this [secondRow, 1] = this [firstRow, 1];
+            this [secondRow, 2] = this [firstRow, 2];
+            this [secondRow, 3] = this [firstRow, 3];
 
-            this[firstRow, 0] = temp0;
-            this[firstRow, 1] = temp1;
-            this[firstRow, 2] = temp2;
-            this[firstRow, 3] = temp3;
+            this [firstRow, 0] = temp0;
+            this [firstRow, 1] = temp1;
+            this [firstRow, 2] = temp2;
+            this [firstRow, 3] = temp3;
         }
 
         /// <summary>
@@ -733,20 +769,20 @@ namespace BulletSharp.Math
             if (firstColumn == secondColumn)
                 return;
 
-            float temp0 = this[0, secondColumn];
-            float temp1 = this[1, secondColumn];
-            float temp2 = this[2, secondColumn];
-            float temp3 = this[3, secondColumn];
+            float temp0 = this [0, secondColumn];
+            float temp1 = this [1, secondColumn];
+            float temp2 = this [2, secondColumn];
+            float temp3 = this [3, secondColumn];
 
-            this[0, secondColumn] = this[0, firstColumn];
-            this[1, secondColumn] = this[1, firstColumn];
-            this[2, secondColumn] = this[2, firstColumn];
-            this[3, secondColumn] = this[3, firstColumn];
+            this [0, secondColumn] = this [0, firstColumn];
+            this [1, secondColumn] = this [1, firstColumn];
+            this [2, secondColumn] = this [2, firstColumn];
+            this [3, secondColumn] = this [3, firstColumn];
 
-            this[0, firstColumn] = temp0;
-            this[1, firstColumn] = temp1;
-            this[2, firstColumn] = temp2;
-            this[3, firstColumn] = temp3;
+            this [0, firstColumn] = temp0;
+            this [1, firstColumn] = temp1;
+            this [2, firstColumn] = temp2;
+            this [3, firstColumn] = temp3;
         }
 
         /// <summary>
@@ -755,7 +791,7 @@ namespace BulletSharp.Math
         /// <returns>A sixteen-element array containing the components of the matrix.</returns>
         public float[] ToArray()
         {
-            return new[] { M11, M12, M13, M14, M21, M22, M23, M24, M31, M32, M33, M34, M41, M42, M43, M44 };
+            return new [] { M11, M12, M13, M14, M21, M22, M23, M24, M31, M32, M33, M34, M41, M42, M43, M44 };
         }
 
         /// <summary>
@@ -1247,7 +1283,7 @@ namespace BulletSharp.Math
             float d14 = value.M21 * b3 + value.M22 * -b1 + value.M23 * b0;
 
             float det = value.M11 * d11 - value.M12 * d12 + value.M13 * d13 - value.M14 * d14;
-            if (System.Math.Abs(det) <= Utilities.ZeroTolerance)
+            if (Mathematics.Abs(det) <= Utilities.ZeroTolerance)
             {
                 result = Matrix.Zero;
                 return;
@@ -1277,10 +1313,22 @@ namespace BulletSharp.Math
             float d43 = value.M31 * -a4 + value.M32 * a2 + value.M34 * a0;
             float d44 = value.M31 * a3 + value.M32 * -a1 + value.M33 * a0;
 
-            result.M11 = +d11 * det; result.M12 = -d21 * det; result.M13 = +d31 * det; result.M14 = -d41 * det;
-            result.M21 = -d12 * det; result.M22 = +d22 * det; result.M23 = -d32 * det; result.M24 = +d42 * det;
-            result.M31 = +d13 * det; result.M32 = -d23 * det; result.M33 = +d33 * det; result.M34 = -d43 * det;
-            result.M41 = -d14 * det; result.M42 = +d24 * det; result.M43 = -d34 * det; result.M44 = +d44 * det;
+            result.M11 = +d11 * det;
+            result.M12 = -d21 * det;
+            result.M13 = +d31 * det;
+            result.M14 = -d41 * det;
+            result.M21 = -d12 * det;
+            result.M22 = +d22 * det;
+            result.M23 = -d32 * det;
+            result.M24 = +d42 * det;
+            result.M31 = +d13 * det;
+            result.M32 = -d23 * det;
+            result.M33 = +d33 * det;
+            result.M34 = -d43 * det;
+            result.M41 = -d14 * det;
+            result.M42 = +d24 * det;
+            result.M43 = -d34 * det;
+            result.M44 = +d44 * det;
         }
 
         /// <summary>
@@ -1321,14 +1369,14 @@ namespace BulletSharp.Math
             //By separating the above algorithm into multiple lines, we actually increase accuracy.
             result = value;
 
-            result.Row2 = result.Row2 - (Vector4.Dot(result.Row1, result.Row2) / Vector4.Dot(result.Row1, result.Row1)) * result.Row1;
+            result.Row2 = result.Row2 - (Vector4D.Dot(result.Row1, result.Row2) / Vector4D.Dot(result.Row1, result.Row1)) * result.Row1;
 
-            result.Row3 = result.Row3 - (Vector4.Dot(result.Row1, result.Row3) / Vector4.Dot(result.Row1, result.Row1)) * result.Row1;
-            result.Row3 = result.Row3 - (Vector4.Dot(result.Row2, result.Row3) / Vector4.Dot(result.Row2, result.Row2)) * result.Row2;
+            result.Row3 = result.Row3 - (Vector4D.Dot(result.Row1, result.Row3) / Vector4D.Dot(result.Row1, result.Row1)) * result.Row1;
+            result.Row3 = result.Row3 - (Vector4D.Dot(result.Row2, result.Row3) / Vector4D.Dot(result.Row2, result.Row2)) * result.Row2;
 
-            result.Row4 = result.Row4 - (Vector4.Dot(result.Row1, result.Row4) / Vector4.Dot(result.Row1, result.Row1)) * result.Row1;
-            result.Row4 = result.Row4 - (Vector4.Dot(result.Row2, result.Row4) / Vector4.Dot(result.Row2, result.Row2)) * result.Row2;
-            result.Row4 = result.Row4 - (Vector4.Dot(result.Row3, result.Row4) / Vector4.Dot(result.Row3, result.Row3)) * result.Row3;
+            result.Row4 = result.Row4 - (Vector4D.Dot(result.Row1, result.Row4) / Vector4D.Dot(result.Row1, result.Row1)) * result.Row1;
+            result.Row4 = result.Row4 - (Vector4D.Dot(result.Row2, result.Row4) / Vector4D.Dot(result.Row2, result.Row2)) * result.Row2;
+            result.Row4 = result.Row4 - (Vector4D.Dot(result.Row3, result.Row4) / Vector4D.Dot(result.Row3, result.Row3)) * result.Row3;
         }
 
         /// <summary>
@@ -1385,19 +1433,19 @@ namespace BulletSharp.Math
             //By separating the above algorithm into multiple lines, we actually increase accuracy.
             result = value;
 
-            result.Row1 = Vector4.Normalize(result.Row1);
+            result.Row1 = Vector4D.Normalize(result.Row1);
 
-            result.Row2 = result.Row2 - Vector4.Dot(result.Row1, result.Row2) * result.Row1;
-            result.Row2 = Vector4.Normalize(result.Row2);
+            result.Row2 = result.Row2 - Vector4D.Dot(result.Row1, result.Row2) * result.Row1;
+            result.Row2 = Vector4D.Normalize(result.Row2);
 
-            result.Row3 = result.Row3 - Vector4.Dot(result.Row1, result.Row3) * result.Row1;
-            result.Row3 = result.Row3 - Vector4.Dot(result.Row2, result.Row3) * result.Row2;
-            result.Row3 = Vector4.Normalize(result.Row3);
+            result.Row3 = result.Row3 - Vector4D.Dot(result.Row1, result.Row3) * result.Row1;
+            result.Row3 = result.Row3 - Vector4D.Dot(result.Row2, result.Row3) * result.Row2;
+            result.Row3 = Vector4D.Normalize(result.Row3);
 
-            result.Row4 = result.Row4 - Vector4.Dot(result.Row1, result.Row4) * result.Row1;
-            result.Row4 = result.Row4 - Vector4.Dot(result.Row2, result.Row4) * result.Row2;
-            result.Row4 = result.Row4 - Vector4.Dot(result.Row3, result.Row4) * result.Row3;
-            result.Row4 = Vector4.Normalize(result.Row4);
+            result.Row4 = result.Row4 - Vector4D.Dot(result.Row1, result.Row4) * result.Row1;
+            result.Row4 = result.Row4 - Vector4D.Dot(result.Row2, result.Row4) * result.Row2;
+            result.Row4 = result.Row4 - Vector4D.Dot(result.Row3, result.Row4) * result.Row3;
+            result.Row4 = Vector4D.Normalize(result.Row4);
         }
 
         /// <summary>
@@ -1451,7 +1499,7 @@ namespace BulletSharp.Math
 
                 int i = r;
 
-                while (System.Math.Abs(result[i, lead]) < Utilities.ZeroTolerance)
+                while (Mathematics.Abs(result[i, lead]) < Utilities.ZeroTolerance)
                 {
                     i++;
 
@@ -1533,7 +1581,7 @@ namespace BulletSharp.Math
 
                 int i = r;
 
-                while (System.Math.Abs(result[i, lead]) < Utilities.ZeroTolerance)
+                while (Mathematics.Abs(result[i, lead]) < Utilities.ZeroTolerance)
                 {
                     i++;
 
@@ -1611,7 +1659,7 @@ namespace BulletSharp.Math
 
                 int i = r;
 
-                while (System.Math.Abs(result[i, lead]) < Utilities.ZeroTolerance)
+                while (Mathematics.Abs(result[i, lead]) < Utilities.ZeroTolerance)
                 {
                     i++;
 
@@ -1680,12 +1728,12 @@ namespace BulletSharp.Math
         /// the <paramref name="augmentResult"/> will contain the solution for the system. It is up to the user
         /// to analyze both the input and the result to determine if a solution really exists.</para>
         /// </remarks>
-        public static void ReducedRowEchelonForm(ref Matrix value, ref Vector4 augment, out Matrix result, out Vector4 augmentResult)
+        public static void ReducedRowEchelonForm(ref Matrix value, ref Vector4D augment, out Matrix result, out Vector4D augmentResult)
         {
             //Source: http://rosettacode.org
             //Reference: http://rosettacode.org/wiki/Reduced_row_echelon_form
 
-            float[,] matrix = new float[4, 5];
+            float[, ] matrix = new float[4, 5];
 
             matrix[0, 0] = value[0, 0];
             matrix[0, 1] = value[0, 1];
@@ -1755,7 +1803,7 @@ namespace BulletSharp.Math
                     if (j != r)
                     {
                         float sub = matrix[j, lead];
-                        for (int k = 0; k < columncount; k++) matrix[j, k] -= (sub * matrix[r, k]);
+                        for (int k = 0; k < columncount; k++)matrix[j, k] -= (sub * matrix[r, k]);
                     }
                 }
 
@@ -1796,21 +1844,21 @@ namespace BulletSharp.Math
         /// <param name="cameraUpVector">The up vector of the camera.</param>
         /// <param name="cameraForwardVector">The forward vector of the camera.</param>
         /// <param name="result">When the method completes, contains the created billboard matrix.</param>
-        public static void Billboard(ref Vector3 objectPosition, ref Vector3 cameraPosition, ref Vector3 cameraUpVector, ref Vector3 cameraForwardVector, out Matrix result)
+        public static void Billboard(ref Vector3D objectPosition, ref Vector3D cameraPosition, ref Vector3D cameraUpVector, ref Vector3D cameraForwardVector, out Matrix result)
         {
-            Vector3 crossed;
-            Vector3 final;
-            Vector3 difference = objectPosition - cameraPosition;
+            Vector3D crossed;
+            Vector3D final;
+            Vector3D difference = objectPosition - cameraPosition;
 
             float lengthsq = difference.LengthSquared;
             if (lengthsq < Utilities.ZeroTolerance)
                 difference = -cameraForwardVector;
             else
-                difference *= (float)(1.0 / System.Math.Sqrt(lengthsq));
+                difference *= (1.0 / Mathematics.Sqrt(lengthsq));
 
-            Vector3.Cross(ref cameraUpVector, ref difference, out crossed);
+            Vector3D.Cross(ref cameraUpVector, ref difference, out crossed);
             crossed.Normalize();
-            Vector3.Cross(ref difference, ref crossed, out final);
+            Vector3D.Cross(ref difference, ref crossed, out final);
 
             result.M11 = crossed.X;
             result.M12 = crossed.Y;
@@ -1838,7 +1886,7 @@ namespace BulletSharp.Math
         /// <param name="cameraUpVector">The up vector of the camera.</param>
         /// <param name="cameraForwardVector">The forward vector of the camera.</param>
         /// <returns>The created billboard matrix.</returns>
-        public static Matrix Billboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 cameraUpVector, Vector3 cameraForwardVector)
+        public static Matrix Billboard(Vector3D objectPosition, Vector3D cameraPosition, Vector3D cameraUpVector, Vector3D cameraForwardVector)
         {
             Matrix result;
             Billboard(ref objectPosition, ref cameraPosition, ref cameraUpVector, ref cameraForwardVector, out result);
@@ -1852,21 +1900,29 @@ namespace BulletSharp.Math
         /// <param name="target">The camera look-at target.</param>
         /// <param name="up">The camera's up vector.</param>
         /// <param name="result">When the method completes, contains the created look-at matrix.</param>
-        public static void LookAtLH(ref Vector3 eye, ref Vector3 target, ref Vector3 up, out Matrix result)
+        public static void LookAtLH(ref Vector3D eye, ref Vector3D target, ref Vector3D up, out Matrix result)
         {
-            Vector3 xaxis, yaxis, zaxis;
-            Vector3.Subtract(ref target, ref eye, out zaxis); zaxis.Normalize();
-            Vector3.Cross(ref up, ref zaxis, out xaxis); xaxis.Normalize();
-            Vector3.Cross(ref zaxis, ref xaxis, out yaxis);
+            Vector3D xaxis, yaxis, zaxis;
+            Vector3D.Subtract(ref target, ref eye, out zaxis);
+            zaxis.Normalize();
+            Vector3D.Cross(ref up, ref zaxis, out xaxis);
+            xaxis.Normalize();
+            Vector3D.Cross(ref zaxis, ref xaxis, out yaxis);
 
             result = Matrix.Identity;
-            result.M11 = xaxis.X; result.M21 = xaxis.Y; result.M31 = xaxis.Z;
-            result.M12 = yaxis.X; result.M22 = yaxis.Y; result.M32 = yaxis.Z;
-            result.M13 = zaxis.X; result.M23 = zaxis.Y; result.M33 = zaxis.Z;
+            result.M11 = xaxis.X;
+            result.M21 = xaxis.Y;
+            result.M31 = xaxis.Z;
+            result.M12 = yaxis.X;
+            result.M22 = yaxis.Y;
+            result.M32 = yaxis.Z;
+            result.M13 = zaxis.X;
+            result.M23 = zaxis.Y;
+            result.M33 = zaxis.Z;
 
-            Vector3.Dot(ref xaxis, ref eye, out result.M41);
-            Vector3.Dot(ref yaxis, ref eye, out result.M42);
-            Vector3.Dot(ref zaxis, ref eye, out result.M43);
+            Vector3D.Dot(ref xaxis, ref eye, out result.M41);
+            Vector3D.Dot(ref yaxis, ref eye, out result.M42);
+            Vector3D.Dot(ref zaxis, ref eye, out result.M43);
             result.M41 = -result.M41;
             result.M42 = -result.M42;
             result.M43 = -result.M43;
@@ -1879,7 +1935,7 @@ namespace BulletSharp.Math
         /// <param name="target">The camera look-at target.</param>
         /// <param name="up">The camera's up vector.</param>
         /// <returns>The created look-at matrix.</returns>
-        public static Matrix LookAtLH(Vector3 eye, Vector3 target, Vector3 up)
+        public static Matrix LookAtLH(Vector3D eye, Vector3D target, Vector3D up)
         {
             Matrix result;
             LookAtLH(ref eye, ref target, ref up, out result);
@@ -1893,21 +1949,29 @@ namespace BulletSharp.Math
         /// <param name="target">The camera look-at target.</param>
         /// <param name="up">The camera's up vector.</param>
         /// <param name="result">When the method completes, contains the created look-at matrix.</param>
-        public static void LookAtRH(ref Vector3 eye, ref Vector3 target, ref Vector3 up, out Matrix result)
+        public static void LookAtRH(ref Vector3D eye, ref Vector3D target, ref Vector3D up, out Matrix result)
         {
-            Vector3 xaxis, yaxis, zaxis;
-            Vector3.Subtract(ref eye, ref target, out zaxis); zaxis.Normalize();
-            Vector3.Cross(ref up, ref zaxis, out xaxis); xaxis.Normalize();
-            Vector3.Cross(ref zaxis, ref xaxis, out yaxis);
+            Vector3D xaxis, yaxis, zaxis;
+            Vector3D.Subtract(ref eye, ref target, out zaxis);
+            zaxis.Normalize();
+            Vector3D.Cross(ref up, ref zaxis, out xaxis);
+            xaxis.Normalize();
+            Vector3D.Cross(ref zaxis, ref xaxis, out yaxis);
 
             result = Matrix.Identity;
-            result.M11 = xaxis.X; result.M21 = xaxis.Y; result.M31 = xaxis.Z;
-            result.M12 = yaxis.X; result.M22 = yaxis.Y; result.M32 = yaxis.Z;
-            result.M13 = zaxis.X; result.M23 = zaxis.Y; result.M33 = zaxis.Z;
+            result.M11 = xaxis.X;
+            result.M21 = xaxis.Y;
+            result.M31 = xaxis.Z;
+            result.M12 = yaxis.X;
+            result.M22 = yaxis.Y;
+            result.M32 = yaxis.Z;
+            result.M13 = zaxis.X;
+            result.M23 = zaxis.Y;
+            result.M33 = zaxis.Z;
 
-            Vector3.Dot(ref xaxis, ref eye, out result.M41);
-            Vector3.Dot(ref yaxis, ref eye, out result.M42);
-            Vector3.Dot(ref zaxis, ref eye, out result.M43);
+            Vector3D.Dot(ref xaxis, ref eye, out result.M41);
+            Vector3D.Dot(ref yaxis, ref eye, out result.M42);
+            Vector3D.Dot(ref zaxis, ref eye, out result.M43);
             result.M41 = -result.M41;
             result.M42 = -result.M42;
             result.M43 = -result.M43;
@@ -1920,7 +1984,7 @@ namespace BulletSharp.Math
         /// <param name="target">The camera look-at target.</param>
         /// <param name="up">The camera's up vector.</param>
         /// <returns>The created look-at matrix.</returns>
-        public static Matrix LookAtRH(Vector3 eye, Vector3 target, Vector3 up)
+        public static Matrix LookAtRH(Vector3D eye, Vector3D target, Vector3D up)
         {
             Matrix result;
             LookAtRH(ref eye, ref target, ref up, out result);
@@ -2134,7 +2198,7 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the created projection matrix.</param>
         public static void PerspectiveFovLH(float fov, float aspect, float znear, float zfar, out Matrix result)
         {
-            float yScale = (float)(1.0 / System.Math.Tan(fov * 0.5f));
+            float yScale = (1.0 / Mathematics.Tan(fov * 0.5f));
             float xScale = yScale / aspect;
 
             float halfWidth = znear / xScale;
@@ -2168,7 +2232,7 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the created projection matrix.</param>
         public static void PerspectiveFovRH(float fov, float aspect, float znear, float zfar, out Matrix result)
         {
-            float yScale = (float)(1.0 / System.Math.Tan(fov * 0.5f));
+            float yScale = (1.0 / Mathematics.Tan(fov * 0.5f));
             float xScale = yScale / aspect;
 
             float halfWidth = znear / xScale;
@@ -2274,7 +2338,7 @@ namespace BulletSharp.Math
         /// </summary>
         /// <param name="scale">Scaling factor for all three axes.</param>
         /// <param name="result">When the method completes, contains the created scaling matrix.</param>
-        public static void Scaling(ref Vector3 scale, out Matrix result)
+        public static void Scaling(ref Vector3D scale, out Matrix result)
         {
             Scaling(scale.X, scale.Y, scale.Z, out result);
         }
@@ -2284,7 +2348,7 @@ namespace BulletSharp.Math
         /// </summary>
         /// <param name="scale">Scaling factor for all three axes.</param>
         /// <returns>The created scaling matrix.</returns>
-        public static Matrix Scaling(Vector3 scale)
+        public static Matrix Scaling(Vector3D scale)
         {
             Matrix result;
             Scaling(ref scale, out result);
@@ -2350,8 +2414,8 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the created rotation matrix.</param>
         public static void RotationX(float angle, out Matrix result)
         {
-            float cos = (float)System.Math.Cos(angle);
-            float sin = (float)System.Math.Sin(angle);
+            float cos = Mathematics.Cos(angle);
+            float sin = Mathematics.Sin(angle);
 
             result = Matrix.Identity;
             result.M22 = cos;
@@ -2379,8 +2443,8 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the created rotation matrix.</param>
         public static void RotationY(float angle, out Matrix result)
         {
-            float cos = (float)System.Math.Cos(angle);
-            float sin = (float)System.Math.Sin(angle);
+            float cos = Mathematics.Cos(angle);
+            float sin = Mathematics.Sin(angle);
 
             result = Matrix.Identity;
             result.M11 = cos;
@@ -2408,8 +2472,8 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the created rotation matrix.</param>
         public static void RotationZ(float angle, out Matrix result)
         {
-            float cos = (float)System.Math.Cos(angle);
-            float sin = (float)System.Math.Sin(angle);
+            float cos = Mathematics.Cos(angle);
+            float sin = Mathematics.Sin(angle);
 
             result = Matrix.Identity;
             result.M11 = cos;
@@ -2436,13 +2500,13 @@ namespace BulletSharp.Math
         /// <param name="axis">The axis around which to rotate. This parameter is assumed to be normalized.</param>
         /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
         /// <param name="result">When the method completes, contains the created rotation matrix.</param>
-        public static void RotationAxis(ref Vector3 axis, float angle, out Matrix result)
+        public static void RotationAxis(ref Vector3D axis, float angle, out Matrix result)
         {
             float x = axis.X;
             float y = axis.Y;
             float z = axis.Z;
-            float cos = (float)System.Math.Cos(angle);
-            float sin = (float)System.Math.Sin(angle);
+            float cos = Mathematics.Cos(angle);
+            float sin = Mathematics.Sin(angle);
             float xx = x * x;
             float yy = y * y;
             float zz = z * z;
@@ -2468,7 +2532,7 @@ namespace BulletSharp.Math
         /// <param name="axis">The axis around which to rotate. This parameter is assumed to be normalized.</param>
         /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
         /// <returns>The created rotation matrix.</returns>
-        public static Matrix RotationAxis(Vector3 axis, float angle)
+        public static Matrix RotationAxis(Vector3D axis, float angle)
         {
             Matrix result;
             RotationAxis(ref axis, angle, out result);
@@ -2549,7 +2613,7 @@ namespace BulletSharp.Math
         /// </summary>
         /// <param name="value">The offset for all three coordinate planes.</param>
         /// <param name="result">When the method completes, contains the created translation matrix.</param>
-        public static void Translation(ref Vector3 value, out Matrix result)
+        public static void Translation(ref Vector3D value, out Matrix result)
         {
             Translation(value.X, value.Y, value.Z, out result);
         }
@@ -2559,7 +2623,7 @@ namespace BulletSharp.Math
         /// </summary>
         /// <param name="value">The offset for all three coordinate planes.</param>
         /// <returns>The created translation matrix.</returns>
-        public static Matrix Translation(Vector3 value)
+        public static Matrix Translation(Vector3D value)
         {
             Matrix result;
             Translation(ref value, out result);
@@ -2602,7 +2666,7 @@ namespace BulletSharp.Math
         /// <param name="rotation">The rotation of the transformation.</param>
         /// <param name="translation">The translation factor of the transformation.</param>
         /// <param name="result">When the method completes, contains the created affine transformation matrix.</param>
-        public static void AffineTransformation(float scaling, ref Quaternion rotation, ref Vector3 translation, out Matrix result)
+        public static void AffineTransformation(float scaling, ref Quaternion rotation, ref Vector3D translation, out Matrix result)
         {
             result = Scaling(scaling) * RotationQuaternion(rotation) * Translation(translation);
         }
@@ -2614,7 +2678,7 @@ namespace BulletSharp.Math
         /// <param name="rotation">The rotation of the transformation.</param>
         /// <param name="translation">The translation factor of the transformation.</param>
         /// <returns>The created affine transformation matrix.</returns>
-        public static Matrix AffineTransformation(float scaling, Quaternion rotation, Vector3 translation)
+        public static Matrix AffineTransformation(float scaling, Quaternion rotation, Vector3D translation)
         {
             Matrix result;
             AffineTransformation(scaling, ref rotation, ref translation, out result);
@@ -2629,7 +2693,7 @@ namespace BulletSharp.Math
         /// <param name="rotation">The rotation of the transformation.</param>
         /// <param name="translation">The translation factor of the transformation.</param>
         /// <param name="result">When the method completes, contains the created affine transformation matrix.</param>
-        public static void AffineTransformation(float scaling, ref Vector3 rotationCenter, ref Quaternion rotation, ref Vector3 translation, out Matrix result)
+        public static void AffineTransformation(float scaling, ref Vector3D rotationCenter, ref Quaternion rotation, ref Vector3D translation, out Matrix result)
         {
             result = Scaling(scaling) * Translation(-rotationCenter) * RotationQuaternion(rotation) *
                 Translation(rotationCenter) * Translation(translation);
@@ -2643,7 +2707,7 @@ namespace BulletSharp.Math
         /// <param name="rotation">The rotation of the transformation.</param>
         /// <param name="translation">The translation factor of the transformation.</param>
         /// <returns>The created affine transformation matrix.</returns>
-        public static Matrix AffineTransformation(float scaling, Vector3 rotationCenter, Quaternion rotation, Vector3 translation)
+        public static Matrix AffineTransformation(float scaling, Vector3D rotationCenter, Quaternion rotation, Vector3D translation)
         {
             Matrix result;
             AffineTransformation(scaling, ref rotationCenter, ref rotation, ref translation, out result);
@@ -2660,7 +2724,7 @@ namespace BulletSharp.Math
         /// <param name="rotation">The rotation of the transformation.</param>
         /// <param name="translation">The translation factor of the transformation.</param>
         /// <param name="result">When the method completes, contains the created transformation matrix.</param>
-        public static void Transformation(ref Vector3 scalingCenter, ref Quaternion scalingRotation, ref Vector3 scaling, ref Vector3 rotationCenter, ref Quaternion rotation, ref Vector3 translation, out Matrix result)
+        public static void Transformation(ref Vector3D scalingCenter, ref Quaternion scalingRotation, ref Vector3D scaling, ref Vector3D rotationCenter, ref Quaternion rotation, ref Vector3D translation, out Matrix result)
         {
             Matrix sr = RotationQuaternion(scalingRotation);
 
@@ -2678,7 +2742,7 @@ namespace BulletSharp.Math
         /// <param name="rotation">The rotation of the transformation.</param>
         /// <param name="translation">The translation factor of the transformation.</param>
         /// <returns>The created transformation matrix.</returns>
-        public static Matrix Transformation(Vector3 scalingCenter, Quaternion scalingRotation, Vector3 scaling, Vector3 rotationCenter, Quaternion rotation, Vector3 translation)
+        public static Matrix Transformation(Vector3D scalingCenter, Quaternion scalingRotation, Vector3D scaling, Vector3D rotationCenter, Quaternion rotation, Vector3D translation)
         {
             Matrix result;
             Transformation(ref scalingCenter, ref scalingRotation, ref scaling, ref rotationCenter, ref rotation, ref translation, out result);
@@ -2896,9 +2960,9 @@ namespace BulletSharp.Math
         public override int GetHashCode()
         {
             return M11.GetHashCode() + M12.GetHashCode() + M13.GetHashCode() + M14.GetHashCode() +
-               M21.GetHashCode() + M22.GetHashCode() + M23.GetHashCode() + M24.GetHashCode() +
-               M31.GetHashCode() + M32.GetHashCode() + M33.GetHashCode() + M34.GetHashCode() +
-               M41.GetHashCode() + M42.GetHashCode() + M43.GetHashCode() + M44.GetHashCode();
+                M21.GetHashCode() + M22.GetHashCode() + M23.GetHashCode() + M24.GetHashCode() +
+                M31.GetHashCode() + M32.GetHashCode() + M33.GetHashCode() + M34.GetHashCode() +
+                M41.GetHashCode() + M42.GetHashCode() + M43.GetHashCode() + M44.GetHashCode();
         }
 
         /// <summary>
@@ -2941,25 +3005,25 @@ namespace BulletSharp.Math
         /// </returns>
         public bool Equals(Matrix other, float epsilon)
         {
-            return (System.Math.Abs(other.M11 - M11) < epsilon &&
-                System.Math.Abs(other.M12 - M12) < epsilon &&
-                System.Math.Abs(other.M13 - M13) < epsilon &&
-                System.Math.Abs(other.M14 - M14) < epsilon &&
+            return (Mathematics.Abs(other.M11 - M11) < epsilon &&
+                Mathematics.Abs(other.M12 - M12) < epsilon &&
+                Mathematics.Abs(other.M13 - M13) < epsilon &&
+                Mathematics.Abs(other.M14 - M14) < epsilon &&
 
-                System.Math.Abs(other.M21 - M21) < epsilon &&
-                System.Math.Abs(other.M22 - M22) < epsilon &&
-                System.Math.Abs(other.M23 - M23) < epsilon &&
-                System.Math.Abs(other.M24 - M24) < epsilon &&
+                Mathematics.Abs(other.M21 - M21) < epsilon &&
+                Mathematics.Abs(other.M22 - M22) < epsilon &&
+                Mathematics.Abs(other.M23 - M23) < epsilon &&
+                Mathematics.Abs(other.M24 - M24) < epsilon &&
 
-                System.Math.Abs(other.M31 - M31) < epsilon &&
-                System.Math.Abs(other.M32 - M32) < epsilon &&
-                System.Math.Abs(other.M33 - M33) < epsilon &&
-                System.Math.Abs(other.M34 - M34) < epsilon &&
+                Mathematics.Abs(other.M31 - M31) < epsilon &&
+                Mathematics.Abs(other.M32 - M32) < epsilon &&
+                Mathematics.Abs(other.M33 - M33) < epsilon &&
+                Mathematics.Abs(other.M34 - M34) < epsilon &&
 
-                System.Math.Abs(other.M41 - M41) < epsilon &&
-                System.Math.Abs(other.M42 - M42) < epsilon &&
-                System.Math.Abs(other.M43 - M43) < epsilon &&
-                System.Math.Abs(other.M44 - M44) < epsilon);
+                Mathematics.Abs(other.M41 - M41) < epsilon &&
+                Mathematics.Abs(other.M42 - M42) < epsilon &&
+                Mathematics.Abs(other.M43 - M43) < epsilon &&
+                Mathematics.Abs(other.M44 - M44) < epsilon);
         }
 
         /// <summary>
@@ -2980,122 +3044,21 @@ namespace BulletSharp.Math
             return Equals((Matrix)obj);
         }
 
-#if SlimDX1xInterop
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="SlimMath.Matrix"/> to <see cref="SlimDX.Matrix"/>.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator SlimDX.Matrix(Matrix value)
-        {
-            return new SlimDX.Matrix()
-            {
-                M11 = value.M11, M12 = value.M12, M13 = value.M13, M14 = value.M14,
-                M21 = value.M21, M22 = value.M22, M23 = value.M23, M24 = value.M24,
-                M31 = value.M31, M32 = value.M32, M33 = value.M33, M34 = value.M34,
-                M41 = value.M41, M42 = value.M42, M43 = value.M43, M44 = value.M44
-            };
-        }
-
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="SlimDX.Matrix"/> to <see cref="SlimMath.Matrix"/>.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Matrix(SlimDX.Matrix value)
-        {
-            return new Matrix()
-            {
-                M11 = value.M11, M12 = value.M12, M13 = value.M13, M14 = value.M14,
-                M21 = value.M21, M22 = value.M22, M23 = value.M23, M24 = value.M24,
-                M31 = value.M31, M32 = value.M32, M33 = value.M33, M34 = value.M34,
-                M41 = value.M41, M42 = value.M42, M43 = value.M43, M44 = value.M44
-            };
-        }
-#endif
-
-#if WPFInterop
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="SlimMath.Matrix"/> to <see cref="System.Windows.Media.Media3D.Matrix3D"/>.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator System.Windows.Media.Media3D.Matrix3D(Matrix value)
-        {
-            return new System.Windows.Media.Media3D.Matrix3D()
-            {
-                M11 = value.M11, M12 = value.M12, M13 = value.M13, M14 = value.M14,
-                M21 = value.M21, M22 = value.M22, M23 = value.M23, M24 = value.M24,
-                M31 = value.M31, M32 = value.M32, M33 = value.M33, M34 = value.M34,
-                OffsetX = value.M41, OffsetY = value.M42, OffsetZ = value.M43, M44 = value.M44
-            };
-        }
-
-        /// <summary>
-        /// Performs an explicit conversion from <see cref="System.Windows.Media.Media3D.Matrix3D"/> to <see cref="SlimMath.Matrix"/>.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static explicit operator Matrix(System.Windows.Media.Media3D.Matrix3D value)
-        {
-            return new Matrix()
-            {
-                M11 = (float)value.M11, M12 = (float)value.M12, M13 = (float)value.M13, M14 = (float)value.M14,
-                M21 = (float)value.M21, M22 = (float)value.M22, M23 = (float)value.M23, M24 = (float)value.M24,
-                M31 = (float)value.M31, M32 = (float)value.M32, M33 = (float)value.M33, M34 = (float)value.M34,
-                M41 = (float)value.OffsetX, M42 = (float)value.OffsetY, M43 = (float)value.OffsetZ, M44 = (float)value.M44
-            };
-        }
-#endif
-
-#if XnaInterop
-        /// <summary>
-        /// Performs an implicit conversion from <see cref="SlimMath.Matrix"/> to <see cref="Microsoft.Xna.Framework.Matrix"/>.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Microsoft.Xna.Framework.Matrix(Matrix value)
-        {
-            return new Microsoft.Xna.Framework.Matrix()
-            {
-                M11 = value.M11, M12 = value.M12, M13 = value.M13, M14 = value.M14,
-                M21 = value.M21, M22 = value.M22, M23 = value.M23, M24 = value.M24,
-                M31 = value.M31, M32 = value.M32, M33 = value.M33, M34 = value.M34,
-                M41 = value.M41, M42 = value.M42, M43 = value.M43, M44 = value.M44
-            };
-        }
-
-                /// <summary>
-        /// Performs an implicit conversion from <see cref="Microsoft.Xna.Framework.Matrix"/> to <see cref="SlimMath.Matrix"/>.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <returns>The result of the conversion.</returns>
-        public static implicit operator Matrix(Microsoft.Xna.Framework.Matrix value)
-        {
-            return new Matrix()
-            {
-                M11 = value.M11, M12 = value.M12, M13 = value.M13, M14 = value.M14,
-                M21 = value.M21, M22 = value.M22, M23 = value.M23, M24 = value.M24,
-                M31 = value.M31, M32 = value.M32, M33 = value.M33, M34 = value.M34,
-                M41 = value.M41, M42 = value.M42, M43 = value.M43, M44 = value.M44
-            };
-        }
-#endif
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct Matrix3x3FloatData
     {
-        public Vector3FloatData Element0;
-        public Vector3FloatData Element1;
-        public Vector3FloatData Element2;
+        public Vector3DFloatData Element0;
+        public Vector3DFloatData Element1;
+        public Vector3DFloatData Element2;
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct TransformFloatData
     {
         public Matrix3x3FloatData Basis;
-        public Vector3FloatData Origin;
+        public Vector3DFloatData Origin;
 
         public const int OriginOffset = 48;
     }
