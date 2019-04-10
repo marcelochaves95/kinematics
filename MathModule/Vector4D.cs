@@ -296,9 +296,9 @@ namespace MathModule
         {
             float squared = amount * amount;
             float cubed = amount * squared;
-            float part1 = ((2.0f * cubed) - (3.0f * squared)) + 1.0f;
-            float part2 = (-2.0f * cubed) + (3.0f * squared);
-            float part3 = (cubed - (2.0f * squared)) + amount;
+            float part1 = ((2f * cubed) - (3f * squared)) + 1f;
+            float part2 = (-2f * cubed) + (3f * squared);
+            float part3 = (cubed - (2f * squared)) + amount;
             float part4 = cubed - squared;
 
             return new Vector4D(
@@ -323,21 +323,21 @@ namespace MathModule
             float cubed = amount * squared;
 
             return new Vector4D(
-                0.5f * ((((2.0f * value2.X) + ((-value1.X + value3.X) * amount)) +
-                        (((((2.0f * value1.X) - (5.0f * value2.X)) + (4.0f * value3.X)) - value4.X) * squared)) +
-                    ((((-value1.X + (3.0f * value2.X)) - (3.0f * value3.X)) + value4.X) * cubed)),
-                0.5f * ((((2.0f * value2.Y) + ((-value1.Y + value3.Y) * amount)) +
-                        (((((2.0f * value1.Y) - (5.0f * value2.Y)) + (4.0f * value3.Y)) - value4.Y) * squared)) +
-                    ((((-value1.Y + (3.0f * value2.Y)) - (3.0f * value3.Y)) + value4.Y) * cubed)),
-                0.5f * ((((2.0f * value2.Z) + ((-value1.Z + value3.Z) * amount)) +
-                        (((((2.0f * value1.Z) - (5.0f * value2.Z)) + (4.0f * value3.Z)) - value4.Z) * squared)) +
-                    ((((-value1.Z + (3.0f * value2.Z)) - (3.0f * value3.Z)) + value4.Z) * cubed)),
-                0.5f * ((((2.0f * value2.Z) + ((-value1.Z + value3.Z) * amount)) +
-                        (((((2.0f * value1.Z) - (5.0f * value2.Z)) + (4.0f * value3.Z)) - value4.Z) * squared)) +
-                    ((((-value1.Z + (3.0f * value2.Z)) - (3.0f * value3.Z)) + value4.Z) * cubed)),
-                0.5f * ((((2.0f * value2.W) + ((-value1.W + value3.W) * amount)) +
-                        (((((2.0f * value1.W) - (5.0f * value2.W)) + (4.0f * value3.W)) - value4.W) * squared)) +
-                    ((((-value1.W + (3.0f * value2.W)) - (3.0f * value3.W)) + value4.W) * cubed)));
+                0.5f * ((((2f * value2.X) + ((-value1.X + value3.X) * amount)) +
+                        (((((2f * value1.X) - (5.0f * value2.X)) + (4.0f * value3.X)) - value4.X) * squared)) +
+                    ((((-value1.X + (3f * value2.X)) - (3f * value3.X)) + value4.X) * cubed)),
+                0.5f * ((((2f * value2.Y) + ((-value1.Y + value3.Y) * amount)) +
+                        (((((2f * value1.Y) - (5.0f * value2.Y)) + (4.0f * value3.Y)) - value4.Y) * squared)) +
+                    ((((-value1.Y + (3f * value2.Y)) - (3f * value3.Y)) + value4.Y) * cubed)),
+                0.5f * ((((2f * value2.Z) + ((-value1.Z + value3.Z) * amount)) +
+                        (((((2f * value1.Z) - (5.0f * value2.Z)) + (4.0f * value3.Z)) - value4.Z) * squared)) +
+                    ((((-value1.Z + (3f * value2.Z)) - (3f * value3.Z)) + value4.Z) * cubed)),
+                0.5f * ((((2f * value2.Z) + ((-value1.Z + value3.Z) * amount)) +
+                        (((((2f * value1.Z) - (5.0f * value2.Z)) + (4.0f * value3.Z)) - value4.Z) * squared)) +
+                    ((((-value1.Z + (3f * value2.Z)) - (3f * value3.Z)) + value4.Z) * cubed)),
+                0.5f * ((((2f * value2.W) + ((-value1.W + value3.W) * amount)) +
+                        (((((2f * value1.W) - (5.0f * value2.W)) + (4.0f * value3.W)) - value4.W) * squared)) +
+                    ((((-value1.W + (3f * value2.W)) - (3f * value3.W)) + value4.W) * cubed)));
         }
 
         /// <summary>
@@ -391,15 +391,15 @@ namespace MathModule
             float yz = rotation.Y * z;
             float zz = rotation.Z * z;
 
-            float num1 = ((1.0f - yy) - zz);
+            float num1 = ((1f - yy) - zz);
             float num2 = (xy - wz);
             float num3 = (xz + wy);
             float num4 = (xy + wz);
-            float num5 = ((1.0f - xx) - zz);
+            float num5 = ((1f - xx) - zz);
             float num6 = (yz - wx);
             float num7 = (xz - wy);
             float num8 = (yz + wx);
-            float num9 = ((1.0f - xx) - yy);
+            float num9 = ((1f - xx) - yy);
 
             return new Vector4D(
                 ((value.X * num1) + (value.Y * num2)) + (value.Z * num3),
