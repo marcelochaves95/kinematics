@@ -5,14 +5,13 @@ using System.Runtime.InteropServices;
 namespace BulletSharp.Math
 {
     /// <summary>
-    /// Represents a 4x4 mathematical matrix.
+    /// Represents a 4x4 mathematical matrix
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    //[TypeConverter(typeof(SlimMath.Design.MatrixConverter))]
     public struct Matrix : IEquatable<Matrix>
     {
         /// <summary>
-        /// A <see cref="SlimMath.Matrix"/> with all of its components set to zero.
+        /// A matrix with all of its components set to zero
         /// </summary>
         public static readonly Matrix Zero = new Matrix();
 
@@ -22,82 +21,82 @@ namespace BulletSharp.Math
         public static readonly Matrix Identity = new Matrix() { M11 = 1f, M22 = 1f, M33 = 1f, M44 = 1f };
 
         /// <summary>
-        /// Value at row 1 column 1 of the matrix.
+        /// Value at row 1 column 1 of the matrix
         /// </summary>
         public float M11;
 
         /// <summary>
-        /// Value at row 1 column 2 of the matrix.
+        /// Value at row 1 column 2 of the matrix
         /// </summary>
         public float M12;
 
         /// <summary>
-        /// Value at row 1 column 3 of the matrix.
+        /// Value at row 1 column 3 of the matrix
         /// </summary>
         public float M13;
 
         /// <summary>
-        /// Value at row 1 column 4 of the matrix.
+        /// Value at row 1 column 4 of the matrix
         /// </summary>
         public float M14;
 
         /// <summary>
-        /// Value at row 2 column 1 of the matrix.
+        /// Value at row 2 column 1 of the matrix
         /// </summary>
         public float M21;
 
         /// <summary>
-        /// Value at row 2 column 2 of the matrix.
+        /// Value at row 2 column 2 of the matrix
         /// </summary>
         public float M22;
 
         /// <summary>
-        /// Value at row 2 column 3 of the matrix.
+        /// Value at row 2 column 3 of the matrix
         /// </summary>
         public float M23;
 
         /// <summary>
-        /// Value at row 2 column 4 of the matrix.
+        /// Value at row 2 column 4 of the matrix
         /// </summary>
         public float M24;
 
         /// <summary>
-        /// Value at row 3 column 1 of the matrix.
+        /// Value at row 3 column 1 of the matrix
         /// </summary>
         public float M31;
 
         /// <summary>
-        /// Value at row 3 column 2 of the matrix.
+        /// Value at row 3 column 2 of the matrix
         /// </summary>
         public float M32;
 
         /// <summary>
-        /// Value at row 3 column 3 of the matrix.
+        /// Value at row 3 column 3 of the matrix
         /// </summary>
         public float M33;
 
         /// <summary>
-        /// Value at row 3 column 4 of the matrix.
+        /// Value at row 3 column 4 of the matrix
         /// </summary>
         public float M34;
 
         /// <summary>
-        /// Value at row 4 column 1 of the matrix.
+        /// Value at row 4 column 1 of the matrix
         /// </summary>
         public float M41;
 
         /// <summary>
-        /// Value at row 4 column 2 of the matrix.
+        /// Value at row 4 column 2 of the matrix
         /// </summary>
         public float M42;
 
         /// <summary>
-        /// Value at row 4 column 3 of the matrix.
+        /// Value at row 4 column 3 of the matrix
         /// </summary>
         public float M43;
 
         /// <summary>
-        /// Value at row 4 column 4 of the matrix.
+        /// Value at row 4 column 4 of the matrix
         /// </summary>
         public float M44;
 
@@ -297,7 +296,7 @@ namespace BulletSharp.Math
             set { M41 = value.X; M42 = value.Y; M43 = value.Z; }
         }
 
-        public BulletSharp.Math.Quaternion Orientation
+        public Quaternion Orientation
         {
             get
             {

@@ -12,22 +12,22 @@ namespace MathModule
         /// <summary>
         /// The X component of the vector
         /// </summary>
-        public float X;
+        public float X { get; set; }
 
         /// <summary>
         /// The Y component of the vector
         /// </summary>
-        public float Y;
+        public float Y { get; set; }
 
         /// <summary>
         /// The Z component of the vector
         /// </summary>
-        public float Z;
+        public float Z { get; set; }
 
         /// <summary>
         /// The W component of the vector
         /// </summary>
-        public float W;
+        public float W { get; set; }
 
         /// <summary>
         /// Construct the vector from it's coordinates
