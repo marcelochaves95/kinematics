@@ -36,49 +36,49 @@ namespace MathModule
 		/// Shorthand for writing Vector3D(0, 0, 1)
 		/// </summary>
 		/// <returns>Vector forward</returns>
-		public static Vector3D Forward() => new Vector3D(0f, 0f, 1f);
+		public static readonly Vector3D Forward => new Vector3D(0f, 0f, 1f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(0, 0, -1)
 		/// </summary>
 		/// <returns>Vector back</returns>
-		public static Vector3D Back() => new Vector3D(0f, 0f, -1f);
+		public static readonly Vector3D Back => new Vector3D(0f, 0f, -1f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(0, 1, 0)
 		/// </summary>
 		/// <returns>Vector up</returns>
-		public static Vector3D Up() => new Vector3D(0f, 1f, 0f);
+		public static readonly Vector3D Up => new Vector3D(0f, 1f, 0f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(0, -1, 0)
 		/// </summary>
 		/// <returns>Vector down</returns>
-		public static Vector3D Down() => new Vector3D(0f, -1f, 0f);
+		public static readonly Vector3D Down => new Vector3D(0f, -1f, 0f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(-1, 0, 0)
 		/// </summary>
 		/// <returns>Vector left</returns>
-		public static Vector3D Left() => new Vector3D(-1f, 0f, 0f);
+		public static readonly Vector3D Left => new Vector3D(-1f, 0f, 0f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(1, 0, 0)
 		/// </summary>
 		/// <returns>Vector right</returns>
-		public static Vector3D Right() => new Vector3D(1f, 0f, 0f);
+		public static readonly Vector3D Right => new Vector3D(1f, 0f, 0f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(1, 1, 1)
 		/// </summary>
 		/// <returns>Vector one</returns>
-		public static Vector3D One() => new Vector3D(1f, 1f, 1f);
+		public static readonly Vector3D One => new Vector3D(1f, 1f, 1f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(0, 0, 0)
 		/// </summary>
 		/// <returns>Vector zero</returns>
-		public static Vector3D Zero() => new Vector3D(0f, 0f, 0f);
+		public static readonly Vector3D Zero => new Vector3D(0f, 0f, 0f);
 
 		/// <summary>
 		/// Operator + overload ; add two vectors
@@ -158,20 +158,20 @@ namespace MathModule
 		public bool Equals(Vector3D other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
 
 		/// <summary>
-		/// Magnitude
+		/// Calculates the length of the vector
 		/// </summary>
 		/// <returns>The length of the vector</returns>
 		public static float Magnitude(Vector3D v) => new Mathematics.Sqrt(v.X * v.X + v.Y * v.Y + v.Z * v.Z);
 
 		/// <summary>
-		/// Makes this vector have a magnitude of 1
+		/// Converts the vector into a unit vector
 		/// </summary>
 		/// <param name="v">Vector</param>
 		/// <returns>Normalized vector</returns>
 		public static Vector3D Normalize(Vector3D v) => v / Magnitude(v);
 
 		/// <summary>
-		/// Makes this vector have a magnitude of 1
+		/// Converts the vector into a unit vector
 		/// </summary>
 		/// <returns>Normalized vector</returns>
 		public static Vector3D Normalize() => this / Magnitude(this);
