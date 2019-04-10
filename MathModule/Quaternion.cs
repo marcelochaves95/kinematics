@@ -202,7 +202,7 @@ namespace MathModule
         /// <param name="value1"></param>
         /// <param name="value2"></param>
         /// <returns></returns>
-        public static bool operator ==(Quaternion value1, Quaternion value2) => IsEqualUsingDotProduct(DotProduct(value1, value2));
+        public static bool operator ==(Quaternion value1, Quaternion value2) => value1.Equals(value2);
 
         /// <summary>
         /// Are two quaternions different from each other?
@@ -211,13 +211,6 @@ namespace MathModule
         /// <param name="value2"></param>
         /// <returns>The presence of NaN values</returns>
         public static bool operator !=(Quaternion value1, Quaternion value2) => !value1.Equals(value2);
-
-        /// <summary>
-        /// Is the dot product of two quaternions within tolerance for them to be considered equal?
-        /// </summary>
-        /// <param name="dot"></param>
-        /// <returns>The presence of NaN values</returns>
-        private static bool IsEqualUsingDotProduct(float dot) => dot > 1f - 0f;
 
         /// <summary>
         /// The dot product between two rotations
@@ -260,21 +253,10 @@ namespace MathModule
         }
 
         /// <summary>
-        /// Conjugates and renormalizes the quaternion
+        /// Calculates the length of the quaternion
         /// </summary>
-        public void Invert()
-        {
-            float lengthSq = LengthSquared;
-            if (lengthSq > 0f)
-            {
-                lengthSq = 1f / lengthSq;
-
-                X = -X * lengthSq;
-                Y = -Y * lengthSq;
-                Z = -Z * lengthSq;
-                W = W * lengthSq;
-            }
-        }
+        /// <returns>The length of the vector</returns>
+        public static float Magnitude(Quaternion value) => new Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W);
 
         /// <summary>
         /// Makes this vector have a magnitude of 1
@@ -297,6 +279,23 @@ namespace MathModule
         public Quaternion Normalize() => this = Normalize(this);
 
         /// <summary>
+        /// Conjugates and renormalizes the quaternion
+        /// </summary>
+        /// <param name="value">The quaternion to conjugate and renormalize</param>
+        /// <returns>The conjugated and renormalized quaternion</returns>
+        public static Quaternion Invert(Quaternion value)
+        {
+            float magnitude = Magnitude(this);
+
+            if (magnitude > 0f)
+            {
+                magnitude = 1f / magnitude;
+
+                return new Quaternion(-X * magnitude, -Y * magnitude, -Z * magnitude, W * magnitude);
+            }
+        }
+        
+        /// <summary>
         /// Compare quaternion and object and checks if they are equal
         /// </summary>
         /// <param name="obj">Object to check</param>
@@ -309,12 +308,6 @@ namespace MathModule
         /// <param name="other">Quaternion to check</param>
         /// <returns>Quaternions are equal</returns>
         public bool Equals(Quaternion other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
-
-        /// <summary>
-        /// Calculates the length of the quaternion
-        /// </summary>
-        /// <returns>The length of the vector</returns>
-        public static float Magnitude(Quaternion value) => new Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W);
 
         /// <summary>
         /// Returns a containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 2D triangle
@@ -434,8 +427,7 @@ namespace MathModule
         {
             Quaternion rotation = this;
             Quaternion quaternion = rotation * value;
-            rotation.Invert();
-            quaternion *= rotation;
+            quaternion *= Invert(rotation);
             return new Vector3D(quaternion.X, quaternion.Y, quaternion.Z);
         }
 
