@@ -19,7 +19,7 @@ namespace BulletSharp.Math
         /// <summary>
         /// The identity <see cref="SlimMath.Matrix"/>.
         /// </summary>
-        public static readonly Matrix Identity = new Matrix() { M11 = 1.0f, M22 = 1.0f, M33 = 1.0f, M44 = 1.0f };
+        public static readonly Matrix Identity = new Matrix() { M11 = 1f, M22 = 1f, M33 = 1f, M44 = 1f };
 
         /// <summary>
         /// Value at row 1 column 1 of the matrix.
@@ -305,9 +305,9 @@ namespace BulletSharp.Math
 
                 float[] temp = new float[4];
 
-                if (trace > 0.0f)
+                if (trace > 0f)
                 {
-                    float s = UnityEngine.Mathf.Sqrt(trace + (1.0f));
+                    float s = UnityEngine.Mathf.Sqrt(trace + (1f));
                     temp[3] = (s * (0.5f));
                     s = (0.5f) / s;
 
@@ -323,7 +323,7 @@ namespace BulletSharp.Math
                     int j = (i + 1) % 3;
                     int k = (i + 2) % 3;
 
-                    float s = UnityEngine.Mathf.Sqrt(this [i, i] - this [j, j] - this [k, k] + 1.0f);
+                    float s = UnityEngine.Mathf.Sqrt(this [i, i] - this [j, j] - this [k, k] + 1f);
                     temp[i] = s * 0.5f;
                     s = 0.5f / s;
 
@@ -336,22 +336,22 @@ namespace BulletSharp.Math
             set
             {
                 float d = value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W;
-                UnityEngine.Debug.Assert(d != 0.0f);
-                float s = 2.0f / d;
+                UnityEngine.Debug.Assert(d != 0f);
+                float s = 2f / d;
                 float xs = value.X * s, ys = value.Y * s, zs = value.Z * s;
                 float wx = value.W * xs, wy = value.W * ys, wz = value.W * zs;
                 float xx = value.X * xs, xy = value.X * ys, xz = value.X * zs;
                 float yy = value.Y * ys, yz = value.Y * zs, zz = value.Z * zs;
 
-                M11 = 1.0f - (yy + zz);
+                M11 = 1f - (yy + zz);
                 M12 = xy - wz;
                 M13 = xz + wy;
                 M21 = xy + wz;
-                M22 = 1.0f - (xx + zz);
+                M22 = 1f - (xx + zz);
                 M23 = yz - wx;
                 M31 = xz - wy;
                 M32 = yz + wx;
-                M33 = 1.0f - (xx + yy);
+                M33 = 1f - (xx + yy);
             }
         }
 
@@ -959,7 +959,7 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the scaled matrix.</param>
         public static void Divide(ref Matrix left, float scalar, out Matrix result)
         {
-            float inv = 1.0f / scalar;
+            float inv = 1f / scalar;
 
             result.M11 = left.M11 * inv;
             result.M12 = left.M12 * inv;
@@ -1188,8 +1188,8 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the cubic interpolation of the two matrices.</param>
         public static void SmoothStep(ref Matrix start, ref Matrix end, float amount, out Matrix result)
         {
-            amount = (amount > 1.0f) ? 1.0f : ((amount < 0.0f) ? 0.0f : amount);
-            amount = (amount * amount) * (3.0f - (2.0f * amount));
+            amount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
+            amount = (amount * amount) * (3f - (2f * amount));
 
             result.M11 = start.M11 + ((end.M11 - start.M11) * amount);
             result.M12 = start.M12 + ((end.M12 - start.M12) * amount);
@@ -1854,7 +1854,7 @@ namespace BulletSharp.Math
             if (lengthsq < Utilities.ZeroTolerance)
                 difference = -cameraForwardVector;
             else
-                difference *= (1.0 / Mathematics.Sqrt(lengthsq));
+                difference *= (1 / Mathematics.Sqrt(lengthsq));
 
             Vector3D.Cross(ref cameraUpVector, ref difference, out crossed);
             crossed.Normalize();
@@ -1863,19 +1863,19 @@ namespace BulletSharp.Math
             result.M11 = crossed.X;
             result.M12 = crossed.Y;
             result.M13 = crossed.Z;
-            result.M14 = 0.0f;
+            result.M14 = 0f;
             result.M21 = final.X;
             result.M22 = final.Y;
             result.M23 = final.Z;
-            result.M24 = 0.0f;
+            result.M24 = 0f;
             result.M31 = difference.X;
             result.M32 = difference.Y;
             result.M33 = difference.Z;
-            result.M34 = 0.0f;
+            result.M34 = 0f;
             result.M41 = objectPosition.X;
             result.M42 = objectPosition.Y;
             result.M43 = objectPosition.Z;
-            result.M44 = 1.0f;
+            result.M44 = 1f;
         }
 
         /// <summary>
@@ -2065,11 +2065,11 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the created projection matrix.</param>
         public static void OrthoOffCenterLH(float left, float right, float bottom, float top, float znear, float zfar, out Matrix result)
         {
-            float zRange = 1.0f / (zfar - znear);
+            float zRange = 1f / (zfar - znear);
 
             result = Matrix.Identity;
-            result.M11 = 2.0f / (right - left);
-            result.M22 = 2.0f / (top - bottom);
+            result.M11 = 2f / (right - left);
+            result.M22 = 2f / (top - bottom);
             result.M33 = zRange;
             result.M41 = (left + right) / (left - right);
             result.M42 = (top + bottom) / (bottom - top);
@@ -2106,7 +2106,7 @@ namespace BulletSharp.Math
         public static void OrthoOffCenterRH(float left, float right, float bottom, float top, float znear, float zfar, out Matrix result)
         {
             OrthoOffCenterLH(left, right, bottom, top, znear, zfar, out result);
-            result.M33 *= -1.0f;
+            result.M33 *= -1f;
         }
 
         /// <summary>
@@ -2198,7 +2198,7 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the created projection matrix.</param>
         public static void PerspectiveFovLH(float fov, float aspect, float znear, float zfar, out Matrix result)
         {
-            float yScale = (1.0 / Mathematics.Tan(fov * 0.5f));
+            float yScale = (1 / Mathematics.Tan(fov * 0.5f));
             float xScale = yScale / aspect;
 
             float halfWidth = znear / xScale;
@@ -2232,7 +2232,7 @@ namespace BulletSharp.Math
         /// <param name="result">When the method completes, contains the created projection matrix.</param>
         public static void PerspectiveFovRH(float fov, float aspect, float znear, float zfar, out Matrix result)
         {
-            float yScale = (1.0 / Mathematics.Tan(fov * 0.5f));
+            float yScale = (1 / Mathematics.Tan(fov * 0.5f));
             float xScale = yScale / aspect;
 
             float halfWidth = znear / xScale;
@@ -2271,12 +2271,12 @@ namespace BulletSharp.Math
             float zRange = zfar / (zfar - znear);
 
             result = new Matrix();
-            result.M11 = 2.0f * znear / (right - left);
-            result.M22 = 2.0f * znear / (top - bottom);
+            result.M11 = 2f * znear / (right - left);
+            result.M22 = 2f * znear / (top - bottom);
             result.M31 = (left + right) / (left - right);
             result.M32 = (top + bottom) / (bottom - top);
             result.M33 = zRange;
-            result.M34 = 1.0f;
+            result.M34 = 1f;
             result.M43 = -znear * zRange;
         }
 
@@ -2310,10 +2310,10 @@ namespace BulletSharp.Math
         public static void PerspectiveOffCenterRH(float left, float right, float bottom, float top, float znear, float zfar, out Matrix result)
         {
             PerspectiveOffCenterLH(left, right, bottom, top, znear, zfar, out result);
-            result.M31 *= -1.0f;
-            result.M32 *= -1.0f;
-            result.M33 *= -1.0f;
-            result.M34 *= -1.0f;
+            result.M31 *= -1f;
+            result.M32 *= -1f;
+            result.M33 *= -1f;
+            result.M34 *= -1f;
         }
 
         /// <summary>
@@ -2515,15 +2515,15 @@ namespace BulletSharp.Math
             float yz = y * z;
 
             result = Matrix.Identity;
-            result.M11 = xx + (cos * (1.0f - xx));
+            result.M11 = xx + (cos * (1f - xx));
             result.M12 = (xy - (cos * xy)) + (sin * z);
             result.M13 = (xz - (cos * xz)) - (sin * y);
             result.M21 = (xy - (cos * xy)) - (sin * z);
-            result.M22 = yy + (cos * (1.0f - yy));
+            result.M22 = yy + (cos * (1f - yy));
             result.M23 = (yz - (cos * yz)) + (sin * x);
             result.M31 = (xz - (cos * xz)) + (sin * y);
             result.M32 = (yz - (cos * yz)) - (sin * x);
-            result.M33 = zz + (cos * (1.0f - zz));
+            result.M33 = zz + (cos * (1f - zz));
         }
 
         /// <summary>
@@ -2557,15 +2557,15 @@ namespace BulletSharp.Math
             float xw = rotation.X * rotation.W;
 
             result = Matrix.Identity;
-            result.M11 = 1.0f - (2.0f * (yy + zz));
-            result.M12 = 2.0f * (xy + zw);
-            result.M13 = 2.0f * (zx - yw);
-            result.M21 = 2.0f * (xy - zw);
-            result.M22 = 1.0f - (2.0f * (zz + xx));
-            result.M23 = 2.0f * (yz + xw);
-            result.M31 = 2.0f * (zx + yw);
-            result.M32 = 2.0f * (yz - xw);
-            result.M33 = 1.0f - (2.0f * (yy + xx));
+            result.M11 = 1f - (2f * (yy + zz));
+            result.M12 = 2f * (xy + zw);
+            result.M13 = 2f * (zx - yw);
+            result.M21 = 2f * (xy - zw);
+            result.M22 = 1f - (2f * (zz + xx));
+            result.M23 = 2f * (yz + xw);
+            result.M31 = 2f * (zx + yw);
+            result.M32 = 2f * (yz - xw);
+            result.M33 = 1f - (2f * (yy + xx));
         }
 
         /// <summary>
