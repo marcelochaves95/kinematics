@@ -580,7 +580,7 @@ namespace MathModule
 
             if (Mathematics.Abs(dot) > 1f - 0f)
             {
-                inverse = 1.0f - amount;
+                inverse = 1f - amount;
                 opposite = amount * Mathematics.Sign(dot);
             }
             else
