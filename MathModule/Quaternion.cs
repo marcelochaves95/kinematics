@@ -347,7 +347,7 @@ namespace MathModule
             float angle = Mathematics.Sqrt((value.X * value.X) + (value.Y * value.Y) + (value.Z * value.Z));
             float sin = Mathematics.Sin(angle);
 
-            if (Mathematics.Abs(sin) >= 0)
+            if (Mathematics.Abs(sin) >= 0f)
             {
                 float coeff = sin / angle;
                 result.X = coeff * value.X;
@@ -578,7 +578,7 @@ namespace MathModule
             float inverse;
             float dot = DotProduct(start, end);
 
-            if (Mathematics.Abs(dot) > 1f - 0)
+            if (Mathematics.Abs(dot) > 1f - 0f)
             {
                 inverse = 1.0f - amount;
                 opposite = amount * Mathematics.Sign(dot);
@@ -586,9 +586,9 @@ namespace MathModule
             else
             {
                 float acos = Mathematics.Acos(Mathematics.Abs(dot));
-                float invSin = (float)(1.0f / Mathematics.Sin(acos));
+                float invSin = (float)(1f / Mathematics.Sin(acos));
 
-                inverse = Mathematics.Sin((1.0f - amount) * acos) * invSin;
+                inverse = Mathematics.Sin((1f - amount) * acos) * invSin;
                 opposite = Mathematics.Sin(amount * acos) * invSin * Mathematics.Sign(dot);
             }
 
