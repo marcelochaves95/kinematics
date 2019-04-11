@@ -43,7 +43,7 @@ namespace MathModule
 			if (values == null)
 				throw new ArgumentNullException("values");
 			if (values.Length != 3)
-				throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector3.");
+				throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector3D.");
 
 			X = values[0];
 			Y = values[1];
