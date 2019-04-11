@@ -177,7 +177,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the basis matrix for the rotation.
+        /// Get's or set's the basis matrix for the rotation.
         /// </summary>
         public Matrix Basis
         {
@@ -204,7 +204,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the first row in the matrix; that is M11, M12, M13, and M14.
+        /// Get's or set's the first row in the matrix; that is M11, M12, M13, and M14
         /// </summary>
         public Vector4D Row1
         {
@@ -213,7 +213,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the second row in the matrix; that is M21, M22, M23, and M24.
+        /// Get's or set's the second row in the matrix; that is M21, M22, M23, and M24
         /// </summary>
         public Vector4D Row2
         {
@@ -222,7 +222,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the third row in the matrix; that is M31, M32, M33, and M34.
+        /// Gets or sets the third row in the matrix; that is M31, M32, M33, and M34
         /// </summary>
         public Vector4D Row3
         {
@@ -231,7 +231,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the fourth row in the matrix; that is M41, M42, M43, and M44.
+        /// Gets or sets the fourth row in the matrix; that is M41, M42, M43, and M44
         /// </summary>
         public Vector4D Row4
         {
@@ -240,7 +240,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the first column in the matrix; that is M11, M21, M31, and M41.
+        /// Gets or sets the first column in the matrix; that is M11, M21, M31, and M41
         /// </summary>
         public Vector4D Column1
         {
@@ -249,7 +249,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the second column in the matrix; that is M12, M22, M32, and M42.
+        /// Gets or sets the second column in the matrix; that is M12, M22, M32, and M42
         /// </summary>
         public Vector4D Column2
         {
@@ -258,7 +258,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the third column in the matrix; that is M13, M23, M33, and M43.
+        /// Gets or sets the third column in the matrix; that is M13, M23, M33, and M43
         /// </summary>
         public Vector4D Column3
         {
@@ -267,7 +267,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the fourth column in the matrix; that is M14, M24, M34, and M44.
+        /// Gets or sets the fourth column in the matrix; that is M14, M24, M34, and M44
         /// </summary>
         public Vector4D Column4
         {
@@ -276,7 +276,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the translation of the matrix; that is M41, M42, and M43.
+        /// Gets or sets the translation of the matrix; that is M41, M42, and M43
         /// </summary>
         public Vector3D Origin
         {
@@ -304,9 +304,7 @@ namespace Mathematics
                 }
                 else
                 {
-                    int i = M11 < M22 ?
-                        (M22 < M33 ? 2 : 1) :
-                        (M11 < M33 ? 2 : 0);
+                    int i = M11 < M22 ? (M22 < M33 ? 2 : 1) : (M11 < M33 ? 2 : 0);
                     int j = (i + 1) % 3;
                     int k = (i + 2) % 3;
 
@@ -318,12 +316,11 @@ namespace Mathematics
                     temp[j] = (this [j, i] + this [i, j]) * s;
                     temp[k] = (this [k, i] + this [i, k]) * s;
                 }
-                return new Mathematics.Quaternion(temp[0], temp[1], temp[2], temp[3]);
+                return new Quaternion(temp[0], temp[1], temp[2], temp[3]);
             }
             set
             {
                 float d = value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W;
-                //UnityEngine.Debug.Assert(d != 0f);
                 float s = 2f / d;
                 float xs = value.X * s, ys = value.Y * s, zs = value.Z * s;
                 float wx = value.W * xs, wy = value.W * ys, wz = value.W * zs;
@@ -343,7 +340,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets or sets the scale of the matrix; that is M11, M22, and M33.
+        /// Get's or set's the scale of the matrix; that is M11, M22, and M33
         /// </summary>
         public Vector3D ScaleVector
         {
@@ -352,330 +349,74 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Gets a value indicating whether this instance is an identity matrix.
+        /// Decomposes a matrix into an orthonormalized matrix Q and a right traingular matrix R
         /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is an identity matrix; otherwise, <c>false</c>.
-        /// </value>
-        public bool IsIdentity
-        {
-            get { return this.Equals(Identity); }
-        }
-
-        /// <summary>
-        /// Calculates the determinant of the matrix.
-        /// </summary>
-        /// <returns>The determinant of the matrix.</returns>
-        public float Determinant
-        {
-            get
-            {
-                float temp1 = (M33 * M44) - (M34 * M43);
-                float temp2 = (M32 * M44) - (M34 * M42);
-                float temp3 = (M32 * M43) - (M33 * M42);
-                float temp4 = (M31 * M44) - (M34 * M41);
-                float temp5 = (M31 * M43) - (M33 * M41);
-                float temp6 = (M31 * M42) - (M32 * M41);
-
-                return ((((M11 * (((M22 * temp1) - (M23 * temp2)) + (M24 * temp3))) - (M12 * (((M21 * temp1) -
-                        (M23 * temp4)) + (M24 * temp5)))) + (M13 * (((M21 * temp2) - (M22 * temp4)) + (M24 * temp6)))) -
-                    (M14 * (((M21 * temp3) - (M22 * temp5)) + (M23 * temp6))));
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the component at the specified index.
-        /// </summary>
-        /// <value>The value of the matrix component, depending on the index.</value>
-        /// <param name="index">The zero-based index of the component to access.</param>
-        /// <returns>The value of the component at the specified index.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="index"/> is out of the range [0, 15].</exception>
-        public float this [int index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0:
-                        return M11;
-                    case 1:
-                        return M12;
-                    case 2:
-                        return M13;
-                    case 3:
-                        return M14;
-                    case 4:
-                        return M21;
-                    case 5:
-                        return M22;
-                    case 6:
-                        return M23;
-                    case 7:
-                        return M24;
-                    case 8:
-                        return M31;
-                    case 9:
-                        return M32;
-                    case 10:
-                        return M33;
-                    case 11:
-                        return M34;
-                    case 12:
-                        return M41;
-                    case 13:
-                        return M42;
-                    case 14:
-                        return M43;
-                    case 15:
-                        return M44;
-                }
-
-                throw new ArgumentOutOfRangeException("index", "Indices for Matrix run from 0 to 15, inclusive.");
-            }
-
-            set
-            {
-                switch (index)
-                {
-                    case 0:
-                        M11 = value;
-                        break;
-                    case 1:
-                        M12 = value;
-                        break;
-                    case 2:
-                        M13 = value;
-                        break;
-                    case 3:
-                        M14 = value;
-                        break;
-                    case 4:
-                        M21 = value;
-                        break;
-                    case 5:
-                        M22 = value;
-                        break;
-                    case 6:
-                        M23 = value;
-                        break;
-                    case 7:
-                        M24 = value;
-                        break;
-                    case 8:
-                        M31 = value;
-                        break;
-                    case 9:
-                        M32 = value;
-                        break;
-                    case 10:
-                        M33 = value;
-                        break;
-                    case 11:
-                        M34 = value;
-                        break;
-                    case 12:
-                        M41 = value;
-                        break;
-                    case 13:
-                        M42 = value;
-                        break;
-                    case 14:
-                        M43 = value;
-                        break;
-                    case 15:
-                        M44 = value;
-                        break;
-                    default:
-                        throw new ArgumentOutOfRangeException("index", "Indices for Matrix run from 0 to 15, inclusive.");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the component at the specified index.
-        /// </summary>
-        /// <value>The value of the matrix component, depending on the index.</value>
-        /// <param name="row">The row of the matrix to access.</param>
-        /// <param name="column">The column of the matrix to access.</param>
-        /// <returns>The value of the component at the specified index.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="row"/> or <paramref name="column"/>is out of the range [0, 3].</exception>
-        public float this [int row, int column]
-        {
-            get
-            {
-                if (row < 0 || row > 3)
-                    throw new ArgumentOutOfRangeException("row", "Rows and columns for matrices run from 0 to 3, inclusive.");
-                if (column < 0 || column > 3)
-                    throw new ArgumentOutOfRangeException("column", "Rows and columns for matrices run from 0 to 3, inclusive.");
-
-                return this [(row * 4) + column];
-            }
-
-            set
-            {
-                if (row < 0 || row > 3)
-                    throw new ArgumentOutOfRangeException("row", "Rows and columns for matrices run from 0 to 3, inclusive.");
-                if (column < 0 || column > 3)
-                    throw new ArgumentOutOfRangeException("column", "Rows and columns for matrices run from 0 to 3, inclusive.");
-
-                this [(row * 4) + column] = value;
-            }
-        }
-
-        /// <summary>
-        /// Negates a matrix.
-        /// </summary>
-        public void Negate()
-        {
-            Negate(ref this, out this);
-        }
-
-        /// <summary>
-        /// Inverts the matrix.
-        /// </summary>
-        public void Invert()
-        {
-            Invert(ref this, out this);
-        }
-
-        /// <summary>
-        /// Transposes the matrix.
-        /// </summary>
-        public void Transpose()
-        {
-            Transpose(ref this, out this);
-        }
-
-        /// <summary>
-        /// Performs the exponential operation on a matrix.
-        /// </summary>
-        /// <param name="exponent">The exponent to raise the matrix to.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="exponent"/> is negative.</exception>
-        public void Exponent(int exponent)
-        {
-            Exponent(ref this, exponent, out this);
-        }
-
-        /// <summary>
-        /// Orthogonalizes the specified matrix.
-        /// </summary>
-        /// <remarks>
-        /// <para>Orthogonalization is the process of making all rows orthogonal to each other. This
-        /// means that any given row in the matrix will be orthogonal to any other given row in the
-        /// matrix.</para>
-        /// <para>Because this method uses the modified Gram-Schmidt process, the resulting matrix
-        /// tends to be numerically unstable. The numeric stability decreases according to the rows
-        /// so that the first row is the most stable and the last row is the least stable.</para>
-        /// <para>This operation is performed on the rows of the matrix rather than the columns.
-        /// If you wish for this operation to be performed on the columns, first transpose the
-        /// input and than transpose the output.</para>
-        /// </remarks>
-        public void Orthogonalize()
-        {
-            Orthogonalize(ref this, out this);
-        }
-
-        /// <summary>
-        /// Orthonormalizes the specified matrix.
-        /// </summary>
-        /// <remarks>
-        /// <para>Orthonormalization is the process of making all rows and columns orthogonal to each
-        /// other and making all rows and columns of unit length. This means that any given row will
-        /// be orthogonal to any other given row and any given column will be orthogonal to any other
-        /// given column. Any given row will not be orthogonal to any given column. Every row and every
-        /// column will be of unit length.</para>
-        /// <para>Because this method uses the modified Gram-Schmidt process, the resulting matrix
-        /// tends to be numerically unstable. The numeric stability decreases according to the rows
-        /// so that the first row is the most stable and the last row is the least stable.</para>
-        /// <para>This operation is performed on the rows of the matrix rather than the columns.
-        /// If you wish for this operation to be performed on the columns, first transpose the
-        /// input and than transpose the output.</para>
-        /// </remarks>
-        public void Orthonormalize()
-        {
-            Orthonormalize(ref this, out this);
-        }
-
-        /// <summary>
-        /// Decomposes a matrix into an orthonormalized matrix Q and a right traingular matrix R.
-        /// </summary>
-        /// <param name="Q">When the method completes, contains the orthonormalized matrix of the decomposition.</param>
-        /// <param name="R">When the method completes, contains the right triangular matrix of the decomposition.</param>
+        /// <param name="temp">When the method completes, contains the orthonormalized matrix of the decomposition</param>
+        /// <param name="R">When the method completes, contains the right triangular matrix of the decomposition</param>
         public void DecomposeQR(out Matrix Q, out Matrix R)
         {
-            Matrix temp = this;
-            temp.Transpose();
-            Orthonormalize(ref temp, out Q);
-            Q.Transpose();
+            Matrix temp;
+            Q = Orthonormalize(this);
+            temp = Q.Transpose();
 
             R = new Matrix();
-            R.M11 = Vector4D.Dot(Q.Column1, Column1);
-            R.M12 = Vector4D.Dot(Q.Column1, Column2);
-            R.M13 = Vector4D.Dot(Q.Column1, Column3);
-            R.M14 = Vector4D.Dot(Q.Column1, Column4);
+            R.M11 = Vector4D.DotProduct(temp.Column1, Column1);
+            R.M12 = Vector4D.DotProduct(temp.Column1, Column2);
+            R.M13 = Vector4D.DotProduct(temp.Column1, Column3);
+            R.M14 = Vector4D.DotProduct(temp.Column1, Column4);
 
-            R.M22 = Vector4D.Dot(Q.Column2, Column2);
-            R.M23 = Vector4D.Dot(Q.Column2, Column3);
-            R.M24 = Vector4D.Dot(Q.Column2, Column4);
+            R.M22 = Vector4D.DotProduct(temp.Column2, Column2);
+            R.M23 = Vector4D.DotProduct(temp.Column2, Column3);
+            R.M24 = Vector4D.DotProduct(temp.Column2, Column4);
 
-            R.M33 = Vector4D.Dot(Q.Column3, Column3);
-            R.M34 = Vector4D.Dot(Q.Column3, Column4);
+            R.M33 = Vector4D.DotProduct(temp.Column3, Column3);
+            R.M34 = Vector4D.DotProduct(temp.Column3, Column4);
 
-            R.M44 = Vector4D.Dot(Q.Column4, Column4);
+            R.M44 = Vector4D.DotProduct(temp.Column4, Column4);
         }
 
         /// <summary>
-        /// Decomposes a matrix into a lower triangular matrix L and an orthonormalized matrix Q.
+        /// Decomposes a matrix into a lower triangular matrix L and an orthonormalized matrix Q
         /// </summary>
-        /// <param name="L">When the method completes, contains the lower triangular matrix of the decomposition.</param>
-        /// <param name="Q">When the method completes, contains the orthonormalized matrix of the decomposition.</param>
+        /// <param name="L">When the method completes, contains the lower triangular matrix of the decomposition</param>
+        /// <param name="Q">When the method completes, contains the orthonormalized matrix of the decomposition</param>
         public void DecomposeLQ(out Matrix L, out Matrix Q)
         {
-            Orthonormalize(ref this, out Q);
+            Q = Orthonormalize(ref this);
 
             L = new Matrix();
-            L.M11 = Vector4D.Dot(Q.Row1, Row1);
+            L.M11 = Vector4D.DotProduct(Q.Row1, Row1);
 
-            L.M21 = Vector4D.Dot(Q.Row1, Row2);
-            L.M22 = Vector4D.Dot(Q.Row2, Row2);
+            L.M21 = Vector4D.DotProduct(Q.Row1, Row2);
+            L.M22 = Vector4D.DotProduct(Q.Row2, Row2);
 
-            L.M31 = Vector4D.Dot(Q.Row1, Row3);
-            L.M32 = Vector4D.Dot(Q.Row2, Row3);
-            L.M33 = Vector4D.Dot(Q.Row3, Row3);
+            L.M31 = Vector4D.DotProduct(Q.Row1, Row3);
+            L.M32 = Vector4D.DotProduct(Q.Row2, Row3);
+            L.M33 = Vector4D.DotProduct(Q.Row3, Row3);
 
-            L.M41 = Vector4D.Dot(Q.Row1, Row4);
-            L.M42 = Vector4D.Dot(Q.Row2, Row4);
-            L.M43 = Vector4D.Dot(Q.Row3, Row4);
-            L.M44 = Vector4D.Dot(Q.Row4, Row4);
+            L.M41 = Vector4D.DotProduct(Q.Row1, Row4);
+            L.M42 = Vector4D.DotProduct(Q.Row2, Row4);
+            L.M43 = Vector4D.DotProduct(Q.Row3, Row4);
+            L.M44 = Vector4D.DotProduct(Q.Row4, Row4);
         }
 
         /// <summary>
-        /// Decomposes a matrix into a scale, rotation, and translation.
+        /// Decomposes a matrix into a scale, rotation, and translation
         /// </summary>
-        /// <param name="scale">When the method completes, contains the scaling component of the decomposed matrix.</param>
-        /// <param name="rotation">When the method completes, contains the rtoation component of the decomposed matrix.</param>
-        /// <param name="translation">When the method completes, contains the translation component of the decomposed matrix.</param>
-        /// <remarks>
-        /// This method is designed to decompose an SRT transformation matrix only.
-        /// </remarks>
+        /// <param name="scale">When the method completes, contains the scaling component of the decomposed matrix</param>
+        /// <param name="rotation">When the method completes, contains the rtoation component of the decomposed matrix</param>
+        /// <param name="translation">When the method completes, contains the translation component of the decomposed matrix</param>
         public bool Decompose(out Vector3D scale, out Quaternion rotation, out Vector3D translation)
         {
-            //Source: Unknown
-            //References: http://www.gamedev.net/community/forums/topic.asp?topic_id=441695
+            translation.X = M41;
+            translation.Y = M42;
+            translation.Z = M43;
 
-            //Get the translation.
-            translation.X = this.M41;
-            translation.Y = this.M42;
-            translation.Z = this.M43;
-
-            //Scaling is the length of the rows.
             scale.X = Mathematics.Sqrt((M11 * M11) + (M12 * M12) + (M13 * M13));
             scale.Y = Mathematics.Sqrt((M21 * M21) + (M22 * M22) + (M23 * M23));
             scale.Z = Mathematics.Sqrt((M31 * M31) + (M32 * M32) + (M33 * M33));
 
-            //If any of the scaling factors are zero, than the rotation matrix can not exist.
-            if (Mathematics.Abs(scale.X) < Utilities.ZeroTolerance ||
-                Mathematics.Abs(scale.Y) < Utilities.ZeroTolerance ||
+            if (Mathematics.Abs(scale.X) < Utilities.ZeroTolerance || Mathematics.Abs(scale.Y) < Utilities.ZeroTolerance ||
                 Mathematics.Abs(scale.Z) < Utilities.ZeroTolerance)
             {
                 rotation = Quaternion.Identity;
@@ -782,253 +523,15 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Determines the sum of two matrices.
-        /// </summary>
-        /// <param name="left">The first matrix to add.</param>
-        /// <param name="right">The second matrix to add.</param>
-        /// <param name="result">When the method completes, contains the sum of the two matrices.</param>
-        public static void Add(ref Matrix left, ref Matrix right, out Matrix result)
-        {
-            result.M11 = left.M11 + right.M11;
-            result.M12 = left.M12 + right.M12;
-            result.M13 = left.M13 + right.M13;
-            result.M14 = left.M14 + right.M14;
-            result.M21 = left.M21 + right.M21;
-            result.M22 = left.M22 + right.M22;
-            result.M23 = left.M23 + right.M23;
-            result.M24 = left.M24 + right.M24;
-            result.M31 = left.M31 + right.M31;
-            result.M32 = left.M32 + right.M32;
-            result.M33 = left.M33 + right.M33;
-            result.M34 = left.M34 + right.M34;
-            result.M41 = left.M41 + right.M41;
-            result.M42 = left.M42 + right.M42;
-            result.M43 = left.M43 + right.M43;
-            result.M44 = left.M44 + right.M44;
-        }
-
-        /// <summary>
-        /// Determines the sum of two matrices.
-        /// </summary>
-        /// <param name="left">The first matrix to add.</param>
-        /// <param name="right">The second matrix to add.</param>
-        /// <returns>The sum of the two matrices.</returns>
-        public static Matrix Add(Matrix left, Matrix right)
-        {
-            Matrix result;
-            Add(ref left, ref right, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Determines the difference between two matrices.
-        /// </summary>
-        /// <param name="left">The first matrix to subtract.</param>
-        /// <param name="right">The second matrix to subtract.</param>
-        /// <param name="result">When the method completes, contains the difference between the two matrices.</param>
-        public static void Subtract(ref Matrix left, ref Matrix right, out Matrix result)
-        {
-            result.M11 = left.M11 - right.M11;
-            result.M12 = left.M12 - right.M12;
-            result.M13 = left.M13 - right.M13;
-            result.M14 = left.M14 - right.M14;
-            result.M21 = left.M21 - right.M21;
-            result.M22 = left.M22 - right.M22;
-            result.M23 = left.M23 - right.M23;
-            result.M24 = left.M24 - right.M24;
-            result.M31 = left.M31 - right.M31;
-            result.M32 = left.M32 - right.M32;
-            result.M33 = left.M33 - right.M33;
-            result.M34 = left.M34 - right.M34;
-            result.M41 = left.M41 - right.M41;
-            result.M42 = left.M42 - right.M42;
-            result.M43 = left.M43 - right.M43;
-            result.M44 = left.M44 - right.M44;
-        }
-
-        /// <summary>
-        /// Determines the difference between two matrices.
-        /// </summary>
-        /// <param name="left">The first matrix to subtract.</param>
-        /// <param name="right">The second matrix to subtract.</param>
-        /// <returns>The difference between the two matrices.</returns>
-        public static Matrix Subtract(Matrix left, Matrix right)
-        {
-            Matrix result;
-            Subtract(ref left, ref right, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Scales a matrix by the given value.
-        /// </summary>
-        /// <param name="left">The matrix to scale.</param>
-        /// <param name="scalar">The amount by which to scale.</param>
-        /// <param name="result">When the method completes, contains the scaled matrix.</param>
-        public static void Multiply(ref Matrix left, float scalar, out Matrix result)
-        {
-            result.M11 = left.M11 * scalar;
-            result.M12 = left.M12 * scalar;
-            result.M13 = left.M13 * scalar;
-            result.M14 = left.M14 * scalar;
-            result.M21 = left.M21 * scalar;
-            result.M22 = left.M22 * scalar;
-            result.M23 = left.M23 * scalar;
-            result.M24 = left.M24 * scalar;
-            result.M31 = left.M31 * scalar;
-            result.M32 = left.M32 * scalar;
-            result.M33 = left.M33 * scalar;
-            result.M34 = left.M34 * scalar;
-            result.M41 = left.M41 * scalar;
-            result.M42 = left.M42 * scalar;
-            result.M43 = left.M43 * scalar;
-            result.M44 = left.M44 * scalar;
-        }
-
-        /// <summary>
-        /// Scales a matrix by the given value.
-        /// </summary>
-        /// <param name="left">The matrix to scale.</param>
-        /// <param name="scalar">The amount by which to scale.</param>
-        /// <returns>The scaled matrix.</returns>
-        public static Matrix Multiply(Matrix left, float scalar)
-        {
-            Matrix result;
-            Multiply(ref left, scalar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Determines the product of two matrices.
-        /// </summary>
-        /// <param name="left">The first matrix to multiply.</param>
-        /// <param name="right">The second matrix to multiply.</param>
-        /// <param name="result">The product of the two matrices.</param>
-        public static void Multiply(ref Matrix left, ref Matrix right, out Matrix result)
-        {
-            result = new Matrix();
-            result.M11 = (left.M11 * right.M11) + (left.M12 * right.M21) + (left.M13 * right.M31) + (left.M14 * right.M41);
-            result.M12 = (left.M11 * right.M12) + (left.M12 * right.M22) + (left.M13 * right.M32) + (left.M14 * right.M42);
-            result.M13 = (left.M11 * right.M13) + (left.M12 * right.M23) + (left.M13 * right.M33) + (left.M14 * right.M43);
-            result.M14 = (left.M11 * right.M14) + (left.M12 * right.M24) + (left.M13 * right.M34) + (left.M14 * right.M44);
-            result.M21 = (left.M21 * right.M11) + (left.M22 * right.M21) + (left.M23 * right.M31) + (left.M24 * right.M41);
-            result.M22 = (left.M21 * right.M12) + (left.M22 * right.M22) + (left.M23 * right.M32) + (left.M24 * right.M42);
-            result.M23 = (left.M21 * right.M13) + (left.M22 * right.M23) + (left.M23 * right.M33) + (left.M24 * right.M43);
-            result.M24 = (left.M21 * right.M14) + (left.M22 * right.M24) + (left.M23 * right.M34) + (left.M24 * right.M44);
-            result.M31 = (left.M31 * right.M11) + (left.M32 * right.M21) + (left.M33 * right.M31) + (left.M34 * right.M41);
-            result.M32 = (left.M31 * right.M12) + (left.M32 * right.M22) + (left.M33 * right.M32) + (left.M34 * right.M42);
-            result.M33 = (left.M31 * right.M13) + (left.M32 * right.M23) + (left.M33 * right.M33) + (left.M34 * right.M43);
-            result.M34 = (left.M31 * right.M14) + (left.M32 * right.M24) + (left.M33 * right.M34) + (left.M34 * right.M44);
-            result.M41 = (left.M41 * right.M11) + (left.M42 * right.M21) + (left.M43 * right.M31) + (left.M44 * right.M41);
-            result.M42 = (left.M41 * right.M12) + (left.M42 * right.M22) + (left.M43 * right.M32) + (left.M44 * right.M42);
-            result.M43 = (left.M41 * right.M13) + (left.M42 * right.M23) + (left.M43 * right.M33) + (left.M44 * right.M43);
-            result.M44 = (left.M41 * right.M14) + (left.M42 * right.M24) + (left.M43 * right.M34) + (left.M44 * right.M44);
-        }
-
-        /// <summary>
-        /// Determines the product of two matrices.
-        /// </summary>
-        /// <param name="left">The first matrix to multiply.</param>
-        /// <param name="right">The second matrix to multiply.</param>
-        /// <returns>The product of the two matrices.</returns>
-        public static Matrix Multiply(Matrix left, Matrix right)
-        {
-            Matrix result;
-            Multiply(ref left, ref right, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Scales a matrix by the given value.
-        /// </summary>
-        /// <param name="left">The matrix to scale.</param>
-        /// <param name="scalar">The amount by which to scale.</param>
-        /// <param name="result">When the method completes, contains the scaled matrix.</param>
-        public static void Divide(ref Matrix left, float scalar, out Matrix result)
-        {
-            float inv = 1f / scalar;
-
-            result.M11 = left.M11 * inv;
-            result.M12 = left.M12 * inv;
-            result.M13 = left.M13 * inv;
-            result.M14 = left.M14 * inv;
-            result.M21 = left.M21 * inv;
-            result.M22 = left.M22 * inv;
-            result.M23 = left.M23 * inv;
-            result.M24 = left.M24 * inv;
-            result.M31 = left.M31 * inv;
-            result.M32 = left.M32 * inv;
-            result.M33 = left.M33 * inv;
-            result.M34 = left.M34 * inv;
-            result.M41 = left.M41 * inv;
-            result.M42 = left.M42 * inv;
-            result.M43 = left.M43 * inv;
-            result.M44 = left.M44 * inv;
-        }
-
-        /// <summary>
-        /// Scales a matrix by the given value.
-        /// </summary>
-        /// <param name="left">The matrix to scale.</param>
-        /// <param name="scalar">The amount by which to scale.</param>
-        /// <returns>The scaled matrix.</returns>
-        public static Matrix Divide(Matrix left, float scalar)
-        {
-            Matrix result;
-            Divide(ref left, scalar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Determines the quotient of two matrices.
-        /// </summary>
-        /// <param name="left">The first matrix to divide.</param>
-        /// <param name="right">The second matrix to divide.</param>
-        /// <param name="result">When the method completes, contains the quotient of the two matrices.</param>
-        public static void Divide(ref Matrix left, ref Matrix right, out Matrix result)
-        {
-            result.M11 = left.M11 / right.M11;
-            result.M12 = left.M12 / right.M12;
-            result.M13 = left.M13 / right.M13;
-            result.M14 = left.M14 / right.M14;
-            result.M21 = left.M21 / right.M21;
-            result.M22 = left.M22 / right.M22;
-            result.M23 = left.M23 / right.M23;
-            result.M24 = left.M24 / right.M24;
-            result.M31 = left.M31 / right.M31;
-            result.M32 = left.M32 / right.M32;
-            result.M33 = left.M33 / right.M33;
-            result.M34 = left.M34 / right.M34;
-            result.M41 = left.M41 / right.M41;
-            result.M42 = left.M42 / right.M42;
-            result.M43 = left.M43 / right.M43;
-            result.M44 = left.M44 / right.M44;
-        }
-
-        /// <summary>
-        /// Determines the quotient of two matrices.
-        /// </summary>
-        /// <param name="left">The first matrix to divide.</param>
-        /// <param name="right">The second matrix to divide.</param>
-        /// <returns>The quotient of the two matrices.</returns>
-        public static Matrix Divide(Matrix left, Matrix right)
-        {
-            Matrix result;
-            Divide(ref left, ref right, out result);
-            return result;
-        }
-
-        /// <summary>
         /// Performs the exponential operation on a matrix.
         /// </summary>
-        /// <param name="value">The matrix to perform the operation on.</param>
-        /// <param name="exponent">The exponent to raise the matrix to.</param>
-        /// <param name="result">When the method completes, contains the exponential matrix.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="exponent"/> is negative.</exception>
-        public static void Exponent(ref Matrix value, int exponent, out Matrix result)
+        /// <param name="value">The matrix to perform the operation on</param>
+        /// <param name="exponent">The exponent to raise the matrix to</param>
+        /// <returns>The exponential matrix.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="exponent"/> is negative</exception>
+        public static Matrix Exponent(Matrix value, int exponent)
         {
-            //Source: http://rosettacode.org
-            //Refrence: http://rosettacode.org/wiki/Matrix-exponentiation_operator
+            Matrix result;
 
             if (exponent < 0)
                 throw new ArgumentOutOfRangeException("exponent", "The exponent can not be negative.");
@@ -1062,45 +565,8 @@ namespace Mathematics
             }
 
             result = identity;
-        }
 
-        /// <summary>
-        /// Performs the exponential operation on a matrix.
-        /// </summary>
-        /// <param name="value">The matrix to perform the operation on.</param>
-        /// <param name="exponent">The exponent to raise the matrix to.</param>
-        /// <returns>The exponential matrix.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="exponent"/> is negative.</exception>
-        public static Matrix Exponent(Matrix value, int exponent)
-        {
-            Matrix result;
-            Exponent(ref value, exponent, out result);
             return result;
-        }
-
-        /// <summary>
-        /// Negates a matrix.
-        /// </summary>
-        /// <param name="value">The matrix to be negated.</param>
-        /// <param name="result">When the method completes, contains the negated matrix.</param>
-        public static void Negate(ref Matrix value, out Matrix result)
-        {
-            result.M11 = -value.M11;
-            result.M12 = -value.M12;
-            result.M13 = -value.M13;
-            result.M14 = -value.M14;
-            result.M21 = -value.M21;
-            result.M22 = -value.M22;
-            result.M23 = -value.M23;
-            result.M24 = -value.M24;
-            result.M31 = -value.M31;
-            result.M32 = -value.M32;
-            result.M33 = -value.M33;
-            result.M34 = -value.M34;
-            result.M41 = -value.M41;
-            result.M42 = -value.M42;
-            result.M43 = -value.M43;
-            result.M44 = -value.M44;
         }
 
         /// <summary>
@@ -1211,52 +677,29 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Calculates the transpose of the specified matrix.
+        /// Calculates the transpose of the specified matrix
         /// </summary>
-        /// <param name="value">The matrix whose transpose is to be calculated.</param>
-        /// <param name="result">When the method completes, contains the transpose of the specified matrix.</param>
-        public static void Transpose(ref Matrix value, out Matrix result)
-        {
-            Matrix temp = new Matrix();
-            temp.M11 = value.M11;
-            temp.M12 = value.M21;
-            temp.M13 = value.M31;
-            temp.M14 = value.M41;
-            temp.M21 = value.M12;
-            temp.M22 = value.M22;
-            temp.M23 = value.M32;
-            temp.M24 = value.M42;
-            temp.M31 = value.M13;
-            temp.M32 = value.M23;
-            temp.M33 = value.M33;
-            temp.M34 = value.M43;
-            temp.M41 = value.M14;
-            temp.M42 = value.M24;
-            temp.M43 = value.M34;
-            temp.M44 = value.M44;
-
-            result = temp;
-        }
-
-        /// <summary>
-        /// Calculates the transpose of the specified matrix.
-        /// </summary>
-        /// <param name="value">The matrix whose transpose is to be calculated.</param>
-        /// <returns>The transpose of the specified matrix.</returns>
+        /// <param name="value">The matrix whose transpose is to be calculated</param>
+        /// <returns>The transpose of the specified matrix</returns>
         public static Matrix Transpose(Matrix value)
         {
-            Matrix result;
-            Transpose(ref value, out result);
-            return result;
+            return new Matrix(
+                value.M11, value.M12, value.M13, value.M14,
+                value.M21, value.M22, value.M23, value.M24,
+                value.M31, value.M32, value.M33, value.M34,
+                value.M41, value.M42, value.M43, value.M44
+            );
         }
 
         /// <summary>
-        /// Calculates the inverse of the specified matrix.
+        /// Calculates the inverse of the specified matrix
         /// </summary>
-        /// <param name="value">The matrix whose inverse is to be calculated.</param>
-        /// <param name="result">When the method completes, contains the inverse of the specified matrix.</param>
-        public static void Invert(ref Matrix value, out Matrix result)
+        /// <param name="value">The matrix whose inverse is to be calculated</param>
+        /// <returns>The inverse of the specified matrix</returns>
+        public static Matrix Invert(Matrix value)
         {
+            Matrix result;
+
             float b0 = (value.M31 * value.M42) - (value.M32 * value.M41);
             float b1 = (value.M31 * value.M43) - (value.M33 * value.M41);
             float b2 = (value.M34 * value.M41) - (value.M31 * value.M44);
@@ -1316,147 +759,59 @@ namespace Mathematics
             result.M42 = +d24 * det;
             result.M43 = -d34 * det;
             result.M44 = +d44 * det;
-        }
 
-        /// <summary>
-        /// Calculates the inverse of the specified matrix.
-        /// </summary>
-        /// <param name="value">The matrix whose inverse is to be calculated.</param>
-        /// <returns>The inverse of the specified matrix.</returns>
-        public static Matrix Invert(Matrix value)
-        {
-            value.Invert();
-            return value;
-        }
-
-        /// <summary>
-        /// Orthogonalizes the specified matrix.
-        /// </summary>
-        /// <param name="value">The matrix to orthogonalize.</param>
-        /// <param name="result">When the method completes, contains the orthogonalized matrix.</param>
-        /// <remarks>
-        /// <para>Orthogonalization is the process of making all rows orthogonal to each other. This
-        /// means that any given row in the matrix will be orthogonal to any other given row in the
-        /// matrix.</para>
-        /// <para>Because this method uses the modified Gram-Schmidt process, the resulting matrix
-        /// tends to be numerically unstable. The numeric stability decreases according to the rows
-        /// so that the first row is the most stable and the last row is the least stable.</para>
-        /// <para>This operation is performed on the rows of the matrix rather than the columns.
-        /// If you wish for this operation to be performed on the columns, first transpose the
-        /// input and than transpose the output.</para>
-        /// </remarks>
-        public static void Orthogonalize(ref Matrix value, out Matrix result)
-        {
-            //Uses the modified Gram-Schmidt process.
-            //q1 = m1
-            //q2 = m2 - ((q1 ⋅ m2) / (q1 ⋅ q1)) * q1
-            //q3 = m3 - ((q1 ⋅ m3) / (q1 ⋅ q1)) * q1 - ((q2 ⋅ m3) / (q2 ⋅ q2)) * q2
-            //q4 = m4 - ((q1 ⋅ m4) / (q1 ⋅ q1)) * q1 - ((q2 ⋅ m4) / (q2 ⋅ q2)) * q2 - ((q3 ⋅ m4) / (q3 ⋅ q3)) * q3
-
-            //By separating the above algorithm into multiple lines, we actually increase accuracy.
-            result = value;
-
-            result.Row2 = result.Row2 - (Vector4D.Dot(result.Row1, result.Row2) / Vector4D.Dot(result.Row1, result.Row1)) * result.Row1;
-
-            result.Row3 = result.Row3 - (Vector4D.Dot(result.Row1, result.Row3) / Vector4D.Dot(result.Row1, result.Row1)) * result.Row1;
-            result.Row3 = result.Row3 - (Vector4D.Dot(result.Row2, result.Row3) / Vector4D.Dot(result.Row2, result.Row2)) * result.Row2;
-
-            result.Row4 = result.Row4 - (Vector4D.Dot(result.Row1, result.Row4) / Vector4D.Dot(result.Row1, result.Row1)) * result.Row1;
-            result.Row4 = result.Row4 - (Vector4D.Dot(result.Row2, result.Row4) / Vector4D.Dot(result.Row2, result.Row2)) * result.Row2;
-            result.Row4 = result.Row4 - (Vector4D.Dot(result.Row3, result.Row4) / Vector4D.Dot(result.Row3, result.Row3)) * result.Row3;
-        }
-
-        /// <summary>
-        /// Orthogonalizes the specified matrix.
-        /// </summary>
-        /// <param name="value">The matrix to orthogonalize.</param>
-        /// <returns>The orthogonalized matrix.</returns>
-        /// <remarks>
-        /// <para>Orthogonalization is the process of making all rows orthogonal to each other. This
-        /// means that any given row in the matrix will be orthogonal to any other given row in the
-        /// matrix.</para>
-        /// <para>Because this method uses the modified Gram-Schmidt process, the resulting matrix
-        /// tends to be numerically unstable. The numeric stability decreases according to the rows
-        /// so that the first row is the most stable and the last row is the least stable.</para>
-        /// <para>This operation is performed on the rows of the matrix rather than the columns.
-        /// If you wish for this operation to be performed on the columns, first transpose the
-        /// input and than transpose the output.</para>
-        /// </remarks>
-        public static Matrix Orthogonalize(Matrix value)
-        {
-            Matrix result;
-            Orthogonalize(ref value, out result);
             return result;
         }
 
         /// <summary>
-        /// Orthonormalizes the specified matrix.
+        /// Orthogonalizes the specified matrix
         /// </summary>
-        /// <param name="value">The matrix to orthonormalize.</param>
-        /// <param name="result">When the method completes, contains the orthonormalized matrix.</param>
-        /// <remarks>
-        /// <para>Orthonormalization is the process of making all rows and columns orthogonal to each
-        /// other and making all rows and columns of unit length. This means that any given row will
-        /// be orthogonal to any other given row and any given column will be orthogonal to any other
-        /// given column. Any given row will not be orthogonal to any given column. Every row and every
-        /// column will be of unit length.</para>
-        /// <para>Because this method uses the modified Gram-Schmidt process, the resulting matrix
-        /// tends to be numerically unstable. The numeric stability decreases according to the rows
-        /// so that the first row is the most stable and the last row is the least stable.</para>
-        /// <para>This operation is performed on the rows of the matrix rather than the columns.
-        /// If you wish for this operation to be performed on the columns, first transpose the
-        /// input and than transpose the output.</para>
-        /// </remarks>
-        public static void Orthonormalize(ref Matrix value, out Matrix result)
+        /// <param name="value">The matrix to orthogonalize</param>
+        /// <returns>The orthogonalized matrix</returns>
+        public static Matrix Orthogonalize(Matrix value)
         {
-            //Uses the modified Gram-Schmidt process.
-            //Because we are making unit vectors, we can optimize the math for orthogonalization
-            //and simplify the projection operation to remove the division.
-            //q1 = m1 / |m1|
-            //q2 = (m2 - (q1 ⋅ m2) * q1) / |m2 - (q1 ⋅ m2) * q1|
-            //q3 = (m3 - (q1 ⋅ m3) * q1 - (q2 ⋅ m3) * q2) / |m3 - (q1 ⋅ m3) * q1 - (q2 ⋅ m3) * q2|
-            //q4 = (m4 - (q1 ⋅ m4) * q1 - (q2 ⋅ m4) * q2 - (q3 ⋅ m4) * q3) / |m4 - (q1 ⋅ m4) * q1 - (q2 ⋅ m4) * q2 - (q3 ⋅ m4) * q3|
+            Matrix result;
 
-            //By separating the above algorithm into multiple lines, we actually increase accuracy.
+            result = value;
+
+            result.Row2 = result.Row2 - (Vector4D.DotProduct(result.Row1, result.Row2) / Vector4D.DotProduct(result.Row1, result.Row1)) * result.Row1;
+
+            result.Row3 = result.Row3 - (Vector4D.DotProduct(result.Row1, result.Row3) / Vector4D.DotProduct(result.Row1, result.Row1)) * result.Row1;
+            result.Row3 = result.Row3 - (Vector4D.DotProduct(result.Row2, result.Row3) / Vector4D.DotProduct(result.Row2, result.Row2)) * result.Row2;
+
+            result.Row4 = result.Row4 - (Vector4D.DotProduct(result.Row1, result.Row4) / Vector4D.DotProduct(result.Row1, result.Row1)) * result.Row1;
+            result.Row4 = result.Row4 - (Vector4D.DotProduct(result.Row2, result.Row4) / Vector4D.DotProduct(result.Row2, result.Row2)) * result.Row2;
+            result.Row4 = result.Row4 - (Vector4D.DotProduct(result.Row3, result.Row4) / Vector4D.DotProduct(result.Row3, result.Row3)) * result.Row3;
+
+            return result;
+        }
+
+        /// <summary>
+        /// Orthonormalizes the specified matrix
+        /// </summary>
+        /// <param name="value">The matrix to orthonormalize</param>
+        /// <returns>The orthonormalized matrix</returns>
+        /// <remarks>
+        public static Matrix Orthonormalize(Matrix value)
+        {
+            Matrix result;
+
             result = value;
 
             result.Row1 = Vector4D.Normalize(result.Row1);
 
-            result.Row2 = result.Row2 - Vector4D.Dot(result.Row1, result.Row2) * result.Row1;
+            result.Row2 = result.Row2 - Vector4D.DotProduct(result.Row1, result.Row2) * result.Row1;
             result.Row2 = Vector4D.Normalize(result.Row2);
 
-            result.Row3 = result.Row3 - Vector4D.Dot(result.Row1, result.Row3) * result.Row1;
-            result.Row3 = result.Row3 - Vector4D.Dot(result.Row2, result.Row3) * result.Row2;
+            result.Row3 = result.Row3 - Vector4D.DotProduct(result.Row1, result.Row3) * result.Row1;
+            result.Row3 = result.Row3 - Vector4D.DotProduct(result.Row2, result.Row3) * result.Row2;
             result.Row3 = Vector4D.Normalize(result.Row3);
 
-            result.Row4 = result.Row4 - Vector4D.Dot(result.Row1, result.Row4) * result.Row1;
-            result.Row4 = result.Row4 - Vector4D.Dot(result.Row2, result.Row4) * result.Row2;
-            result.Row4 = result.Row4 - Vector4D.Dot(result.Row3, result.Row4) * result.Row3;
+            result.Row4 = result.Row4 - Vector4D.DotProduct(result.Row1, result.Row4) * result.Row1;
+            result.Row4 = result.Row4 - Vector4D.DotProduct(result.Row2, result.Row4) * result.Row2;
+            result.Row4 = result.Row4 - Vector4D.DotProduct(result.Row3, result.Row4) * result.Row3;
             result.Row4 = Vector4D.Normalize(result.Row4);
-        }
 
-        /// <summary>
-        /// Orthonormalizes the specified matrix.
-        /// </summary>
-        /// <param name="value">The matrix to orthonormalize.</param>
-        /// <returns>The orthonormalized matrix.</returns>
-        /// <remarks>
-        /// <para>Orthonormalization is the process of making all rows and columns orthogonal to each
-        /// other and making all rows and columns of unit length. This means that any given row will
-        /// be orthogonal to any other given row and any given column will be orthogonal to any other
-        /// given column. Any given row will not be orthogonal to any given column. Every row and every
-        /// column will be of unit length.</para>
-        /// <para>Because this method uses the modified Gram-Schmidt process, the resulting matrix
-        /// tends to be numerically unstable. The numeric stability decreases according to the rows
-        /// so that the first row is the most stable and the last row is the least stable.</para>
-        /// <para>This operation is performed on the rows of the matrix rather than the columns.
-        /// If you wish for this operation to be performed on the columns, first transpose the
-        /// input and than transpose the output.</para>
-        /// </remarks>
-        public static Matrix Orthonormalize(Matrix value)
-        {
-            Matrix result;
-            Orthonormalize(ref value, out result);
             return result;
         }
 
@@ -1907,9 +1262,9 @@ namespace Mathematics
             result.M23 = zaxis.Y;
             result.M33 = zaxis.Z;
 
-            Vector3D.Dot(ref xaxis, ref eye, out result.M41);
-            Vector3D.Dot(ref yaxis, ref eye, out result.M42);
-            Vector3D.Dot(ref zaxis, ref eye, out result.M43);
+            Vector3D.DotProduct(ref xaxis, ref eye, out result.M41);
+            Vector3D.DotProduct(ref yaxis, ref eye, out result.M42);
+            Vector3D.DotProduct(ref zaxis, ref eye, out result.M43);
             result.M41 = -result.M41;
             result.M42 = -result.M42;
             result.M43 = -result.M43;
@@ -1956,9 +1311,9 @@ namespace Mathematics
             result.M23 = zaxis.Y;
             result.M33 = zaxis.Z;
 
-            Vector3D.Dot(ref xaxis, ref eye, out result.M41);
-            Vector3D.Dot(ref yaxis, ref eye, out result.M42);
-            Vector3D.Dot(ref zaxis, ref eye, out result.M43);
+            Vector3D.DotProduct(ref xaxis, ref eye, out result.M41);
+            Vector3D.DotProduct(ref yaxis, ref eye, out result.M42);
+            Vector3D.DotProduct(ref zaxis, ref eye, out result.M43);
             result.M41 = -result.M41;
             result.M42 = -result.M42;
             result.M43 = -result.M43;
@@ -2737,139 +2092,165 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Adds two matricies.
+        /// Adds two matricies
         /// </summary>
-        /// <param name="left">The first matrix to add.</param>
-        /// <param name="right">The second matrix to add.</param>
-        /// <returns>The sum of the two matricies.</returns>
-        public static Matrix operator +(Matrix left, Matrix right)
+        /// <param name="value1">The first matrix to add</param>
+        /// <param name="value2">The second matrix to add</param>
+        /// <returns>The sum of the two matricies</returns>
+        public static Matrix operator +(Matrix value1, Matrix value2)
         {
-            Matrix result;
-            Add(ref left, ref right, out result);
-            return result;
+            return new Matrix(
+                value1.M11 + value2.M11, value1.M12 + value2.M12, value1.M13 + value2.M13, value1.M14 + value2.M14,
+                value1.M21 + value2.M21, value1.M22 + value2.M22, value1.M23 + value2.M23, value1.M24 + value2.M24,
+                value1.M31 + value2.M31, value1.M32 + value2.M32, value1.M33 + value2.M33, value1.M34 + value2.M34,
+                value1.M41 + value2.M41, value1.M42 + value2.M42, value1.M43 + value2.M43, value1.M44 + value2.M44
+            );
         }
 
         /// <summary>
-        /// Assert a matrix (return it unchanged).
+        /// Subtracts two matricies
         /// </summary>
-        /// <param name="value">The matrix to assert (unchange).</param>
-        /// <returns>The asserted (unchanged) matrix.</returns>
-        public static Matrix operator +(Matrix value)
+        /// <param name="value1">The first matrix to subtract</param>
+        /// <param name="value2">The second matrix to subtract</param>
+        /// <returns>The difference between the two matricies</returns>
+        public static Matrix operator -(Matrix value1, Matrix value2)
         {
-            return value;
-        }
-
-        /// <summary>
-        /// Subtracts two matricies.
-        /// </summary>
-        /// <param name="left">The first matrix to subtract.</param>
-        /// <param name="right">The second matrix to subtract.</param>
-        /// <returns>The difference between the two matricies.</returns>
-        public static Matrix operator -(Matrix left, Matrix right)
-        {
-            Matrix result;
-            Subtract(ref left, ref right, out result);
-            return result;
+            return new Matrix(
+                value1.M11 - value2.M11, value1.M12 - value2.M12, value1.M13 - value2.M13, value1.M14 - value2.M14,
+                value1.M21 - value2.M21, value1.M22 - value2.M22, value1.M23 - value2.M23, value1.M24 - value2.M24,
+                value1.M31 - value2.M31, value1.M32 - value2.M32, value1.M33 - value2.M33, value1.M34 - value2.M34,
+                value1.M41 - value2.M41, value1.M42 - value2.M42, value1.M43 - value2.M43, value1.M44 - value2.M44
+            );
         }
 
         /// <summary>
         /// Negates a matrix.
         /// </summary>
-        /// <param name="value">The matrix to negate.</param>
+        /// <param name="value">The matrix to negate</param>
         /// <returns>The negated matrix.</returns>
         public static Matrix operator -(Matrix value)
         {
+            return new Matrix(-value.M11, -value.M12, -value.M13, -value.M14, -value.M21, -value.M22, -value.M23, -value.M24, -value.M31, -value.M32, -value.M33, -value.M34, -value.M41, -value.M42, -value.M43, -value.M44);
+        }
+
+        /// <summary>
+        /// Scales a matrix by a given value
+        /// </summary>
+        /// <param name="value">The matrix to scale</param>
+        /// <param name="scalar">The amount by which to scale</param>
+        /// <returns>The scaled matrix</returns>
+        public static Matrix operator *(float scalar, Matrix value)
+        {
+            return new Matrix(
+                value.M11 * scalar, value.M12 * scalar, value.M13 * scalar, value.M14 * scalar,
+                value.M21 * scalar, value.M22 * scalar, value.M23 * scalar, value.M24 * scalar,
+                value.M31 * scalar, value.M32 * scalar, value.M33 * scalar, value.M34 * scalar,
+                value.M41 * scalar, value.M42 * scalar, value.M43 * scalar, value.M44 * scalar
+            );
+        }
+
+        /// <summary>
+        /// Scales a matrix by a given value
+        /// </summary>
+        /// <param name="value">The matrix to scale</param>
+        /// <param name="scalar">The amount by which to scale</param>
+        /// <returns>The scaled matrix</returns>
+        public static Matrix operator *(Matrix value, float scalar)
+        {
+            return new Matrix(
+                value.M11 * scalar, value.M12 * scalar, value.M13 * scalar, value.M14 * scalar,
+                value.M21 * scalar, value.M22 * scalar, value.M23 * scalar, value.M24 * scalar,
+                value.M31 * scalar, value.M32 * scalar, value.M33 * scalar, value.M34 * scalar,
+                value.M41 * scalar, value.M42 * scalar, value.M43 * scalar, value.M44 * scalar
+            );
+        }
+
+        /// <summary>
+        /// Multiplies two matricies
+        /// </summary>
+        /// <param name="value1">The first matrix to multiply</param>
+        /// <param name="value2">The second matrix to multiply</param>
+        /// <returns>The product of the two matricies</returns>
+        public static Matrix operator *(Matrix value1, Matrix value2)
+        {
             Matrix result;
-            Negate(ref value, out result);
+
+            result.M11 = (value1.M11 * value2.M11) + (value1.M12 * value2.M21) + (value1.M13 * value2.M31) + (value1.M14 * value2.M41);
+            result.M12 = (value1.M11 * value2.M12) + (value1.M12 * value2.M22) + (value1.M13 * value2.M32) + (value1.M14 * value2.M42);
+            result.M13 = (value1.M11 * value2.M13) + (value1.M12 * value2.M23) + (value1.M13 * value2.M33) + (value1.M14 * value2.M43);
+            result.M14 = (value1.M11 * value2.M14) + (value1.M12 * value2.M24) + (value1.M13 * value2.M34) + (value1.M14 * value2.M44);
+            result.M21 = (value1.M21 * value2.M11) + (value1.M22 * value2.M21) + (value1.M23 * value2.M31) + (value1.M24 * value2.M41);
+            result.M22 = (value1.M21 * value2.M12) + (value1.M22 * value2.M22) + (value1.M23 * value2.M32) + (value1.M24 * value2.M42);
+            result.M23 = (value1.M21 * value2.M13) + (value1.M22 * value2.M23) + (value1.M23 * value2.M33) + (value1.M24 * value2.M43);
+            result.M24 = (value1.M21 * value2.M14) + (value1.M22 * value2.M24) + (value1.M23 * value2.M34) + (value1.M24 * value2.M44);
+            result.M31 = (value1.M31 * value2.M11) + (value1.M32 * value2.M21) + (value1.M33 * value2.M31) + (value1.M34 * value2.M41);
+            result.M32 = (value1.M31 * value2.M12) + (value1.M32 * value2.M22) + (value1.M33 * value2.M32) + (value1.M34 * value2.M42);
+            result.M33 = (value1.M31 * value2.M13) + (value1.M32 * value2.M23) + (value1.M33 * value2.M33) + (value1.M34 * value2.M43);
+            result.M34 = (value1.M31 * value2.M14) + (value1.M32 * value2.M24) + (value1.M33 * value2.M34) + (value1.M34 * value2.M44);
+            result.M41 = (value1.M41 * value2.M11) + (value1.M42 * value2.M21) + (value1.M43 * value2.M31) + (value1.M44 * value2.M41);
+            result.M42 = (value1.M41 * value2.M12) + (value1.M42 * value2.M22) + (value1.M43 * value2.M32) + (value1.M44 * value2.M42);
+            result.M43 = (value1.M41 * value2.M13) + (value1.M42 * value2.M23) + (value1.M43 * value2.M33) + (value1.M44 * value2.M43);
+            result.M44 = (value1.M41 * value2.M14) + (value1.M42 * value2.M24) + (value1.M43 * value2.M34) + (value1.M44 * value2.M44);
+
             return result;
         }
 
         /// <summary>
-        /// Scales a matrix by a given value.
+        /// Scales a matrix by a given value
         /// </summary>
-        /// <param name="right">The matrix to scale.</param>
-        /// <param name="scalar">The amount by which to scale.</param>
+        /// <param name="value">The matrix to scale</param>
+        /// <param name="scalar">The amount by which to scale</param>
         /// <returns>The scaled matrix.</returns>
-        public static Matrix operator *(float scalar, Matrix right)
+        public static Matrix operator /(Matrix value, float scalar)
         {
-            Matrix result;
-            Multiply(ref right, scalar, out result);
-            return result;
+            return new Matrix(
+                value.M11 * (1f / scalar), value.M12 * (1f / scalar), value.M13 * (1f / scalar), value.M14 * (1f / scalar),
+                value.M21 * (1f / scalar), value.M22 * (1f / scalar), value.M23 * (1f / scalar), value.M24 * (1f / scalar),
+                value.M31 * (1f / scalar), value.M32 * (1f / scalar), value.M33 * (1f / scalar), value.M34 * (1f / scalar),
+                value.M41 * (1f / scalar), value.M42 * (1f / scalar), value.M43 * (1f / scalar), value.M44 * (1f / scalar)
+            );
         }
 
         /// <summary>
-        /// Scales a matrix by a given value.
+        /// Divides two matricies
         /// </summary>
-        /// <param name="left">The matrix to scale.</param>
-        /// <param name="scalar">The amount by which to scale.</param>
-        /// <returns>The scaled matrix.</returns>
-        public static Matrix operator *(Matrix left, float scalar)
+        /// <param name="value1">The first matrix to divide</param>
+        /// <param name="value2">The second matrix to divide</param>
+        /// <returns>The quotient of the two matricies</returns>
+        public static Matrix operator /(Matrix value1, Matrix value2)
         {
-            Matrix result;
-            Multiply(ref left, scalar, out result);
-            return result;
+            return new Matrix(
+                value1.M11 * value2.M11, value1.M12 * value2.M12, value1.M13 * value2.M13, value1.M14 * value2.M14,
+                value1.M21 * value2.M21, value1.M22 * value2.M22, value1.M23 * value2.M23, value1.M24 * value2.M24,
+                value1.M31 * value2.M31, value1.M32 * value2.M32, value1.M33 * value2.M33, value1.M34 * value2.M34,
+                value1.M41 * value2.M41, value1.M42 * value2.M42, value1.M43 * value2.M43, value1.M44 * value2.M44
+            );
         }
 
         /// <summary>
-        /// Multiplies two matricies.
+        /// Tests for equality between two objects
         /// </summary>
-        /// <param name="left">The first matrix to multiply.</param>
-        /// <param name="right">The second matrix to multiply.</param>
-        /// <returns>The product of the two matricies.</returns>
-        public static Matrix operator *(Matrix left, Matrix right)
-        {
-            Matrix result;
-            Multiply(ref left, ref right, out result);
-            return result;
-        }
+        /// <param name="value1">The first value to compare</param>
+        /// <param name="value2">The second value to compare</param>
+        /// <returns><c>true</c> if <paramref name="value1"/> has the same value as <paramref name="value2"/>; otherwise, <c>false</c></returns>
+        public static bool operator ==(Matrix value1, Matrix value2) => value1.Equals(value2);
 
         /// <summary>
-        /// Scales a matrix by a given value.
+        /// Tests for inequality between two objects
         /// </summary>
-        /// <param name="left">The matrix to scale.</param>
-        /// <param name="scalar">The amount by which to scale.</param>
-        /// <returns>The scaled matrix.</returns>
-        public static Matrix operator /(Matrix left, float scalar)
-        {
-            Matrix result;
-            Divide(ref left, scalar, out result);
-            return result;
-        }
+        /// <param name="left">The first value to compare</param>
+        /// <param name="right">The second value to compare</param>
+        /// <returns><c>true</c> if <paramref name="left"/> has a different value than <paramref name="right"/>; otherwise, <c>false</c></returns>
+        public static bool operator !=(Matrix value1, Matrix value2) => !value1.Equals(value2);
 
         /// <summary>
-        /// Divides two matricies.
+        /// Determines whether the specified object is equal to this instance
         /// </summary>
-        /// <param name="left">The first matrix to divide.</param>
-        /// <param name="right">The second matrix to divide.</param>
-        /// <returns>The quotient of the two matricies.</returns>
-        public static Matrix operator /(Matrix left, Matrix right)
-        {
-            Matrix result;
-            Divide(ref left, ref right, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Tests for equality between two objects.
-        /// </summary>
-        /// <param name="left">The first value to compare.</param>
-        /// <param name="right">The second value to compare.</param>
-        /// <returns><c>true</c> if <paramref name="left"/> has the same value as <paramref name="right"/>; otherwise, <c>false</c>.</returns>
-        public static bool operator ==(Matrix left, Matrix right)
-        {
-            return left.Equals(right);
-        }
-
-        /// <summary>
-        /// Tests for inequality between two objects.
-        /// </summary>
-        /// <param name="left">The first value to compare.</param>
-        /// <param name="right">The second value to compare.</param>
-        /// <returns><c>true</c> if <paramref name="left"/> has a different value than <paramref name="right"/>; otherwise, <c>false</c>.</returns>
-        public static bool operator !=(Matrix left, Matrix right)
-        {
-            return !left.Equals(right);
-        }
+        /// <param name="obj">The object to compare with this instance</param>
+        /// <returns>
+        /// <c>true</c> if the specified object is equal to this instance; otherwise, <c>false</c>
+        /// </returns>
+        public override bool Equals(object obj) => (obj is Matrix) && Equals((Matrix)obj);
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents this instance.
@@ -2884,65 +2265,10 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="format">The format.</param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public string ToString(string format)
-        {
-            if (format == null)
-                return ToString();
-
-            return string.Format(format, CultureInfo.CurrentCulture, "[M11:{0} M12:{1} M13:{2} M14:{3}] [M21:{4} M22:{5} M23:{6} M24:{7}] [M31:{8} M32:{9} M33:{10} M34:{11}] [M41:{12} M42:{13} M43:{14} M44:{15}]",
-                M11.ToString(format, CultureInfo.CurrentCulture), M12.ToString(format, CultureInfo.CurrentCulture), M13.ToString(format, CultureInfo.CurrentCulture), M14.ToString(format, CultureInfo.CurrentCulture),
-                M21.ToString(format, CultureInfo.CurrentCulture), M22.ToString(format, CultureInfo.CurrentCulture), M23.ToString(format, CultureInfo.CurrentCulture), M24.ToString(format, CultureInfo.CurrentCulture),
-                M31.ToString(format, CultureInfo.CurrentCulture), M32.ToString(format, CultureInfo.CurrentCulture), M33.ToString(format, CultureInfo.CurrentCulture), M34.ToString(format, CultureInfo.CurrentCulture),
-                M41.ToString(format, CultureInfo.CurrentCulture), M42.ToString(format, CultureInfo.CurrentCulture), M43.ToString(format, CultureInfo.CurrentCulture), M44.ToString(format, CultureInfo.CurrentCulture));
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="formatProvider">The format provider.</param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public string ToString(IFormatProvider formatProvider)
-        {
-            return string.Format(formatProvider, "[M11:{0} M12:{1} M13:{2} M14:{3}] [M21:{4} M22:{5} M23:{6} M24:{7}] [M31:{8} M32:{9} M33:{10} M34:{11}] [M41:{12} M42:{13} M43:{14} M44:{15}]",
-                M11.ToString(formatProvider), M12.ToString(formatProvider), M13.ToString(formatProvider), M14.ToString(formatProvider),
-                M21.ToString(formatProvider), M22.ToString(formatProvider), M23.ToString(formatProvider), M24.ToString(formatProvider),
-                M31.ToString(formatProvider), M32.ToString(formatProvider), M33.ToString(formatProvider), M34.ToString(formatProvider),
-                M41.ToString(formatProvider), M42.ToString(formatProvider), M43.ToString(formatProvider), M44.ToString(formatProvider));
-        }
-
-        /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
-        /// </summary>
-        /// <param name="format">The format.</param>
-        /// <param name="formatProvider">The format provider.</param>
-        /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
-        /// </returns>
-        public string ToString(string format, IFormatProvider formatProvider)
-        {
-            if (format == null)
-                return ToString(formatProvider);
-
-            return string.Format(format, formatProvider, "[M11:{0} M12:{1} M13:{2} M14:{3}] [M21:{4} M22:{5} M23:{6} M24:{7}] [M31:{8} M32:{9} M33:{10} M34:{11}] [M41:{12} M42:{13} M43:{14} M44:{15}]",
-                M11.ToString(format, formatProvider), M12.ToString(format, formatProvider), M13.ToString(format, formatProvider), M14.ToString(format, formatProvider),
-                M21.ToString(format, formatProvider), M22.ToString(format, formatProvider), M23.ToString(format, formatProvider), M24.ToString(format, formatProvider),
-                M31.ToString(format, formatProvider), M32.ToString(format, formatProvider), M33.ToString(format, formatProvider), M34.ToString(format, formatProvider),
-                M41.ToString(format, formatProvider), M42.ToString(format, formatProvider), M43.ToString(format, formatProvider), M44.ToString(format, formatProvider));
-        }
-
-        /// <summary>
-        /// Returns a hash code for this instance.
+        /// Returns a hash code for this instance
         /// </summary>
         /// <returns>
-        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table. 
+        /// A hash code for this instance, suitable for use in hashing algorithms and data structures like a hash table
         /// </returns>
         public override int GetHashCode()
         {
@@ -2953,100 +2279,18 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Determines whether the specified <see cref="SlimMath.Matrix"/> is equal to this instance.
+        /// Determines whether the specified matrix is equal to this instance
         /// </summary>
-        /// <param name="other">The <see cref="SlimMath.Matrix"/> to compare with this instance.</param>
+        /// <param name="other">The matrix to compare with this instance</param>
         /// <returns>
-        /// <c>true</c> if the specified <see cref="SlimMath.Matrix"/> is equal to this instance; otherwise, <c>false</c>.
+        /// <c>true</c> if the specified matrix is equal to this instance; otherwise, <c>false</c>
         /// </returns>
         public bool Equals(Matrix other)
         {
-            return (other.M11 == M11 &&
-                other.M12 == M12 &&
-                other.M13 == M13 &&
-                other.M14 == M14 &&
-
-                other.M21 == M21 &&
-                other.M22 == M22 &&
-                other.M23 == M23 &&
-                other.M24 == M24 &&
-
-                other.M31 == M31 &&
-                other.M32 == M32 &&
-                other.M33 == M33 &&
-                other.M34 == M34 &&
-
-                other.M41 == M41 &&
-                other.M42 == M42 &&
-                other.M43 == M43 &&
-                other.M44 == M44);
+            return (M11.Equals(other.M11) && M12.Equals(other.M12) && M13.Equals(other.M13) && M14.Equals(other.M14) &&
+                M21.Equals(other.M21) && M22.Equals(other.M22) && M23.Equals(other.M23) && M24.Equals(other.M24) &&
+                M31.Equals(other.M31) && M32.Equals(other.M32) && M33.Equals(other.M33) && M34.Equals(other.M34) &&
+                M41.Equals(other.M41) && M42.Equals(other.M42) && M43.Equals(other.M43) && M44.Equals(other.M44));
         }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="SlimMath.Matrix"/> is equal to this instance.
-        /// </summary>
-        /// <param name="other">The <see cref="SlimMath.Matrix"/> to compare with this instance.</param>
-        /// <param name="epsilon">The amount of error allowed.</param>
-        /// <returns>
-        /// <c>true</c> if the specified <see cref="SlimMath.Matrix"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public bool Equals(Matrix other, float epsilon)
-        {
-            return (Mathematics.Abs(other.M11 - M11) < epsilon &&
-                Mathematics.Abs(other.M12 - M12) < epsilon &&
-                Mathematics.Abs(other.M13 - M13) < epsilon &&
-                Mathematics.Abs(other.M14 - M14) < epsilon &&
-
-                Mathematics.Abs(other.M21 - M21) < epsilon &&
-                Mathematics.Abs(other.M22 - M22) < epsilon &&
-                Mathematics.Abs(other.M23 - M23) < epsilon &&
-                Mathematics.Abs(other.M24 - M24) < epsilon &&
-
-                Mathematics.Abs(other.M31 - M31) < epsilon &&
-                Mathematics.Abs(other.M32 - M32) < epsilon &&
-                Mathematics.Abs(other.M33 - M33) < epsilon &&
-                Mathematics.Abs(other.M34 - M34) < epsilon &&
-
-                Mathematics.Abs(other.M41 - M41) < epsilon &&
-                Mathematics.Abs(other.M42 - M42) < epsilon &&
-                Mathematics.Abs(other.M43 - M43) < epsilon &&
-                Mathematics.Abs(other.M44 - M44) < epsilon);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="System.Object"/> is equal to this instance.
-        /// </summary>
-        /// <param name="obj">The <see cref="System.Object"/> to compare with this instance.</param>
-        /// <returns>
-        /// <c>true</c> if the specified <see cref="System.Object"/> is equal to this instance; otherwise, <c>false</c>.
-        /// </returns>
-        public override bool Equals(object obj)
-        {
-            if (obj == null)
-                return false;
-
-            if (obj.GetType() != GetType())
-                return false;
-
-            return Equals((Matrix)obj);
-        }
-
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Matrix3x3FloatData
-    {
-        public Vector3DFloatData Element0;
-        public Vector3DFloatData Element1;
-        public Vector3DFloatData Element2;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct TransformFloatData
-    {
-        public Matrix3x3FloatData Basis;
-        public Vector3DFloatData Origin;
-
-        public const int OriginOffset = 48;
     }
 }
