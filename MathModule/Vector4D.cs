@@ -193,7 +193,7 @@ namespace MathModule
         /// Converts the vector into a unit vector
         /// </summary>
         /// <returns>Normalized vector</returns>
-        public Vector4D Normalize() => this / Magnitude(this);
+        public Vector4D Normalize() => Normalize(this);
 
         /// <summary>
         /// Returns a containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 4D triangle
@@ -329,9 +329,6 @@ namespace MathModule
                 0.5f * ((((2f * value2.Y) + ((-value1.Y + value3.Y) * amount)) +
                         (((((2f * value1.Y) - (5.0f * value2.Y)) + (4.0f * value3.Y)) - value4.Y) * squared)) +
                     ((((-value1.Y + (3f * value2.Y)) - (3f * value3.Y)) + value4.Y) * cubed)),
-                0.5f * ((((2f * value2.Z) + ((-value1.Z + value3.Z) * amount)) +
-                        (((((2f * value1.Z) - (5.0f * value2.Z)) + (4.0f * value3.Z)) - value4.Z) * squared)) +
-                    ((((-value1.Z + (3f * value2.Z)) - (3f * value3.Z)) + value4.Z) * cubed)),
                 0.5f * ((((2f * value2.Z) + ((-value1.Z + value3.Z) * amount)) +
                         (((((2f * value1.Z) - (5.0f * value2.Z)) + (4.0f * value3.Z)) - value4.Z) * squared)) +
                     ((((-value1.Z + (3f * value2.Z)) - (3f * value3.Z)) + value4.Z) * cubed)),
