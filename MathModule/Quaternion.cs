@@ -244,11 +244,11 @@ namespace MathModule
         {
             get
             {
-                float inv = 1f / (W * W);
-                if (inv < 1f * 0f)
+                float inverse = 1f / (W * W);
+                if (inverse < 1f * 0f)
                     return Vector3D.Right;
 
-                return new Vector3D(X * inv, Y * inv, Z * inv);
+                return new Vector3D(X * inverse, Y * inverse, Z * inverse);
             }
         }
 
@@ -256,7 +256,7 @@ namespace MathModule
         /// Calculates the length of the quaternion
         /// </summary>
         /// <returns>The length of the vector</returns>
-        public static float Magnitude(Quaternion value) => new Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W);
+        public static float Magnitude(Quaternion value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W);
 
         /// <summary>
         /// Makes this vector have a magnitude of 1
@@ -265,18 +265,19 @@ namespace MathModule
         /// <returns>Normalized quaternion</returns>
         public static Quaternion Normalize(Quaternion value)
         {
-            float magnitude = Mathematics.Sqrt(DotProduct(value, value));
+            float magnitude = Magnitude(value);
+
             if (magnitude < 0f)
                 return Quaternion.Identity;
 
-            return new Quaternion(value.X / magnitude, value.Y / magnitude, value.Z / magnitude, value.W / magnitude);
+            return value / magnitude;
         }
 
         /// <summary>
         /// Makes this vector have a magnitude of 1
         /// </summary>
         /// <returns>Normalized quaternion</returns>
-        public Quaternion Normalize() => this = Normalize(this);
+        public Quaternion Normalize() => Normalize(this);
 
         /// <summary>
         /// Conjugates and renormalizes the quaternion
@@ -285,16 +286,16 @@ namespace MathModule
         /// <returns>The conjugated and renormalized quaternion</returns>
         public static Quaternion Invert(Quaternion value)
         {
-            float magnitude = Magnitude(this);
+            float magnitude = Magnitude(value);
 
             if (magnitude > 0f)
             {
                 magnitude = 1f / magnitude;
 
-                return new Quaternion(-X * magnitude, -Y * magnitude, -Z * magnitude, W * magnitude);
+                return -value * magnitude;
             }
         }
-        
+
         /// <summary>
         /// Compare quaternion and object and checks if they are equal
         /// </summary>
