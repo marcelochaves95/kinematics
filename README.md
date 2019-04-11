@@ -21,6 +21,9 @@
    - - [ ] Sphere
    - - [ ] Cube
 
+## Utils
+   - - [x] Mathematics
+   
 ## Extras
    - - [ ] Rig (Hook)
    - - [ ] Wheels
