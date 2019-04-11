@@ -161,7 +161,7 @@ namespace MathModule
 		/// Calculates the length of the vector
 		/// </summary>
 		/// <returns>The length of the vector</returns>
-		public static float Magnitude(Vector3D value) => new Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z);
+		public static float Magnitude(Vector3D value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z);
 
 		/// <summary>
 		/// Converts the vector into a unit vector
@@ -174,7 +174,7 @@ namespace MathModule
 		/// Converts the vector into a unit vector
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public static Vector3D Normalize() => this / Magnitude(this);
+		public static Vector3D Normalize() => Normalize(this);
 
 		/// <summary>
 		/// Calculates the dot product of two vectors

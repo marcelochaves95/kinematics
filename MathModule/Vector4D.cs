@@ -180,7 +180,7 @@ namespace MathModule
         /// Calculates the length of the vector
         /// </summary>
         /// <returns>May be preferred when only the relative length is needed and speed is of the essence</returns>
-        public static float Magnitude(Vector4D value) => new Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z, value.W * value.W);
+        public static float Magnitude(Vector4D value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z, value.W * value.W);
 
         /// <summary>
         /// Converts the vector into a unit vector
