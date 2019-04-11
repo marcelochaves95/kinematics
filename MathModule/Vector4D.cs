@@ -58,6 +58,25 @@ namespace MathModule
         }
 
         /// <summary>
+		/// Construct the vector from it's coordinates
+		/// </summary>
+		/// <param name="values">The values to assign to the X, Y, Z and W components of the vector. This must be an array with three elements</param>
+		/// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
+		/// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than three elements</exception>
+		public Vector4D(float[] values)
+		{
+			if (values == null)
+				throw new ArgumentNullException("values");
+			if (values.Length != 3)
+				throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector3.");
+
+			X = values[0];
+			Y = values[1];
+			Z = values[2];
+            W = values[3];
+		}
+
+        /// <summary>
         /// Shorthand for writing Vector4D(1, 0, 0, 0)
         /// </summary>
         public static readonly Vector4D UnitX = new Vector4D(1f, 0f, 0f, 0f);

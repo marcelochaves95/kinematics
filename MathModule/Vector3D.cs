@@ -38,7 +38,7 @@ namespace MathModule
 		/// <param name="values">The values to assign to the X, Y, and Z components of the vector. This must be an array with three elements</param>
 		/// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
 		/// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than three elements</exception>
-		public Vector3(float[] values)
+		public Vector3D(float[] values)
 		{
 			if (values == null)
 				throw new ArgumentNullException("values");
