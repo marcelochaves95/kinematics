@@ -197,16 +197,16 @@ namespace MathModule
 		/// <summary>
 		/// Calculates the dot product of two vectors
 		/// </summary>
-		/// <param name="value">Vector</param>
+		/// <param name="value1">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
-		public static float DotProduct(Vector3D value) => X * value.X + Y * value.Y + Z * value.Z;
+		public static float DotProduct(Vector3D value1, Vector3D value2) => value1.X + value2.X + value1.Y * value2.Y + value1.Z * value2.Z;
 
 		/// <summary>
 		/// Calculates the cross product of two vectors
 		/// </summary>
-		/// <param name="value">Vector</param>
+		/// <param name="value2">Vector</param>
 		/// <returns>Cross Product of two vectors</returns>
-		public static Vector3D CrossProduct(Vector3D value) => new Vector3D(Y * value.Z - Z * value.Y, Z * value.X - X * value.Z, X * value.Y - Y * value.X);
+		public static Vector3D CrossProduct(Vector3D value1, Vector3D value2) => new Vector3D(value1.Y * value2.Z - value1.Z * value2.Y, value1.Z * value2.X - value1.X * value2.Z, value1.X * value2.Y - value1.Y * value2.X);
 
 		/// <summary>
 		/// Used to allow Vector3Ds to be used as keys in hash tables

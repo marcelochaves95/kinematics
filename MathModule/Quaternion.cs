@@ -287,7 +287,7 @@ namespace MathModule
             float magnitude = Magnitude(value);
 
             if (magnitude < 0f)
-                return Quaternion.Identity;
+                return Identity;
 
             return value / magnitude;
         }

@@ -706,9 +706,7 @@ namespace MathModule
         public static Matrix Billboard(Vector3D objectPosition, Vector3D cameraPosition, Vector3D cameraUpVector, Vector3D cameraForwardVector)
         {
             Matrix result;
-
-            Vector3D crossed;
-            Vector3D final;
+            Vector3D crossed, final;
             Vector3D difference = objectPosition - cameraPosition;
 
             float lengthsq = difference.LengthSquared;
@@ -718,9 +716,9 @@ namespace MathModule
             else
                 difference *= (1 / Mathematics.Sqrt(lengthsq));
 
-            crossed = cameraUpVector.CrossProduct(ref difference);
+            crossed = Vector3D.CrossProduct(cameraUpVector, difference);
             crossed = Vector3D.Normalize(crossed);
-            final = difference.CrossProduct(ref crossed);
+            final = Vector3D.CrossProduct(difference, crossed);
 
             result.M11 = crossed.X;
             result.M12 = crossed.Y;

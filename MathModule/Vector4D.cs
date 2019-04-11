@@ -281,7 +281,7 @@ namespace MathModule
         /// <summary>
         /// Calculates the dot product of two vectors
         /// </summary>
-        /// <param name="value1">First source vector</param>
+        /// <param name="value2">First source vector</param>
         /// <param name="value2">Second source vector</param>
         /// <returns>The dot product of the two vectors</returns>
         public static float DotProduct(Vector4D value1, Vector4D value2) => value1.X * value2.X + value1.Y * value2.Y + value1.Z * value2.Z + value1.W * value2.W;
