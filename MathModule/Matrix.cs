@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Mathematics
+namespace MathModule
 {
     /// <summary>
     /// Represents a 4x4 mathematical matrix
@@ -16,7 +16,7 @@ namespace Mathematics
         public static readonly Matrix Zero = new Matrix();
 
         /// <summary>
-        /// The identity <see cref="SlimMath.Matrix"/>.
+        /// The identity matrix
         /// </summary>
         public static readonly Matrix Identity = new Matrix() { M11 = 1f, M22 = 1f, M33 = 1f, M44 = 1f };
 
@@ -177,7 +177,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Get's or set's the basis matrix for the rotation.
+        /// gets or sets the basis matrix for the rotation
         /// </summary>
         public Matrix Basis
         {
@@ -204,7 +204,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Get's or set's the first row in the matrix; that is M11, M12, M13, and M14
+        /// gets or sets the first row in the matrix; that is M11, M12, M13, and M14
         /// </summary>
         public Vector4D Row1
         {
@@ -213,7 +213,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Get's or set's the second row in the matrix; that is M21, M22, M23, and M24
+        /// gets or sets the second row in the matrix; that is M21, M22, M23, and M24
         /// </summary>
         public Vector4D Row2
         {
@@ -340,7 +340,7 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Get's or set's the scale of the matrix; that is M11, M22, and M33
+        /// gets or sets the scale of the matrix; that is M11, M22, and M33
         /// </summary>
         public Vector3D ScaleVector
         {
@@ -416,14 +416,14 @@ namespace Mathematics
             scale.Y = Mathematics.Sqrt((M21 * M21) + (M22 * M22) + (M23 * M23));
             scale.Z = Mathematics.Sqrt((M31 * M31) + (M32 * M32) + (M33 * M33));
 
-            if (Mathematics.Abs(scale.X) < Utilities.ZeroTolerance || Mathematics.Abs(scale.Y) < Utilities.ZeroTolerance ||
+            if (Mathematics.Abs(scale.X) < Utilities.ZeroTolerance ||
+                Mathematics.Abs(scale.Y) < Utilities.ZeroTolerance ||
                 Mathematics.Abs(scale.Z) < Utilities.ZeroTolerance)
             {
                 rotation = Quaternion.Identity;
                 return false;
             }
 
-            //The rotation is the left over matrix after dividing out the scaling.
             Matrix rotationmatrix = new Matrix();
             rotationmatrix.M11 = M11 / scale.X;
             rotationmatrix.M12 = M12 / scale.X;
@@ -439,91 +439,13 @@ namespace Mathematics
 
             rotationmatrix.M44 = 1f;
 
-            Quaternion.RotationMatrix(ref rotationmatrix, out rotation);
+            rotation = Quaternion.RotationMatrix(ref rotationmatrix);
+
             return true;
         }
 
         /// <summary>
-        /// Exchanges two rows in the matrix.
-        /// </summary>
-        /// <param name="firstRow">The first row to exchange. This is an index of the row starting at zero.</param>
-        /// <param name="secondRow">The second row to exchange. This is an index of the row starting at zero.</param>
-        public void ExchangeRows(int firstRow, int secondRow)
-        {
-            if (firstRow < 0)
-                throw new ArgumentOutOfRangeException("firstRow", "The parameter firstRow must be greater than or equal to zero.");
-            if (firstRow > 3)
-                throw new ArgumentOutOfRangeException("firstRow", "The parameter firstRow must be less than or equal to three.");
-            if (secondRow < 0)
-                throw new ArgumentOutOfRangeException("secondRow", "The parameter secondRow must be greater than or equal to zero.");
-            if (secondRow > 3)
-                throw new ArgumentOutOfRangeException("secondRow", "The parameter secondRow must be less than or equal to three.");
-
-            if (firstRow == secondRow)
-                return;
-
-            float temp0 = this [secondRow, 0];
-            float temp1 = this [secondRow, 1];
-            float temp2 = this [secondRow, 2];
-            float temp3 = this [secondRow, 3];
-
-            this [secondRow, 0] = this [firstRow, 0];
-            this [secondRow, 1] = this [firstRow, 1];
-            this [secondRow, 2] = this [firstRow, 2];
-            this [secondRow, 3] = this [firstRow, 3];
-
-            this [firstRow, 0] = temp0;
-            this [firstRow, 1] = temp1;
-            this [firstRow, 2] = temp2;
-            this [firstRow, 3] = temp3;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="firstColumn"></param>
-        /// <param name="secondColumn"></param>
-        public void ExchangeColumns(int firstColumn, int secondColumn)
-        {
-            if (firstColumn < 0)
-                throw new ArgumentOutOfRangeException("firstColumn", "The parameter firstColumn must be greater than or equal to zero.");
-            if (firstColumn > 3)
-                throw new ArgumentOutOfRangeException("firstColumn", "The parameter firstColumn must be less than or equal to three.");
-            if (secondColumn < 0)
-                throw new ArgumentOutOfRangeException("secondColumn", "The parameter secondColumn must be greater than or equal to zero.");
-            if (secondColumn > 3)
-                throw new ArgumentOutOfRangeException("secondColumn", "The parameter secondColumn must be less than or equal to three.");
-
-            if (firstColumn == secondColumn)
-                return;
-
-            float temp0 = this [0, secondColumn];
-            float temp1 = this [1, secondColumn];
-            float temp2 = this [2, secondColumn];
-            float temp3 = this [3, secondColumn];
-
-            this [0, secondColumn] = this [0, firstColumn];
-            this [1, secondColumn] = this [1, firstColumn];
-            this [2, secondColumn] = this [2, firstColumn];
-            this [3, secondColumn] = this [3, firstColumn];
-
-            this [0, firstColumn] = temp0;
-            this [1, firstColumn] = temp1;
-            this [2, firstColumn] = temp2;
-            this [3, firstColumn] = temp3;
-        }
-
-        /// <summary>
-        /// Creates an array containing the elements of the matrix.
-        /// </summary>
-        /// <returns>A sixteen-element array containing the components of the matrix.</returns>
-        public float[] ToArray()
-        {
-            return new [] { M11, M12, M13, M14, M21, M22, M23, M24, M31, M32, M33, M34, M41, M42, M43, M44 };
-        }
-
-        /// <summary>
-        /// Performs the exponential operation on a matrix.
+        /// Performs the exponential operation on a matrix
         /// </summary>
         /// <param name="value">The matrix to perform the operation on</param>
         /// <param name="exponent">The exponent to raise the matrix to</param>
@@ -538,7 +460,7 @@ namespace Mathematics
 
             if (exponent == 0)
             {
-                result = Matrix.Identity;
+                result = Identity;
                 return;
             }
 
@@ -548,7 +470,7 @@ namespace Mathematics
                 return;
             }
 
-            Matrix identity = Matrix.Identity;
+            Matrix identity = Identity;
             Matrix temp = value;
 
             while (true)
@@ -570,31 +492,16 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Negates a matrix.
+        /// Performs a linear interpolation between two matricies
         /// </summary>
-        /// <param name="value">The matrix to be negated.</param>
-        /// <returns>The negated matrix.</returns>
-        public static Matrix Negate(Matrix value)
+        /// <param name="start">Start matrix</param>
+        /// <param name="end">End matrix</param>
+        /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/></param>
+        /// <returns>The linear interpolation of the two matrices</returns>
+        public static Matrix Lerp(Matrix start, Matrix end, float amount)
         {
             Matrix result;
-            Negate(ref value, out result);
-            return result;
-        }
 
-        /// <summary>
-        /// Performs a linear interpolation between two matricies.
-        /// </summary>
-        /// <param name="start">Start matrix.</param>
-        /// <param name="end">End matrix.</param>
-        /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
-        /// <param name="result">When the method completes, contains the linear interpolation of the two matricies.</param>
-        /// <remarks>
-        /// This method performs the linear interpolation based on the following formula.
-        /// <code>start + (end - start) * amount</code>
-        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
-        /// </remarks>
-        public static void Lerp(ref Matrix start, ref Matrix end, float amount, out Matrix result)
-        {
             result.M11 = start.M11 + ((end.M11 - start.M11) * amount);
             result.M12 = start.M12 + ((end.M12 - start.M12) * amount);
             result.M13 = start.M13 + ((end.M13 - start.M13) * amount);
@@ -611,36 +518,21 @@ namespace Mathematics
             result.M42 = start.M42 + ((end.M42 - start.M42) * amount);
             result.M43 = start.M43 + ((end.M43 - start.M43) * amount);
             result.M44 = start.M44 + ((end.M44 - start.M44) * amount);
-        }
 
-        /// <summary>
-        /// Performs a linear interpolation between two matricies.
-        /// </summary>
-        /// <param name="start">Start matrix.</param>
-        /// <param name="end">End matrix.</param>
-        /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
-        /// <returns>The linear interpolation of the two matrices.</returns>
-        /// <remarks>
-        /// This method performs the linear interpolation based on the following formula.
-        /// <code>start + (end - start) * amount</code>
-        /// Passing <paramref name="amount"/> a value of 0 will cause <paramref name="start"/> to be returned; a value of 1 will cause <paramref name="end"/> to be returned. 
-        /// </remarks>
-        public static Matrix Lerp(Matrix start, Matrix end, float amount)
-        {
-            Matrix result;
-            Lerp(ref start, ref end, amount, out result);
             return result;
         }
 
         /// <summary>
-        /// Performs a cubic interpolation between two matricies.
+        /// Performs a cubic interpolation between two matrices
         /// </summary>
-        /// <param name="start">Start matrix.</param>
-        /// <param name="end">End matrix.</param>
-        /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
-        /// <param name="result">When the method completes, contains the cubic interpolation of the two matrices.</param>
-        public static void SmoothStep(ref Matrix start, ref Matrix end, float amount, out Matrix result)
+        /// <param name="start">Start matrix</param>
+        /// <param name="end">End matrix</param>
+        /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/></param>
+        /// <returns>The cubic interpolation of the two matrices</returns>
+        public static Matrix SmoothStep(Matrix start, Matrix end, float amount)
         {
+            Matrix result;
+
             amount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
             amount = (amount * amount) * (3f - (2f * amount));
 
@@ -660,19 +552,7 @@ namespace Mathematics
             result.M42 = start.M42 + ((end.M42 - start.M42) * amount);
             result.M43 = start.M43 + ((end.M43 - start.M43) * amount);
             result.M44 = start.M44 + ((end.M44 - start.M44) * amount);
-        }
 
-        /// <summary>
-        /// Performs a cubic interpolation between two matrices.
-        /// </summary>
-        /// <param name="start">Start matrix.</param>
-        /// <param name="end">End matrix.</param>
-        /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
-        /// <returns>The cubic interpolation of the two matrices.</returns>
-        public static Matrix SmoothStep(Matrix start, Matrix end, float amount)
-        {
-            Matrix result;
-            SmoothStep(ref start, ref end, amount, out result);
             return result;
         }
 
@@ -715,7 +595,7 @@ namespace Mathematics
             float det = value.M11 * d11 - value.M12 * d12 + value.M13 * d13 - value.M14 * d14;
             if (Mathematics.Abs(det) <= Utilities.ZeroTolerance)
             {
-                result = Matrix.Zero;
+                result = Zero;
                 return;
             }
 
@@ -816,391 +696,31 @@ namespace Mathematics
         }
 
         /// <summary>
-        /// Brings the matrix into upper triangular form using elementry row operations.
+        /// Creates a spherical billboard that rotates around a specified object position
         /// </summary>
-        /// <param name="value">The matrix to put into upper triangular form.</param>
-        /// <param name="result">When the method completes, contains the upper triangular matrix.</param>
-        /// <remarks>
-        /// If the matrix is not invertable (i.e. its determinant is zero) than the result of this
-        /// method may produce Single.Nan and Single.Inf values. When the matrix represents a system
-        /// of linear equations, than this often means that either no solution exists or an infinite
-        /// number of solutions exist.
-        /// </remarks>
-        public static void UpperTriangularForm(ref Matrix value, out Matrix result)
-        {
-            //Adapted from the row echelon code
-            result = value;
-            int lead = 0;
-            int rowcount = 4;
-            int columncount = 4;
-
-            for (int r = 0; r < rowcount; ++r)
-            {
-                if (columncount <= lead)
-                    return;
-
-                int i = r;
-
-                while (Mathematics.Abs(result[i, lead]) < Utilities.ZeroTolerance)
-                {
-                    i++;
-
-                    if (i == rowcount)
-                    {
-                        i = r;
-                        lead++;
-
-                        if (lead == columncount)
-                            return;
-                    }
-                }
-
-                if (i != r)
-                {
-                    result.ExchangeRows(i, r);
-                }
-
-                float multiplier = 1f / result[r, lead];
-
-                for (; i < rowcount; ++i)
-                {
-                    if (i != r)
-                    {
-                        result[i, 0] -= result[r, 0] * multiplier * result[i, lead];
-                        result[i, 1] -= result[r, 1] * multiplier * result[i, lead];
-                        result[i, 2] -= result[r, 2] * multiplier * result[i, lead];
-                        result[i, 3] -= result[r, 3] * multiplier * result[i, lead];
-                    }
-                }
-
-                lead++;
-            }
-        }
-
-        /// <summary>
-        /// Brings the matrix into upper triangular form using elementry row operations.
-        /// </summary>
-        /// <param name="value">The matrix to put into upper triangular form.</param>
-        /// <returns>The upper triangular matrix.</returns>
-        /// <remarks>
-        /// If the matrix is not invertable (i.e. its determinant is zero) than the result of this
-        /// method may produce Single.Nan and Single.Inf values. When the matrix represents a system
-        /// of linear equations, than this often means that either no solution exists or an infinite
-        /// number of solutions exist.
-        /// </remarks>
-        public static Matrix UpperTriangularForm(Matrix value)
+        /// <param name="objectPosition">The position of the object around which the billboard will rotate</param>
+        /// <param name="cameraPosition">The position of the camera</param>
+        /// <param name="cameraUpVector">The up vector of the camera</param>
+        /// <param name="cameraForwardVector">The forward vector of the camera</param>
+        /// <returns>The created billboard matrix</returns>
+        public static Matrix Billboard(Vector3D objectPosition, Vector3D cameraPosition, Vector3D cameraUpVector, Vector3D cameraForwardVector)
         {
             Matrix result;
-            UpperTriangularForm(ref value, out result);
-            return result;
-        }
 
-        /// <summary>
-        /// Brings the matrix into lower triangular form using elementry row operations.
-        /// </summary>
-        /// <param name="value">The matrix to put into lower triangular form.</param>
-        /// <param name="result">When the method completes, contains the lower triangular matrix.</param>
-        /// <remarks>
-        /// If the matrix is not invertable (i.e. its determinant is zero) than the result of this
-        /// method may produce Single.Nan and Single.Inf values. When the matrix represents a system
-        /// of linear equations, than this often means that either no solution exists or an infinite
-        /// number of solutions exist.
-        /// </remarks>
-        public static void LowerTriangularForm(ref Matrix value, out Matrix result)
-        {
-            //Adapted from the row echelon code
-            Matrix temp = value;
-            Matrix.Transpose(ref temp, out result);
-
-            int lead = 0;
-            int rowcount = 4;
-            int columncount = 4;
-
-            for (int r = 0; r < rowcount; ++r)
-            {
-                if (columncount <= lead)
-                    return;
-
-                int i = r;
-
-                while (Mathematics.Abs(result[i, lead]) < Utilities.ZeroTolerance)
-                {
-                    i++;
-
-                    if (i == rowcount)
-                    {
-                        i = r;
-                        lead++;
-
-                        if (lead == columncount)
-                            return;
-                    }
-                }
-
-                if (i != r)
-                {
-                    result.ExchangeRows(i, r);
-                }
-
-                float multiplier = 1f / result[r, lead];
-
-                for (; i < rowcount; ++i)
-                {
-                    if (i != r)
-                    {
-                        result[i, 0] -= result[r, 0] * multiplier * result[i, lead];
-                        result[i, 1] -= result[r, 1] * multiplier * result[i, lead];
-                        result[i, 2] -= result[r, 2] * multiplier * result[i, lead];
-                        result[i, 3] -= result[r, 3] * multiplier * result[i, lead];
-                    }
-                }
-
-                lead++;
-            }
-
-            Matrix.Transpose(ref result, out result);
-        }
-
-        /// <summary>
-        /// Brings the matrix into lower triangular form using elementry row operations.
-        /// </summary>
-        /// <param name="value">The matrix to put into lower triangular form.</param>
-        /// <returns>The lower triangular matrix.</returns>
-        /// <remarks>
-        /// If the matrix is not invertable (i.e. its determinant is zero) than the result of this
-        /// method may produce Single.Nan and Single.Inf values. When the matrix represents a system
-        /// of linear equations, than this often means that either no solution exists or an infinite
-        /// number of solutions exist.
-        /// </remarks>
-        public static Matrix LowerTriangularForm(Matrix value)
-        {
-            Matrix result;
-            LowerTriangularForm(ref value, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Brings the matrix into row echelon form using elementry row operations;
-        /// </summary>
-        /// <param name="value">The matrix to put into row echelon form.</param>
-        /// <param name="result">When the method completes, contains the row echelon form of the matrix.</param>
-        public static void RowEchelonForm(ref Matrix value, out Matrix result)
-        {
-            //Source: Wikipedia psuedo code
-            //Reference: http://en.wikipedia.org/wiki/Row_echelon_form#Pseudocode
-
-            result = value;
-            int lead = 0;
-            int rowcount = 4;
-            int columncount = 4;
-
-            for (int r = 0; r < rowcount; ++r)
-            {
-                if (columncount <= lead)
-                    return;
-
-                int i = r;
-
-                while (Mathematics.Abs(result[i, lead]) < Utilities.ZeroTolerance)
-                {
-                    i++;
-
-                    if (i == rowcount)
-                    {
-                        i = r;
-                        lead++;
-
-                        if (lead == columncount)
-                            return;
-                    }
-                }
-
-                if (i != r)
-                {
-                    result.ExchangeRows(i, r);
-                }
-
-                float multiplier = 1f / result[r, lead];
-                result[r, 0] *= multiplier;
-                result[r, 1] *= multiplier;
-                result[r, 2] *= multiplier;
-                result[r, 3] *= multiplier;
-
-                for (; i < rowcount; ++i)
-                {
-                    if (i != r)
-                    {
-                        result[i, 0] -= result[r, 0] * result[i, lead];
-                        result[i, 1] -= result[r, 1] * result[i, lead];
-                        result[i, 2] -= result[r, 2] * result[i, lead];
-                        result[i, 3] -= result[r, 3] * result[i, lead];
-                    }
-                }
-
-                lead++;
-            }
-        }
-
-        /// <summary>
-        /// Brings the matrix into row echelon form using elementry row operations;
-        /// </summary>
-        /// <param name="value">The matrix to put into row echelon form.</param>
-        /// <returns>When the method completes, contains the row echelon form of the matrix.</returns>
-        public static Matrix RowEchelonForm(Matrix value)
-        {
-            Matrix result;
-            RowEchelonForm(ref value, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Brings the matrix into reduced row echelon form using elementry row operations.
-        /// </summary>
-        /// <param name="value">The matrix to put into reduced row echelon form.</param>
-        /// <param name="augment">The fifth column of the matrix.</param>
-        /// <param name="result">When the method completes, contains the resultant matrix after the operation.</param>
-        /// <param name="augmentResult">When the method completes, contains the resultant fifth column of the matrix.</param>
-        /// <remarks>
-        /// <para>The fifth column is often called the agumented part of the matrix. This is because the fifth
-        /// column is really just an extension of the matrix so that there is a place to put all of the
-        /// non-zero components after the operation is complete.</para>
-        /// <para>Often times the resultant matrix will the identity matrix or a matrix similar to the identity
-        /// matrix. Sometimes, however, that is not possible and numbers other than zero and one may appear.</para>
-        /// <para>This method can be used to solve systems of linear equations. Upon completion of this method,
-        /// the <paramref name="augmentResult"/> will contain the solution for the system. It is up to the user
-        /// to analyze both the input and the result to determine if a solution really exists.</para>
-        /// </remarks>
-        public static void ReducedRowEchelonForm(ref Matrix value, ref Vector4D augment, out Matrix result, out Vector4D augmentResult)
-        {
-            //Source: http://rosettacode.org
-            //Reference: http://rosettacode.org/wiki/Reduced_row_echelon_form
-
-            float[, ] matrix = new float[4, 5];
-
-            matrix[0, 0] = value[0, 0];
-            matrix[0, 1] = value[0, 1];
-            matrix[0, 2] = value[0, 2];
-            matrix[0, 3] = value[0, 3];
-            matrix[0, 4] = augment[0];
-
-            matrix[1, 0] = value[1, 0];
-            matrix[1, 1] = value[1, 1];
-            matrix[1, 2] = value[1, 2];
-            matrix[1, 3] = value[1, 3];
-            matrix[1, 4] = augment[1];
-
-            matrix[2, 0] = value[2, 0];
-            matrix[2, 1] = value[2, 1];
-            matrix[2, 2] = value[2, 2];
-            matrix[2, 3] = value[2, 3];
-            matrix[2, 4] = augment[2];
-
-            matrix[3, 0] = value[3, 0];
-            matrix[3, 1] = value[3, 1];
-            matrix[3, 2] = value[3, 2];
-            matrix[3, 3] = value[3, 3];
-            matrix[3, 4] = augment[3];
-
-            int lead = 0;
-            int rowcount = 4;
-            int columncount = 5;
-
-            for (int r = 0; r < rowcount; r++)
-            {
-                if (columncount <= lead)
-                    break;
-
-                int i = r;
-
-                while (matrix[i, lead] == 0)
-                {
-                    i++;
-
-                    if (i == rowcount)
-                    {
-                        i = r;
-                        lead++;
-
-                        if (columncount == lead)
-                            break;
-                    }
-                }
-
-                for (int j = 0; j < columncount; j++)
-                {
-                    float temp = matrix[r, j];
-                    matrix[r, j] = matrix[i, j];
-                    matrix[i, j] = temp;
-                }
-
-                float div = matrix[r, lead];
-
-                for (int j = 0; j < columncount; j++)
-                {
-                    matrix[r, j] /= div;
-                }
-
-                for (int j = 0; j < rowcount; j++)
-                {
-                    if (j != r)
-                    {
-                        float sub = matrix[j, lead];
-                        for (int k = 0; k < columncount; k++)matrix[j, k] -= (sub * matrix[r, k]);
-                    }
-                }
-
-                lead++;
-            }
-
-            result.M11 = matrix[0, 0];
-            result.M12 = matrix[0, 1];
-            result.M13 = matrix[0, 2];
-            result.M14 = matrix[0, 3];
-
-            result.M21 = matrix[1, 0];
-            result.M22 = matrix[1, 1];
-            result.M23 = matrix[1, 2];
-            result.M24 = matrix[1, 3];
-
-            result.M31 = matrix[2, 0];
-            result.M32 = matrix[2, 1];
-            result.M33 = matrix[2, 2];
-            result.M34 = matrix[2, 3];
-
-            result.M41 = matrix[3, 0];
-            result.M42 = matrix[3, 1];
-            result.M43 = matrix[3, 2];
-            result.M44 = matrix[3, 3];
-
-            augmentResult.X = matrix[0, 4];
-            augmentResult.Y = matrix[1, 4];
-            augmentResult.Z = matrix[2, 4];
-            augmentResult.W = matrix[3, 4];
-        }
-
-        /// <summary>
-        /// Creates a spherical billboard that rotates around a specified object position.
-        /// </summary>
-        /// <param name="objectPosition">The position of the object around which the billboard will rotate.</param>
-        /// <param name="cameraPosition">The position of the camera.</param>
-        /// <param name="cameraUpVector">The up vector of the camera.</param>
-        /// <param name="cameraForwardVector">The forward vector of the camera.</param>
-        /// <param name="result">When the method completes, contains the created billboard matrix.</param>
-        public static void Billboard(ref Vector3D objectPosition, ref Vector3D cameraPosition, ref Vector3D cameraUpVector, ref Vector3D cameraForwardVector, out Matrix result)
-        {
             Vector3D crossed;
             Vector3D final;
             Vector3D difference = objectPosition - cameraPosition;
 
             float lengthsq = difference.LengthSquared;
+
             if (lengthsq < Utilities.ZeroTolerance)
                 difference = -cameraForwardVector;
             else
                 difference *= (1 / Mathematics.Sqrt(lengthsq));
 
-            Vector3D.Cross(ref cameraUpVector, ref difference, out crossed);
-            crossed.Normalize();
-            Vector3D.Cross(ref difference, ref crossed, out final);
+            crossed = cameraUpVector.CrossProduct(ref difference);
+            crossed = Vector3D.Normalize(crossed);
+            final = difference.CrossProduct(ref crossed);
 
             result.M11 = crossed.X;
             result.M12 = crossed.Y;
@@ -1218,632 +738,124 @@ namespace Mathematics
             result.M42 = objectPosition.Y;
             result.M43 = objectPosition.Z;
             result.M44 = 1f;
-        }
 
-        /// <summary>
-        /// Creates a spherical billboard that rotates around a specified object position.
-        /// </summary>
-        /// <param name="objectPosition">The position of the object around which the billboard will rotate.</param>
-        /// <param name="cameraPosition">The position of the camera.</param>
-        /// <param name="cameraUpVector">The up vector of the camera.</param>
-        /// <param name="cameraForwardVector">The forward vector of the camera.</param>
-        /// <returns>The created billboard matrix.</returns>
-        public static Matrix Billboard(Vector3D objectPosition, Vector3D cameraPosition, Vector3D cameraUpVector, Vector3D cameraForwardVector)
-        {
-            Matrix result;
-            Billboard(ref objectPosition, ref cameraPosition, ref cameraUpVector, ref cameraForwardVector, out result);
             return result;
         }
 
         /// <summary>
-        /// Creates a left-handed, look-at matrix.
+        /// Creates a matrix that scales along the x-axis, y-axis, and y-axis
         /// </summary>
-        /// <param name="eye">The position of the viewer's eye.</param>
-        /// <param name="target">The camera look-at target.</param>
-        /// <param name="up">The camera's up vector.</param>
-        /// <param name="result">When the method completes, contains the created look-at matrix.</param>
-        public static void LookAtLH(ref Vector3D eye, ref Vector3D target, ref Vector3D up, out Matrix result)
-        {
-            Vector3D xaxis, yaxis, zaxis;
-            Vector3D.Subtract(ref target, ref eye, out zaxis);
-            zaxis.Normalize();
-            Vector3D.Cross(ref up, ref zaxis, out xaxis);
-            xaxis.Normalize();
-            Vector3D.Cross(ref zaxis, ref xaxis, out yaxis);
-
-            result = Matrix.Identity;
-            result.M11 = xaxis.X;
-            result.M21 = xaxis.Y;
-            result.M31 = xaxis.Z;
-            result.M12 = yaxis.X;
-            result.M22 = yaxis.Y;
-            result.M32 = yaxis.Z;
-            result.M13 = zaxis.X;
-            result.M23 = zaxis.Y;
-            result.M33 = zaxis.Z;
-
-            Vector3D.DotProduct(ref xaxis, ref eye, out result.M41);
-            Vector3D.DotProduct(ref yaxis, ref eye, out result.M42);
-            Vector3D.DotProduct(ref zaxis, ref eye, out result.M43);
-            result.M41 = -result.M41;
-            result.M42 = -result.M42;
-            result.M43 = -result.M43;
-        }
+        /// <param name="scale">Scaling factor for all three axes</param>
+        /// <returns>The created scaling matrix</returns>
+        public static Matrix Scaling(Vector3D scale) => Scaling(scale.X, scale.Y, scale.Z);
 
         /// <summary>
-        /// Creates a left-handed, look-at matrix.
+        /// Creates a matrix that uniformally scales along all three axis
         /// </summary>
-        /// <param name="eye">The position of the viewer's eye.</param>
-        /// <param name="target">The camera look-at target.</param>
-        /// <param name="up">The camera's up vector.</param>
-        /// <returns>The created look-at matrix.</returns>
-        public static Matrix LookAtLH(Vector3D eye, Vector3D target, Vector3D up)
-        {
-            Matrix result;
-            LookAtLH(ref eye, ref target, ref up, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, look-at matrix.
-        /// </summary>
-        /// <param name="eye">The position of the viewer's eye.</param>
-        /// <param name="target">The camera look-at target.</param>
-        /// <param name="up">The camera's up vector.</param>
-        /// <param name="result">When the method completes, contains the created look-at matrix.</param>
-        public static void LookAtRH(ref Vector3D eye, ref Vector3D target, ref Vector3D up, out Matrix result)
-        {
-            Vector3D xaxis, yaxis, zaxis;
-            Vector3D.Subtract(ref eye, ref target, out zaxis);
-            zaxis.Normalize();
-            Vector3D.Cross(ref up, ref zaxis, out xaxis);
-            xaxis.Normalize();
-            Vector3D.Cross(ref zaxis, ref xaxis, out yaxis);
-
-            result = Matrix.Identity;
-            result.M11 = xaxis.X;
-            result.M21 = xaxis.Y;
-            result.M31 = xaxis.Z;
-            result.M12 = yaxis.X;
-            result.M22 = yaxis.Y;
-            result.M32 = yaxis.Z;
-            result.M13 = zaxis.X;
-            result.M23 = zaxis.Y;
-            result.M33 = zaxis.Z;
-
-            Vector3D.DotProduct(ref xaxis, ref eye, out result.M41);
-            Vector3D.DotProduct(ref yaxis, ref eye, out result.M42);
-            Vector3D.DotProduct(ref zaxis, ref eye, out result.M43);
-            result.M41 = -result.M41;
-            result.M42 = -result.M42;
-            result.M43 = -result.M43;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, look-at matrix.
-        /// </summary>
-        /// <param name="eye">The position of the viewer's eye.</param>
-        /// <param name="target">The camera look-at target.</param>
-        /// <param name="up">The camera's up vector.</param>
-        /// <returns>The created look-at matrix.</returns>
-        public static Matrix LookAtRH(Vector3D eye, Vector3D target, Vector3D up)
-        {
-            Matrix result;
-            LookAtRH(ref eye, ref target, ref up, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a left-handed, orthographic projection matrix.
-        /// </summary>
-        /// <param name="width">Width of the viewing volume.</param>
-        /// <param name="height">Height of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void OrthoLH(float width, float height, float znear, float zfar, out Matrix result)
-        {
-            float halfWidth = width * 0.5f;
-            float halfHeight = height * 0.5f;
-
-            OrthoOffCenterLH(-halfWidth, halfWidth, -halfHeight, halfHeight, znear, zfar, out result);
-        }
-
-        /// <summary>
-        /// Creates a left-handed, orthographic projection matrix.
-        /// </summary>
-        /// <param name="width">Width of the viewing volume.</param>
-        /// <param name="height">Height of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix OrthoLH(float width, float height, float znear, float zfar)
-        {
-            Matrix result;
-            OrthoLH(width, height, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, orthographic projection matrix.
-        /// </summary>
-        /// <param name="width">Width of the viewing volume.</param>
-        /// <param name="height">Height of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void OrthoRH(float width, float height, float znear, float zfar, out Matrix result)
-        {
-            float halfWidth = width * 0.5f;
-            float halfHeight = height * 0.5f;
-
-            OrthoOffCenterRH(-halfWidth, halfWidth, -halfHeight, halfHeight, znear, zfar, out result);
-        }
-
-        /// <summary>
-        /// Creates a right-handed, orthographic projection matrix.
-        /// </summary>
-        /// <param name="width">Width of the viewing volume.</param>
-        /// <param name="height">Height of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix OrthoRH(float width, float height, float znear, float zfar)
-        {
-            Matrix result;
-            OrthoRH(width, height, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a left-handed, customized orthographic projection matrix.
-        /// </summary>
-        /// <param name="left">Minimum x-value of the viewing volume.</param>
-        /// <param name="right">Maximum x-value of the viewing volume.</param>
-        /// <param name="bottom">Minimum y-value of the viewing volume.</param>
-        /// <param name="top">Maximum y-value of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void OrthoOffCenterLH(float left, float right, float bottom, float top, float znear, float zfar, out Matrix result)
-        {
-            float zRange = 1f / (zfar - znear);
-
-            result = Matrix.Identity;
-            result.M11 = 2f / (right - left);
-            result.M22 = 2f / (top - bottom);
-            result.M33 = zRange;
-            result.M41 = (left + right) / (left - right);
-            result.M42 = (top + bottom) / (bottom - top);
-            result.M43 = -znear * zRange;
-        }
-
-        /// <summary>
-        /// Creates a left-handed, customized orthographic projection matrix.
-        /// </summary>
-        /// <param name="left">Minimum x-value of the viewing volume.</param>
-        /// <param name="right">Maximum x-value of the viewing volume.</param>
-        /// <param name="bottom">Minimum y-value of the viewing volume.</param>
-        /// <param name="top">Maximum y-value of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix OrthoOffCenterLH(float left, float right, float bottom, float top, float znear, float zfar)
-        {
-            Matrix result;
-            OrthoOffCenterLH(left, right, bottom, top, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, customized orthographic projection matrix.
-        /// </summary>
-        /// <param name="left">Minimum x-value of the viewing volume.</param>
-        /// <param name="right">Maximum x-value of the viewing volume.</param>
-        /// <param name="bottom">Minimum y-value of the viewing volume.</param>
-        /// <param name="top">Maximum y-value of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void OrthoOffCenterRH(float left, float right, float bottom, float top, float znear, float zfar, out Matrix result)
-        {
-            OrthoOffCenterLH(left, right, bottom, top, znear, zfar, out result);
-            result.M33 *= -1f;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, customized orthographic projection matrix.
-        /// </summary>
-        /// <param name="left">Minimum x-value of the viewing volume.</param>
-        /// <param name="right">Maximum x-value of the viewing volume.</param>
-        /// <param name="bottom">Minimum y-value of the viewing volume.</param>
-        /// <param name="top">Maximum y-value of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix OrthoOffCenterRH(float left, float right, float bottom, float top, float znear, float zfar)
-        {
-            Matrix result;
-            OrthoOffCenterRH(left, right, bottom, top, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a left-handed, perspective projection matrix.
-        /// </summary>
-        /// <param name="width">Width of the viewing volume.</param>
-        /// <param name="height">Height of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void PerspectiveLH(float width, float height, float znear, float zfar, out Matrix result)
-        {
-            float halfWidth = width * 0.5f;
-            float halfHeight = height * 0.5f;
-
-            PerspectiveOffCenterLH(-halfWidth, halfWidth, -halfHeight, halfHeight, znear, zfar, out result);
-        }
-
-        /// <summary>
-        /// Creates a left-handed, perspective projection matrix.
-        /// </summary>
-        /// <param name="width">Width of the viewing volume.</param>
-        /// <param name="height">Height of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix PerspectiveLH(float width, float height, float znear, float zfar)
-        {
-            Matrix result;
-            PerspectiveLH(width, height, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, perspective projection matrix.
-        /// </summary>
-        /// <param name="width">Width of the viewing volume.</param>
-        /// <param name="height">Height of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void PerspectiveRH(float width, float height, float znear, float zfar, out Matrix result)
-        {
-            float halfWidth = width * 0.5f;
-            float halfHeight = height * 0.5f;
-
-            PerspectiveOffCenterRH(-halfWidth, halfWidth, -halfHeight, halfHeight, znear, zfar, out result);
-        }
-
-        /// <summary>
-        /// Creates a right-handed, perspective projection matrix.
-        /// </summary>
-        /// <param name="width">Width of the viewing volume.</param>
-        /// <param name="height">Height of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix PerspectiveRH(float width, float height, float znear, float zfar)
-        {
-            Matrix result;
-            PerspectiveRH(width, height, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a left-handed, perspective projection matrix based on a field of view.
-        /// </summary>
-        /// <param name="fov">Field of view in the y direction, in radians.</param>
-        /// <param name="aspect">Aspect ratio, defined as view space width divided by height.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void PerspectiveFovLH(float fov, float aspect, float znear, float zfar, out Matrix result)
-        {
-            float yScale = (1 / Mathematics.Tan(fov * 0.5f));
-            float xScale = yScale / aspect;
-
-            float halfWidth = znear / xScale;
-            float halfHeight = znear / yScale;
-
-            PerspectiveOffCenterLH(-halfWidth, halfWidth, -halfHeight, halfHeight, znear, zfar, out result);
-        }
-
-        /// <summary>
-        /// Creates a left-handed, perspective projection matrix based on a field of view.
-        /// </summary>
-        /// <param name="fov">Field of view in the y direction, in radians.</param>
-        /// <param name="aspect">Aspect ratio, defined as view space width divided by height.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix PerspectiveFovLH(float fov, float aspect, float znear, float zfar)
-        {
-            Matrix result;
-            PerspectiveFovLH(fov, aspect, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, perspective projection matrix based on a field of view.
-        /// </summary>
-        /// <param name="fov">Field of view in the y direction, in radians.</param>
-        /// <param name="aspect">Aspect ratio, defined as view space width divided by height.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void PerspectiveFovRH(float fov, float aspect, float znear, float zfar, out Matrix result)
-        {
-            float yScale = (1 / Mathematics.Tan(fov * 0.5f));
-            float xScale = yScale / aspect;
-
-            float halfWidth = znear / xScale;
-            float halfHeight = znear / yScale;
-
-            PerspectiveOffCenterRH(-halfWidth, halfWidth, -halfHeight, halfHeight, znear, zfar, out result);
-        }
-
-        /// <summary>
-        /// Creates a right-handed, perspective projection matrix based on a field of view.
-        /// </summary>
-        /// <param name="fov">Field of view in the y direction, in radians.</param>
-        /// <param name="aspect">Aspect ratio, defined as view space width divided by height.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix PerspectiveFovRH(float fov, float aspect, float znear, float zfar)
-        {
-            Matrix result;
-            PerspectiveFovRH(fov, aspect, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a left-handed, customized perspective projection matrix.
-        /// </summary>
-        /// <param name="left">Minimum x-value of the viewing volume.</param>
-        /// <param name="right">Maximum x-value of the viewing volume.</param>
-        /// <param name="bottom">Minimum y-value of the viewing volume.</param>
-        /// <param name="top">Maximum y-value of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void PerspectiveOffCenterLH(float left, float right, float bottom, float top, float znear, float zfar, out Matrix result)
-        {
-            float zRange = zfar / (zfar - znear);
-
-            result = new Matrix();
-            result.M11 = 2f * znear / (right - left);
-            result.M22 = 2f * znear / (top - bottom);
-            result.M31 = (left + right) / (left - right);
-            result.M32 = (top + bottom) / (bottom - top);
-            result.M33 = zRange;
-            result.M34 = 1f;
-            result.M43 = -znear * zRange;
-        }
-
-        /// <summary>
-        /// Creates a left-handed, customized perspective projection matrix.
-        /// </summary>
-        /// <param name="left">Minimum x-value of the viewing volume.</param>
-        /// <param name="right">Maximum x-value of the viewing volume.</param>
-        /// <param name="bottom">Minimum y-value of the viewing volume.</param>
-        /// <param name="top">Maximum y-value of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix PerspectiveOffCenterLH(float left, float right, float bottom, float top, float znear, float zfar)
-        {
-            Matrix result;
-            PerspectiveOffCenterLH(left, right, bottom, top, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, customized perspective projection matrix.
-        /// </summary>
-        /// <param name="left">Minimum x-value of the viewing volume.</param>
-        /// <param name="right">Maximum x-value of the viewing volume.</param>
-        /// <param name="bottom">Minimum y-value of the viewing volume.</param>
-        /// <param name="top">Maximum y-value of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <param name="result">When the method completes, contains the created projection matrix.</param>
-        public static void PerspectiveOffCenterRH(float left, float right, float bottom, float top, float znear, float zfar, out Matrix result)
-        {
-            PerspectiveOffCenterLH(left, right, bottom, top, znear, zfar, out result);
-            result.M31 *= -1f;
-            result.M32 *= -1f;
-            result.M33 *= -1f;
-            result.M34 *= -1f;
-        }
-
-        /// <summary>
-        /// Creates a right-handed, customized perspective projection matrix.
-        /// </summary>
-        /// <param name="left">Minimum x-value of the viewing volume.</param>
-        /// <param name="right">Maximum x-value of the viewing volume.</param>
-        /// <param name="bottom">Minimum y-value of the viewing volume.</param>
-        /// <param name="top">Maximum y-value of the viewing volume.</param>
-        /// <param name="znear">Minimum z-value of the viewing volume.</param>
-        /// <param name="zfar">Maximum z-value of the viewing volume.</param>
-        /// <returns>The created projection matrix.</returns>
-        public static Matrix PerspectiveOffCenterRH(float left, float right, float bottom, float top, float znear, float zfar)
-        {
-            Matrix result;
-            PerspectiveOffCenterRH(left, right, bottom, top, znear, zfar, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a matrix that scales along the x-axis, y-axis, and y-axis.
-        /// </summary>
-        /// <param name="scale">Scaling factor for all three axes.</param>
-        /// <param name="result">When the method completes, contains the created scaling matrix.</param>
-        public static void Scaling(ref Vector3D scale, out Matrix result)
-        {
-            Scaling(scale.X, scale.Y, scale.Z, out result);
-        }
-
-        /// <summary>
-        /// Creates a matrix that scales along the x-axis, y-axis, and y-axis.
-        /// </summary>
-        /// <param name="scale">Scaling factor for all three axes.</param>
-        /// <returns>The created scaling matrix.</returns>
-        public static Matrix Scaling(Vector3D scale)
-        {
-            Matrix result;
-            Scaling(ref scale, out result);
-            return result;
-        }
-
-        /// <summary>
-        /// Creates a matrix that uniformally scales along all three axis.
-        /// </summary>
-        /// <param name="scale">The uniform scale that is applied along all axis.</param>
-        /// <param name="result">When the method completes, contains the created scaling matrix.</param>
-        public static void Scaling(float scale, out Matrix result)
-        {
-            result = Matrix.Identity;
-            result.M11 = result.M22 = result.M33 = scale;
-        }
-
-        /// <summary>
-        /// Creates a matrix that uniformally scales along all three axis.
-        /// </summary>
-        /// <param name="scale">The uniform scale that is applied along all axis.</param>
-        /// <returns>The created scaling matrix.</returns>
+        /// <param name="scale">The uniform scale that is applied along all axis</param>
+        /// <returns>The created scaling matrix</returns>
         public static Matrix Scaling(float scale)
         {
             Matrix result;
-            Scaling(scale, out result);
+
+            result = Identity;
+            result.M11 = result.M22 = result.M33 = scale;
+
             return result;
         }
 
         /// <summary>
-        /// Creates a matrix that scales along the x-axis, y-axis, and y-axis.
+        /// Creates a matrix that scales along the x-axis, y-axis, and y-axis
         /// </summary>
-        /// <param name="x">Scaling factor that is applied along the x-axis.</param>
-        /// <param name="y">Scaling factor that is applied along the y-axis.</param>
-        /// <param name="z">Scaling factor that is applied along the z-axis.</param>
-        /// <param name="result">When the method completes, contains the created scaling matrix.</param>
-        public static void Scaling(float x, float y, float z, out Matrix result)
-        {
-            result = Matrix.Identity;
-            result.M11 = x;
-            result.M22 = y;
-            result.M33 = z;
-        }
-
-        /// <summary>
-        /// Creates a matrix that scales along the x-axis, y-axis, and y-axis.
-        /// </summary>
-        /// <param name="x">Scaling factor that is applied along the x-axis.</param>
-        /// <param name="y">Scaling factor that is applied along the y-axis.</param>
-        /// <param name="z">Scaling factor that is applied along the z-axis.</param>
+        /// <param name="x">Scaling factor that is applied along the x-axis</param>
+        /// <param name="y">Scaling factor that is applied along the y-axis</param>
+        /// <param name="z">Scaling factor that is applied along the z-axis</param>
         /// <returns>The created scaling matrix.</returns>
         public static Matrix Scaling(float x, float y, float z)
         {
             Matrix result;
-            Scaling(x, y, z, out result);
+
+            result = Identity;
+            result.M11 = x;
+            result.M22 = y;
+            result.M33 = z;
+
             return result;
         }
 
         /// <summary>
-        /// Creates a matrix that rotates around the x-axis.
+        /// Creates a matrix that rotates around the x-axis
         /// </summary>
-        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
-        /// <param name="result">When the method completes, contains the created rotation matrix.</param>
-        public static void RotationX(float angle, out Matrix result)
+        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin</param>
+        /// <returns>The created rotation matrix</returns>
+        public static Matrix RotationX(float angle)
         {
+            Matrix result;
+
             float cos = Mathematics.Cos(angle);
             float sin = Mathematics.Sin(angle);
 
-            result = Matrix.Identity;
+            result = Identity;
             result.M22 = cos;
             result.M23 = sin;
             result.M32 = -sin;
             result.M33 = cos;
-        }
 
-        /// <summary>
-        /// Creates a matrix that rotates around the x-axis.
-        /// </summary>
-        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
-        /// <returns>The created rotation matrix.</returns>
-        public static Matrix RotationX(float angle)
-        {
-            Matrix result;
-            RotationX(angle, out result);
             return result;
         }
 
         /// <summary>
-        /// Creates a matrix that rotates around the y-axis.
+        /// Creates a matrix that rotates around the y-axis
         /// </summary>
-        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
-        /// <param name="result">When the method completes, contains the created rotation matrix.</param>
-        public static void RotationY(float angle, out Matrix result)
+        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin</param>
+        /// <returns>The created rotation matrix</returns>
+        public static Matrix RotationY(float angle)
         {
+            Matrix result;
+
             float cos = Mathematics.Cos(angle);
             float sin = Mathematics.Sin(angle);
 
-            result = Matrix.Identity;
+            result = Identity;
             result.M11 = cos;
             result.M13 = -sin;
             result.M31 = sin;
             result.M33 = cos;
-        }
 
-        /// <summary>
-        /// Creates a matrix that rotates around the y-axis.
-        /// </summary>
-        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
-        /// <returns>The created rotation matrix.</returns>
-        public static Matrix RotationY(float angle)
-        {
-            Matrix result;
-            RotationY(angle, out result);
             return result;
         }
 
         /// <summary>
-        /// Creates a matrix that rotates around the z-axis.
+        /// Creates a matrix that rotates around the z-axis
         /// </summary>
-        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
-        /// <param name="result">When the method completes, contains the created rotation matrix.</param>
-        public static void RotationZ(float angle, out Matrix result)
+        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin</param>
+        /// <returns>The created rotation matrix</returns>
+        public static Matrix RotationZ(float angle)
         {
+            Matrix result;
+
             float cos = Mathematics.Cos(angle);
             float sin = Mathematics.Sin(angle);
 
-            result = Matrix.Identity;
+            result = Identity;
             result.M11 = cos;
             result.M12 = sin;
             result.M21 = -sin;
             result.M22 = cos;
-        }
 
-        /// <summary>
-        /// Creates a matrix that rotates around the z-axis.
-        /// </summary>
-        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
-        /// <returns>The created rotation matrix.</returns>
-        public static Matrix RotationZ(float angle)
-        {
-            Matrix result;
-            RotationZ(angle, out result);
             return result;
         }
 
         /// <summary>
-        /// Creates a matrix that rotates around an arbitary axis.
+        /// Creates a matrix that rotates around an arbitary axis
         /// </summary>
-        /// <param name="axis">The axis around which to rotate. This parameter is assumed to be normalized.</param>
-        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
-        /// <param name="result">When the method completes, contains the created rotation matrix.</param>
-        public static void RotationAxis(ref Vector3D axis, float angle, out Matrix result)
+        /// <param name="axis">The axis around which to rotate. This parameter is assumed to be normalized</param>
+        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin</param>
+        /// <returns>The created rotation matrix</returns>
+        public static Matrix RotationAxis(Vector3D axis, float angle)
         {
+            Matrix result;
+
             float x = axis.X;
             float y = axis.Y;
             float z = axis.Z;
@@ -1856,7 +868,7 @@ namespace Mathematics
             float xz = x * z;
             float yz = y * z;
 
-            result = Matrix.Identity;
+            result = Identity;
             result.M11 = xx + (cos * (1f - xx));
             result.M12 = (xy - (cos * xy)) + (sin * z);
             result.M13 = (xz - (cos * xz)) - (sin * y);
@@ -1866,28 +878,19 @@ namespace Mathematics
             result.M31 = (xz - (cos * xz)) + (sin * y);
             result.M32 = (yz - (cos * yz)) - (sin * x);
             result.M33 = zz + (cos * (1f - zz));
-        }
 
-        /// <summary>
-        /// Creates a matrix that rotates around an arbitary axis.
-        /// </summary>
-        /// <param name="axis">The axis around which to rotate. This parameter is assumed to be normalized.</param>
-        /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin.</param>
-        /// <returns>The created rotation matrix.</returns>
-        public static Matrix RotationAxis(Vector3D axis, float angle)
-        {
-            Matrix result;
-            RotationAxis(ref axis, angle, out result);
             return result;
         }
 
         /// <summary>
-        /// Creates a rotation matrix from a quaternion.
+        /// Creates a rotation matrix from a quaternion
         /// </summary>
-        /// <param name="rotation">The quaternion to use to build the matrix.</param>
-        /// <param name="result">The created rotation matrix.</param>
-        public static void RotationQuaternion(ref Quaternion rotation, out Matrix result)
+        /// <param name="rotation">The quaternion to use to build the matrix</param>
+        /// <returns>The created rotation matrix</returns>
+        public static Matrix RotationQuaternion(Quaternion rotation)
         {
+            Matrix result;
+
             float xx = rotation.X * rotation.X;
             float yy = rotation.Y * rotation.Y;
             float zz = rotation.Z * rotation.Z;
@@ -1898,7 +901,7 @@ namespace Mathematics
             float yz = rotation.Y * rotation.Z;
             float xw = rotation.X * rotation.W;
 
-            result = Matrix.Identity;
+            result = Identity;
             result.M11 = 1f - (2f * (yy + zz));
             result.M12 = 2f * (xy + zw);
             result.M13 = 2f * (zx - yw);
@@ -1908,187 +911,93 @@ namespace Mathematics
             result.M31 = 2f * (zx + yw);
             result.M32 = 2f * (yz - xw);
             result.M33 = 1f - (2f * (yy + xx));
-        }
 
-        /// <summary>
-        /// Creates a rotation matrix from a quaternion.
-        /// </summary>
-        /// <param name="rotation">The quaternion to use to build the matrix.</param>
-        /// <returns>The created rotation matrix.</returns>
-        public static Matrix RotationQuaternion(Quaternion rotation)
-        {
-            Matrix result;
-            RotationQuaternion(ref rotation, out result);
             return result;
         }
 
         /// <summary>
-        /// Creates a rotation matrix with a specified yaw, pitch, and roll.
+        /// Creates a rotation matrix with a specified yaw, pitch, and roll
         /// </summary>
-        /// <param name="yaw">Yaw around the y-axis, in radians.</param>
-        /// <param name="pitch">Pitch around the x-axis, in radians.</param>
-        /// <param name="roll">Roll around the z-axis, in radians.</param>
-        /// <param name="result">When the method completes, contains the created rotation matrix.</param>
-        public static void RotationYawPitchRoll(float yaw, float pitch, float roll, out Matrix result)
-        {
-            Quaternion quaternion = new Quaternion();
-            Quaternion.RotationYawPitchRoll(yaw, pitch, roll, out quaternion);
-            RotationQuaternion(ref quaternion, out result);
-        }
-
-        /// <summary>
-        /// Creates a rotation matrix with a specified yaw, pitch, and roll.
-        /// </summary>
-        /// <param name="yaw">Yaw around the y-axis, in radians.</param>
-        /// <param name="pitch">Pitch around the x-axis, in radians.</param>
-        /// <param name="roll">Roll around the z-axis, in radians.</param>
-        /// <returns>The created rotation matrix.</returns>
+        /// <param name="yaw">Yaw around the y-axis, in radians</param>
+        /// <param name="pitch">Pitch around the x-axis, in radians</param>
+        /// <param name="roll">Roll around the z-axis, in radians</param>
+        /// <returns>The created rotation matrix</returns>
         public static Matrix RotationYawPitchRoll(float yaw, float pitch, float roll)
         {
-            Matrix result;
-            RotationYawPitchRoll(yaw, pitch, roll, out result);
-            return result;
+            Quaternion quaternion = new Quaternion();
+            quaternion = Quaternion.RotationYawPitchRoll(yaw, pitch, roll);
+
+            return RotationQuaternion(ref quaternion);
         }
 
         /// <summary>
-        /// Creates a translation matrix using the specified offsets.
+        /// Creates a translation matrix using the specified offsets
         /// </summary>
-        /// <param name="value">The offset for all three coordinate planes.</param>
-        /// <param name="result">When the method completes, contains the created translation matrix.</param>
-        public static void Translation(ref Vector3D value, out Matrix result)
-        {
-            Translation(value.X, value.Y, value.Z, out result);
-        }
-
-        /// <summary>
-        /// Creates a translation matrix using the specified offsets.
-        /// </summary>
-        /// <param name="value">The offset for all three coordinate planes.</param>
-        /// <returns>The created translation matrix.</returns>
+        /// <param name="value">The offset for all three coordinate planes</param>
+        /// <returns>The created translation matrix</returns>
         public static Matrix Translation(Vector3D value)
         {
-            Matrix result;
-            Translation(ref value, out result);
-            return result;
+            return Translation(value.X, value.Y, value.Z);
         }
 
         /// <summary>
-        /// Creates a translation matrix using the specified offsets.
+        /// Creates a translation matrix using the specified offsets
         /// </summary>
-        /// <param name="x">X-coordinate offset.</param>
-        /// <param name="y">Y-coordinate offset.</param>
-        /// <param name="z">Z-coordinate offset.</param>
-        /// <param name="result">When the method completes, contains the created translation matrix.</param>
-        public static void Translation(float x, float y, float z, out Matrix result)
-        {
-            result = Matrix.Identity;
-            result.M41 = x;
-            result.M42 = y;
-            result.M43 = z;
-        }
-
-        /// <summary>
-        /// Creates a translation matrix using the specified offsets.
-        /// </summary>
-        /// <param name="x">X-coordinate offset.</param>
-        /// <param name="y">Y-coordinate offset.</param>
-        /// <param name="z">Z-coordinate offset.</param>
-        /// <returns>The created translation matrix.</returns>
+        /// <param name="x">X-coordinate offset</param>
+        /// <param name="y">Y-coordinate offset</param>
+        /// <param name="z">Z-coordinate offset</param>
+        /// <returns>The created translation matrix</returns>
         public static Matrix Translation(float x, float y, float z)
         {
             Matrix result;
-            Translation(x, y, z, out result);
+
+            result = Identity;
+            result.M41 = x;
+            result.M42 = y;
+            result.M43 = z;
+
             return result;
         }
 
         /// <summary>
-        /// Creates a 3D affine transformation matrix.
+        /// Creates a 3D affine transformation matrix
         /// </summary>
-        /// <param name="scaling">Scaling factor.</param>
-        /// <param name="rotation">The rotation of the transformation.</param>
-        /// <param name="translation">The translation factor of the transformation.</param>
-        /// <param name="result">When the method completes, contains the created affine transformation matrix.</param>
-        public static void AffineTransformation(float scaling, ref Quaternion rotation, ref Vector3D translation, out Matrix result)
-        {
-            result = Scaling(scaling) * RotationQuaternion(rotation) * Translation(translation);
-        }
-
-        /// <summary>
-        /// Creates a 3D affine transformation matrix.
-        /// </summary>
-        /// <param name="scaling">Scaling factor.</param>
-        /// <param name="rotation">The rotation of the transformation.</param>
-        /// <param name="translation">The translation factor of the transformation.</param>
-        /// <returns>The created affine transformation matrix.</returns>
+        /// <param name="scaling">Scaling factor</param>
+        /// <param name="rotation">The rotation of the transformation</param>
+        /// <param name="translation">The translation factor of the transformation</param>
+        /// <returns>The created affine transformation matrix</returns>
         public static Matrix AffineTransformation(float scaling, Quaternion rotation, Vector3D translation)
         {
-            Matrix result;
-            AffineTransformation(scaling, ref rotation, ref translation, out result);
-            return result;
+            return Scaling(scaling) * RotationQuaternion(rotation) * Translation(translation);
         }
 
         /// <summary>
-        /// Creates a 3D affine transformation matrix.
+        /// Creates a 3D affine transformation matrix
         /// </summary>
-        /// <param name="scaling">Scaling factor.</param>
-        /// <param name="rotationCenter">The center of the rotation.</param>
-        /// <param name="rotation">The rotation of the transformation.</param>
-        /// <param name="translation">The translation factor of the transformation.</param>
-        /// <param name="result">When the method completes, contains the created affine transformation matrix.</param>
-        public static void AffineTransformation(float scaling, ref Vector3D rotationCenter, ref Quaternion rotation, ref Vector3D translation, out Matrix result)
-        {
-            result = Scaling(scaling) * Translation(-rotationCenter) * RotationQuaternion(rotation) *
-                Translation(rotationCenter) * Translation(translation);
-        }
-
-        /// <summary>
-        /// Creates a 3D affine transformation matrix.
-        /// </summary>
-        /// <param name="scaling">Scaling factor.</param>
-        /// <param name="rotationCenter">The center of the rotation.</param>
-        /// <param name="rotation">The rotation of the transformation.</param>
-        /// <param name="translation">The translation factor of the transformation.</param>
-        /// <returns>The created affine transformation matrix.</returns>
+        /// <param name="scaling">Scaling factor</param>
+        /// <param name="rotationCenter">The center of the rotation</param>
+        /// <param name="rotation">The rotation of the transformation</param>
+        /// <param name="translation">The translation factor of the transformation</param>
+        /// <returns>The created affine transformation matrix</returns>
         public static Matrix AffineTransformation(float scaling, Vector3D rotationCenter, Quaternion rotation, Vector3D translation)
         {
-            Matrix result;
-            AffineTransformation(scaling, ref rotationCenter, ref rotation, ref translation, out result);
-            return result;
+            return Scaling(scaling) * Translation(-rotationCenter) * RotationQuaternion(rotation) * Translation(rotationCenter) * Translation(translation);
         }
 
         /// <summary>
-        /// Creates a transformation matrix.
+        /// Creates a transformation matrix
         /// </summary>
-        /// <param name="scalingCenter">Center point of the scaling operation.</param>
-        /// <param name="scalingRotation">Scaling rotation amount.</param>
-        /// <param name="scaling">Scaling factor.</param>
-        /// <param name="rotationCenter">The center of the rotation.</param>
-        /// <param name="rotation">The rotation of the transformation.</param>
-        /// <param name="translation">The translation factor of the transformation.</param>
-        /// <param name="result">When the method completes, contains the created transformation matrix.</param>
-        public static void Transformation(ref Vector3D scalingCenter, ref Quaternion scalingRotation, ref Vector3D scaling, ref Vector3D rotationCenter, ref Quaternion rotation, ref Vector3D translation, out Matrix result)
-        {
-            Matrix sr = RotationQuaternion(scalingRotation);
-
-            result = Translation(-scalingCenter) * Transpose(sr) * Scaling(scaling) * sr * Translation(scalingCenter) * Translation(-rotationCenter) *
-                RotationQuaternion(rotation) * Translation(rotationCenter) * Translation(translation);
-        }
-
-        /// <summary>
-        /// Creates a transformation matrix.
-        /// </summary>
-        /// <param name="scalingCenter">Center point of the scaling operation.</param>
-        /// <param name="scalingRotation">Scaling rotation amount.</param>
-        /// <param name="scaling">Scaling factor.</param>
-        /// <param name="rotationCenter">The center of the rotation.</param>
-        /// <param name="rotation">The rotation of the transformation.</param>
-        /// <param name="translation">The translation factor of the transformation.</param>
-        /// <returns>The created transformation matrix.</returns>
+        /// <param name="scalingCenter">Center point of the scaling operation</param>
+        /// <param name="scalingRotation">Scaling rotation amount</param>
+        /// <param name="scaling">Scaling factor</param>
+        /// <param name="rotationCenter">The center of the rotation</param>
+        /// <param name="rotation">The rotation of the transformation</param>
+        /// <param name="translation">The translation factor of the transformation</param>
+        /// <returns>The created transformation matrix</returns>
         public static Matrix Transformation(Vector3D scalingCenter, Quaternion scalingRotation, Vector3D scaling, Vector3D rotationCenter, Quaternion rotation, Vector3D translation)
         {
-            Matrix result;
-            Transformation(ref scalingCenter, ref scalingRotation, ref scaling, ref rotationCenter, ref rotation, ref translation, out result);
-            return result;
+            return Translation(-scalingCenter) * Transpose(sr) * Scaling(scaling) * RotationQuaternion(scalingRotation) * Translation(scalingCenter) *
+                Translation(-rotationCenter) * RotationQuaternion(rotation) * Translation(rotationCenter) * Translation(translation);
         }
 
         /// <summary>
@@ -2127,7 +1036,7 @@ namespace Mathematics
         /// Negates a matrix.
         /// </summary>
         /// <param name="value">The matrix to negate</param>
-        /// <returns>The negated matrix.</returns>
+        /// <returns>The negated matrix</returns>
         public static Matrix operator -(Matrix value)
         {
             return new Matrix(-value.M11, -value.M12, -value.M13, -value.M14, -value.M21, -value.M22, -value.M23, -value.M24, -value.M31, -value.M32, -value.M33, -value.M34, -value.M41, -value.M42, -value.M43, -value.M44);
@@ -2200,7 +1109,7 @@ namespace Mathematics
         /// </summary>
         /// <param name="value">The matrix to scale</param>
         /// <param name="scalar">The amount by which to scale</param>
-        /// <returns>The scaled matrix.</returns>
+        /// <returns>The scaled matrix</returns>
         public static Matrix operator /(Matrix value, float scalar)
         {
             return new Matrix(
@@ -2253,15 +1162,30 @@ namespace Mathematics
         public override bool Equals(object obj) => (obj is Matrix) && Equals((Matrix)obj);
 
         /// <summary>
-        /// Returns a <see cref="System.String"/> that represents this instance.
+        /// Determines whether the specified matrix is equal to this instance
+        /// </summary>
+        /// <param name="other">The matrix to compare with this instance</param>
+        /// <returns>
+        /// <c>true</c> if the specified matrix is equal to this instance; otherwise, <c>false</c>
+        /// </returns>
+        public bool Equals(Matrix other)
+        {
+            return (M11.Equals(other.M11) && M12.Equals(other.M12) && M13.Equals(other.M13) && M14.Equals(other.M14) &&
+                M21.Equals(other.M21) && M22.Equals(other.M22) && M23.Equals(other.M23) && M24.Equals(other.M24) &&
+                M31.Equals(other.M31) && M32.Equals(other.M32) && M33.Equals(other.M33) && M34.Equals(other.M34) &&
+                M41.Equals(other.M41) && M42.Equals(other.M42) && M43.Equals(other.M43) && M44.Equals(other.M44));
+        }
+
+        /// <summary>
+        /// Returns a <see cref="System.String"/> that represents this instance
         /// </summary>
         /// <returns>
-        /// A <see cref="System.String"/> that represents this instance.
+        /// A <see cref="System.String"/> that represents this instance
         /// </returns>
         public override string ToString()
         {
-            return string.Format(CultureInfo.CurrentCulture, "[M11:{0} M12:{1} M13:{2} M14:{3}] [M21:{4} M22:{5} M23:{6} M24:{7}] [M31:{8} M32:{9} M33:{10} M34:{11}] [M41:{12} M42:{13} M43:{14} M44:{15}]",
-                M11, M12, M13, M14, M21, M22, M23, M24, M31, M32, M33, M34, M41, M42, M43, M44);
+            return $"[Matrix] [M11:{M11} M12:{M12} M13:{M13} M14:{M14}] [M21:{M21} M22:{M22} M23:{M23} M24:{M24}] " +
+                "[M31:{M31} M32:{M32} M33:{M33} M34:{M34}] [M41:{M41} M42:{M42} M43:{M43} M44:{M44}]";
         }
 
         /// <summary>
@@ -2276,21 +1200,6 @@ namespace Mathematics
                 M21.GetHashCode() + M22.GetHashCode() + M23.GetHashCode() + M24.GetHashCode() +
                 M31.GetHashCode() + M32.GetHashCode() + M33.GetHashCode() + M34.GetHashCode() +
                 M41.GetHashCode() + M42.GetHashCode() + M43.GetHashCode() + M44.GetHashCode();
-        }
-
-        /// <summary>
-        /// Determines whether the specified matrix is equal to this instance
-        /// </summary>
-        /// <param name="other">The matrix to compare with this instance</param>
-        /// <returns>
-        /// <c>true</c> if the specified matrix is equal to this instance; otherwise, <c>false</c>
-        /// </returns>
-        public bool Equals(Matrix other)
-        {
-            return (M11.Equals(other.M11) && M12.Equals(other.M12) && M13.Equals(other.M13) && M14.Equals(other.M14) &&
-                M21.Equals(other.M21) && M22.Equals(other.M22) && M23.Equals(other.M23) && M24.Equals(other.M24) &&
-                M31.Equals(other.M31) && M32.Equals(other.M32) && M33.Equals(other.M33) && M34.Equals(other.M34) &&
-                M41.Equals(other.M41) && M42.Equals(other.M42) && M43.Equals(other.M43) && M44.Equals(other.M44));
         }
     }
 }
