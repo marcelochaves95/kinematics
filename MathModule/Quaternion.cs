@@ -23,7 +23,7 @@ namespace MathModule
         public float W { get; set; }
 
         /// <summary>
-        /// Construct the vector from it's coordinates
+        /// Construct the quaternion from it's coordinates
         /// </summary>
         /// <param name="x">X coordinate</param>
         /// <param name="y">Y coordinate</param>
@@ -38,7 +38,7 @@ namespace MathModule
         }
 
         /// <summary>
-        /// Initializes a new instance of the struct
+        /// Construct the quaternion from it's coordinates
         /// </summary>
         /// <param name="value">A vector containing the values with which to initialize the components</param>
         public Quaternion(Vector4D value)
@@ -47,6 +47,25 @@ namespace MathModule
             Y = value.Y;
             Z = value.Z;
             W = value.W;
+        }
+
+        /// <summary>
+        /// Construct the quaternion from it's coordinates
+        /// </summary>
+        /// <param name="values">The values to assign to the X, Y, Z, and W components of the quaternion. This must be an array with four elements</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than four elements</exception>
+        public Quaternion(float[] values)
+        {
+            if (values == null)
+                throw new ArgumentNullException("values");
+            if (values.Length != 4)
+                throw new ArgumentOutOfRangeException("values", "There must be four and only four input values for Quaternion.");
+
+            X = values[0];
+            Y = values[1];
+            Z = values[2];
+            W = values[3];
         }
 
         /// <summary>
