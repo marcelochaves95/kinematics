@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
 
+using UnityEngine;
+
 using MathModule;
 
 namespace CollisionModule
 {
-    public struct CollisionObject : Object
+    public struct CollisionObject : MonoBehaviour
     {
         public interface ICollisionCallbackEventHandler
         {
