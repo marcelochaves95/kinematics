@@ -452,27 +452,6 @@ namespace MathModule
         }
 
         /// <summary>
-        /// Creates a quaternion given a rotation and an axis.
-        /// </summary>
-        /// <param name="axis">The axis of rotation.</param>
-        /// <param name="angle">The angle of rotation.</param>
-        /// <param name="result">When the method completes, contains the newly created quaternion.</param>
-        public static void RotationAxis(ref Vector3D axis, float angle, out Quaternion result)
-        {
-            Vector3D normalized;
-            Vector3D.Normalize(ref axis, out normalized);
-
-            float half = angle * 0.5f;
-            float sin = (float)System.Math.Sin(half);
-            float cos = (float)System.Math.Cos(half);
-
-            result.X = normalized.X * sin;
-            result.Y = normalized.Y * sin;
-            result.Z = normalized.Z * sin;
-            result.W = cos;
-        }
-
-        /// <summary>
         /// Creates a quaternion given a rotation and an axis
         /// </summary>
         /// <param name="axis">The axis of rotation</param>
