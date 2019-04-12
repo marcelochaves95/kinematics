@@ -1,8 +1,8 @@
 # Physics Engine for Games
 
-| **`Build`** | **`Documentation`** | **`Issues`** | **`Code Helpers`** |
+| **`Build`** | **`Documentation`** | **`Issues`** | **`Contributors`** |
 | --- | --- | --- | --- |
-| [![Build](https://travis-ci.org/marcelochaves95/physics-engine.svg?branch=master)](https://travis-ci.org/marcelochaves95/physics-engine) | [![Documentation](https://img.shields.io/badge/docs-wiki-blue.svg)](https://github.com/marcelochaves95/physics-engine/wiki) | [![Issues](https://img.shields.io/github/issues/marcelochaves95/physics-engine.svg)](https://github.com/marcelochaves95/physics-engine/issues) | [![Open Source Helpers](https://www.codetriage.com/marcelochaves95/physics-engine/badges/users.svg)](https://www.codetriage.com/marcelochaves95/physics-engine)
+| [![Build](https://travis-ci.org/marcelochaves95/physics-engine.svg?branch=master)](https://travis-ci.org/marcelochaves95/physics-engine) | [![Documentation](https://img.shields.io/badge/docs-wiki-blue.svg)](https://github.com/marcelochaves95/physics-engine/wiki) | [![Issues](https://img.shields.io/github/issues/marcelochaves95/physics-engine.svg)](https://github.com/marcelochaves95/physics-engine/issues) | [![Contributors](https://img.shields.io/github/contributors/marcelochaves95/physics-engine.svg)](https://github.com/marcelochaves95/physics-engine/graphs/contributors)
 
 ## Basics
 - Linear Physics
@@ -27,9 +27,6 @@
 ## Extras
    - - [ ] Rig (Hook)
    - - [ ] Wheels
-
-## Contributors
- - [View Contributors](https://github.com/marcelochaves95/physics-engine/graphs/contributors)
 
 ## License
 Apache 2.0 license. See the [`LICENSE`](LICENSE) file for details.
