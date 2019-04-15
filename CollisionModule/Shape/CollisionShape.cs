@@ -29,7 +29,7 @@ namespace CollisionModule.Shape
         protected CollisionShape collisionShapePtr = null;
         public bool drawGizmo = true;
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             Dispose(false);
         }

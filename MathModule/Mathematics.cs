@@ -76,7 +76,7 @@ namespace MathModule
         /// </summary>
         /// <param name="value">Value</param>
         /// <returns></returns>
-        public static float Abs(float value) => (float)Math.Abs(value);
+        public static float Abs(float value) => Math.Abs(value);
 
         /// <summary>
         /// Returns the absolute value of value

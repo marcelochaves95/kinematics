@@ -563,8 +563,6 @@ namespace MathModule
         /// <returns>The spherical linear interpolation of the two quaternions</returns>
         public static Quaternion Slerp(Quaternion start, Quaternion end, float amount)
         {
-            Quaternion result;
-
             float opposite;
             float inverse;
             float dot = DotProduct(start, end);
