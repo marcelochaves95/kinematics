@@ -41,9 +41,14 @@ namespace MathModule
 		public Vector3D(float[] values)
 		{
 			if (values == null)
+			{
 				throw new ArgumentNullException("values");
+			}
+
 			if (values.Length != 3)
+			{
 				throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector3D.");
+			}
 
 			X = values[0];
 			Y = values[1];
@@ -205,6 +210,12 @@ namespace MathModule
 		public static float Magnitude(Vector3D value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z);
 
 		/// <summary>
+        /// Calculates the squared length of the vector
+        /// </summary>
+		/// <returns>The length of the vector</returns>
+        public static float MagnitudeSquared => X * X + Y * Y + Z * Z;
+
+		/// <summary>
 		/// Converts the vector into a unit vector
 		/// </summary>
 		/// <param name="value">Vector</param>
@@ -320,13 +331,12 @@ namespace MathModule
 		/// <returns>The cubic interpolation of the two vectors</returns>
 		public static Vector3D SmoothStep(Vector3D start, Vector3D end, float amount)
 		{
-			amount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
-			amount = (amount * amount) * (3f - (2f * amount));
+			float newAmount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
 
 			return new Vector3D(
-				start.X + ((end.X - start.X) * amount),
-				start.Y + ((end.Y - start.Y) * amount),
-				start.Z + ((end.Z - start.Z) * amount)
+				start.X + ((end.X - start.X) * (newAmount * newAmount) * (3f - (2f * newAmount))),
+				start.Y + ((end.Y - start.Y) * (newAmount * newAmount) * (3f - (2f * newAmount))),
+				start.Z + ((end.Z - start.Z) * (newAmount * newAmount) * (3f - (2f * newAmount)))
 			);
 		}
 
@@ -481,7 +491,6 @@ namespace MathModule
 		/// <returns>The refracted vector</returns>
 		public static Vector3D Refract(Vector3D vector, Vector3D normal, float index)
 		{
-			Vector3D result;
 			float cos1;
 
 			cos1 = DotProduct(vector, normal);
@@ -489,14 +498,14 @@ namespace MathModule
 			float radicand = 1f - (index * index) * (1f - (cos1 * cos1));
 
 			if (radicand < 0f)
-				result = Zero;
+			{
+				return Zero;
+			}
 			else
 			{
 				float cos2 = Mathematics.Sqrt(radicand);
-				result = (index * vector) + ((cos2 - index * cos1) * normal);
+				return (index * vector) + ((cos2 - index * cos1) * normal);
 			}
-
-			return result;
 		}
 
 		/// <summary>

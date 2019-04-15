@@ -15,10 +15,14 @@ namespace CollisionModule.Shape
             set
             {
                 if (collisionShapePtr != null && value != radius)
+                {
                     Debug.LogError("Cannot change the radius after the bullet shape has been created. Radius is only the initial value " +
                         "Use LocalScaling to change the shape of a bullet shape.");
+                }
                 else
+                {
                     radius = value;
+                }
             }
         }
 
@@ -30,14 +34,18 @@ namespace CollisionModule.Shape
             {
                 localScaling = value;
                 if (collisionShapePtr != null)
+                {
                     ((SphereShape)collisionShapePtr).LocalScaling = value.ToBullet();
+                }
             }
         }
 
         public override void OnDrawGizmosSelected()
         {
             if (drawGizmo == false)
+            {
                 return;
+            }
 
             Vector3D position = transform.position;
             Quaternion rotation = transform.rotation;

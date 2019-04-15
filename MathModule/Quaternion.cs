@@ -58,9 +58,14 @@ namespace MathModule
         public Quaternion(float[] values)
         {
             if (values == null)
+            {
                 throw new ArgumentNullException("values");
+            }
+
             if (values.Length != 4)
+            {
                 throw new ArgumentOutOfRangeException("values", "There must be four and only four input values for Quaternion.");
+            }
 
             X = values[0];
             Y = values[1];
@@ -265,7 +270,9 @@ namespace MathModule
             {
                 float inverse = 1f / (W * W);
                 if (inverse < 1f * 0f)
+                {
                     return Vector3D.Right;
+                }
 
                 return new Vector3D(X * inverse, Y * inverse, Z * inverse);
             }
@@ -287,7 +294,9 @@ namespace MathModule
             float magnitude = Magnitude(value);
 
             if (magnitude < 0f)
+            {
                 return Identity;
+            }
 
             return value / magnitude;
         }
@@ -368,7 +377,9 @@ namespace MathModule
                 result.Z = coeff * value.Z;
             }
             else
+            {
                 result = value;
+            }
 
             result.W = Mathematics.Cos(angle);
 
@@ -428,10 +439,14 @@ namespace MathModule
                     result.Z = value.Z * coeff;
                 }
                 else
+                {
                     result = value;
+                }
             }
             else
+            {
                 result = value;
+            }
 
             result.W = 0f;
 

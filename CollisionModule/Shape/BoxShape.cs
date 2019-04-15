@@ -24,7 +24,9 @@ namespace CollisionModule.Shape
                         "Use LocalScaling to change the shape of a bullet shape.");
                 }
                 else
+                {
                     extents = value;
+                }
             }
         }
 

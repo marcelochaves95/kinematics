@@ -66,9 +66,14 @@ namespace MathModule
         public Vector4D(float[] values)
         {
             if (values == null)
+            {
                 throw new ArgumentNullException("values");
-            if (values.Length != 3)
+            }
+
+            if (values.Length != 4)
+            {
                 throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector4D.");
+            }
 
             X = values[0];
             Y = values[1];

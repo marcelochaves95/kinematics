@@ -18,7 +18,7 @@ namespace MathModule
         /// <summary>
         /// The identity matrix
         /// </summary>
-        public static readonly Matrix Identity = new Matrix() { M11 = 1f, M22 = 1f, M33 = 1f, M44 = 1f };
+        public static readonly Matrix Identity => new Matrix(M11 = 1f, M22 = 1f, M33 = 1f, M44 = 1f);
 
         /// <summary>
         /// Value at row 1 column 1 of the matrix
@@ -151,9 +151,14 @@ namespace MathModule
         public Matrix(float[] values)
         {
             if (values == null)
+            {
                 throw new ArgumentNullException("values");
+            }
+
             if (values.Length != 16)
+            {
                 throw new ArgumentOutOfRangeException("values", "There must be sixteen and only sixteen input values for Matrix.");
+            }
 
             M11 = values[0];
             M12 = values[1];
@@ -353,7 +358,7 @@ namespace MathModule
         /// </summary>
         /// <param name="temp">When the method completes, contains the orthonormalized matrix of the decomposition</param>
         /// <param name="R">When the method completes, contains the right triangular matrix of the decomposition</param>
-        public void DecomposeQR(out Matrix Q, out Matrix R)
+        public void DecomposeQR(Matrix Q, Matrix R)
         {
             Matrix temp;
             Q = Orthonormalize(this);
@@ -380,9 +385,9 @@ namespace MathModule
         /// </summary>
         /// <param name="L">When the method completes, contains the lower triangular matrix of the decomposition</param>
         /// <param name="Q">When the method completes, contains the orthonormalized matrix of the decomposition</param>
-        public void DecomposeLQ(out Matrix L, out Matrix Q)
+        public void DecomposeLQ(Matrix L, Matrix Q)
         {
-            Q = Orthonormalize(ref this);
+            Q = Orthonormalize(this);
 
             L = new Matrix();
             L.M11 = Vector4D.DotProduct(Q.Row1, Row1);
@@ -406,7 +411,7 @@ namespace MathModule
         /// <param name="scale">When the method completes, contains the scaling component of the decomposed matrix</param>
         /// <param name="rotation">When the method completes, contains the rtoation component of the decomposed matrix</param>
         /// <param name="translation">When the method completes, contains the translation component of the decomposed matrix</param>
-        public bool Decompose(out Vector3D scale, out Quaternion rotation, out Vector3D translation)
+        public bool Decompose(Vector3D scale, Quaternion rotation, Vector3D translation)
         {
             translation.X = M41;
             translation.Y = M42;
@@ -437,7 +442,7 @@ namespace MathModule
 
             rotationmatrix.M44 = 1f;
 
-            rotation = Quaternion.RotationMatrix(ref rotationmatrix);
+            rotation = Quaternion.RotationMatrix(rotationmatrix);
 
             return true;
         }
@@ -452,7 +457,9 @@ namespace MathModule
         public static Matrix Exponent(Matrix value, int exponent)
         {
             if (exponent < 0)
+            {
                 throw new ArgumentOutOfRangeException("exponent", "The exponent can not be negative.");
+            }
 
             if (exponent == 0)
             {
@@ -470,14 +477,20 @@ namespace MathModule
             while (true)
             {
                 if ((exponent & 1) != 0)
+                {
                     identity = identity * temp;
+                }
 
                 exponent /= 2;
 
                 if (exponent > 0)
+                {
                     temp *= temp;
+                }
                 else
+                {
                     break;
+                }
             }
 
             return identity;
@@ -700,12 +713,16 @@ namespace MathModule
             Vector3D crossed, final;
             Vector3D difference = objectPosition - cameraPosition;
 
-            float lengthsq = difference.LengthSquared;
+            float lengthsq = difference.MagnitudeSquared;
 
             if (lengthsq < 0)
+            {
                 difference = -cameraForwardVector;
+            }
             else
+            {
                 difference *= (1 / Mathematics.Sqrt(lengthsq));
+            }
 
             crossed = Vector3D.CrossProduct(cameraUpVector, difference);
             crossed = Vector3D.Normalize(crossed);

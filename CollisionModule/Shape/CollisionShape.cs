@@ -26,8 +26,10 @@ namespace CollisionModule.Shape
             StaticPlaneShape = 8,
         };
 
-        protected CollisionShape collisionShapePtr = null;
-        public bool drawGizmo = true;
+        private CollisionShape collisionShapePtr = null;
+        protected CollisionShape CollisionShapePtr { get => collisionShapePtr; set => collisionShapePtr = value; }
+        private bool drawGizmo = true;
+        public bool DrawGizmo { get => drawGizmo; set => drawGizmo = value; }
 
         private void OnDestroy()
         {
@@ -42,10 +44,10 @@ namespace CollisionModule.Shape
 
         protected virtual void Dispose(bool isdisposing)
         {
-            if (collisionShapePtr != null)
+            if (CollisionShapePtr != null)
             {
-                collisionShapePtr.Dispose();
-                collisionShapePtr = null;
+                CollisionShapePtr.Dispose();
+                CollisionShapePtr = null;
             }
         }
 
