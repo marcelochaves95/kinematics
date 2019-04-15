@@ -18,7 +18,7 @@ namespace MathModule
         /// <summary>
         /// The identity matrix
         /// </summary>
-        public static readonly Matrix Identity => new Matrix(M11 = 1f, M22 = 1f, M33 = 1f, M44 = 1f);
+        public static readonly Matrix Identity => new Matrix(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
 
         /// <summary>
         /// Value at row 1 column 1 of the matrix
@@ -409,9 +409,8 @@ namespace MathModule
         /// Decomposes a matrix into a scale, rotation, and translation
         /// </summary>
         /// <param name="scale">When the method completes, contains the scaling component of the decomposed matrix</param>
-        /// <param name="rotation">When the method completes, contains the rtoation component of the decomposed matrix</param>
         /// <param name="translation">When the method completes, contains the translation component of the decomposed matrix</param>
-        public bool Decompose(Vector3D scale, Quaternion rotation, Vector3D translation)
+        public bool Decompose(Vector3D scale, Vector3D translation)
         {
             translation.X = M41;
             translation.Y = M42;
@@ -423,26 +422,8 @@ namespace MathModule
 
             if (Mathematics.Abs(scale.X) < 0 || Mathematics.Abs(scale.Y) < 0 || Mathematics.Abs(scale.Z) < 0)
             {
-                rotation = Quaternion.Identity;
                 return false;
             }
-
-            Matrix rotationmatrix = new Matrix();
-            rotationmatrix.M11 = M11 / scale.X;
-            rotationmatrix.M12 = M12 / scale.X;
-            rotationmatrix.M13 = M13 / scale.X;
-
-            rotationmatrix.M21 = M21 / scale.Y;
-            rotationmatrix.M22 = M22 / scale.Y;
-            rotationmatrix.M23 = M23 / scale.Y;
-
-            rotationmatrix.M31 = M31 / scale.Z;
-            rotationmatrix.M32 = M32 / scale.Z;
-            rotationmatrix.M33 = M33 / scale.Z;
-
-            rotationmatrix.M44 = 1f;
-
-            rotation = Quaternion.RotationMatrix(rotationmatrix);
 
             return true;
         }

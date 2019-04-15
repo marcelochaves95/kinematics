@@ -5,13 +5,13 @@ namespace MathModule
     /// <summary>
     /// A collection of common mathematics functions
     /// </summary>
-    public static class Mathematics
+    public class Mathematics
     {
         /// <summary>
         /// The infamous ''3.14159265358979...'' value (RO)
         /// </summary>
         /// <returns>PI</returns>
-        public static float PI = (float)Math.PI;
+        public const float PI = (float)Math.PI;
 
         /// <summary>
         /// Returns the sine of angle value in radians
