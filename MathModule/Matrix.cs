@@ -451,8 +451,6 @@ namespace MathModule
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="exponent"/> is negative</exception>
         public static Matrix Exponent(Matrix value, int exponent)
         {
-            Matrix result;
-
             if (exponent < 0)
                 throw new ArgumentOutOfRangeException("exponent", "The exponent can not be negative.");
 
