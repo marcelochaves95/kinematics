@@ -6,7 +6,7 @@ namespace CollisionModule.Shapes
     [AddComponentMenu("Physics Engine/Shapes/Box")]
     public class BoxShape : CollisionShape
     {
-        [SerializeField] protected Vector3 extents = Vecto.one;
+        [SerializeField] protected Vector3 extents = Vector3.one;
         public Vector3 Extents
         {
             get { return extents; }
