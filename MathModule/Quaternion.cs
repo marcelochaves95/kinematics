@@ -254,7 +254,9 @@ namespace MathModule
             {
                 float magnitude = X * X + Y * Y + Z * Z;
                 if (magnitude < 0f)
+                {
                     return 0f;
+                }
 
                 return 2f * Mathematics.Acos(W);
             }
