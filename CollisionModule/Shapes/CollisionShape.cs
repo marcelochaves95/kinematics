@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections;
-
-using MathModule;
 
 using UnityEngine;
 
-namespace CollisionModule.Shape
+namespace CollisionModule.Shapes
 {
     [System.Serializable]
-    public abstract class BCollisionShape : MonoBehaviour, IDisposable
+    public abstract class CollisionShape : MonoBehaviour, IDisposable
     {
         public enum CollisionShapeType
         {
@@ -18,18 +15,14 @@ namespace CollisionModule.Shape
             CapsuleShape = 2,
             CylinderShape = 3,
             ConeShape = 4,
-            ConvexHull = 5,
-            CompoundShape = 6,
 
             // static
-            BvhTriangleMeshShape = 7,
-            StaticPlaneShape = 8,
+            BvhTriangleMeshShape = 5,
+            StaticPlaneShape = 6,
         };
 
-        private CollisionShape collisionShapePtr = null;
-        protected CollisionShape CollisionShapePtr { get => collisionShapePtr; set => collisionShapePtr = value; }
-        private bool drawGizmo = true;
-        public bool DrawGizmo { get => drawGizmo; set => drawGizmo = value; }
+        public CollisionShape collisionShapePtr = null;
+        public bool drawGizmo = true;
 
         private void OnDestroy()
         {
