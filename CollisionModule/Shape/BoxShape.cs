@@ -19,8 +19,10 @@ namespace CollisionModule.Shape
             set
             {
                 if (collisionShapePtr != null && value != extents)
+                {
                     Debug.LogError("Cannot change the extents after the bullet shape has been created. Extents is only the initial value " +
                         "Use LocalScaling to change the shape of a bullet shape.");
+                }
                 else
                     extents = value;
             }
@@ -34,14 +36,18 @@ namespace CollisionModule.Shape
             {
                 localScaling = value;
                 if (collisionShapePtr != null)
+                {
                     ((BoxShape)collisionShapePtr).LocalScaling = value.ToBullet();
+                }
             }
         }
 
         public override void OnDrawGizmosSelected()
         {
-            if (drawGizmo == false)
+            if (!drawGizmo)
+            {
                 return;
+            }
 
             Vector3D position = transform.position;
             Quaternion rotation = transform.rotation;
