@@ -1,12 +1,11 @@
 using System;
-using System.Threading;
 
 namespace MathModule
 {
     /// <summary>
     /// A collection of common mathematics functions
     /// </summary>
-    public struct Mathematics
+    public class Mathematics
     {
         /// <summary>
         /// The infamous ''3.14159265358979...'' value (RO)

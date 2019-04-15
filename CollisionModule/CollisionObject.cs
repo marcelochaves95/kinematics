@@ -7,7 +7,7 @@ using MathModule;
 
 namespace CollisionModule
 {
-    public struct CollisionObject : MonoBehaviour
+    public class CollisionObject : MonoBehaviour
     {
         public interface ICollisionCallbackEventHandler
         {

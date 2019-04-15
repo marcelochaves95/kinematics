@@ -4,7 +4,7 @@ using MathModule;
 
 namespace CollisionModule
 {
-    public struct RigidBody
+    public class RigidBody
     {
 
     }
