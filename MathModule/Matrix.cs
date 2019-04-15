@@ -416,9 +416,7 @@ namespace MathModule
             scale.Y = Mathematics.Sqrt((M21 * M21) + (M22 * M22) + (M23 * M23));
             scale.Z = Mathematics.Sqrt((M31 * M31) + (M32 * M32) + (M33 * M33));
 
-            if (Mathematics.Abs(scale.X) < Utilities.ZeroTolerance ||
-                Mathematics.Abs(scale.Y) < Utilities.ZeroTolerance ||
-                Mathematics.Abs(scale.Z) < Utilities.ZeroTolerance)
+            if (Mathematics.Abs(scale.X) < 0 || Mathematics.Abs(scale.Y) < 0 || Mathematics.Abs(scale.Z) < 0)
             {
                 rotation = Quaternion.Identity;
                 return false;
@@ -460,14 +458,12 @@ namespace MathModule
 
             if (exponent == 0)
             {
-                result = Identity;
-                return;
+                return Identity;
             }
 
             if (exponent == 1)
             {
-                result = value;
-                return;
+                return value;
             }
 
             Matrix identity = Identity;
@@ -486,9 +482,7 @@ namespace MathModule
                     break;
             }
 
-            result = identity;
-
-            return result;
+            return identity;
         }
 
         /// <summary>
@@ -593,10 +587,9 @@ namespace MathModule
             float d14 = value.M21 * b3 + value.M22 * -b1 + value.M23 * b0;
 
             float det = value.M11 * d11 - value.M12 * d12 + value.M13 * d13 - value.M14 * d14;
-            if (Mathematics.Abs(det) <= Utilities.ZeroTolerance)
+            if (Mathematics.Abs(det) <= 0)
             {
-                result = Zero;
-                return;
+                return Zero;
             }
 
             det = 1f / det;
@@ -711,7 +704,7 @@ namespace MathModule
 
             float lengthsq = difference.LengthSquared;
 
-            if (lengthsq < Utilities.ZeroTolerance)
+            if (lengthsq < 0)
                 difference = -cameraForwardVector;
             else
                 difference *= (1 / Mathematics.Sqrt(lengthsq));
@@ -757,7 +750,9 @@ namespace MathModule
             Matrix result;
 
             result = Identity;
-            result.M11 = result.M22 = result.M33 = scale;
+            result.M11 = scale;
+            result.M22 = scale;
+            result.M33 = scale;
 
             return result;
         }
@@ -922,10 +917,7 @@ namespace MathModule
         /// <returns>The created rotation matrix</returns>
         public static Matrix RotationYawPitchRoll(float yaw, float pitch, float roll)
         {
-            Quaternion quaternion = new Quaternion();
-            quaternion = Quaternion.RotationYawPitchRoll(yaw, pitch, roll);
-
-            return RotationQuaternion(ref quaternion);
+            return RotationQuaternion(Quaternion.RotationYawPitchRoll(yaw, pitch, roll));
         }
 
         /// <summary>

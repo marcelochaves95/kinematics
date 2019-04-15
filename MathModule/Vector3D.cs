@@ -320,8 +320,8 @@ namespace MathModule
 		/// <returns>The cubic interpolation of the two vectors</returns>
 		public static Vector3D SmoothStep(Vector3D start, Vector3D end, float amount)
 		{
-			amount = (amount > 1.0f) ? 1.0f : ((amount < 0.0f) ? 0.0f : amount);
-			amount = (amount * amount) * (3.0f - (2.0f * amount));
+			amount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
+			amount = (amount * amount) * (3f - (2f * amount));
 
 			return new Vector3D(
 				start.X + ((end.X - start.X) * amount),
@@ -343,9 +343,9 @@ namespace MathModule
 		{
 			float squared = amount * amount;
 			float cubed = amount * squared;
-			float part1 = ((2.0f * cubed) - (3.0f * squared)) + 1.0f;
-			float part2 = (-2.0f * cubed) + (3.0f * squared);
-			float part3 = (cubed - (2.0f * squared)) + amount;
+			float part1 = ((2f * cubed) - (3f * squared)) + 1f;
+			float part2 = (-2f * cubed) + (3f * squared);
+			float part3 = (cubed - (2f * squared)) + amount;
 			float part4 = cubed - squared;
 
 			return new Vector3D(
@@ -370,15 +370,15 @@ namespace MathModule
 			float cubed = amount * squared;
 
 			return new Vector3D(
-				result.X = 0.5f * ((((2.0f * value2.X) + ((-value1.X + value3.X) * amount)) +
-						(((((2.0f * value1.X) - (5.0f * value2.X)) + (4.0f * value3.X)) - value4.X) * squared)) +
-					((((-value1.X + (3.0f * value2.X)) - (3.0f * value3.X)) + value4.X) * cubed)),
-				result.Y = 0.5f * ((((2.0f * value2.Y) + ((-value1.Y + value3.Y) * amount)) +
-						(((((2.0f * value1.Y) - (5.0f * value2.Y)) + (4.0f * value3.Y)) - value4.Y) * squared)) +
-					((((-value1.Y + (3.0f * value2.Y)) - (3.0f * value3.Y)) + value4.Y) * cubed)),
-				result.Z = 0.5f * ((((2.0f * value2.Z) + ((-value1.Z + value3.Z) * amount)) +
-						(((((2.0f * value1.Z) - (5.0f * value2.Z)) + (4.0f * value3.Z)) - value4.Z) * squared)) +
-					((((-value1.Z + (3.0f * value2.Z)) - (3.0f * value3.Z)) + value4.Z) * cubed))
+				0.5f * ((((2f * value2.X) + ((-value1.X + value3.X) * amount)) +
+						(((((2f * value1.X) - (5f * value2.X)) + (4f * value3.X)) - value4.X) * squared)) +
+					((((-value1.X + (3f * value2.X)) - (3f * value3.X)) + value4.X) * cubed)),
+				0.5f * ((((2f * value2.Y) + ((-value1.Y + value3.Y) * amount)) +
+						(((((2f * value1.Y) - (5f * value2.Y)) + (4f * value3.Y)) - value4.Y) * squared)) +
+					((((-value1.Y + (3f * value2.Y)) - (3f * value3.Y)) + value4.Y) * cubed)),
+				0.5f * ((((2f * value2.Z) + ((-value1.Z + value3.Z) * amount)) +
+						(((((2f * value1.Z) - (5f * value2.Z)) + (4f * value3.Z)) - value4.Z) * squared)) +
+					((((-value1.Z + (3f * value2.Z)) - (3f * value3.Z)) + value4.Z) * cubed))
 			);
 		}
 
@@ -428,7 +428,7 @@ namespace MathModule
 		{
 			Vector3D v = TransformCoordinate(ref vector, ref worldViewProjection);
 
-			return new Vector3D(((1.0f + v.X) * 0.5f * width) + x, ((1.0f - v.Y) * 0.5f * height) + y, (v.Z * (maxZ - minZ)) + minZ);
+			return new Vector3D(((1f + v.X) * 0.5f * width) + x, ((1f - v.Y) * 0.5f * height) + y, (v.Z * (maxZ - minZ)) + minZ);
 		}
 
 		/// <summary>
@@ -448,8 +448,8 @@ namespace MathModule
 			Vector3D v = new Vector3D();
 			Matrix matrix = Matrix.Invert(worldViewProjection);
 
-			v.X = (((vector.X - x) / width) * 2.0f) - 1.0f;
-			v.Y = -((((vector.Y - y) / height) * 2.0f) - 1.0f);
+			v.X = (((vector.X - x) / width) * 2f) - 1f;
+			v.Y = -((((vector.Y - y) / height) * 2f) - 1f);
 			v.Z = (vector.Z - minZ) / (maxZ - minZ);
 
 			return TransformCoordinate(v, matrix);
@@ -520,15 +520,15 @@ namespace MathModule
 			float yz = rotation.Y * z;
 			float zz = rotation.Z * z;
 
-			float num1 = ((1.0f - yy) - zz);
+			float num1 = ((1f - yy) - zz);
 			float num2 = (xy - wz);
 			float num3 = (xz + wy);
 			float num4 = (xy + wz);
-			float num5 = ((1.0f - xx) - zz);
+			float num5 = ((1f - xx) - zz);
 			float num6 = (yz - wx);
 			float num7 = (xz - wy);
 			float num8 = (yz + wx);
-			float num9 = ((1.0f - xx) - yy);
+			float num9 = ((1f - xx) - yy);
 
 			return new Vector3D(
 				((vector.X * num1) + (vector.Y * num2)) + (vector.Z * num3),
