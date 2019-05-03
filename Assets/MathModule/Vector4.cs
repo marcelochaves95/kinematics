@@ -7,7 +7,7 @@ namespace MathModule
     /// Represents a four dimensional mathematical vector.
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Vector4D : IEquatable<Vector4D>
+    public struct Vector4 : IEquatable<Vector4>
     {
         /// <summary>
         /// The X component of the vector
@@ -36,7 +36,7 @@ namespace MathModule
         /// <param name="y">Initial value for the Y component of the vector</param>
         /// <param name="z">Initial value for the Z component of the vector</param>
         /// <param name="w">Initial value for the W component of the vector</param>
-        public Vector4D(float x, float y, float z, float w)
+        public Vector4(float x, float y, float z, float w)
         {
             X = x;
             Y = y;
@@ -49,7 +49,7 @@ namespace MathModule
         /// </summary>
         /// <param name="vector">A vector containing the values with which to initialize the X, Y, and Z components</param>
         /// <param name="w">Initial value for the W component of the vector</param>
-        public Vector4D(Vector3D value, float w)
+        public Vector4(Vector3 value, float w)
         {
             X = value.X;
             Y = value.Y;
@@ -63,7 +63,7 @@ namespace MathModule
         /// <param name="values">The values to assign to the X, Y, Z and W components of the vector. This must be an array with three elements</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than three elements</exception>
-        public Vector4D(float[] values)
+        public Vector4(float[] values)
         {
             if (values == null)
             {
@@ -84,32 +84,32 @@ namespace MathModule
         /// <summary>
         /// Shorthand for writing Vector4D(1, 0, 0, 0)
         /// </summary>
-        public static readonly Vector4D UnitX = new Vector4D(1f, 0f, 0f, 0f);
+        public static readonly Vector4 UnitX = new Vector4(1f, 0f, 0f, 0f);
 
         /// <summary>
         /// Shorthand for writing Vector4D(0, 1, 0, 0)
         /// </summary>
-        public static readonly Vector4D UnitY = new Vector4D(0f, 1f, 0f, 0f);
+        public static readonly Vector4 UnitY = new Vector4(0f, 1f, 0f, 0f);
 
         /// <summary>
         /// Shorthand for writing Vector4D(0, 0, 1, 0)
         /// </summary>
-        public static readonly Vector4D UnitZ = new Vector4D(0f, 0f, 1f, 0f);
+        public static readonly Vector4 UnitZ = new Vector4(0f, 0f, 1f, 0f);
 
         /// <summary>
         /// Shorthand for writing Vector4D(0, 0, 0, 1)
         /// </summary>
-        public static readonly Vector4D UnitW = new Vector4D(0f, 0f, 0f, 1f);
+        public static readonly Vector4 UnitW = new Vector4(0f, 0f, 0f, 1f);
 
         /// <summary>
         /// Shorthand for writing Vector4D(1, 1, 1, 1)
         /// </summary>
-        public static readonly Vector4D One = new Vector4D(1f, 1f, 1f, 1f);
+        public static readonly Vector4 One = new Vector4(1f, 1f, 1f, 1f);
 
         /// <summary>
         /// Shorthand for writing Vector4D(0, 0, 0, 0)
         /// </summary>
-        public static readonly Vector4D Zero = new Vector4D(0f, 0f, 0f, 0f);
+        public static readonly Vector4 Zero = new Vector4(0f, 0f, 0f, 0f);
 
         /// <summary>
         /// Operator + overload ; add two vectors
@@ -117,7 +117,7 @@ namespace MathModule
         /// <param name="value1">First vector</param>
         /// <param name="value2">Second vector</param>
         /// <returns>v1 + v2</returns>
-        public static Vector4D operator +(Vector4D value1, Vector4D value2) => new Vector4D(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z, value1.W + value2.W);
+        public static Vector4 operator +(Vector4 value1, Vector4 value2) => new Vector4(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z, value1.W + value2.W);
 
         /// <summary>
         /// Operator - overload ; subtracts two vectors
@@ -125,14 +125,14 @@ namespace MathModule
         /// <param name="value1">First vector</param>
         /// <param name="value2">Second vector</param>
         /// <returns>v1 - v2</returns>
-        public static Vector4D operator -(Vector4D value1, Vector4D value2) => new Vector4D(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z, value1.W - value2.W);
+        public static Vector4 operator -(Vector4 value1, Vector4 value2) => new Vector4(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z, value1.W - value2.W);
 
         /// <summary>
         /// Operator - overload ; returns the opposite of a vector
         /// </summary>
         /// <param name="value">Vector to negate</param>
         /// <returns>-v</returns>
-        public static Vector4D operator -(Vector4D value) => new Vector4D(-value.X, -value.Y, -value.Z, -value.W);
+        public static Vector4 operator -(Vector4 value) => new Vector4(-value.X, -value.Y, -value.Z, -value.W);
 
         /// <summary>
         /// Operator * overload ; multiply a vector by a scalar value
@@ -140,7 +140,7 @@ namespace MathModule
         /// <param name="value">Vector</param>
         /// <param name="scalar">Scalar value</param>
         /// <returns>v * s</returns>
-        public static Vector4D operator *(Vector4D value, float scalar) => new Vector4D(value.X * scalar, value.Y * scalar, value.Z * scalar, value.W * scalar);
+        public static Vector4 operator *(Vector4 value, float scalar) => new Vector4(value.X * scalar, value.Y * scalar, value.Z * scalar, value.W * scalar);
 
         /// <summary>
         /// Operator * overload ; multiply a scalar value by a vector
@@ -148,7 +148,7 @@ namespace MathModule
         /// <param name="scalar">Scalar value</param>
         /// <param name="value">Vector</param>
         /// <returns>s * v</returns>
-        public static Vector4D operator *(float scalar, Vector4D value) => new Vector4D(value.X * scalar, value.Y * scalar, value.Z * scalar, value.W * scalar);
+        public static Vector4 operator *(float scalar, Vector4 value) => new Vector4(value.X * scalar, value.Y * scalar, value.Z * scalar, value.W * scalar);
 
         /// <summary>
         /// Operator / overload ; divide a vector by a scalar value
@@ -156,7 +156,7 @@ namespace MathModule
         /// <param name="value">Vector</param>
         /// <param name="scalar">Scalar value</param>
         /// <returns>v / s</returns>
-        public static Vector4D operator /(Vector4D value, float scalar) => new Vector4D(value.X / scalar, value.Y / scalar, value.Z / scalar, value.W / scalar);
+        public static Vector4 operator /(Vector4 value, float scalar) => new Vector4(value.X / scalar, value.Y / scalar, value.Z / scalar, value.W / scalar);
 
         /// <summary>
         /// Operator == overload ; check vector equality
@@ -164,7 +164,7 @@ namespace MathModule
         /// <param name="value1">First vector</param>
         /// <param name="value2">Second vector</param>
         /// <returns>v1 == v2</returns>
-        public static bool operator ==(Vector4D value1, Vector4D value2) => value1.Equals(value2);
+        public static bool operator ==(Vector4 value1, Vector4 value2) => value1.Equals(value2);
 
         /// <summary>
         /// Operator != overload ; check vector inequality
@@ -172,28 +172,28 @@ namespace MathModule
         /// <param name="value1">First vector</param>
         /// <param name="value2">Second vector</param>
         /// <returns>v1 != v2</returns>
-        public static bool operator !=(Vector4D value1, Vector4D value2) => !value1.Equals(value2);
+        public static bool operator !=(Vector4 value1, Vector4 value2) => !value1.Equals(value2);
 
         /// <summary>
         /// Performs an explicit conversion from Vector4D to Vector4D
         /// </summary>
         /// <param name="value">The value</param>
         /// <returns>The result of the conversion</returns>
-        public static explicit operator Vector3D(Vector4D value) => Vector3D(value.X, value.Y, value.Z);
+        public static explicit operator Vector3(Vector4 value) => Vector3(value.X, value.Y, value.Z);
 
         /// <summary>
         /// Compare vector and object and checks if they are equal
         /// </summary>
         /// <param name="obj">Object to check</param>
         /// <returns>Object and vector are equal</returns>
-        public override bool Equals(object obj) => (obj is Vector4D) && Equals((Vector4D)obj);
+        public override bool Equals(object obj) => (obj is Vector4) && Equals((Vector4)obj);
 
         /// <summary>
         /// Compare two vectors and checks if they are equal
         /// </summary>
         /// <param name="other">Vector to check</param>
         /// <returns>Vectors are equal</returns>
-        public bool Equals(Vector4D other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+        public bool Equals(Vector4 other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
 
         /// <summary>
         /// Get's a value indicting whether this instance is normalized
@@ -204,20 +204,20 @@ namespace MathModule
         /// Calculates the length of the vector
         /// </summary>
         /// <returns>May be preferred when only the relative length is needed and speed is of the essence</returns>
-        public static float Magnitude(Vector4D value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z, value.W * value.W);
+        public static float Magnitude(Vector4 value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z, value.W * value.W);
 
         /// <summary>
         /// Converts the vector into a unit vector
         /// </summary>
         /// <param name="value">Vector</param>
         /// <returns>Normalized vector</returns>
-        public static Vector4D Normalize(Vector4D value) => value / Magnitude(value);
+        public static Vector4 Normalize(Vector4 value) => value / Magnitude(value);
 
         /// <summary>
         /// Converts the vector into a unit vector
         /// </summary>
         /// <returns>Normalized vector</returns>
-        public Vector4D Normalize() => Normalize(this);
+        public Vector4 Normalize() => Normalize(this);
 
         /// <summary>
         /// Returns a containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 4D triangle
@@ -228,9 +228,9 @@ namespace MathModule
         /// <param name="amount1">Barycentric coordinate b2, which expresses the weighting factor toward vertex 2 (specified in <paramref name="value2"/>)</param>
         /// <param name="amount2">Barycentric coordinate b3, which expresses the weighting factor toward vertex 3 (specified in <paramref name="value3"/>)</param>
         /// <returns>A new containing the 4D Cartesian coordinates of the specified point</returns>
-        public static Vector4D Barycentric(Vector4D value1, Vector4D value2, Vector4D value3, float amount1, float amount2)
+        public static Vector4 Barycentric(Vector4 value1, Vector4 value2, Vector4 value3, float amount1, float amount2)
         {
-            new Vector4D(
+            new Vector4(
                 (value1.X + (amount1 * (value2.X - value1.X))) + (amount2 * (value3.X - value1.X)),
                 (value1.Y + (amount1 * (value2.Y - value1.Y))) + (amount2 * (value3.Y - value1.Y)),
                 (value1.Z + (amount1 * (value2.Z - value1.Z))) + (amount2 * (value3.Z - value1.Z)),
@@ -244,9 +244,9 @@ namespace MathModule
         /// <param name="min">The minimum value</param>
         /// <param name="max">The maximum value</param>
         /// <returns>The clamped value</returns>
-        public static Vector4D Clamp(Vector4D value, Vector4D min, Vector4D max)
+        public static Vector4 Clamp(Vector4 value, Vector4 min, Vector4 max)
         {
-            Vector4D result;
+            Vector4 result;
 
             result.X = value.X;
             result.X = (result.X > max.X) ? max.X : result.X;
@@ -273,7 +273,7 @@ namespace MathModule
         /// <param name="value1">The first vector</param>
         /// <param name="value2">The second vector</param>
         /// <returns>The distance between the two vectors</returns>
-        public static float Distance(Vector4D value1, Vector4D value2)
+        public static float Distance(Vector4 value1, Vector4 value2)
         {
             float x = value1.X - value2.X;
             float y = value1.Y - value2.Y;
@@ -289,7 +289,7 @@ namespace MathModule
         /// <param name="value2">First source vector</param>
         /// <param name="value2">Second source vector</param>
         /// <returns>The dot product of the two vectors</returns>
-        public static float DotProduct(Vector4D value1, Vector4D value2) => value1.X * value2.X + value1.Y * value2.Y + value1.Z * value2.Z + value1.W * value2.W;
+        public static float DotProduct(Vector4 value1, Vector4 value2) => value1.X * value2.X + value1.Y * value2.Y + value1.Z * value2.Z + value1.W * value2.W;
 
         /// <summary>
         /// Performs a linear interpolation between two vectors
@@ -298,9 +298,9 @@ namespace MathModule
         /// <param name="end">End vector</param>
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/>.</param>
         /// <returns>The linear interpolation of the two vectors</returns>
-        public static Vector4D Lerp(Vector4D start, Vector4D end, float amount)
+        public static Vector4 Lerp(Vector4 start, Vector4 end, float amount)
         {
-            return new Vector4D(
+            return new Vector4(
                 start.X + ((end.X - start.X) * amount),
                 start.Y + ((end.Y - start.Y) * amount),
                 start.Z + ((end.Z - start.Z) * amount),
@@ -316,7 +316,7 @@ namespace MathModule
         /// <param name="tangent2">Second source tangent vector</param>
         /// <param name="amount">Weighting factor</param>
         /// <returns>The result of the Hermite spline interpolation</returns>
-        public static Vector4D Hermite(Vector4D value1, Vector4D tangent1, Vector4D value2, Vector4D tangent2, float amount)
+        public static Vector4 Hermite(Vector4 value1, Vector4 tangent1, Vector4 value2, Vector4 tangent2, float amount)
         {
             float squared = amount * amount;
             float cubed = amount * squared;
@@ -325,7 +325,7 @@ namespace MathModule
             float part3 = (cubed - (2f * squared)) + amount;
             float part4 = cubed - squared;
 
-            return new Vector4D(
+            return new Vector4(
                 (((value1.X * part1) + (value2.X * part2)) + (tangent1.X * part3)) + (tangent2.X * part4),
                 (((value1.Y * part1) + (value2.Y * part2)) + (tangent1.Y * part3)) + (tangent2.Y * part4),
                 (((value1.Z * part1) + (value2.Z * part2)) + (tangent1.Z * part3)) + (tangent2.Z * part4),
@@ -341,12 +341,12 @@ namespace MathModule
         /// <param name="value4">The fourth position in the interpolation</param>
         /// <param name="amount">Weighting factor</param>
         /// <returns>A vector that is the result of the Catmull-Rom interpolation</returns>
-        public static Vector4D CatmullRom(Vector4D value1, Vector4D value2, Vector4D value3, Vector4D value4, float amount)
+        public static Vector4 CatmullRom(Vector4 value1, Vector4 value2, Vector4 value3, Vector4 value4, float amount)
         {
             float squared = amount * amount;
             float cubed = amount * squared;
 
-            return new Vector4D(
+            return new Vector4(
                 0.5f * ((((2f * value2.X) + ((-value1.X + value3.X) * amount)) +
                         (((((2f * value1.X) - (5.0f * value2.X)) + (4.0f * value3.X)) - value4.X) * squared)) +
                     ((((-value1.X + (3f * value2.X)) - (3f * value3.X)) + value4.X) * cubed)),
@@ -367,9 +367,9 @@ namespace MathModule
         /// <param name="value1">The first source vector</param>
         /// <param name="value2">The second source vector</param>
         /// <returns>A vector containing the largest components of the source vectors</returns>
-        public static Vector4D Max(Vector4D value1, Vector4D value2)
+        public static Vector4 Max(Vector4 value1, Vector4 value2)
         {
-            return new Vector4D(
+            return new Vector4(
                 (value1.X > value2.X) ? value1.X : value2.X,
                 (value1.Y > value2.Y) ? value1.Y : value2.Y,
                 (value1.Z > value2.Z) ? value1.Z : value2.Z,
@@ -382,9 +382,9 @@ namespace MathModule
         /// <param name="value1">The first source vector</param>
         /// <param name="value2">The second source vector</param>
         /// <returns>A vector containing the smallest components of the source vectors</returns>
-        public static Vector4D Min(Vector4D value1, Vector4D value2)
+        public static Vector4 Min(Vector4 value1, Vector4 value2)
         {
-            return new Vector4D(
+            return new Vector4(
                 (value1.X < value2.X) ? value1.X : value2.X,
                 (value1.Y < value2.Y) ? value1.Y : value2.Y,
                 (value1.Z < value2.Z) ? value1.Z : value2.Z,
@@ -397,7 +397,7 @@ namespace MathModule
         /// <param name="value">The vector to rotate</param>
         /// <param name="rotation">The rotation to apply</param>
         /// <returns>The transformed</returns>
-        public static Vector4D Transform(Vector4D value, Quaternion4D rotation)
+        public static Vector4 Transform(Vector4 value, Quaternion rotation)
         {
             float x = rotation.X + rotation.X;
             float y = rotation.Y + rotation.Y;
@@ -422,7 +422,7 @@ namespace MathModule
             float num8 = (yz + wx);
             float num9 = ((1f - xx) - yy);
 
-            return new Vector4D(
+            return new Vector4(
                 ((value.X * num1) + (value.Y * num2)) + (value.Z * num3),
                 ((value.X * num4) + (value.Y * num5)) + (value.Z * num6),
                 ((value.X * num7) + (value.Y * num8)) + (value.Z * num9),
@@ -435,9 +435,9 @@ namespace MathModule
         /// <param name="value">The source vector</param>
         /// <param name="transform">The transformation</param>
         /// <returns>The transformed</returns>
-        public static Vector4D Transform(Vector4D value, Matrix4D transform)
+        public static Vector4 Transform(Vector4 value, Matrix transform)
         {
-            return new Vector4D(
+            return new Vector4(
                 (value.X * transform.M11) + (value.Y * transform.M21) + (value.Z * transform.M31) + (value.W * transform.M41),
                 (value.X * transform.M12) + (value.Y * transform.M22) + (value.Z * transform.M32) + (value.W * transform.M42),
                 (value.X * transform.M13) + (value.Y * transform.M23) + (value.Z * transform.M33) + (value.W * transform.M43),

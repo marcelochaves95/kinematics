@@ -8,7 +8,7 @@ namespace MathModule
 	/// vectors with float components
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
-	public struct Vector3D : IEquatable<Vector3D>
+	public struct Vector3 : IEquatable<Vector3>
 	{
 		/// <summary>X (horizontal) component of the vector</summary>
 		public float X { get; set; }
@@ -25,7 +25,7 @@ namespace MathModule
 		/// <param name="x">X coordinate</param>
 		/// <param name="y">Y coordinate</param>
 		/// <param name="z">Z coordinate</param>
-		public Vector3D(float x, float y, float z)
+		public Vector3(float x, float y, float z)
 		{
 			X = x;
 			Y = y;
@@ -38,7 +38,7 @@ namespace MathModule
 		/// <param name="values">The values to assign to the X, Y, and Z components of the vector. This must be an array with three elements</param>
 		/// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
 		/// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than three elements</exception>
-		public Vector3D(float[] values)
+		public Vector3(float[] values)
 		{
 			if (values == null)
 			{
@@ -59,49 +59,49 @@ namespace MathModule
 		/// Shorthand for writing Vector3D(0, 0, 1)
 		/// </summary>
 		/// <returns>Vector forward</returns>
-		public static readonly Vector3D Forward = new Vector3D(0f, 0f, 1f);
+		public static readonly Vector3 Forward = new Vector3(0f, 0f, 1f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(0, 0, -1)
 		/// </summary>
 		/// <returns>Vector back</returns>
-		public static readonly Vector3D Back = new Vector3D(0f, 0f, -1f);
+		public static readonly Vector3 Back = new Vector3(0f, 0f, -1f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(0, 1, 0)
 		/// </summary>
 		/// <returns>Vector up</returns>
-		public static readonly Vector3D Up = new Vector3D(0f, 1f, 0f);
+		public static readonly Vector3 Up = new Vector3(0f, 1f, 0f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(0, -1, 0)
 		/// </summary>
 		/// <returns>Vector down</returns>
-		public static readonly Vector3D Down = new Vector3D(0f, -1f, 0f);
+		public static readonly Vector3 Down = new Vector3(0f, -1f, 0f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(-1, 0, 0)
 		/// </summary>
 		/// <returns>Vector left</returns>
-		public static readonly Vector3D Left = new Vector3D(-1f, 0f, 0f);
+		public static readonly Vector3 Left = new Vector3(-1f, 0f, 0f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(1, 0, 0)
 		/// </summary>
 		/// <returns>Vector right</returns>
-		public static readonly Vector3D Right = new Vector3D(1f, 0f, 0f);
+		public static readonly Vector3 Right = new Vector3(1f, 0f, 0f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(1, 1, 1)
 		/// </summary>
 		/// <returns>Vector one</returns>
-		public static readonly Vector3D One = new Vector3D(1f, 1f, 1f);
+		public static readonly Vector3 One = new Vector3(1f, 1f, 1f);
 
 		/// <summary>
 		/// Shorthand for writing Vector3D(0, 0, 0)
 		/// </summary>
 		/// <returns>Vector zero</returns>
-		public static readonly Vector3D Zero = new Vector3D(0f, 0f, 0f);
+		public static readonly Vector3 Zero = new Vector3(0f, 0f, 0f);
 
 		/// <summary>
 		/// Operator + overload ; add two vectors
@@ -109,7 +109,7 @@ namespace MathModule
 		/// <param name="value1">First vector</param>
 		/// <param name="value2">Second vector</param>
 		/// <returns>v1 + v2</returns>
-		public static Vector3D operator +(Vector3D value1, Vector3D value2) => new Vector3D(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z);
+		public static Vector3 operator +(Vector3 value1, Vector3 value2) => new Vector3(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z);
 
 		/// <summary>
 		/// Operator - overload ; subtracts two vectors
@@ -117,14 +117,14 @@ namespace MathModule
 		/// <param name="value1">First vector</param>
 		/// <param name="value2">Second vector</param>
 		/// <returns>v1 - v2</returns>
-		public static Vector3D operator -(Vector3D value1, Vector3D value2) => new Vector3D(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);
+		public static Vector3 operator -(Vector3 value1, Vector3 value2) => new Vector3(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);
 
 		/// <summary>
 		/// Operator - overload ; returns the opposite of a vector
 		/// </summary>
 		/// <param name="value">Vector to negate</param>
 		/// <returns>-v</returns>
-		public static Vector3D operator -(Vector3D value) => new Vector3D(-value.X, -value.Y, -value.Z);
+		public static Vector3 operator -(Vector3 value) => new Vector3(-value.X, -value.Y, -value.Z);
 
 		/// <summary>
 		/// Scales a vector by the given value
@@ -132,7 +132,7 @@ namespace MathModule
 		/// <param name="value1">The vector to scale</param>
 		/// <param name="value2">The amount by which to scale the vector</param>
 		/// <returns>The scaled vector</returns>
-		public static Vector3D operator *(Vector3D value1, Vector3D value2) => new Vector3D(value1.X * value2.X, value1.Y * value2.Y, value1.Z * value2.Z);
+		public static Vector3 operator *(Vector3 value1, Vector3 value2) => new Vector3(value1.X * value2.X, value1.Y * value2.Y, value1.Z * value2.Z);
 
 		/// <summary>
 		/// Operator * overload ; multiply a vector by a scalar value
@@ -140,7 +140,7 @@ namespace MathModule
 		/// <param name="value">Vector</param>
 		/// <param name="scalar">Scalar value</param>
 		/// <returns>v * s</returns>
-		public static Vector3D operator *(Vector3D value, float scalar) => new Vector3D(value.X * scalar, value.Y * scalar, value.Z * scalar);
+		public static Vector3 operator *(Vector3 value, float scalar) => new Vector3(value.X * scalar, value.Y * scalar, value.Z * scalar);
 
 		/// <summary>
 		/// Operator * overload ; multiply a scalar value by a vector
@@ -148,7 +148,7 @@ namespace MathModule
 		/// <param name="scalar">Scalar value</param>
 		/// <param name="value">Vector</param>
 		/// <returns>s * v</returns>
-		public static Vector3D operator *(float scalar, Vector3D value) => new Vector3D(value.X * scalar, value.Y * scalar, value.Z * scalar);
+		public static Vector3 operator *(float scalar, Vector3 value) => new Vector3(value.X * scalar, value.Y * scalar, value.Z * scalar);
 
 		/// <summary>
 		/// Scales a vector by the given value
@@ -156,7 +156,7 @@ namespace MathModule
 		/// <param name="value1">The vector to scale</param>
 		/// <param name="value2">The amount by which to scale the vector</param>
 		/// <returns>The scaled vector</returns>
-		public static Vector3D operator /(Vector3D value1, Vector3D value2) => new Vector3D(value1.X / value2.X, value1.Y / value2.Y, value1.Z / value2.Z);
+		public static Vector3 operator /(Vector3 value1, Vector3 value2) => new Vector3(value1.X / value2.X, value1.Y / value2.Y, value1.Z / value2.Z);
 
 		/// <summary>
 		/// Operator / overload ; divide a vector by a scalar value
@@ -164,14 +164,14 @@ namespace MathModule
 		/// <param name="value">Vector</param>
 		/// <param name="scalar">Scalar value</param>
 		/// <returns>v / s</returns>
-		public static Vector3D operator /(Vector3D value, float scalar) => new Vector3D(value.X / scalar, value.Y / scalar, value.Z / scalar);
+		public static Vector3 operator /(Vector3 value, float scalar) => new Vector3(value.X / scalar, value.Y / scalar, value.Z / scalar);
 
 		/// <summary>
 		/// Performs an explicit conversion from Vector3D to Vector4D
 		/// </summary>
 		/// <param name="value">The value</param>
 		/// <returns>The result of the conversion./returns>
-		public static explicit operator Vector4D(Vector3D value) => new Vector4D(value, 0f);
+		public static explicit operator Vector4(Vector3 value) => new Vector4(value, 0f);
 
 		/// <summary>
 		/// Operator == overload ; check vector equality
@@ -179,7 +179,7 @@ namespace MathModule
 		/// <param name="value1">First vector</param>
 		/// <param name="value2">Second vector</param>
 		/// <returns>v1 == v2</returns>
-		public static bool operator ==(Vector3D value1, Vector3D value2) => value1.Equals(value2);
+		public static bool operator ==(Vector3 value1, Vector3 value2) => value1.Equals(value2);
 
 		/// <summary>
 		/// Operator != overload ; check vector inequality
@@ -187,27 +187,27 @@ namespace MathModule
 		/// <param name="value1">First vector</param>
 		/// <param name="value2">Second vector</param>
 		/// <returns>v1 != v2</returns>
-		public static bool operator !=(Vector3D value1, Vector3D value2) => !value1.Equals(value2);
+		public static bool operator !=(Vector3 value1, Vector3 value2) => !value1.Equals(value2);
 
 		/// <summary>
 		/// Compare vector and object and checks if they are equal
 		/// </summary>
 		/// <param name="obj">Object to check</param>
 		/// <returns>Object and vector are equal</returns>
-		public override bool Equals(object obj) => (obj is Vector3D) && Equals((Vector3D)obj);
+		public override bool Equals(object obj) => (obj is Vector3) && Equals((Vector3)obj);
 
 		/// <summary>
 		/// Compare two vectors and checks if they are equal
 		/// </summary>
 		/// <param name="other">Vector to check</param>
 		/// <returns>Vectors are equal</returns>
-		public bool Equals(Vector3D other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+		public bool Equals(Vector3 other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
 
 		/// <summary>
 		/// Calculates the length of the vector
 		/// </summary>
 		/// <returns>The length of the vector</returns>
-		public static float Magnitude(Vector3D value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z);
+		public static float Magnitude(Vector3 value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z);
 
 		/// <summary>
         /// Calculates the squared length of the vector
@@ -220,40 +220,40 @@ namespace MathModule
 		/// </summary>
 		/// <param name="value">Vector</param>
 		/// <returns>Normalized vector</returns>
-		public static Vector3D Normalize(Vector3D value) => value / Magnitude(value);
+		public static Vector3 Normalize(Vector3 value) => value / Magnitude(value);
 
 		/// <summary>
 		/// Converts the vector into a unit vector
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public static Vector3D Normalize() => Normalize(this);
+		public static Vector3 Normalize() => Normalize(this);
 
 		/// <summary>
 		/// Calculates the dot product of two vectors
 		/// </summary>
 		/// <param name="value1">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
-		public static float DotProduct(Vector3D value1, Vector3D value2) => value1.X + value2.X + value1.Y * value2.Y + value1.Z * value2.Z;
+		public static float DotProduct(Vector3 value1, Vector3 value2) => value1.X + value2.X + value1.Y * value2.Y + value1.Z * value2.Z;
 
 		/// <summary>
 		/// Calculates the cross product of two vectors
 		/// </summary>
 		/// <param name="value2">Vector</param>
 		/// <returns>Cross Product of two vectors</returns>
-		public static Vector3D CrossProduct(Vector3D value1, Vector3D value2) => new Vector3D(value1.Y * value2.Z - value1.Z * value2.Y, value1.Z * value2.X - value1.X * value2.Z, value1.X * value2.Y - value1.Y * value2.X);
+		public static Vector3 CrossProduct(Vector3 value1, Vector3 value2) => new Vector3(value1.Y * value2.Z - value1.Z * value2.Y, value1.Z * value2.X - value1.X * value2.Z, value1.X * value2.Y - value1.Y * value2.X);
 
 		/// <summary>
-		/// Returns a <see cref="Vector3D"/> containing the 3D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 3D triangle
+		/// Returns a <see cref="Vector3"/> containing the 3D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 3D triangle
 		/// </summary>
-		/// <param name="value1">A <see cref="Vector3D"/> containing the 3D Cartesian coordinates of vertex 1 of the triangle</param>
-		/// <param name="value2">A <see cref="Vector3D"/> containing the 3D Cartesian coordinates of vertex 2 of the triangle</param>
-		/// <param name="value3">A <see cref="Vector3D"/> containing the 3D Cartesian coordinates of vertex 3 of the triangle</param>
+		/// <param name="value1">A <see cref="Vector3"/> containing the 3D Cartesian coordinates of vertex 1 of the triangle</param>
+		/// <param name="value2">A <see cref="Vector3"/> containing the 3D Cartesian coordinates of vertex 2 of the triangle</param>
+		/// <param name="value3">A <see cref="Vector3"/> containing the 3D Cartesian coordinates of vertex 3 of the triangle</param>
 		/// <param name="amount1">Barycentric coordinate b2, which expresses the weighting factor toward vertex 2 (specified in <paramref name="value2"/>)</param>
 		/// <param name="amount2">Barycentric coordinate b3, which expresses the weighting factor toward vertex 3 (specified in <paramref name="value3"/>)</param>
-		/// <returns>A new <see cref="Vector3D"/> containing the 3D Cartesian coordinates of the specified point</returns>
-		public static Vector3D Barycentric(Vector3D value1, Vector3D value2, Vector3D value3, float amount1, float amount2)
+		/// <returns>A new <see cref="Vector3"/> containing the 3D Cartesian coordinates of the specified point</returns>
+		public static Vector3 Barycentric(Vector3 value1, Vector3 value2, Vector3 value3, float amount1, float amount2)
 		{
-			return new Vector3D((value1.X + (amount1 * (value2.X - value1.X))) + (amount2 * (value3.X - value1.X)),
+			return new Vector3((value1.X + (amount1 * (value2.X - value1.X))) + (amount2 * (value3.X - value1.X)),
 				(value1.Y + (amount1 * (value2.Y - value1.Y))) + (amount2 * (value3.Y - value1.Y)),
 				(value1.Z + (amount1 * (value2.Z - value1.Z))) + (amount2 * (value3.Z - value1.Z)));
 		}
@@ -265,7 +265,7 @@ namespace MathModule
 		/// <param name="min">The minimum value</param>
 		/// <param name="max">The maximum value</param>
 		/// <returns>The clamped value</returns>
-		public static Vector3D Clamp(Vector3D value, Vector3D min, Vector3D max)
+		public static Vector3 Clamp(Vector3 value, Vector3 min, Vector3 max)
 		{
 			float x = value.X;
 			x = (x > max.X) ? max.X : x;
@@ -279,7 +279,7 @@ namespace MathModule
 			z = (z > max.Z) ? max.Z : z;
 			z = (z < min.Z) ? min.Z : z;
 
-			return new Vector3D(x, y, z);
+			return new Vector3(x, y, z);
 		}
 
 		/// <summary>
@@ -289,7 +289,7 @@ namespace MathModule
 		/// <param name="value2">Second source vector</param>
 		/// <param name="value3">Third source vector</param>
 		/// <returns>The tripple cross product of the three vectors</returns>
-		public static float TripleProduct(Vector3D value1, Vector3D value2, Vector3D value3) => DotProduct(ref value1, ref CrossProduct(ref value2, ref value3));
+		public static float TripleProduct(Vector3 value1, Vector3 value2, Vector3 value3) => DotProduct(ref value1, ref CrossProduct(ref value2, ref value3));
 
 		/// <summary>
 		/// Calculates the distance between two vectors
@@ -297,7 +297,7 @@ namespace MathModule
 		/// <param name="value1">The first vector</param>
 		/// <param name="value2">The second vector</param>
 		/// <returns>The distance between the two vectors</returns>
-		public static float Distance(Vector3D value1, Vector3D value2)
+		public static float Distance(Vector3 value1, Vector3 value2)
 		{
 			float x = value1.X - value2.X;
 			float y = value1.Y - value2.Y;
@@ -313,9 +313,9 @@ namespace MathModule
 		/// <param name="end">End vector</param>
 		/// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/></param>
 		/// <returns>The linear interpolation of the two vectors</returns>
-		public static Vector3D Lerp(Vector3D start, Vector3D end, float amount)
+		public static Vector3 Lerp(Vector3 start, Vector3 end, float amount)
 		{
-			return new Vector3D(
+			return new Vector3(
 				start.X + ((end.X - start.X) * amount),
 				start.Y + ((end.Y - start.Y) * amount),
 				start.Z + ((end.Z - start.Z) * amount)
@@ -329,11 +329,11 @@ namespace MathModule
 		/// <param name="end">End vector</param>
 		/// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/></param>
 		/// <returns>The cubic interpolation of the two vectors</returns>
-		public static Vector3D SmoothStep(Vector3D start, Vector3D end, float amount)
+		public static Vector3 SmoothStep(Vector3 start, Vector3 end, float amount)
 		{
 			float newAmount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
 
-			return new Vector3D(
+			return new Vector3(
 				start.X + ((end.X - start.X) * (newAmount * newAmount) * (3f - (2f * newAmount))),
 				start.Y + ((end.Y - start.Y) * (newAmount * newAmount) * (3f - (2f * newAmount))),
 				start.Z + ((end.Z - start.Z) * (newAmount * newAmount) * (3f - (2f * newAmount)))
@@ -349,7 +349,7 @@ namespace MathModule
 		/// <param name="tangent2">Second source tangent vector</param>
 		/// <param name="amount">Weighting factor</param>
 		/// <returns>The result of the Hermite spline interpolation</returns>
-		public static Vector3D Hermite(Vector3D value1, Vector3D tangent1, Vector3D value2, Vector3D tangent2, float amount)
+		public static Vector3 Hermite(Vector3 value1, Vector3 tangent1, Vector3 value2, Vector3 tangent2, float amount)
 		{
 			float squared = amount * amount;
 			float cubed = amount * squared;
@@ -358,7 +358,7 @@ namespace MathModule
 			float part3 = (cubed - (2f * squared)) + amount;
 			float part4 = cubed - squared;
 
-			return new Vector3D(
+			return new Vector3(
 				(((value1.X * part1) + (value2.X * part2)) + (tangent1.X * part3)) + (tangent2.X * part4),
 				(((value1.Y * part1) + (value2.Y * part2)) + (tangent1.Y * part3)) + (tangent2.Y * part4),
 				(((value1.Z * part1) + (value2.Z * part2)) + (tangent1.Z * part3)) + (tangent2.Z * part4)
@@ -374,12 +374,12 @@ namespace MathModule
 		/// <param name="value4">The fourth position in the interpolation</param>
 		/// <param name="amount">Weighting factor</param>
 		/// <returns>A vector that is the result of the Catmull-Rom interpolation</returns>
-		public static Vector3D CatmullRom(Vector3D value1, Vector3D value2, Vector3D value3, Vector3D value4, float amount)
+		public static Vector3 CatmullRom(Vector3 value1, Vector3 value2, Vector3 value3, Vector3 value4, float amount)
 		{
 			float squared = amount * amount;
 			float cubed = amount * squared;
 
-			return new Vector3D(
+			return new Vector3(
 				0.5f * ((((2f * value2.X) + ((-value1.X + value3.X) * amount)) +
 						(((((2f * value1.X) - (5f * value2.X)) + (4f * value3.X)) - value4.X) * squared)) +
 					((((-value1.X + (3f * value2.X)) - (3f * value3.X)) + value4.X) * cubed)),
@@ -398,9 +398,9 @@ namespace MathModule
 		/// <param name="value1">The first source vector</param>
 		/// <param name="value2">The second source vector</param>
 		/// <returns>A vector containing the largest components of the source vectors</returns>
-		public static Vector3D Max(Vector3D value1, Vector3D value2)
+		public static Vector3 Max(Vector3 value1, Vector3 value2)
 		{
-			return new Vector3D(
+			return new Vector3(
 				(value1.X > value2.X) ? value1.X : value2.X,
 				(value1.Y > value2.Y) ? value1.Y : value2.Y,
 				(value1.Z > value2.Z) ? value1.Z : value2.Z
@@ -413,9 +413,9 @@ namespace MathModule
 		/// <param name="value1">The first source vector</param>
 		/// <param name="value2">The second source vector</param>
 		/// <returns>A vector containing the smallest components of the source vectors</returns>
-		public static Vector3D Min(Vector3D value1, Vector3D value2)
+		public static Vector3 Min(Vector3 value1, Vector3 value2)
 		{
-			return new Vector3D(
+			return new Vector3(
 				(value1.X < value2.X) ? value1.X : value2.X,
 				(value1.Y < value2.Y) ? value1.Y : value2.Y,
 				(value1.Z < value2.Z) ? value1.Z : value2.Z
@@ -434,11 +434,11 @@ namespace MathModule
 		/// <param name="maxZ">The maximum depth of the viewport</param>
 		/// <param name="worldViewProjection">The combined world-view-projection matrix</param>
 		/// <returns>The vector in screen space</returns>
-		public static Vector3D Project(Vector3D vector, float x, float y, float width, float height, float minZ, float maxZ, Matrix4D worldViewProjection)
+		public static Vector3 Project(Vector3 vector, float x, float y, float width, float height, float minZ, float maxZ, Matrix worldViewProjection)
 		{
-			Vector3D v = TransformCoordinate(ref vector, ref worldViewProjection);
+			Vector3 v = TransformCoordinate(ref vector, ref worldViewProjection);
 
-			return new Vector3D(((1f + v.X) * 0.5f * width) + x, ((1f - v.Y) * 0.5f * height) + y, (v.Z * (maxZ - minZ)) + minZ);
+			return new Vector3(((1f + v.X) * 0.5f * width) + x, ((1f - v.Y) * 0.5f * height) + y, (v.Z * (maxZ - minZ)) + minZ);
 		}
 
 		/// <summary>
@@ -453,10 +453,10 @@ namespace MathModule
 		/// <param name="maxZ">The maximum depth of the viewport</param>
 		/// <param name="worldViewProjection">The combined world-view-projection matrix</param>
 		/// <returns>The vector in object space</returns>
-		public static Vector3D Unproject(Vector3D vector, float x, float y, float width, float height, float minZ, float maxZ, Matrix4D worldViewProjection)
+		public static Vector3 Unproject(Vector3 vector, float x, float y, float width, float height, float minZ, float maxZ, Matrix worldViewProjection)
 		{
-			Vector3D v = new Vector3D();
-			Matrix4D matrix = Matrix4D.Invert(worldViewProjection);
+			Vector3 v = new Vector3();
+			Matrix matrix = Matrix.Invert(worldViewProjection);
 
 			v.X = (((vector.X - x) / width) * 2f) - 1f;
 			v.Y = -((((vector.Y - y) / height) * 2f) - 1f);
@@ -471,11 +471,11 @@ namespace MathModule
 		/// <param name="vector">The source vector</param>
 		/// <param name="normal">Normal of the surface</param>
 		/// <returns>The reflected vector</returns>
-		public static Vector3D Reflect(Vector3D vector, Vector3D normal)
+		public static Vector3 Reflect(Vector3 vector, Vector3 normal)
 		{
 			float dot = DotProduct(vector, normal);
 
-			return new Vector3D(
+			return new Vector3(
 				vector.X - ((2f * dot) * normal.X),
 				vector.Y - ((2f * dot) * normal.Y),
 				vector.Z - ((2f * dot) * normal.Z)
@@ -489,7 +489,7 @@ namespace MathModule
 		/// <param name="normal">Normal of the surface</param>
 		/// <param name="index">Index of refraction</param>
 		/// <returns>The refracted vector</returns>
-		public static Vector3D Refract(Vector3D vector, Vector3D normal, float index)
+		public static Vector3 Refract(Vector3 vector, Vector3 normal, float index)
 		{
 			float cos1;
 
@@ -509,12 +509,12 @@ namespace MathModule
 		}
 
 		/// <summary>
-		/// Transforms a 3D vector by the given <see cref="Quaternion4D"/> rotation
+		/// Transforms a 3D vector by the given <see cref="Quaternion"/> rotation
 		/// </summary>
 		/// <param name="vector">The vector to rotate</param>
-		/// <param name="rotation">The <see cref="Quaternion4D"/> rotation to apply</param>
-		/// <returns>The transformed <see cref="Vector4D"/></returns>
-		public static Vector3D Transform(Vector3D vector, Quaternion4D rotation)
+		/// <param name="rotation">The <see cref="Quaternion"/> rotation to apply</param>
+		/// <returns>The transformed <see cref="Vector4"/></returns>
+		public static Vector3 Transform(Vector3 vector, Quaternion rotation)
 		{
 			float x = rotation.X + rotation.X;
 			float y = rotation.Y + rotation.Y;
@@ -539,21 +539,21 @@ namespace MathModule
 			float num8 = (yz + wx);
 			float num9 = ((1f - xx) - yy);
 
-			return new Vector3D(
+			return new Vector3(
 				((vector.X * num1) + (vector.Y * num2)) + (vector.Z * num3),
 				((vector.X * num4) + (vector.Y * num5)) + (vector.Z * num6),
 				((vector.X * num7) + (vector.Y * num8)) + (vector.Z * num9));
 		}
 
 		/// <summary>
-		/// Transforms a 3D vector by the given <see cref="Matrix4D"/>
+		/// Transforms a 3D vector by the given <see cref="Matrix"/>
 		/// </summary>
 		/// <param name="vector">The source vector</param>
-		/// <param name="transform">The transformation <see cref="Matrix4D"/></param>
-		/// <returns>The transformed <see cref="Vector4D"/></returns>
-		public static Vector4D Transform(Vector3D vector, Matrix4D transform)
+		/// <param name="transform">The transformation <see cref="Matrix"/></param>
+		/// <returns>The transformed <see cref="Vector4"/></returns>
+		public static Vector4 Transform(Vector3 vector, Matrix transform)
 		{
-			return new Vector4D(
+			return new Vector4(
 				(vector.X * transform.M11) + (vector.Y * transform.M21) + (vector.Z * transform.M31) + transform.M41,
 				(vector.X * transform.M12) + (vector.Y * transform.M22) + (vector.Z * transform.M32) + transform.M42,
 				(vector.X * transform.M13) + (vector.Y * transform.M23) + (vector.Z * transform.M33) + transform.M43,
@@ -561,30 +561,30 @@ namespace MathModule
 		}
 
 		/// <summary>
-		/// Performs a coordinate transformation using the given <see cref="Matrix4D"/>
+		/// Performs a coordinate transformation using the given <see cref="Matrix"/>
 		/// </summary>
 		/// <param name="coordinate">The coordinate vector to transform</param>
-		/// <param name="transform">The transformation <see cref="Matrix4D"/></param>
+		/// <param name="transform">The transformation <see cref="Matrix"/></param>
 		/// <returns>The transformed coordinates</returns>
-		public static Vector3D TransformCoordinate(Vector3D coordinate, Matrix4D transform)
+		public static Vector3 TransformCoordinate(Vector3 coordinate, Matrix transform)
 		{
 			float w = 1f / ((coordinate.X * transform.M14) + (coordinate.Y * transform.M24) + (coordinate.Z * transform.M34) + transform.M44);
 
-			return new Vector3D(
+			return new Vector3(
 				w * ((coordinate.X * transform.M11) + (coordinate.Y * transform.M21) + (coordinate.Z * transform.M31) + transform.M41),
 				w * ((coordinate.X * transform.M12) + (coordinate.Y * transform.M22) + (coordinate.Z * transform.M32) + transform.M42),
 				w * ((coordinate.X * transform.M13) + (coordinate.Y * transform.M23) + (coordinate.Z * transform.M33) + transform.M43));
 		}
 
 		/// <summary>
-		/// Performs a normal transformation using the given <see cref="Matrix4D"/>
+		/// Performs a normal transformation using the given <see cref="Matrix"/>
 		/// </summary>
 		/// <param name="normal">The normal vector to transform</param>
-		/// <param name="transform">The transformation <see cref="Matrix4D"/></param>
+		/// <param name="transform">The transformation <see cref="Matrix"/></param>
 		/// <returns>The transformed normal</returns>
-		public static Vector3D TransformNormal(Vector3D normal, Matrix4D transform)
+		public static Vector3 TransformNormal(Vector3 normal, Matrix transform)
 		{
-			return new Vector3D(
+			return new Vector3(
 				(normal.X * transform.M11) + (normal.Y * transform.M21) + (normal.Z * transform.M31),
 				(normal.X * transform.M12) + (normal.Y * transform.M22) + (normal.Z * transform.M32),
 				(normal.X * transform.M13) + (normal.Y * transform.M23) + (normal.Z * transform.M33));

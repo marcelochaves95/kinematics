@@ -8,7 +8,7 @@ namespace MathModule
     /// Represents a four dimensional mathematical quaternion
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Quaternion4D : IEquatable<Quaternion4D>
+    public struct Quaternion : IEquatable<Quaternion>
     {
         /// <summary>X component of the Quaternion. Don't modify this directly unless you know quaternions inside out</summary>
         public float X { get; set; }
@@ -29,7 +29,7 @@ namespace MathModule
         /// <param name="y">Y coordinate</param>
         /// <param name="z">Z coordinate</param>
         /// <param name="w">The width</param>
-        public Quaternion4D(float x, float y, float z, float w)
+        public Quaternion(float x, float y, float z, float w)
         {
             X = x;
             Y = y;
@@ -41,7 +41,7 @@ namespace MathModule
         /// Construct the quaternion from it's coordinates
         /// </summary>
         /// <param name="value">A vector containing the values with which to initialize the components</param>
-        public Quaternion4D(Vector4D value)
+        public Quaternion(Vector4 value)
         {
             X = value.X;
             Y = value.Y;
@@ -55,7 +55,7 @@ namespace MathModule
         /// <param name="values">The values to assign to the X, Y, Z, and W components of the quaternion. This must be an array with four elements</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than four elements</exception>
-        public Quaternion4D(float[] values)
+        public Quaternion(float[] values)
         {
             if (values == null)
             {
@@ -78,10 +78,10 @@ namespace MathModule
         /// </summary>
         /// <param name="value">A vector containing the values with which to initialize the X, Y, and Z components</param>
         /// <param name="angle">Initial value for the angle of the quaternion</param>
-        public Quaternion4D(Vector3D axis, float angle)
+        public Quaternion(Vector3 axis, float angle)
         {
             float angle2 = angle * 0.5f;
-            float s = Mathematics.Sin(angle2) / Vector3D.Magnitude(axis);
+            float s = Mathematics.Sin(angle2) / Vector3.Magnitude(axis);
             X = axis.X * s;
             Y = axis.Y * s;
             Z = axis.Z * s;
@@ -91,18 +91,18 @@ namespace MathModule
         /// <summary>
         /// Shorthand for writing Quaternion(1, 1, 1, 1)
         /// </summary>
-        public static readonly Quaternion4D One = new Quaternion4D(1f, 1f, 1f, 1f);
+        public static readonly Quaternion One = new Quaternion(1f, 1f, 1f, 1f);
 
         /// <summary>
         /// Shorthand for writing Quaternion(0, 0, 0, 0)
         /// </summary>
-        public static readonly Quaternion4D Zero = new Quaternion4D(0f, 0f, 0f, 0f);
+        public static readonly Quaternion Zero = new Quaternion(0f, 0f, 0f, 0f);
 
         /// <summary>
         /// The identity rotation (RO). This quaternion corresponds to "no rotation": the object
         /// </summary>
         /// <value>The identity matrix</value>
-        public static readonly Quaternion4D Identity = new Quaternion4D(0f, 0f, 0f, 1f);
+        public static readonly Quaternion Identity = new Quaternion(0f, 0f, 0f, 1f);
 
         /// <summary>
         /// Get's a value indicating whether this instance is equivalent to the identity quaternion
@@ -123,7 +123,7 @@ namespace MathModule
         /// <param name="value1">The first quaternion to add</param>
         /// <param name="value2">The second quaternion to add</param>
         /// <returns>The sum of the two quaternions</returns>
-        public static Quaternion4D operator +(Quaternion4D value1, Quaternion4D value2) => new Quaternion4D(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z, value1.W + value2.W);
+        public static Quaternion operator +(Quaternion value1, Quaternion value2) => new Quaternion(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z, value1.W + value2.W);
 
         /// <summary>
         /// Subtracts two quaternions
@@ -131,14 +131,14 @@ namespace MathModule
         /// <param name="left">The first quaternion to subtract</param>
         /// <param name="right">The second quaternion to subtract</param>
         /// <returns>The difference of the two quaternions</returns>
-        public static Quaternion4D operator -(Quaternion4D value1, Quaternion4D value2) => new Quaternion4D(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z, value1.W - value2.W);
+        public static Quaternion operator -(Quaternion value1, Quaternion value2) => new Quaternion(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z, value1.W - value2.W);
 
         /// <summary>
         /// Reverses the direction of a given quaternion.
         /// </summary>
         /// <param name="value">The quaternion to negate.</param>
         /// <returns>A quaternion facing in the opposite direction.</returns>
-        public static Quaternion4D operator -(Quaternion4D value) => new Quaternion4D(-value.X, -value.Y, -value.Z, -value.W);
+        public static Quaternion operator -(Quaternion value) => new Quaternion(-value.X, -value.Y, -value.Z, -value.W);
 
         /// <summary>
         /// Scales a quaternion by the given value
@@ -146,7 +146,7 @@ namespace MathModule
         /// <param name="value">The quaternion to scale</param>
         /// <param name="scalar">The amount by which to scale the quaternion</param>
         /// <returns>The scaled quaternion</returns>
-        public static Quaternion4D operator *(Quaternion4D value, float scalar) => new Quaternion4D(value.X * scalar, value.Y * scalar, value.Z * scalar, value.W * scalar);
+        public static Quaternion operator *(Quaternion value, float scalar) => new Quaternion(value.X * scalar, value.Y * scalar, value.Z * scalar, value.W * scalar);
 
         /// <summary>
         /// Scales a quaternion by the given value
@@ -154,7 +154,7 @@ namespace MathModule
         /// <param name="scalar">The amount by which to scale the quaternion</param>
         /// <param name="value">The quaternion to scale</param>
         /// <returns>The scaled quaternion</returns>
-        public static Quaternion4D operator *(float scalar, Quaternion4D value) => new Quaternion4D(value.X * scalar, value.Y * scalar, value.Z * scalar, value.W * scalar);
+        public static Quaternion operator *(float scalar, Quaternion value) => new Quaternion(value.X * scalar, value.Y * scalar, value.Z * scalar, value.W * scalar);
 
         /// <summary>
         /// Multiplies a quaternion by another
@@ -162,9 +162,9 @@ namespace MathModule
         /// <param name="value1">The first quaternion to multiply</param>
         /// <param name="value2">The second quaternion to multiply</param>
         /// <returns></returns>
-        public static Quaternion4D operator *(Quaternion4D value1, Quaternion4D value2)
+        public static Quaternion operator *(Quaternion value1, Quaternion value2)
         {
-            return new Quaternion4D(
+            return new Quaternion(
                 value1.W * value2.X + value1.X * value2.W + value1.Y * value2.Z - value1.Z * value2.Y,
                 value1.W * value2.Y + value1.Y * value2.W + value1.Z * value2.X - value1.X * value2.Z,
                 value1.W * value2.Z + value1.Z * value2.W + value1.X * value2.Y - value1.Y * value2.X,
@@ -177,9 +177,9 @@ namespace MathModule
         /// <param name="value">The quaternion to multiply.</param>
         /// <param name="vector">The vector to multiply.</param>
         /// <returns>The multiplied quaternion.</returns>
-        public static Quaternion4D operator *(Quaternion4D value, Vector3D vector)
+        public static Quaternion operator *(Quaternion value, Vector3 vector)
         {
-            return new Quaternion4D(
+            return new Quaternion(
                 value.W * vector.X + value.Y * vector.Z - value.Z * vector.Y,
                 value.W * vector.Y + value.Z * vector.X - value.X * vector.Z,
                 value.W * vector.Z + value.X * vector.Y - value.Y * vector.X, -value.X * vector.X - value.Y * vector.Y - value.Z * vector.Z);
@@ -191,7 +191,7 @@ namespace MathModule
         /// <param name="rotation">Quaterion</param>
         /// <param name="point">Vector</param>
         /// <returns></returns>
-        public static Vector3D operator *(Quaternion4D rotation, Vector3D point)
+        public static Vector3 operator *(Quaternion rotation, Vector3 point)
         {
             float x = rotation.X * 2f;
             float y = rotation.Y * 2f;
@@ -206,7 +206,7 @@ namespace MathModule
             float wy = rotation.W * y;
             float wz = rotation.W * z;
 
-            return new Vector3D(
+            return new Vector3(
                 (1f - (yy + zz)) * point.X + (xy - wz) * point.Y + (xz + wy) * point.Z,
                 (xy + wz) * point.X + (1f - (xx + zz)) * point.Y + (yz - wx) * point.Z,
                 (xz - wy) * point.X + (yz + wx) * point.Y + (1f - (xx + yy)) * point.Z);
@@ -218,7 +218,7 @@ namespace MathModule
         /// <param name="value">The vector to scale</param>
         /// <param name="scalar">The amount by which to scale the vector</param>
         /// <returns>The scaled vector</returns>
-        public static Quaternion4D operator /(Quaternion4D value, float scalar) => new Quaternion4D(value.X / scalar, value.Y / scalar, value.Z / scalar, value.W / scalar);
+        public static Quaternion operator /(Quaternion value, float scalar) => new Quaternion(value.X / scalar, value.Y / scalar, value.Z / scalar, value.W / scalar);
 
         /// <summary>
         /// Are two quaternions equal to each other?
@@ -226,7 +226,7 @@ namespace MathModule
         /// <param name="value1"></param>
         /// <param name="value2"></param>
         /// <returns></returns>
-        public static bool operator ==(Quaternion4D value1, Quaternion4D value2) => value1.Equals(value2);
+        public static bool operator ==(Quaternion value1, Quaternion value2) => value1.Equals(value2);
 
         /// <summary>
         /// Are two quaternions different from each other?
@@ -234,7 +234,7 @@ namespace MathModule
         /// <param name="value1"></param>
         /// <param name="value2"></param>
         /// <returns>The presence of NaN values</returns>
-        public static bool operator !=(Quaternion4D value1, Quaternion4D value2) => !value1.Equals(value2);
+        public static bool operator !=(Quaternion value1, Quaternion value2) => !value1.Equals(value2);
 
         /// <summary>
         /// The dot product between two rotations
@@ -242,7 +242,7 @@ namespace MathModule
         /// <param name="value1">First quaternion</param>
         /// <param name="value2">Second quaternion</param>
         /// <returns>Dot Product of two quaternions</returns>
-        public static float DotProduct(Quaternion4D value1, Quaternion4D value2) => value1.X * value2.X + value1.Y * value2.Y + value1.Z * value2.Z + value1.W * value2.W;
+        public static float DotProduct(Quaternion value1, Quaternion value2) => value1.X * value2.X + value1.Y * value2.Y + value1.Z * value2.Z + value1.W * value2.W;
 
         /// <summary>
         /// Gets the angle of the quaternion
@@ -266,17 +266,17 @@ namespace MathModule
         /// Gets the axis components of the quaternion
         /// </summary>
         /// <value>The axis components of the quaternion</value>
-        public Vector3D Axis
+        public Vector3 Axis
         {
             get
             {
                 float inverse = 1f / (W * W);
                 if (inverse < 1f * 0f)
                 {
-                    return Vector3D.Right;
+                    return Vector3.Right;
                 }
 
-                return new Vector3D(X * inverse, Y * inverse, Z * inverse);
+                return new Vector3(X * inverse, Y * inverse, Z * inverse);
             }
         }
 
@@ -284,14 +284,14 @@ namespace MathModule
         /// Calculates the length of the quaternion
         /// </summary>
         /// <returns>The length of the vector</returns>
-        public static float Magnitude(Quaternion4D value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W);
+        public static float Magnitude(Quaternion value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W);
 
         /// <summary>
         /// Makes this vector have a magnitude of 1
         /// </summary>
         /// <param name="value">Quaternion</param>
         /// <returns>Normalized quaternion</returns>
-        public static Quaternion4D Normalize(Quaternion4D value)
+        public static Quaternion Normalize(Quaternion value)
         {
             float magnitude = Magnitude(value);
 
@@ -307,14 +307,14 @@ namespace MathModule
         /// Makes this vector have a magnitude of 1
         /// </summary>
         /// <returns>Normalized quaternion</returns>
-        public Quaternion4D Normalize() => Normalize(this);
+        public Quaternion Normalize() => Normalize(this);
 
         /// <summary>
         /// Conjugates and renormalizes the quaternion
         /// </summary>
         /// <param name="value">The quaternion to conjugate and renormalize</param>
         /// <returns>The conjugated and renormalized quaternion</returns>
-        public static Quaternion4D Invert(Quaternion4D value)
+        public static Quaternion Invert(Quaternion value)
         {
             float magnitude = Magnitude(value);
 
@@ -331,14 +331,14 @@ namespace MathModule
         /// </summary>
         /// <param name="obj">Object to check</param>
         /// <returns>Object and quaternion are equal</returns>
-        public override bool Equals(object obj) => (obj is Quaternion4D) && Equals((Quaternion4D)obj);
+        public override bool Equals(object obj) => (obj is Quaternion) && Equals((Quaternion)obj);
 
         /// <summary>
         /// Compare two quaternions and checks if they are equal
         /// </summary>
         /// <param name="other">Quaternion to check</param>
         /// <returns>Quaternions are equal</returns>
-        public bool Equals(Quaternion4D other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
+        public bool Equals(Quaternion other) => X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
 
         /// <summary>
         /// Returns a containing the 4D Cartesian coordinates of a point specified in Barycentric coordinates relative to a 2D triangle
@@ -349,9 +349,9 @@ namespace MathModule
         /// <param name="amount1">Barycentric coordinate b2, which expresses the weighting factor toward vertex 2 (specified in <paramref name="value2"/>)</param>
         /// <param name="amount2">Barycentric coordinate b3, which expresses the weighting factor toward vertex 3 (specified in <paramref name="value3"/>)</param>
         /// <returns>A new containing the 4D Cartesian coordinates of the specified point</returns>
-        public static Quaternion4D Barycentric(Quaternion4D value1, Quaternion4D value2, Quaternion4D value3, float amount1, float amount2)
+        public static Quaternion Barycentric(Quaternion value1, Quaternion value2, Quaternion value3, float amount1, float amount2)
         {
-            Quaternion4D start, end;
+            Quaternion start, end;
 
             start = Slerp(value1, value2, amount1 + amount2);
             end = Slerp(value1, value3, amount1 + amount2);
@@ -364,9 +364,9 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The quaternion to exponentiate</param>
         /// <returns>The exponentiated quaternion</returns>
-        public static Quaternion4D Exponential(Quaternion4D value)
+        public static Quaternion Exponential(Quaternion value)
         {
-            Quaternion4D result;
+            Quaternion result;
 
             float angle = Mathematics.Sqrt((value.X * value.X) + (value.Y * value.Y) + (value.Z * value.Z));
             float sin = Mathematics.Sin(angle);
@@ -395,9 +395,9 @@ namespace MathModule
         /// <param name="end">End quaternion</param>
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/></param>
         /// <returns>The linear interpolation of the two quaternions</returns>
-        public static Quaternion4D Lerp(Quaternion4D start, Quaternion4D end, float amount)
+        public static Quaternion Lerp(Quaternion start, Quaternion end, float amount)
         {
-            Quaternion4D result;
+            Quaternion result;
 
             float inverse = 1f - amount;
 
@@ -424,9 +424,9 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The quaternion whose logarithm will be calculated</param>
         /// <returns>The natural logarithm of the quaternion</returns>
-        public static Quaternion4D Logarithm(Quaternion4D value)
+        public static Quaternion Logarithm(Quaternion value)
         {
-            Quaternion4D result;
+            Quaternion result;
 
             if (Mathematics.Abs(value.W) < 1f)
             {
@@ -460,12 +460,12 @@ namespace MathModule
         /// </summary>
         /// <param name="value">Vector</param>
         /// <returns></returns>
-        public Vector3D Rotate(Vector3D value)
+        public Vector3 Rotate(Vector3 value)
         {
-            Quaternion4D rotation = this;
-            Quaternion4D quaternion = rotation * value;
+            Quaternion rotation = this;
+            Quaternion quaternion = rotation * value;
             quaternion *= Invert(rotation);
-            return new Vector3D(quaternion.X, quaternion.Y, quaternion.Z);
+            return new Vector3(quaternion.X, quaternion.Y, quaternion.Z);
         }
 
         /// <summary>
@@ -474,16 +474,16 @@ namespace MathModule
         /// <param name="axis">The axis of rotation</param>
         /// <param name="angle">The angle of rotation</param>
         /// <returns>The newly created quaternion</returns>
-        public static Quaternion4D RotationAxis(Vector3D axis, float angle)
+        public static Quaternion RotationAxis(Vector3 axis, float angle)
         {
-            Vector3D normalized;
-            normalized = Vector3D.Normalize(axis);
+            Vector3 normalized;
+            normalized = Vector3.Normalize(axis);
 
             float half = angle * 0.5f;
             float sin = Mathematics.Sin(half);
             float cos = Mathematics.Cos(half);
 
-            return new Quaternion4D(normalized.X * sin, normalized.Y * sin, normalized.Z * sin, cos);
+            return new Quaternion(normalized.X * sin, normalized.Y * sin, normalized.Z * sin, cos);
         }
 
         /// <summary>
@@ -491,9 +491,9 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The rotation matrix</param>
         /// <returns>The newly created quaternion</returns>
-        public static Quaternion4D RotationMatrix(Matrix4D value)
+        public static Quaternion RotationMatrix(Matrix value)
         {
-            Quaternion4D result;
+            Quaternion result;
 
             float sqrt;
             float half;
@@ -550,7 +550,7 @@ namespace MathModule
         /// <param name="pitch">The pitch of rotation</param>
         /// <param name="roll">The roll of rotation</param>
         /// <returns>The newly created quaternion</returns>
-        public static Quaternion4D RotationYawPitchRoll(float yaw, float pitch, float roll)
+        public static Quaternion RotationYawPitchRoll(float yaw, float pitch, float roll)
         {
             float halfRoll = roll * 0.5f;
             float halfPitch = pitch * 0.5f;
@@ -563,7 +563,7 @@ namespace MathModule
             float sinYaw = Mathematics.Sin(halfYaw);
             float cosYaw = Mathematics.Cos(halfYaw);
 
-            return new Quaternion4D(
+            return new Quaternion(
                 (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll),
                 (sinYaw * cosPitch * cosRoll) - (cosYaw * sinPitch * sinRoll),
                 (cosYaw * cosPitch * sinRoll) - (sinYaw * sinPitch * cosRoll),
@@ -578,7 +578,7 @@ namespace MathModule
         /// <param name="end">End quaternion</param>
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/></param>
         /// <returns>The spherical linear interpolation of the two quaternions</returns>
-        public static Quaternion4D Slerp(Quaternion4D start, Quaternion4D end, float amount)
+        public static Quaternion Slerp(Quaternion start, Quaternion end, float amount)
         {
             float opposite;
             float inverse;
@@ -598,7 +598,7 @@ namespace MathModule
                 opposite = Mathematics.Sin(amount * acos) * invSin * Mathematics.Sign(dot);
             }
 
-            return new Quaternion4D(
+            return new Quaternion(
                 (inverse * start.X) + (opposite * end.X),
                 (inverse * start.Y) + (opposite * end.Y),
                 (inverse * start.Z) + (opposite * end.Z),
@@ -615,9 +615,9 @@ namespace MathModule
         /// <param name="value4">Fourth source quaternion</param>
         /// <param name="amount">Value between 0 and 1 indicating the weight of interpolation</param>
         /// <returns>The spherical quadrangle interpolation of the quaternions</returns>
-        public static Quaternion4D Squad(Quaternion4D value1, Quaternion4D value2, Quaternion4D value3, Quaternion4D value4, float amount)
+        public static Quaternion Squad(Quaternion value1, Quaternion value2, Quaternion value3, Quaternion value4, float amount)
         {
-            Quaternion4D start, end;
+            Quaternion start, end;
 
             start = Slerp(value1, value4, amount);
             end = Slerp(value2, value3, amount);

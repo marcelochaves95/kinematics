@@ -8,17 +8,17 @@ namespace MathModule
     /// Represents a 4x4 mathematical matrix
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    public struct Matrix4D : IEquatable<Matrix4D>
+    public struct Matrix : IEquatable<Matrix>
     {
         /// <summary>
         /// A matrix with all of its components set to zero
         /// </summary>
-        public static readonly Matrix4D Zero = new Matrix4D();
+        public static readonly Matrix Zero = new Matrix();
 
         /// <summary>
         /// The identity matrix
         /// </summary>
-        public static Matrix4D Identity = new Matrix4D(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
+        public static Matrix Identity = new Matrix(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
 
         /// <summary>
         /// Value at row 1 column 1 of the matrix
@@ -119,7 +119,7 @@ namespace MathModule
         /// <param name="M42">The value to assign at row 4 column 2 of the matrix</param>
         /// <param name="M43">The value to assign at row 4 column 3 of the matrix</param>
         /// <param name="M44">The value to assign at row 4 column 4 of the matrix</param>
-        public Matrix4D(float M11, float M12, float M13, float M14,
+        public Matrix(float M11, float M12, float M13, float M14,
             float M21, float M22, float M23, float M24,
             float M31, float M32, float M33, float M34,
             float M41, float M42, float M43, float M44)
@@ -148,7 +148,7 @@ namespace MathModule
         /// <param name="values">The values to assign to the components of the matrix. This must be an array with sixteen elements</param>
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than sixteen elements</exception>
-        public Matrix4D(float[] values)
+        public Matrix(float[] values)
         {
             if (values == null)
             {
@@ -184,11 +184,11 @@ namespace MathModule
         /// <summary>
         /// gets or sets the basis matrix for the rotation
         /// </summary>
-        public Matrix4D Basis
+        public Matrix Basis
         {
             get
             {
-                return new Matrix4D(
+                return new Matrix(
                     M11, M12, M13, 0,
                     M21, M22, M23, 0,
                     M31, M32, M33, 0,
@@ -211,85 +211,85 @@ namespace MathModule
         /// <summary>
         /// gets or sets the first row in the matrix; that is M11, M12, M13, and M14
         /// </summary>
-        public Vector4D Row1
+        public Vector4 Row1
         {
-            get { return new Vector4D(M11, M12, M13, M14); }
+            get { return new Vector4(M11, M12, M13, M14); }
             set { M11 = value.X; M12 = value.Y; M13 = value.Z; M14 = value.W; }
         }
 
         /// <summary>
         /// gets or sets the second row in the matrix; that is M21, M22, M23, and M24
         /// </summary>
-        public Vector4D Row2
+        public Vector4 Row2
         {
-            get { return new Vector4D(M21, M22, M23, M24); }
+            get { return new Vector4(M21, M22, M23, M24); }
             set { M21 = value.X; M22 = value.Y; M23 = value.Z; M24 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the third row in the matrix; that is M31, M32, M33, and M34
         /// </summary>
-        public Vector4D Row3
+        public Vector4 Row3
         {
-            get { return new Vector4D(M31, M32, M33, M34); }
+            get { return new Vector4(M31, M32, M33, M34); }
             set { M31 = value.X; M32 = value.Y; M33 = value.Z; M34 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the fourth row in the matrix; that is M41, M42, M43, and M44
         /// </summary>
-        public Vector4D Row4
+        public Vector4 Row4
         {
-            get { return new Vector4D(M41, M42, M43, M44); }
+            get { return new Vector4(M41, M42, M43, M44); }
             set { M41 = value.X; M42 = value.Y; M43 = value.Z; M44 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the first column in the matrix; that is M11, M21, M31, and M41
         /// </summary>
-        public Vector4D Column1
+        public Vector4 Column1
         {
-            get { return new Vector4D(M11, M21, M31, M41); }
+            get { return new Vector4(M11, M21, M31, M41); }
             set { M11 = value.X; M21 = value.Y; M31 = value.Z; M41 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the second column in the matrix; that is M12, M22, M32, and M42
         /// </summary>
-        public Vector4D Column2
+        public Vector4 Column2
         {
-            get { return new Vector4D(M12, M22, M32, M42); }
+            get { return new Vector4(M12, M22, M32, M42); }
             set { M12 = value.X; M22 = value.Y; M32 = value.Z; M42 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the third column in the matrix; that is M13, M23, M33, and M43
         /// </summary>
-        public Vector4D Column3
+        public Vector4 Column3
         {
-            get { return new Vector4D(M13, M23, M33, M43); }
+            get { return new Vector4(M13, M23, M33, M43); }
             set { M13 = value.X; M23 = value.Y; M33 = value.Z; M43 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the fourth column in the matrix; that is M14, M24, M34, and M44
         /// </summary>
-        public Vector4D Column4
+        public Vector4 Column4
         {
-            get { return new Vector4D(M14, M24, M34, M44); }
+            get { return new Vector4(M14, M24, M34, M44); }
             set { M14 = value.X; M24 = value.Y; M34 = value.Z; M44 = value.W; }
         }
 
         /// <summary>
         /// Gets or sets the translation of the matrix; that is M41, M42, and M43
         /// </summary>
-        public Vector3D Origin
+        public Vector3 Origin
         {
-            get { return new Vector3D(M41, M42, M43); }
+            get { return new Vector3(M41, M42, M43); }
             set { M41 = value.X; M42 = value.Y; M43 = value.Z; }
         }
 
-        public Quaternion4D Orientation
+        public Quaternion Orientation
         {
             get
             {
@@ -321,7 +321,7 @@ namespace MathModule
                     temp[j] = (this [j, i] + this [i, j]) * s;
                     temp[k] = (this [k, i] + this [i, k]) * s;
                 }
-                return new Quaternion4D(temp[0], temp[1], temp[2], temp[3]);
+                return new Quaternion(temp[0], temp[1], temp[2], temp[3]);
             }
             set
             {
@@ -347,9 +347,9 @@ namespace MathModule
         /// <summary>
         /// gets or sets the scale of the matrix; that is M11, M22, and M33
         /// </summary>
-        public Vector3D ScaleVector
+        public Vector3 ScaleVector
         {
-            get { return new Vector3D(M11, M22, M33); }
+            get { return new Vector3(M11, M22, M33); }
             set { M11 = value.X; M22 = value.Y; M33 = value.Z; }
         }
 
@@ -358,26 +358,26 @@ namespace MathModule
         /// </summary>
         /// <param name="temp">When the method completes, contains the orthonormalized matrix of the decomposition</param>
         /// <param name="R">When the method completes, contains the right triangular matrix of the decomposition</param>
-        public void DecomposeQR(Matrix4D Q, Matrix4D R)
+        public void DecomposeQR(Matrix Q, Matrix R)
         {
-            Matrix4D temp;
+            Matrix temp;
             Q = Orthonormalize(this);
             temp = Q.Transpose();
 
-            R = new Matrix4D();
-            R.M11 = Vector4D.DotProduct(temp.Column1, Column1);
-            R.M12 = Vector4D.DotProduct(temp.Column1, Column2);
-            R.M13 = Vector4D.DotProduct(temp.Column1, Column3);
-            R.M14 = Vector4D.DotProduct(temp.Column1, Column4);
+            R = new Matrix();
+            R.M11 = Vector4.DotProduct(temp.Column1, Column1);
+            R.M12 = Vector4.DotProduct(temp.Column1, Column2);
+            R.M13 = Vector4.DotProduct(temp.Column1, Column3);
+            R.M14 = Vector4.DotProduct(temp.Column1, Column4);
 
-            R.M22 = Vector4D.DotProduct(temp.Column2, Column2);
-            R.M23 = Vector4D.DotProduct(temp.Column2, Column3);
-            R.M24 = Vector4D.DotProduct(temp.Column2, Column4);
+            R.M22 = Vector4.DotProduct(temp.Column2, Column2);
+            R.M23 = Vector4.DotProduct(temp.Column2, Column3);
+            R.M24 = Vector4.DotProduct(temp.Column2, Column4);
 
-            R.M33 = Vector4D.DotProduct(temp.Column3, Column3);
-            R.M34 = Vector4D.DotProduct(temp.Column3, Column4);
+            R.M33 = Vector4.DotProduct(temp.Column3, Column3);
+            R.M34 = Vector4.DotProduct(temp.Column3, Column4);
 
-            R.M44 = Vector4D.DotProduct(temp.Column4, Column4);
+            R.M44 = Vector4.DotProduct(temp.Column4, Column4);
         }
 
         /// <summary>
@@ -385,24 +385,24 @@ namespace MathModule
         /// </summary>
         /// <param name="L">When the method completes, contains the lower triangular matrix of the decomposition</param>
         /// <param name="Q">When the method completes, contains the orthonormalized matrix of the decomposition</param>
-        public void DecomposeLQ(Matrix4D L, Matrix4D Q)
+        public void DecomposeLQ(Matrix L, Matrix Q)
         {
             Q = Orthonormalize(this);
 
-            L = new Matrix4D();
-            L.M11 = Vector4D.DotProduct(Q.Row1, Row1);
+            L = new Matrix();
+            L.M11 = Vector4.DotProduct(Q.Row1, Row1);
 
-            L.M21 = Vector4D.DotProduct(Q.Row1, Row2);
-            L.M22 = Vector4D.DotProduct(Q.Row2, Row2);
+            L.M21 = Vector4.DotProduct(Q.Row1, Row2);
+            L.M22 = Vector4.DotProduct(Q.Row2, Row2);
 
-            L.M31 = Vector4D.DotProduct(Q.Row1, Row3);
-            L.M32 = Vector4D.DotProduct(Q.Row2, Row3);
-            L.M33 = Vector4D.DotProduct(Q.Row3, Row3);
+            L.M31 = Vector4.DotProduct(Q.Row1, Row3);
+            L.M32 = Vector4.DotProduct(Q.Row2, Row3);
+            L.M33 = Vector4.DotProduct(Q.Row3, Row3);
 
-            L.M41 = Vector4D.DotProduct(Q.Row1, Row4);
-            L.M42 = Vector4D.DotProduct(Q.Row2, Row4);
-            L.M43 = Vector4D.DotProduct(Q.Row3, Row4);
-            L.M44 = Vector4D.DotProduct(Q.Row4, Row4);
+            L.M41 = Vector4.DotProduct(Q.Row1, Row4);
+            L.M42 = Vector4.DotProduct(Q.Row2, Row4);
+            L.M43 = Vector4.DotProduct(Q.Row3, Row4);
+            L.M44 = Vector4.DotProduct(Q.Row4, Row4);
         }
 
         /// <summary>
@@ -410,7 +410,7 @@ namespace MathModule
         /// </summary>
         /// <param name="scale">When the method completes, contains the scaling component of the decomposed matrix</param>
         /// <param name="translation">When the method completes, contains the translation component of the decomposed matrix</param>
-        public bool Decompose(Vector3D scale, Vector3D translation)
+        public bool Decompose(Vector3 scale, Vector3 translation)
         {
             translation.X = M41;
             translation.Y = M42;
@@ -435,7 +435,7 @@ namespace MathModule
         /// <param name="exponent">The exponent to raise the matrix to</param>
         /// <returns>The exponential matrix.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">Thrown when the <paramref name="exponent"/> is negative</exception>
-        public static Matrix4D Exponent(Matrix4D value, int exponent)
+        public static Matrix Exponent(Matrix value, int exponent)
         {
             if (exponent < 0)
             {
@@ -452,8 +452,8 @@ namespace MathModule
                 return value;
             }
 
-            Matrix4D identity = Identity;
-            Matrix4D temp = value;
+            Matrix identity = Identity;
+            Matrix temp = value;
 
             while (true)
             {
@@ -484,9 +484,9 @@ namespace MathModule
         /// <param name="end">End matrix</param>
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/></param>
         /// <returns>The linear interpolation of the two matrices</returns>
-        public static Matrix4D Lerp(Matrix4D start, Matrix4D end, float amount)
+        public static Matrix Lerp(Matrix start, Matrix end, float amount)
         {
-            Matrix4D result;
+            Matrix result;
 
             result.M11 = start.M11 + ((end.M11 - start.M11) * amount);
             result.M12 = start.M12 + ((end.M12 - start.M12) * amount);
@@ -515,9 +515,9 @@ namespace MathModule
         /// <param name="end">End matrix</param>
         /// <param name="amount">Value between 0 and 1 indicating the weight of <paramref name="end"/></param>
         /// <returns>The cubic interpolation of the two matrices</returns>
-        public static Matrix4D SmoothStep(Matrix4D start, Matrix4D end, float amount)
+        public static Matrix SmoothStep(Matrix start, Matrix end, float amount)
         {
-            Matrix4D result;
+            Matrix result;
 
             amount = (amount > 1f) ? 1f : ((amount < 0f) ? 0f : amount);
             amount = (amount * amount) * (3f - (2f * amount));
@@ -547,9 +547,9 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The matrix whose transpose is to be calculated</param>
         /// <returns>The transpose of the specified matrix</returns>
-        public static Matrix4D Transpose(Matrix4D value)
+        public static Matrix Transpose(Matrix value)
         {
-            return new Matrix4D(
+            return new Matrix(
                 value.M11, value.M12, value.M13, value.M14,
                 value.M21, value.M22, value.M23, value.M24,
                 value.M31, value.M32, value.M33, value.M34,
@@ -562,9 +562,9 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The matrix whose inverse is to be calculated</param>
         /// <returns>The inverse of the specified matrix</returns>
-        public static Matrix4D Invert(Matrix4D value)
+        public static Matrix Invert(Matrix value)
         {
-            Matrix4D result;
+            Matrix result;
 
             float b0 = (value.M31 * value.M42) - (value.M32 * value.M41);
             float b1 = (value.M31 * value.M43) - (value.M33 * value.M41);
@@ -633,20 +633,20 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The matrix to orthogonalize</param>
         /// <returns>The orthogonalized matrix</returns>
-        public static Matrix4D Orthogonalize(Matrix4D value)
+        public static Matrix Orthogonalize(Matrix value)
         {
-            Matrix4D result;
+            Matrix result;
 
             result = value;
 
-            result.Row2 = result.Row2 - (Vector4D.DotProduct(result.Row1, result.Row2) / Vector4D.DotProduct(result.Row1, result.Row1)) * result.Row1;
+            result.Row2 = result.Row2 - (Vector4.DotProduct(result.Row1, result.Row2) / Vector4.DotProduct(result.Row1, result.Row1)) * result.Row1;
 
-            result.Row3 = result.Row3 - (Vector4D.DotProduct(result.Row1, result.Row3) / Vector4D.DotProduct(result.Row1, result.Row1)) * result.Row1;
-            result.Row3 = result.Row3 - (Vector4D.DotProduct(result.Row2, result.Row3) / Vector4D.DotProduct(result.Row2, result.Row2)) * result.Row2;
+            result.Row3 = result.Row3 - (Vector4.DotProduct(result.Row1, result.Row3) / Vector4.DotProduct(result.Row1, result.Row1)) * result.Row1;
+            result.Row3 = result.Row3 - (Vector4.DotProduct(result.Row2, result.Row3) / Vector4.DotProduct(result.Row2, result.Row2)) * result.Row2;
 
-            result.Row4 = result.Row4 - (Vector4D.DotProduct(result.Row1, result.Row4) / Vector4D.DotProduct(result.Row1, result.Row1)) * result.Row1;
-            result.Row4 = result.Row4 - (Vector4D.DotProduct(result.Row2, result.Row4) / Vector4D.DotProduct(result.Row2, result.Row2)) * result.Row2;
-            result.Row4 = result.Row4 - (Vector4D.DotProduct(result.Row3, result.Row4) / Vector4D.DotProduct(result.Row3, result.Row3)) * result.Row3;
+            result.Row4 = result.Row4 - (Vector4.DotProduct(result.Row1, result.Row4) / Vector4.DotProduct(result.Row1, result.Row1)) * result.Row1;
+            result.Row4 = result.Row4 - (Vector4.DotProduct(result.Row2, result.Row4) / Vector4.DotProduct(result.Row2, result.Row2)) * result.Row2;
+            result.Row4 = result.Row4 - (Vector4.DotProduct(result.Row3, result.Row4) / Vector4.DotProduct(result.Row3, result.Row3)) * result.Row3;
 
             return result;
         }
@@ -657,25 +657,25 @@ namespace MathModule
         /// <param name="value">The matrix to orthonormalize</param>
         /// <returns>The orthonormalized matrix</returns>
         /// <remarks>
-        public static Matrix4D Orthonormalize(Matrix4D value)
+        public static Matrix Orthonormalize(Matrix value)
         {
-            Matrix4D result;
+            Matrix result;
 
             result = value;
 
-            result.Row1 = Vector4D.Normalize(result.Row1);
+            result.Row1 = Vector4.Normalize(result.Row1);
 
-            result.Row2 = result.Row2 - Vector4D.DotProduct(result.Row1, result.Row2) * result.Row1;
-            result.Row2 = Vector4D.Normalize(result.Row2);
+            result.Row2 = result.Row2 - Vector4.DotProduct(result.Row1, result.Row2) * result.Row1;
+            result.Row2 = Vector4.Normalize(result.Row2);
 
-            result.Row3 = result.Row3 - Vector4D.DotProduct(result.Row1, result.Row3) * result.Row1;
-            result.Row3 = result.Row3 - Vector4D.DotProduct(result.Row2, result.Row3) * result.Row2;
-            result.Row3 = Vector4D.Normalize(result.Row3);
+            result.Row3 = result.Row3 - Vector4.DotProduct(result.Row1, result.Row3) * result.Row1;
+            result.Row3 = result.Row3 - Vector4.DotProduct(result.Row2, result.Row3) * result.Row2;
+            result.Row3 = Vector4.Normalize(result.Row3);
 
-            result.Row4 = result.Row4 - Vector4D.DotProduct(result.Row1, result.Row4) * result.Row1;
-            result.Row4 = result.Row4 - Vector4D.DotProduct(result.Row2, result.Row4) * result.Row2;
-            result.Row4 = result.Row4 - Vector4D.DotProduct(result.Row3, result.Row4) * result.Row3;
-            result.Row4 = Vector4D.Normalize(result.Row4);
+            result.Row4 = result.Row4 - Vector4.DotProduct(result.Row1, result.Row4) * result.Row1;
+            result.Row4 = result.Row4 - Vector4.DotProduct(result.Row2, result.Row4) * result.Row2;
+            result.Row4 = result.Row4 - Vector4.DotProduct(result.Row3, result.Row4) * result.Row3;
+            result.Row4 = Vector4.Normalize(result.Row4);
 
             return result;
         }
@@ -688,11 +688,11 @@ namespace MathModule
         /// <param name="cameraUpVector">The up vector of the camera</param>
         /// <param name="cameraForwardVector">The forward vector of the camera</param>
         /// <returns>The created billboard matrix</returns>
-        public static Matrix4D Billboard(Vector3D objectPosition, Vector3D cameraPosition, Vector3D cameraUpVector, Vector3D cameraForwardVector)
+        public static Matrix Billboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 cameraUpVector, Vector3 cameraForwardVector)
         {
-            Matrix4D result;
-            Vector3D crossed, final;
-            Vector3D difference = objectPosition - cameraPosition;
+            Matrix result;
+            Vector3 crossed, final;
+            Vector3 difference = objectPosition - cameraPosition;
 
             float lengthsq = difference.MagnitudeSquared;
 
@@ -705,9 +705,9 @@ namespace MathModule
                 difference *= (1 / Mathematics.Sqrt(lengthsq));
             }
 
-            crossed = Vector3D.CrossProduct(cameraUpVector, difference);
-            crossed = Vector3D.Normalize(crossed);
-            final = Vector3D.CrossProduct(difference, crossed);
+            crossed = Vector3.CrossProduct(cameraUpVector, difference);
+            crossed = Vector3.Normalize(crossed);
+            final = Vector3.CrossProduct(difference, crossed);
 
             result.M11 = crossed.X;
             result.M12 = crossed.Y;
@@ -734,16 +734,16 @@ namespace MathModule
         /// </summary>
         /// <param name="scale">Scaling factor for all three axes</param>
         /// <returns>The created scaling matrix</returns>
-        public static Matrix4D Scaling(Vector3D scale) => Scaling(scale.X, scale.Y, scale.Z);
+        public static Matrix Scaling(Vector3 scale) => Scaling(scale.X, scale.Y, scale.Z);
 
         /// <summary>
         /// Creates a matrix that uniformally scales along all three axis
         /// </summary>
         /// <param name="scale">The uniform scale that is applied along all axis</param>
         /// <returns>The created scaling matrix</returns>
-        public static Matrix4D Scaling(float scale)
+        public static Matrix Scaling(float scale)
         {
-            Matrix4D result;
+            Matrix result;
 
             result = Identity;
             result.M11 = scale;
@@ -760,9 +760,9 @@ namespace MathModule
         /// <param name="y">Scaling factor that is applied along the y-axis</param>
         /// <param name="z">Scaling factor that is applied along the z-axis</param>
         /// <returns>The created scaling matrix.</returns>
-        public static Matrix4D Scaling(float x, float y, float z)
+        public static Matrix Scaling(float x, float y, float z)
         {
-            Matrix4D result;
+            Matrix result;
 
             result = Identity;
             result.M11 = x;
@@ -777,9 +777,9 @@ namespace MathModule
         /// </summary>
         /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin</param>
         /// <returns>The created rotation matrix</returns>
-        public static Matrix4D RotationX(float angle)
+        public static Matrix RotationX(float angle)
         {
-            Matrix4D result;
+            Matrix result;
 
             float cos = Mathematics.Cos(angle);
             float sin = Mathematics.Sin(angle);
@@ -798,9 +798,9 @@ namespace MathModule
         /// </summary>
         /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin</param>
         /// <returns>The created rotation matrix</returns>
-        public static Matrix4D RotationY(float angle)
+        public static Matrix RotationY(float angle)
         {
-            Matrix4D result;
+            Matrix result;
 
             float cos = Mathematics.Cos(angle);
             float sin = Mathematics.Sin(angle);
@@ -819,9 +819,9 @@ namespace MathModule
         /// </summary>
         /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin</param>
         /// <returns>The created rotation matrix</returns>
-        public static Matrix4D RotationZ(float angle)
+        public static Matrix RotationZ(float angle)
         {
-            Matrix4D result;
+            Matrix result;
 
             float cos = Mathematics.Cos(angle);
             float sin = Mathematics.Sin(angle);
@@ -841,9 +841,9 @@ namespace MathModule
         /// <param name="axis">The axis around which to rotate. This parameter is assumed to be normalized</param>
         /// <param name="angle">Angle of rotation in radians. Angles are measured clockwise when looking along the rotation axis toward the origin</param>
         /// <returns>The created rotation matrix</returns>
-        public static Matrix4D RotationAxis(Vector3D axis, float angle)
+        public static Matrix RotationAxis(Vector3 axis, float angle)
         {
-            Matrix4D result;
+            Matrix result;
 
             float x = axis.X;
             float y = axis.Y;
@@ -876,9 +876,9 @@ namespace MathModule
         /// </summary>
         /// <param name="rotation">The quaternion to use to build the matrix</param>
         /// <returns>The created rotation matrix</returns>
-        public static Matrix4D RotationQuaternion(Quaternion4D rotation)
+        public static Matrix RotationQuaternion(Quaternion rotation)
         {
-            Matrix4D result;
+            Matrix result;
 
             float xx = rotation.X * rotation.X;
             float yy = rotation.Y * rotation.Y;
@@ -911,9 +911,9 @@ namespace MathModule
         /// <param name="pitch">Pitch around the x-axis, in radians</param>
         /// <param name="roll">Roll around the z-axis, in radians</param>
         /// <returns>The created rotation matrix</returns>
-        public static Matrix4D RotationYawPitchRoll(float yaw, float pitch, float roll)
+        public static Matrix RotationYawPitchRoll(float yaw, float pitch, float roll)
         {
-            return RotationQuaternion(Quaternion4D.RotationYawPitchRoll(yaw, pitch, roll));
+            return RotationQuaternion(Quaternion.RotationYawPitchRoll(yaw, pitch, roll));
         }
 
         /// <summary>
@@ -921,7 +921,7 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The offset for all three coordinate planes</param>
         /// <returns>The created translation matrix</returns>
-        public static Matrix4D Translation(Vector3D value)
+        public static Matrix Translation(Vector3 value)
         {
             return Translation(value.X, value.Y, value.Z);
         }
@@ -933,9 +933,9 @@ namespace MathModule
         /// <param name="y">Y-coordinate offset</param>
         /// <param name="z">Z-coordinate offset</param>
         /// <returns>The created translation matrix</returns>
-        public static Matrix4D Translation(float x, float y, float z)
+        public static Matrix Translation(float x, float y, float z)
         {
-            Matrix4D result;
+            Matrix result;
 
             result = Identity;
             result.M41 = x;
@@ -952,7 +952,7 @@ namespace MathModule
         /// <param name="rotation">The rotation of the transformation</param>
         /// <param name="translation">The translation factor of the transformation</param>
         /// <returns>The created affine transformation matrix</returns>
-        public static Matrix4D AffineTransformation(float scaling, Quaternion4D rotation, Vector3D translation)
+        public static Matrix AffineTransformation(float scaling, Quaternion rotation, Vector3 translation)
         {
             return Scaling(scaling) * RotationQuaternion(rotation) * Translation(translation);
         }
@@ -965,7 +965,7 @@ namespace MathModule
         /// <param name="rotation">The rotation of the transformation</param>
         /// <param name="translation">The translation factor of the transformation</param>
         /// <returns>The created affine transformation matrix</returns>
-        public static Matrix4D AffineTransformation(float scaling, Vector3D rotationCenter, Quaternion4D rotation, Vector3D translation)
+        public static Matrix AffineTransformation(float scaling, Vector3 rotationCenter, Quaternion rotation, Vector3 translation)
         {
             return Scaling(scaling) * Translation(-rotationCenter) * RotationQuaternion(rotation) * Translation(rotationCenter) * Translation(translation);
         }
@@ -980,7 +980,7 @@ namespace MathModule
         /// <param name="rotation">The rotation of the transformation</param>
         /// <param name="translation">The translation factor of the transformation</param>
         /// <returns>The created transformation matrix</returns>
-        public static Matrix4D Transformation(Vector3D scalingCenter, Quaternion4D scalingRotation, Vector3D scaling, Vector3D rotationCenter, Quaternion4D rotation, Vector3D translation)
+        public static Matrix Transformation(Vector3 scalingCenter, Quaternion scalingRotation, Vector3 scaling, Vector3 rotationCenter, Quaternion rotation, Vector3 translation)
         {
             return Translation(-scalingCenter) * Transpose(sr) * Scaling(scaling) * RotationQuaternion(scalingRotation) * Translation(scalingCenter) *
                 Translation(-rotationCenter) * RotationQuaternion(rotation) * Translation(rotationCenter) * Translation(translation);
@@ -992,9 +992,9 @@ namespace MathModule
         /// <param name="value1">The first matrix to add</param>
         /// <param name="value2">The second matrix to add</param>
         /// <returns>The sum of the two matricies</returns>
-        public static Matrix4D operator +(Matrix4D value1, Matrix4D value2)
+        public static Matrix operator +(Matrix value1, Matrix value2)
         {
-            return new Matrix4D(
+            return new Matrix(
                 value1.M11 + value2.M11, value1.M12 + value2.M12, value1.M13 + value2.M13, value1.M14 + value2.M14,
                 value1.M21 + value2.M21, value1.M22 + value2.M22, value1.M23 + value2.M23, value1.M24 + value2.M24,
                 value1.M31 + value2.M31, value1.M32 + value2.M32, value1.M33 + value2.M33, value1.M34 + value2.M34,
@@ -1008,9 +1008,9 @@ namespace MathModule
         /// <param name="value1">The first matrix to subtract</param>
         /// <param name="value2">The second matrix to subtract</param>
         /// <returns>The difference between the two matricies</returns>
-        public static Matrix4D operator -(Matrix4D value1, Matrix4D value2)
+        public static Matrix operator -(Matrix value1, Matrix value2)
         {
-            return new Matrix4D(
+            return new Matrix(
                 value1.M11 - value2.M11, value1.M12 - value2.M12, value1.M13 - value2.M13, value1.M14 - value2.M14,
                 value1.M21 - value2.M21, value1.M22 - value2.M22, value1.M23 - value2.M23, value1.M24 - value2.M24,
                 value1.M31 - value2.M31, value1.M32 - value2.M32, value1.M33 - value2.M33, value1.M34 - value2.M34,
@@ -1023,9 +1023,9 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The matrix to negate</param>
         /// <returns>The negated matrix</returns>
-        public static Matrix4D operator -(Matrix4D value)
+        public static Matrix operator -(Matrix value)
         {
-            return new Matrix4D(-value.M11, -value.M12, -value.M13, -value.M14, -value.M21, -value.M22, -value.M23, -value.M24, -value.M31, -value.M32, -value.M33, -value.M34, -value.M41, -value.M42, -value.M43, -value.M44);
+            return new Matrix(-value.M11, -value.M12, -value.M13, -value.M14, -value.M21, -value.M22, -value.M23, -value.M24, -value.M31, -value.M32, -value.M33, -value.M34, -value.M41, -value.M42, -value.M43, -value.M44);
         }
 
         /// <summary>
@@ -1034,9 +1034,9 @@ namespace MathModule
         /// <param name="value">The matrix to scale</param>
         /// <param name="scalar">The amount by which to scale</param>
         /// <returns>The scaled matrix</returns>
-        public static Matrix4D operator *(float scalar, Matrix4D value)
+        public static Matrix operator *(float scalar, Matrix value)
         {
-            return new Matrix4D(
+            return new Matrix(
                 value.M11 * scalar, value.M12 * scalar, value.M13 * scalar, value.M14 * scalar,
                 value.M21 * scalar, value.M22 * scalar, value.M23 * scalar, value.M24 * scalar,
                 value.M31 * scalar, value.M32 * scalar, value.M33 * scalar, value.M34 * scalar,
@@ -1050,9 +1050,9 @@ namespace MathModule
         /// <param name="value">The matrix to scale</param>
         /// <param name="scalar">The amount by which to scale</param>
         /// <returns>The scaled matrix</returns>
-        public static Matrix4D operator *(Matrix4D value, float scalar)
+        public static Matrix operator *(Matrix value, float scalar)
         {
-            return new Matrix4D(
+            return new Matrix(
                 value.M11 * scalar, value.M12 * scalar, value.M13 * scalar, value.M14 * scalar,
                 value.M21 * scalar, value.M22 * scalar, value.M23 * scalar, value.M24 * scalar,
                 value.M31 * scalar, value.M32 * scalar, value.M33 * scalar, value.M34 * scalar,
@@ -1066,9 +1066,9 @@ namespace MathModule
         /// <param name="value1">The first matrix to multiply</param>
         /// <param name="value2">The second matrix to multiply</param>
         /// <returns>The product of the two matricies</returns>
-        public static Matrix4D operator *(Matrix4D value1, Matrix4D value2)
+        public static Matrix operator *(Matrix value1, Matrix value2)
         {
-            Matrix4D result;
+            Matrix result;
 
             result.M11 = (value1.M11 * value2.M11) + (value1.M12 * value2.M21) + (value1.M13 * value2.M31) + (value1.M14 * value2.M41);
             result.M12 = (value1.M11 * value2.M12) + (value1.M12 * value2.M22) + (value1.M13 * value2.M32) + (value1.M14 * value2.M42);
@@ -1096,9 +1096,9 @@ namespace MathModule
         /// <param name="value">The matrix to scale</param>
         /// <param name="scalar">The amount by which to scale</param>
         /// <returns>The scaled matrix</returns>
-        public static Matrix4D operator /(Matrix4D value, float scalar)
+        public static Matrix operator /(Matrix value, float scalar)
         {
-            return new Matrix4D(
+            return new Matrix(
                 value.M11 * (1f / scalar), value.M12 * (1f / scalar), value.M13 * (1f / scalar), value.M14 * (1f / scalar),
                 value.M21 * (1f / scalar), value.M22 * (1f / scalar), value.M23 * (1f / scalar), value.M24 * (1f / scalar),
                 value.M31 * (1f / scalar), value.M32 * (1f / scalar), value.M33 * (1f / scalar), value.M34 * (1f / scalar),
@@ -1112,9 +1112,9 @@ namespace MathModule
         /// <param name="value1">The first matrix to divide</param>
         /// <param name="value2">The second matrix to divide</param>
         /// <returns>The quotient of the two matricies</returns>
-        public static Matrix4D operator /(Matrix4D value1, Matrix4D value2)
+        public static Matrix operator /(Matrix value1, Matrix value2)
         {
-            return new Matrix4D(
+            return new Matrix(
                 value1.M11 * value2.M11, value1.M12 * value2.M12, value1.M13 * value2.M13, value1.M14 * value2.M14,
                 value1.M21 * value2.M21, value1.M22 * value2.M22, value1.M23 * value2.M23, value1.M24 * value2.M24,
                 value1.M31 * value2.M31, value1.M32 * value2.M32, value1.M33 * value2.M33, value1.M34 * value2.M34,
@@ -1128,7 +1128,7 @@ namespace MathModule
         /// <param name="value1">The first value to compare</param>
         /// <param name="value2">The second value to compare</param>
         /// <returns><c>true</c> if <paramref name="value1"/> has the same value as <paramref name="value2"/>; otherwise, <c>false</c></returns>
-        public static bool operator ==(Matrix4D value1, Matrix4D value2) => value1.Equals(value2);
+        public static bool operator ==(Matrix value1, Matrix value2) => value1.Equals(value2);
 
         /// <summary>
         /// Tests for inequality between two objects
@@ -1136,7 +1136,7 @@ namespace MathModule
         /// <param name="left">The first value to compare</param>
         /// <param name="right">The second value to compare</param>
         /// <returns><c>true</c> if <paramref name="left"/> has a different value than <paramref name="right"/>; otherwise, <c>false</c></returns>
-        public static bool operator !=(Matrix4D value1, Matrix4D value2) => !value1.Equals(value2);
+        public static bool operator !=(Matrix value1, Matrix value2) => !value1.Equals(value2);
 
         /// <summary>
         /// Determines whether the specified object is equal to this instance
@@ -1145,7 +1145,7 @@ namespace MathModule
         /// <returns>
         /// <c>true</c> if the specified object is equal to this instance; otherwise, <c>false</c>
         /// </returns>
-        public override bool Equals(object obj) => (obj is Matrix4D) && Equals((Matrix4D)obj);
+        public override bool Equals(object obj) => (obj is Matrix) && Equals((Matrix)obj);
 
         /// <summary>
         /// Determines whether the specified matrix is equal to this instance
@@ -1154,7 +1154,7 @@ namespace MathModule
         /// <returns>
         /// <c>true</c> if the specified matrix is equal to this instance; otherwise, <c>false</c>
         /// </returns>
-        public bool Equals(Matrix4D other)
+        public bool Equals(Matrix other)
         {
             return (M11.Equals(other.M11) && M12.Equals(other.M12) && M13.Equals(other.M13) && M14.Equals(other.M14) &&
                 M21.Equals(other.M21) && M22.Equals(other.M22) && M23.Equals(other.M23) && M24.Equals(other.M24) &&
