@@ -1,7 +1,5 @@
 using MathModule;
 
-using UnityEngine;
-
 namespace CollisionModule
 {
     public class Utility
@@ -31,7 +29,7 @@ namespace CollisionModule
                 Vector3 pNext = Vector3.Lerp(p1, p2, tNext);
 
                 if (i != r - 1)
-                    Gizmos.DrawLine(p, pNext); // Line
+                    Gizmos.DrawLine(p, pNext);  // Line
 
                 Gizmos.color = Color.white;
                 Gizmos.DrawLine(p - deltaX, p + deltaX);
@@ -157,7 +155,6 @@ namespace CollisionModule
             capStart[(upAxis + 2) % 3] = -radius;
             capEnd[(upAxis + 2) % 3] = -radius;
             Gizmos.DrawLine(start + rotation * capStart, start + rotation * capEnd);
-
         }
 
         public static void DebugDrawCylinder(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float halfHeight, int upAxis, Color color)
@@ -243,7 +240,6 @@ namespace CollisionModule
             Vector3 point3 = planeOrigin - vector1 * vectorLenght;
             Gizmos.DrawLine(matrix.MultiplyPoint(point0), matrix.MultiplyPoint(point1));
             Gizmos.DrawLine(matrix.MultiplyPoint(point2), matrix.MultiplyPoint(point3));
-
         }
 
         public static void GetPlaneSpaceVector(Vector3 planeNormal, ref Vector3 vector1, ref Vector3 vector2)

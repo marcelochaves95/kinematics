@@ -11,7 +11,7 @@ namespace CollisionModule
     {
         public interface ICollisionCallbackEventHandler
         {
-            void OnVisitPersistentManifold(PersistentManifold pm);
+            // void OnVisitPersistentManifold(PersistentManifold pm);
             void OnFinishedVisitingManifolds();
         }
     }

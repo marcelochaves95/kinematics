@@ -182,7 +182,8 @@ namespace MathModule
             return new Quaternion(
                 value.W * vector.X + value.Y * vector.Z - value.Z * vector.Y,
                 value.W * vector.Y + value.Z * vector.X - value.X * vector.Z,
-                value.W * vector.Z + value.X * vector.Y - value.Y * vector.X, -value.X * vector.X - value.Y * vector.Y - value.Z * vector.Z);
+                value.W * vector.Z + value.X * vector.Y - value.Y * vector.X,
+                -value.X * vector.X - value.Y * vector.Y - value.Z * vector.Z);
         }
 
         /// <summary>
@@ -191,7 +192,7 @@ namespace MathModule
         /// <param name="rotation">Quaterion</param>
         /// <param name="point">Vector</param>
         /// <returns></returns>
-        public static Vector3 operator *(Quaternion rotation, Vector3 point)
+        /*public static Vector3 operator *(Quaternion rotation, Vector3 point)
         {
             float x = rotation.X * 2f;
             float y = rotation.Y * 2f;
@@ -210,7 +211,7 @@ namespace MathModule
                 (1f - (yy + zz)) * point.X + (xy - wz) * point.Y + (xz + wy) * point.Z,
                 (xy + wz) * point.X + (1f - (xx + zz)) * point.Y + (yz - wx) * point.Z,
                 (xz - wy) * point.X + (yz + wx) * point.Y + (1f - (xx + yy)) * point.Z);
-        }
+        }*/
 
         /// <summary>
         /// Scales a vector by the given value.
