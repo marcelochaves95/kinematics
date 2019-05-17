@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace MathModule
 {
 	/// <summary>
-	/// Vector3D is an utility class for manipulating 3 dimensional
+	/// Vector3 is an utility class for manipulating 3 dimensional
 	/// vectors with float components
 	/// </summary>
 	[StructLayout(LayoutKind.Sequential)]
@@ -47,7 +47,7 @@ namespace MathModule
 
 			if (values.Length != 3)
 			{
-				throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector3D.");
+				throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector3.");
 			}
 
 			X = values[0];
@@ -56,49 +56,49 @@ namespace MathModule
 		}
 
 		/// <summary>
-		/// Shorthand for writing Vector3D(0, 0, 1)
+		/// Shorthand for writing Vector3(0, 0, 1)
 		/// </summary>
 		/// <returns>Vector forward</returns>
 		public static readonly Vector3 Forward = new Vector3(0f, 0f, 1f);
 
 		/// <summary>
-		/// Shorthand for writing Vector3D(0, 0, -1)
+		/// Shorthand for writing Vector3(0, 0, -1)
 		/// </summary>
 		/// <returns>Vector back</returns>
 		public static readonly Vector3 Back = new Vector3(0f, 0f, -1f);
 
 		/// <summary>
-		/// Shorthand for writing Vector3D(0, 1, 0)
+		/// Shorthand for writing Vector3(0, 1, 0)
 		/// </summary>
 		/// <returns>Vector up</returns>
 		public static readonly Vector3 Up = new Vector3(0f, 1f, 0f);
 
 		/// <summary>
-		/// Shorthand for writing Vector3D(0, -1, 0)
+		/// Shorthand for writing Vector3(0, -1, 0)
 		/// </summary>
 		/// <returns>Vector down</returns>
 		public static readonly Vector3 Down = new Vector3(0f, -1f, 0f);
 
 		/// <summary>
-		/// Shorthand for writing Vector3D(-1, 0, 0)
+		/// Shorthand for writing Vector3(-1, 0, 0)
 		/// </summary>
 		/// <returns>Vector left</returns>
 		public static readonly Vector3 Left = new Vector3(-1f, 0f, 0f);
 
 		/// <summary>
-		/// Shorthand for writing Vector3D(1, 0, 0)
+		/// Shorthand for writing Vector3(1, 0, 0)
 		/// </summary>
 		/// <returns>Vector right</returns>
 		public static readonly Vector3 Right = new Vector3(1f, 0f, 0f);
 
 		/// <summary>
-		/// Shorthand for writing Vector3D(1, 1, 1)
+		/// Shorthand for writing Vector3(1, 1, 1)
 		/// </summary>
 		/// <returns>Vector one</returns>
 		public static readonly Vector3 One = new Vector3(1f, 1f, 1f);
 
 		/// <summary>
-		/// Shorthand for writing Vector3D(0, 0, 0)
+		/// Shorthand for writing Vector3(0, 0, 0)
 		/// </summary>
 		/// <returns>Vector zero</returns>
 		public static readonly Vector3 Zero = new Vector3(0f, 0f, 0f);
@@ -167,7 +167,7 @@ namespace MathModule
 		public static Vector3 operator /(Vector3 value, float scalar) => new Vector3(value.X / scalar, value.Y / scalar, value.Z / scalar);
 
 		/// <summary>
-		/// Performs an explicit conversion from Vector3D to Vector4D
+		/// Performs an explicit conversion from Vector3 to Vector4D
 		/// </summary>
 		/// <param name="value">The value</param>
 		/// <returns>The result of the conversion./returns>
@@ -591,7 +591,7 @@ namespace MathModule
 		}
 
 		/// <summary>
-		/// Used to allow Vector3Ds to be used as keys in hash tables
+		/// Used to allow Vector3s to be used as keys in hash tables
 		/// </summary>
 		/// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
 		/// hash table.</returns>
@@ -601,6 +601,6 @@ namespace MathModule
 		/// Provide a string describing the object
 		/// </summary>
 		/// <returns>String description of the object</returns>
-		public override string ToString() => $"[Vector3D] X({ X }) Y({ Y }) Z({ Z })";
+		public override string ToString() => $"[Vector3] X({ X }) Y({ Y }) Z({ Z })";
 	}
 }

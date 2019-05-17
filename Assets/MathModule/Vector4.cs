@@ -72,7 +72,7 @@ namespace MathModule
 
             if (values.Length != 4)
             {
-                throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector4D.");
+                throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector4.");
             }
 
             X = values[0];
@@ -82,32 +82,32 @@ namespace MathModule
         }
 
         /// <summary>
-        /// Shorthand for writing Vector4D(1, 0, 0, 0)
+        /// Shorthand for writing Vector4(1, 0, 0, 0)
         /// </summary>
         public static readonly Vector4 UnitX = new Vector4(1f, 0f, 0f, 0f);
 
         /// <summary>
-        /// Shorthand for writing Vector4D(0, 1, 0, 0)
+        /// Shorthand for writing Vector4(0, 1, 0, 0)
         /// </summary>
         public static readonly Vector4 UnitY = new Vector4(0f, 1f, 0f, 0f);
 
         /// <summary>
-        /// Shorthand for writing Vector4D(0, 0, 1, 0)
+        /// Shorthand for writing Vector4(0, 0, 1, 0)
         /// </summary>
         public static readonly Vector4 UnitZ = new Vector4(0f, 0f, 1f, 0f);
 
         /// <summary>
-        /// Shorthand for writing Vector4D(0, 0, 0, 1)
+        /// Shorthand for writing Vector4(0, 0, 0, 1)
         /// </summary>
         public static readonly Vector4 UnitW = new Vector4(0f, 0f, 0f, 1f);
 
         /// <summary>
-        /// Shorthand for writing Vector4D(1, 1, 1, 1)
+        /// Shorthand for writing Vector4(1, 1, 1, 1)
         /// </summary>
         public static readonly Vector4 One = new Vector4(1f, 1f, 1f, 1f);
 
         /// <summary>
-        /// Shorthand for writing Vector4D(0, 0, 0, 0)
+        /// Shorthand for writing Vector4(0, 0, 0, 0)
         /// </summary>
         public static readonly Vector4 Zero = new Vector4(0f, 0f, 0f, 0f);
 
@@ -175,7 +175,7 @@ namespace MathModule
         public static bool operator !=(Vector4 value1, Vector4 value2) => !value1.Equals(value2);
 
         /// <summary>
-        /// Performs an explicit conversion from Vector4D to Vector4D
+        /// Performs an explicit conversion from Vector4 to Vector4
         /// </summary>
         /// <param name="value">The value</param>
         /// <returns>The result of the conversion</returns>
@@ -456,6 +456,6 @@ namespace MathModule
         /// Provide a string describing the object
         /// </summary>
         /// <returns>String description of the object</returns>
-        public override string ToString() => $"[Vector4D] X({ X }) Y({ Y }) Z({ Z }) W({ W })";
+        public override string ToString() => $"[Vector4] X({ X }) Y({ Y }) Z({ Z }) W({ W })";
     }
 }
