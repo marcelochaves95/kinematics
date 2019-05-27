@@ -58,14 +58,10 @@ namespace MathModule
         public Quaternion(float[] values)
         {
             if (values == null)
-            {
                 throw new ArgumentNullException("values");
-            }
 
             if (values.Length != 4)
-            {
                 throw new ArgumentOutOfRangeException("values", "There must be four and only four input values for Quaternion.");
-            }
 
             X = values[0];
             Y = values[1];
@@ -192,7 +188,7 @@ namespace MathModule
         /// <param name="rotation">Quaterion</param>
         /// <param name="point">Vector</param>
         /// <returns></returns>
-        /*public static Vector3 operator *(Quaternion rotation, Vector3 point)
+        public static Vector3 operator *(Quaternion rotation, Vector3 point)
         {
             float x = rotation.X * 2f;
             float y = rotation.Y * 2f;
@@ -211,7 +207,7 @@ namespace MathModule
                 (1f - (yy + zz)) * point.X + (xy - wz) * point.Y + (xz + wy) * point.Z,
                 (xy + wz) * point.X + (1f - (xx + zz)) * point.Y + (yz - wx) * point.Z,
                 (xz - wy) * point.X + (yz + wx) * point.Y + (1f - (xx + yy)) * point.Z);
-        }*/
+        }
 
         /// <summary>
         /// Scales a vector by the given value.
@@ -255,9 +251,7 @@ namespace MathModule
             {
                 float magnitude = X * X + Y * Y + Z * Z;
                 if (magnitude < 0f)
-                {
                     return 0f;
-                }
 
                 return 2f * Mathematics.Acos(W);
             }
@@ -273,9 +267,7 @@ namespace MathModule
             {
                 float inverse = 1f / (W * W);
                 if (inverse < 1f * 0f)
-                {
                     return Vector3.Right;
-                }
 
                 return new Vector3(X * inverse, Y * inverse, Z * inverse);
             }
@@ -285,7 +277,7 @@ namespace MathModule
         /// Calculates the length of the quaternion
         /// </summary>
         /// <returns>The length of the vector</returns>
-        public static float Magnitude(Quaternion value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z + value.W * value.W);
+        public static float Magnitude(Quaternion value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2) + Mathematics.Sqrt(Mathematics.Pow(value.Y, 2) + Mathematics.Sqrt(Mathematics.Pow(value.Z, 2) + Mathematics.Sqrt(Mathematics.Pow(value.W, 2);
 
         /// <summary>
         /// Makes this vector have a magnitude of 1
@@ -297,9 +289,7 @@ namespace MathModule
             float magnitude = Magnitude(value);
 
             if (magnitude < 0f)
-            {
                 return Identity;
-            }
 
             return value / magnitude;
         }
@@ -320,11 +310,9 @@ namespace MathModule
             float magnitude = Magnitude(value);
 
             if (magnitude > 0f)
-            {
                 magnitude = 1f / magnitude;
 
-                return -value * magnitude;
-            }
+            return -value * magnitude;
         }
 
         /// <summary>
@@ -380,9 +368,7 @@ namespace MathModule
                 result.Z = coeff * value.Z;
             }
             else
-            {
                 result = value;
-            }
 
             result.W = Mathematics.Cos(angle);
 
@@ -442,14 +428,10 @@ namespace MathModule
                     result.Z = value.Z * coeff;
                 }
                 else
-                {
                     result = value;
-                }
             }
             else
-            {
                 result = value;
-            }
 
             result.W = 0f;
 
