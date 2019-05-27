@@ -41,14 +41,10 @@ namespace MathModule
 		public Vector3(float[] values)
 		{
 			if (values == null)
-			{
 				throw new ArgumentNullException("values");
-			}
 
 			if (values.Length != 3)
-			{
 				throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector3.");
-			}
 
 			X = values[0];
 			Y = values[1];
@@ -207,7 +203,7 @@ namespace MathModule
 		/// Calculates the length of the vector
 		/// </summary>
 		/// <returns>The length of the vector</returns>
-		public static float Magnitude(Vector3 value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z);
+		public static float Magnitude(Vector3 value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2) + Mathematics.Pow(value.Y, 2) + Mathematics.Pow(value.Z, 2));
 
 		/// <summary>
         /// Calculates the squared length of the vector
@@ -233,7 +229,7 @@ namespace MathModule
 		/// </summary>
 		/// <param name="value1">Vector</param>
 		/// <returns>Dot Product of two vectors</returns>
-		public static float DotProduct(Vector3 value1, Vector3 value2) => value1.X + value2.X + value1.Y * value2.Y + value1.Z * value2.Z;
+		public static float DotProduct(Vector3 value1, Vector3 value2) => value1.X * value2.X + value1.Y * value2.Y + value1.Z * value2.Z;
 
 		/// <summary>
 		/// Calculates the cross product of two vectors
@@ -498,9 +494,7 @@ namespace MathModule
 			float radicand = 1f - (index * index) * (1f - (cos1 * cos1));
 
 			if (radicand < 0f)
-			{
 				return Zero;
-			}
 			else
 			{
 				float cos2 = Mathematics.Sqrt(radicand);
