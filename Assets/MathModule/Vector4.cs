@@ -66,14 +66,10 @@ namespace MathModule
         public Vector4(float[] values)
         {
             if (values == null)
-            {
                 throw new ArgumentNullException("values");
-            }
 
             if (values.Length != 4)
-            {
                 throw new ArgumentOutOfRangeException("values", "There must be three and only three input values for Vector4.");
-            }
 
             X = values[0];
             Y = values[1];
@@ -179,7 +175,7 @@ namespace MathModule
         /// </summary>
         /// <param name="value">The value</param>
         /// <returns>The result of the conversion</returns>
-        public static explicit operator Vector3(Vector4 value) => Vector3(value.X, value.Y, value.Z);
+        public static explicit operator Vector3(Vector4 value) => new Vector3(value.X, value.Y, value.Z);
 
         /// <summary>
         /// Compare vector and object and checks if they are equal
@@ -204,7 +200,7 @@ namespace MathModule
         /// Calculates the length of the vector
         /// </summary>
         /// <returns>May be preferred when only the relative length is needed and speed is of the essence</returns>
-        public static float Magnitude(Vector4 value) => Mathematics.Sqrt(value.X * value.X + value.Y * value.Y + value.Z * value.Z, value.W * value.W);
+        public static float Magnitude(Vector4 value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2) + Mathematics.Pow(value.Y, 2) + Mathematics.Pow(value.Z, 2) + Mathematics.Pow(value.W, 2));
 
         /// <summary>
         /// Converts the vector into a unit vector
