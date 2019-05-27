@@ -151,14 +151,10 @@ namespace MathModule
         public Matrix(float[] values)
         {
             if (values == null)
-            {
                 throw new ArgumentNullException("values");
-            }
 
             if (values.Length != 16)
-            {
                 throw new ArgumentOutOfRangeException("values", "There must be sixteen and only sixteen input values for Matrix.");
-            }
 
             M11 = values[0];
             M12 = values[1];
@@ -321,6 +317,7 @@ namespace MathModule
                     temp[j] = (this [j, i] + this [i, j]) * s;
                     temp[k] = (this [k, i] + this [i, k]) * s;
                 }
+
                 return new Quaternion(temp[0], temp[1], temp[2], temp[3]);
             }
             set
@@ -421,9 +418,7 @@ namespace MathModule
             scale.Z = Mathematics.Sqrt((M31 * M31) + (M32 * M32) + (M33 * M33));
 
             if (Mathematics.Abs(scale.X) < 0 || Mathematics.Abs(scale.Y) < 0 || Mathematics.Abs(scale.Z) < 0)
-            {
                 return false;
-            }
 
             return true;
         }
@@ -438,19 +433,13 @@ namespace MathModule
         public static Matrix Exponent(Matrix value, int exponent)
         {
             if (exponent < 0)
-            {
                 throw new ArgumentOutOfRangeException("exponent", "The exponent can not be negative.");
-            }
 
             if (exponent == 0)
-            {
                 return Identity;
-            }
 
             if (exponent == 1)
-            {
                 return value;
-            }
 
             Matrix identity = Identity;
             Matrix temp = value;
@@ -458,20 +447,14 @@ namespace MathModule
             while (true)
             {
                 if ((exponent & 1) != 0)
-                {
                     identity = identity * temp;
-                }
 
                 exponent /= 2;
 
                 if (exponent > 0)
-                {
                     temp *= temp;
-                }
                 else
-                {
                     break;
-                }
             }
 
             return identity;
@@ -580,9 +563,7 @@ namespace MathModule
 
             float det = value.M11 * d11 - value.M12 * d12 + value.M13 * d13 - value.M14 * d14;
             if (Mathematics.Abs(det) <= 0)
-            {
                 return Zero;
-            }
 
             det = 1f / det;
 
@@ -697,13 +678,9 @@ namespace MathModule
             float lengthsq = difference.MagnitudeSquared;
 
             if (lengthsq < 0)
-            {
                 difference = -cameraForwardVector;
-            }
             else
-            {
                 difference *= (1 / Mathematics.Sqrt(lengthsq));
-            }
 
             crossed = Vector3.CrossProduct(cameraUpVector, difference);
             crossed = Vector3.Normalize(crossed);
@@ -952,10 +929,7 @@ namespace MathModule
         /// <param name="rotation">The rotation of the transformation</param>
         /// <param name="translation">The translation factor of the transformation</param>
         /// <returns>The created affine transformation matrix</returns>
-        public static Matrix AffineTransformation(float scaling, Quaternion rotation, Vector3 translation)
-        {
-            return Scaling(scaling) * RotationQuaternion(rotation) * Translation(translation);
-        }
+        public static Matrix AffineTransformation(float scaling, Quaternion rotation, Vector3 translation) => Scaling(scaling) * RotationQuaternion(rotation) * Translation(translation);
 
         /// <summary>
         /// Creates a 3D affine transformation matrix
