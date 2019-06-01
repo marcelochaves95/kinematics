@@ -8,7 +8,7 @@ namespace CollisionModule
         public const float RADS_PER_DEG = TWO_PI / 360.0f;
         public const float SQRT12 = 0.7071067811865475244008443621048490f;
 
-        public static void DebugDrawRope(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 begin, Vector3 end, int res, Color color)
+        public static void DebugDrawRope(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 begin, Vector3 end, int res, UnityEngine.Color color)
         {
             Gizmos.color = color;
             Matrix4x4 matrix = Matrix4x4.TRS(position, rotation, scale);
@@ -37,7 +37,7 @@ namespace CollisionModule
             }
         }
 
-        public static void DebugDrawSphere(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 radius, Color color)
+        public static void DebugDrawSphere(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 radius, UnityEngine.Color color)
         {
             Gizmos.color = color;
             Vector3 start = position;
@@ -89,7 +89,7 @@ namespace CollisionModule
 
         }
 
-        public static void DebugDrawBox(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 maxVec, Color color)
+        public static void DebugDrawBox(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 maxVec, UnityEngine.Color color)
         {
             Vector3 minVec = new Vector3(0 - maxVec.x, 0 - maxVec.y, 0 - maxVec.z);
 
@@ -119,7 +119,7 @@ namespace CollisionModule
             Gizmos.DrawLine(iaa, iia);
         }
 
-        public static void DebugDrawCapsule(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float halfHeight, int upAxis, Color color)
+        public static void DebugDrawCapsule(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float halfHeight, int upAxis, UnityEngine.Color color)
         {
             Matrix4x4 matrix = Matrix4x4.TRS(position, rotation, scale);
 
@@ -157,7 +157,7 @@ namespace CollisionModule
             Gizmos.DrawLine(start + rotation * capStart, start + rotation * capEnd);
         }
 
-        public static void DebugDrawCylinder(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float halfHeight, int upAxis, Color color)
+        public static void DebugDrawCylinder(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float halfHeight, int upAxis, UnityEngine.Color color)
         {
             Gizmos.color = color;
             Vector3 start = position;
@@ -187,7 +187,7 @@ namespace CollisionModule
             DebugDrawArc(start + rotation * (offsetHeight), rotation * yaxis, rotation * xaxis, r, r, 0, TWO_PI, color, false, 10.0f);
         }
 
-        public static void DebugDrawCone(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float height, int upAxis, Color color)
+        public static void DebugDrawCone(Vector3 position, Quaternion rotation, Vector3 scale, float radius, float height, int upAxis, UnityEngine.Color color)
         {
             Gizmos.color = color;
 
@@ -223,7 +223,7 @@ namespace CollisionModule
             DebugDrawArc(start - rotation * (offsetHeight), rotation * yaxis, rotation * xaxis, offsetRadius.magnitude, offset2Radius.magnitude, 0, TWO_PI, color, false, 10.0f);
         }
 
-        public static void DebugDrawPlane(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 planeNormal, float planeConst, Color color)
+        public static void DebugDrawPlane(Vector3 position, Quaternion rotation, Vector3 scale, Vector3 planeNormal, float planeConst, UnityEngine.Color color)
         {
             Matrix4x4 matrix = Matrix4x4.TRS(position, rotation, new Vector3(1, 1, 1));
 
@@ -275,7 +275,7 @@ namespace CollisionModule
         }
 
         public static void DebugDrawArc(Vector3 center, Vector3 normal, Vector3 axis, float radiusA, float radiusB, float minAngle, float maxAngle,
-            Color color, bool drawSect, float stepDegrees)
+            UnityEngine.Color color, bool drawSect, float stepDegrees)
         {
             Gizmos.color = color;
 

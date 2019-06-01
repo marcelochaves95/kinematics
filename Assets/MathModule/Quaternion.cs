@@ -188,26 +188,26 @@ namespace MathModule
         /// <param name="rotation">Quaterion</param>
         /// <param name="point">Vector</param>
         /// <returns></returns>
-        public static Vector3 operator *(Quaternion rotation, Vector3 point)
-        {
-            float x = rotation.X * 2f;
-            float y = rotation.Y * 2f;
-            float z = rotation.Z * 2f;
-            float xx = rotation.X * x;
-            float yy = rotation.Y * y;
-            float zz = rotation.Z * z;
-            float xy = rotation.X * y;
-            float xz = rotation.X * z;
-            float yz = rotation.Y * z;
-            float wx = rotation.W * x;
-            float wy = rotation.W * y;
-            float wz = rotation.W * z;
+        // public static Vector3 operator *(Quaternion rotation, Vector3 point)
+        // {
+        //     float x = rotation.X * 2f;
+        //     float y = rotation.Y * 2f;
+        //     float z = rotation.Z * 2f;
+        //     float xx = rotation.X * x;
+        //     float yy = rotation.Y * y;
+        //     float zz = rotation.Z * z;
+        //     float xy = rotation.X * y;
+        //     float xz = rotation.X * z;
+        //     float yz = rotation.Y * z;
+        //     float wx = rotation.W * x;
+        //     float wy = rotation.W * y;
+        //     float wz = rotation.W * z;
 
-            return new Vector3(
-                (1f - (yy + zz)) * point.X + (xy - wz) * point.Y + (xz + wy) * point.Z,
-                (xy + wz) * point.X + (1f - (xx + zz)) * point.Y + (yz - wx) * point.Z,
-                (xz - wy) * point.X + (yz + wx) * point.Y + (1f - (xx + yy)) * point.Z);
-        }
+        //     return new Vector3(
+        //         (1f - (yy + zz)) * point.X + (xy - wz) * point.Y + (xz + wy) * point.Z,
+        //         (xy + wz) * point.X + (1f - (xx + zz)) * point.Y + (yz - wx) * point.Z,
+        //         (xz - wy) * point.X + (yz + wx) * point.Y + (1f - (xx + yy)) * point.Z);
+        // }
 
         /// <summary>
         /// Scales a vector by the given value.
@@ -277,7 +277,7 @@ namespace MathModule
         /// Calculates the length of the quaternion
         /// </summary>
         /// <returns>The length of the vector</returns>
-        public static float Magnitude(Quaternion value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2) + Mathematics.Sqrt(Mathematics.Pow(value.Y, 2) + Mathematics.Sqrt(Mathematics.Pow(value.Z, 2) + Mathematics.Sqrt(Mathematics.Pow(value.W, 2);
+        public static float Magnitude(Quaternion value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2)) + Mathematics.Sqrt(Mathematics.Pow(value.Y, 2)) + Mathematics.Sqrt(Mathematics.Pow(value.Z, 2)) + Mathematics.Sqrt(Mathematics.Pow(value.W, 2));
 
         /// <summary>
         /// Makes this vector have a magnitude of 1
