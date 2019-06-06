@@ -183,33 +183,6 @@ namespace MathModule
         }
 
         /// <summary>
-        /// Rotates the point point with rotation
-        /// </summary>
-        /// <param name="rotation">Quaterion</param>
-        /// <param name="point">Vector</param>
-        /// <returns></returns>
-        // public static Vector3 operator *(Quaternion rotation, Vector3 point)
-        // {
-        //     float x = rotation.X * 2f;
-        //     float y = rotation.Y * 2f;
-        //     float z = rotation.Z * 2f;
-        //     float xx = rotation.X * x;
-        //     float yy = rotation.Y * y;
-        //     float zz = rotation.Z * z;
-        //     float xy = rotation.X * y;
-        //     float xz = rotation.X * z;
-        //     float yz = rotation.Y * z;
-        //     float wx = rotation.W * x;
-        //     float wy = rotation.W * y;
-        //     float wz = rotation.W * z;
-
-        //     return new Vector3(
-        //         (1f - (yy + zz)) * point.X + (xy - wz) * point.Y + (xz + wy) * point.Z,
-        //         (xy + wz) * point.X + (1f - (xx + zz)) * point.Y + (yz - wx) * point.Z,
-        //         (xz - wy) * point.X + (yz + wx) * point.Y + (1f - (xx + yy)) * point.Z);
-        // }
-
-        /// <summary>
         /// Scales a vector by the given value.
         /// </summary>
         /// <param name="value">The vector to scale</param>
@@ -355,7 +328,7 @@ namespace MathModule
         /// <returns>The exponentiated quaternion</returns>
         public static Quaternion Exponential(Quaternion value)
         {
-            Quaternion result;
+            Quaternion result = new Quaternion();
 
             float angle = Mathematics.Sqrt((value.X * value.X) + (value.Y * value.Y) + (value.Z * value.Z));
             float sin = Mathematics.Sin(angle);
@@ -384,7 +357,7 @@ namespace MathModule
         /// <returns>The linear interpolation of the two quaternions</returns>
         public static Quaternion Lerp(Quaternion start, Quaternion end, float amount)
         {
-            Quaternion result;
+            Quaternion result = new Quaternion();
 
             float inverse = 1f - amount;
 
@@ -413,7 +386,7 @@ namespace MathModule
         /// <returns>The natural logarithm of the quaternion</returns>
         public static Quaternion Logarithm(Quaternion value)
         {
-            Quaternion result;
+            Quaternion result = new Quaternion();
 
             if (Mathematics.Abs(value.W) < 1f)
             {
@@ -467,63 +440,6 @@ namespace MathModule
             float cos = Mathematics.Cos(half);
 
             return new Quaternion(normalized.X * sin, normalized.Y * sin, normalized.Z * sin, cos);
-        }
-
-        /// <summary>
-        /// Creates a quaternion given a rotation matrix
-        /// </summary>
-        /// <param name="value">The rotation matrix</param>
-        /// <returns>The newly created quaternion</returns>
-        public static Quaternion RotationMatrix(Matrix value)
-        {
-            Quaternion result;
-
-            float sqrt;
-            float half;
-            float scale = value.M11 + value.M22 + value.M33;
-
-            if (scale > 0f)
-            {
-                sqrt = Mathematics.Sqrt(scale + 1f);
-                result.W = sqrt * 0.5f;
-                sqrt = 0.5f / sqrt;
-
-                result.X = (value.M23 - value.M32) * sqrt;
-                result.Y = (value.M31 - value.M13) * sqrt;
-                result.Z = (value.M12 - value.M21) * sqrt;
-            }
-            else if ((value.M11 >= value.M22) && (value.M11 >= value.M33))
-            {
-                sqrt = Mathematics.Sqrt(1f + value.M11 - value.M22 - value.M33);
-                half = 0.5f / sqrt;
-
-                result.X = 0.5f * sqrt;
-                result.Y = (value.M12 + value.M21) * half;
-                result.Z = (value.M13 + value.M31) * half;
-                result.W = (value.M23 - value.M32) * half;
-            }
-            else if (value.M22 > value.M33)
-            {
-                sqrt = Mathematics.Sqrt(1f + value.M22 - value.M11 - value.M33);
-                half = 0.5f / sqrt;
-
-                result.X = (value.M21 + value.M12) * half;
-                result.Y = 0.5f * sqrt;
-                result.Z = (value.M32 + value.M23) * half;
-                result.W = (value.M31 - value.M13) * half;
-            }
-            else
-            {
-                sqrt = Mathematics.Sqrt(1f + value.M33 - value.M11 - value.M22);
-                half = 0.5f / sqrt;
-
-                result.X = (value.M31 + value.M13) * half;
-                result.Y = (value.M32 + value.M23) * half;
-                result.Z = 0.5f * sqrt;
-                result.W = (value.M12 - value.M21) * half;
-            }
-
-            return result;
         }
 
         /// <summary>
@@ -613,7 +529,7 @@ namespace MathModule
         /// </summary>
         /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a
         /// hash table.</returns>
-        public override int GetHashCode() => X.GetHashCode() ^ (Y.GetHashCode() << 2f) ^ (Z.GetHashCode() >> 2f) ^ (W.GetHashCode() >> 1f);
+        public override int GetHashCode() => X.GetHashCode() + Y.GetHashCode() + Z.GetHashCode() + W.GetHashCode();
 
         /// <summary>
         /// Provide a string describing the object

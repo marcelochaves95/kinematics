@@ -226,7 +226,7 @@ namespace MathModule
         /// <returns>A new containing the 4D Cartesian coordinates of the specified point</returns>
         public static Vector4 Barycentric(Vector4 value1, Vector4 value2, Vector4 value3, float amount1, float amount2)
         {
-            new Vector4(
+            return new Vector4(
                 (value1.X + (amount1 * (value2.X - value1.X))) + (amount2 * (value3.X - value1.X)),
                 (value1.Y + (amount1 * (value2.Y - value1.Y))) + (amount2 * (value3.Y - value1.Y)),
                 (value1.Z + (amount1 * (value2.Z - value1.Z))) + (amount2 * (value3.Z - value1.Z)),
@@ -242,7 +242,7 @@ namespace MathModule
         /// <returns>The clamped value</returns>
         public static Vector4 Clamp(Vector4 value, Vector4 min, Vector4 max)
         {
-            Vector4 result;
+            Vector4 result = new Vector4();
 
             result.X = value.X;
             result.X = (result.X > max.X) ? max.X : result.X;
@@ -423,21 +423,6 @@ namespace MathModule
                 ((value.X * num4) + (value.Y * num5)) + (value.Z * num6),
                 ((value.X * num7) + (value.Y * num8)) + (value.Z * num9),
                 value.W);
-        }
-
-        /// <summary>
-        /// Transforms a 4D vector by the given rotation
-        /// </summary>
-        /// <param name="value">The source vector</param>
-        /// <param name="transform">The transformation</param>
-        /// <returns>The transformed</returns>
-        public static Vector4 Transform(Vector4 value, Matrix transform)
-        {
-            return new Vector4(
-                (value.X * transform.M11) + (value.Y * transform.M21) + (value.Z * transform.M31) + (value.W * transform.M41),
-                (value.X * transform.M12) + (value.Y * transform.M22) + (value.Z * transform.M32) + (value.W * transform.M42),
-                (value.X * transform.M13) + (value.Y * transform.M23) + (value.Z * transform.M33) + (value.W * transform.M43),
-                (value.X * transform.M14) + (value.Y * transform.M24) + (value.Z * transform.M34) + (value.W * transform.M44));
         }
 
         /// <summary>

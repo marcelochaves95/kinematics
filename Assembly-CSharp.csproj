@@ -53,29 +53,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CollisionModule\CollisionObject.cs" />
-     <Compile Include="Assets\CollisionModule\Meshs\MeshFactory.cs" />
-     <Compile Include="Assets\CollisionModule\Meshs\ProceduralPrimitives.cs" />
-     <Compile Include="Assets\CollisionModule\Primitives\Box.cs" />
-     <Compile Include="Assets\CollisionModule\Primitives\Capsule.cs" />
-     <Compile Include="Assets\CollisionModule\Primitives\Cone.cs" />
-     <Compile Include="Assets\CollisionModule\Primitives\Cylinder.cs" />
-     <Compile Include="Assets\CollisionModule\Primitives\EnumerationExtensions.cs" />
-     <Compile Include="Assets\CollisionModule\Primitives\Primitive.cs" />
-     <Compile Include="Assets\CollisionModule\Primitives\Sphere.cs" />
-     <Compile Include="Assets\CollisionModule\RigidBody.cs" />
-     <Compile Include="Assets\CollisionModule\Shapes\BoxShape.cs" />
-     <Compile Include="Assets\CollisionModule\Shapes\CapsuleShape.cs" />
-     <Compile Include="Assets\CollisionModule\Shapes\CollisionShape.cs" />
-     <Compile Include="Assets\CollisionModule\Shapes\ConeShape.cs" />
-     <Compile Include="Assets\CollisionModule\Shapes\CylinderShape.cs" />
-     <Compile Include="Assets\CollisionModule\Shapes\SphereShape.cs" />
-     <Compile Include="Assets\CollisionModule\Utility.cs" />
      <Compile Include="Assets\MathModule\Mathematics.cs" />
-     <Compile Include="Assets\MathModule\Matrix.cs" />
      <Compile Include="Assets\MathModule\Quaternion.cs" />
      <Compile Include="Assets\MathModule\Vector3.cs" />
      <Compile Include="Assets\MathModule\Vector4.cs" />
+     <Compile Include="Assets\RigidBodyModule\rb_BoxCollider.cs" />
+     <Compile Include="Assets\RigidBodyModule\rb_Collider.cs" />
+     <Compile Include="Assets\RigidBodyModule\rb_PhysicsMaterial.cs" />
+     <Compile Include="Assets\RigidBodyModule\rb_SphereCollider.cs" />
+     <Compile Include="Assets\RigidBodyModule\RigidbodyCinematic.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>/Users/marcelochaves95/Projects/physics-engine/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>

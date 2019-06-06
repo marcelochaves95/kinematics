@@ -14,6 +14,23 @@ namespace MathModule
         public const float PI = (float)Math.PI;
 
         /// <summary>
+        /// A tiny floating point value (Read Only)
+        /// </summary>
+        public const float Epsilon = 0.000001f;
+
+        /// <summary>
+        /// Degrees-to-radians conversion constant (RO)
+        /// </summary>
+        /// <returns></returns>
+        public const float DegToRad = PI * 2f / 360f;
+
+        /// <summary>
+        /// Radians-to-degrees conversion constant (RO)
+        /// </summary>
+        /// <returns></returns>
+        public const float RadToDeg = 1f / DegToRad;
+
+        /// <summary>
         /// Returns the sine of angle value in radians
         /// </summary>
         /// <param name="value">Angle</param>
@@ -154,15 +171,10 @@ namespace MathModule
         public static float Log10(float value) => (float)Math.Log10(value);
 
         /// <summary>
-        /// Degrees-to-radians conversion constant (RO)
+        /// Returns the sign of value
         /// </summary>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static float DegToRad() => PI * 2f / 360f;
-
-        /// <summary>
-        /// Radians-to-degrees conversion constant (RO)
-        /// </summary>
-        /// <returns></returns>
-        public static float RadToDeg() => 1f / DegToRad();
+        public static float Sign(float value) => value >= 0f ? 1f : -1f;
     }
 }

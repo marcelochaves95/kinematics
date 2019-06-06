@@ -209,7 +209,7 @@ namespace MathModule
         /// Calculates the squared length of the vector
         /// </summary>
 		/// <returns>The length of the vector</returns>
-        public static float MagnitudeSquared = (X * X) + (Y * Y) + (Z * Z);
+        // public static float MagnitudeSquared = (X * X) + (Y * Y) + (Z * Z);
 
 		/// <summary>
 		/// Converts the vector into a unit vector
@@ -222,7 +222,7 @@ namespace MathModule
 		/// Converts the vector into a unit vector
 		/// </summary>
 		/// <returns>Normalized vector</returns>
-		public static Vector3 Normalize() => Normalize(this);
+		// public static Vector3 Normalize() => Normalize(this);
 
 		/// <summary>
 		/// Calculates the dot product of two vectors
@@ -277,15 +277,6 @@ namespace MathModule
 
 			return new Vector3(x, y, z);
 		}
-
-		/// <summary>
-		/// Calculates the tripple cross product of three vectors
-		/// </summary>
-		/// <param name="value1">First source vector</param>
-		/// <param name="value2">Second source vector</param>
-		/// <param name="value3">Third source vector</param>
-		/// <returns>The tripple cross product of the three vectors</returns>
-		public static float TripleProduct(Vector3 value1, Vector3 value2, Vector3 value3) => DotProduct(ref value1, ref CrossProduct(ref value2, ref value3));
 
 		/// <summary>
 		/// Calculates the distance between two vectors
@@ -419,49 +410,6 @@ namespace MathModule
 		}
 
 		/// <summary>
-		/// Projects a 3D vector from object space into screen space
-		/// </summary>
-		/// <param name="vector">The vector to project</param>
-		/// <param name="x">The X position of the viewport</param>
-		/// <param name="y">The Y position of the viewport</param>
-		/// <param name="width">The width of the viewport</param>
-		/// <param name="height">The height of the viewport</param>
-		/// <param name="minZ">The minimum depth of the viewport</param>
-		/// <param name="maxZ">The maximum depth of the viewport</param>
-		/// <param name="worldViewProjection">The combined world-view-projection matrix</param>
-		/// <returns>The vector in screen space</returns>
-		public static Vector3 Project(Vector3 vector, float x, float y, float width, float height, float minZ, float maxZ, Matrix worldViewProjection)
-		{
-			Vector3 v = TransformCoordinate(ref vector, ref worldViewProjection);
-
-			return new Vector3(((1f + v.X) * 0.5f * width) + x, ((1f - v.Y) * 0.5f * height) + y, (v.Z * (maxZ - minZ)) + minZ);
-		}
-
-		/// <summary>
-		/// Projects a 3D vector from screen space into object space
-		/// </summary>
-		/// <param name="vector">The vector to project</param>
-		/// <param name="x">The X position of the viewport</param>
-		/// <param name="y">The Y position of the viewport</param>
-		/// <param name="width">The width of the viewport</param>
-		/// <param name="height">The height of the viewport</param>
-		/// <param name="minZ">The minimum depth of the viewport</param>
-		/// <param name="maxZ">The maximum depth of the viewport</param>
-		/// <param name="worldViewProjection">The combined world-view-projection matrix</param>
-		/// <returns>The vector in object space</returns>
-		public static Vector3 Unproject(Vector3 vector, float x, float y, float width, float height, float minZ, float maxZ, Matrix worldViewProjection)
-		{
-			Vector3 v = new Vector3();
-			Matrix matrix = Matrix.Invert(worldViewProjection);
-
-			v.X = (((vector.X - x) / width) * 2f) - 1f;
-			v.Y = -((((vector.Y - y) / height) * 2f) - 1f);
-			v.Z = (vector.Z - minZ) / (maxZ - minZ);
-
-			return TransformCoordinate(v, matrix);
-		}
-
-		/// <summary>
 		/// Returns the reflection of a vector off a surface that has the specified normal
 		/// </summary>
 		/// <param name="vector">The source vector</param>
@@ -537,51 +485,6 @@ namespace MathModule
 				((vector.X * num1) + (vector.Y * num2)) + (vector.Z * num3),
 				((vector.X * num4) + (vector.Y * num5)) + (vector.Z * num6),
 				((vector.X * num7) + (vector.Y * num8)) + (vector.Z * num9));
-		}
-
-		/// <summary>
-		/// Transforms a 3D vector by the given <see cref="Matrix"/>
-		/// </summary>
-		/// <param name="vector">The source vector</param>
-		/// <param name="transform">The transformation <see cref="Matrix"/></param>
-		/// <returns>The transformed <see cref="Vector4"/></returns>
-		public static Vector4 Transform(Vector3 vector, Matrix transform)
-		{
-			return new Vector4(
-				(vector.X * transform.M11) + (vector.Y * transform.M21) + (vector.Z * transform.M31) + transform.M41,
-				(vector.X * transform.M12) + (vector.Y * transform.M22) + (vector.Z * transform.M32) + transform.M42,
-				(vector.X * transform.M13) + (vector.Y * transform.M23) + (vector.Z * transform.M33) + transform.M43,
-				(vector.X * transform.M14) + (vector.Y * transform.M24) + (vector.Z * transform.M34) + transform.M44);
-		}
-
-		/// <summary>
-		/// Performs a coordinate transformation using the given <see cref="Matrix"/>
-		/// </summary>
-		/// <param name="coordinate">The coordinate vector to transform</param>
-		/// <param name="transform">The transformation <see cref="Matrix"/></param>
-		/// <returns>The transformed coordinates</returns>
-		public static Vector3 TransformCoordinate(Vector3 coordinate, Matrix transform)
-		{
-			float w = 1f / ((coordinate.X * transform.M14) + (coordinate.Y * transform.M24) + (coordinate.Z * transform.M34) + transform.M44);
-
-			return new Vector3(
-				w * ((coordinate.X * transform.M11) + (coordinate.Y * transform.M21) + (coordinate.Z * transform.M31) + transform.M41),
-				w * ((coordinate.X * transform.M12) + (coordinate.Y * transform.M22) + (coordinate.Z * transform.M32) + transform.M42),
-				w * ((coordinate.X * transform.M13) + (coordinate.Y * transform.M23) + (coordinate.Z * transform.M33) + transform.M43));
-		}
-
-		/// <summary>
-		/// Performs a normal transformation using the given <see cref="Matrix"/>
-		/// </summary>
-		/// <param name="normal">The normal vector to transform</param>
-		/// <param name="transform">The transformation <see cref="Matrix"/></param>
-		/// <returns>The transformed normal</returns>
-		public static Vector3 TransformNormal(Vector3 normal, Matrix transform)
-		{
-			return new Vector3(
-				(normal.X * transform.M11) + (normal.Y * transform.M21) + (normal.Z * transform.M31),
-				(normal.X * transform.M12) + (normal.Y * transform.M22) + (normal.Z * transform.M32),
-				(normal.X * transform.M13) + (normal.Y * transform.M23) + (normal.Z * transform.M33));
 		}
 
 		/// <summary>
