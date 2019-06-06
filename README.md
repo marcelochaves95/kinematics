@@ -1,4 +1,14 @@
-# Physics Engine for Games
+<div align="center">
+	<div>
+		<a href="https://github.com/marcelochaves95/physics-engine">
+			<img width="500" src="physics-engine.png" alt="Physics Engine">
+		</a>
+	</div>
+  <br>
+	<div>
+		<h1>Physics Engine</h1>
+	</div>
+</div>
 
 | **`Build`** | **`Documentation`** | **`Issues`** | **`Contributors`** |
 | --- | --- | --- | --- |
@@ -7,19 +17,19 @@
 ## Basics
 - Linear Physics
    - - [x] Vector
-   - - [ ] Uniformly Accelerated Rectilinear Motion
-   - - [ ] Forces
+   - - [x] Uniformly Accelerated Rectilinear Motion
+   - - [x] Forces
 
 - Angular Physics
    - - [x] Matrix
    - - [x] Quaternion
-   - - [ ] Rotation
-   - - [ ] Force (Torque)
+   - - [x] Rotation
+   - - [x] Force (Torque)
 
 - Collision
-   - - [ ] Point
-   - - [ ] Sphere
-   - - [ ] Cube
+   - - [x] Point
+   - - [x] Sphere
+   - - [x] Cube
 
 ## Utils
    - - [x] Mathematics
