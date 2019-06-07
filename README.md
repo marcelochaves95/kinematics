@@ -5,9 +5,6 @@
 		</a>
 	</div>
   <br>
-	<div>
-		<h1>Physics Engine</h1>
-	</div>
 </div>
 
 | **`Build`** | **`Documentation`** | **`Issues`** | **`Contributors`** |
