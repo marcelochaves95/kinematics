@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MathModule
+namespace PhysicsEngine.MathModule
 {
-	/// <summary>
-	/// Vector3 is an utility class for manipulating 3 dimensional
-	/// vectors with float components
-	/// </summary>
-	[StructLayout(LayoutKind.Sequential)]
+    /// <summary>
+    /// Vector3 is an utility class for manipulating 3 dimensional
+    /// vectors with float components
+    /// </summary>
+    [StructLayout(LayoutKind.Sequential)]
 	public struct Vector3 : IEquatable<Vector3>
 	{
 		/// <summary>X (horizontal) component of the vector</summary>
@@ -206,10 +206,10 @@ namespace MathModule
 		public static float Magnitude(Vector3 value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2) + Mathematics.Pow(value.Y, 2) + Mathematics.Pow(value.Z, 2));
 
 		/// <summary>
-        /// Calculates the squared length of the vector
-        /// </summary>
+		/// Calculates the squared length of the vector
+		/// </summary>
 		/// <returns>The length of the vector</returns>
-        // public static float MagnitudeSquared = (X * X) + (Y * Y) + (Z * Z);
+		// public static float MagnitudeSquared = (X * X) + (Y * Y) + (Z * Z);
 
 		/// <summary>
 		/// Converts the vector into a unit vector

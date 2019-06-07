@@ -53,15 +53,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\CoreModule\UnityExtensions.cs" />
      <Compile Include="Assets\MathModule\Mathematics.cs" />
      <Compile Include="Assets\MathModule\Quaternion.cs" />
      <Compile Include="Assets\MathModule\Vector3.cs" />
      <Compile Include="Assets\MathModule\Vector4.cs" />
-     <Compile Include="Assets\RigidBodyModule\rb_BoxCollider.cs" />
-     <Compile Include="Assets\RigidBodyModule\rb_Collider.cs" />
-     <Compile Include="Assets\RigidBodyModule\rb_PhysicsMaterial.cs" />
-     <Compile Include="Assets\RigidBodyModule\rb_SphereCollider.cs" />
-     <Compile Include="Assets\RigidBodyModule\RigidbodyCinematic.cs" />
+     <Compile Include="Assets\RigidBodyModule\BoxCollider.cs" />
+     <Compile Include="Assets\RigidBodyModule\Collider.cs" />
+     <Compile Include="Assets\RigidBodyModule\PhysicsMaterial.cs" />
+     <Compile Include="Assets\RigidBodyModule\Rigidbody.cs" />
+     <Compile Include="Assets\RigidBodyModule\SphereCollider.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>/Users/marcelochaves95/Projects/physics-engine/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>

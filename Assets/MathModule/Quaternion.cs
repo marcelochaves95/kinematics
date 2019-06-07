@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace MathModule
+namespace PhysicsEngine.MathModule
 {
     /// <summary>
     /// Represents a four dimensional mathematical quaternion
