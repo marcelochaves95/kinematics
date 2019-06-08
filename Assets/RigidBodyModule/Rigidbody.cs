@@ -1,34 +1,43 @@
-﻿using PhysicsEngine.MathModule;
+﻿using Vector3 = PhysicsEngine.MathModule.Vector3;
+
+using UnityEngine;
 
 namespace PhysicsEngine.CollisionModule
 {
-    public class Rigidbody : UnityEngine.MonoBehaviour
+    public class Rigidbody : MonoBehaviour
     {
-        private float deltaTime = UnityEngine.Time.deltaTime;
-        private float fixedDeltaTime = UnityEngine.Time.fixedDeltaTime;
+        [SerializeField] private float mass = 0.1f;
+        [SerializeField] private float drag = 0.0f;
 
-        Collider collider;
+        [SerializeField] private bool useGravity = false;
 
-        [UnityEngine.SerializeField] private float mass = 0.1f;
-        [UnityEngine.SerializeField] private float drag = 0.0f;
-        [UnityEngine.SerializeField] private bool useGravity = false;
-        [UnityEngine.SerializeField] Vector3 gravity = -Vector3.Up * 9.81f;
+        [SerializeField] private Vector3 gravity = new Vector3(0.0f, -9.81f, 0.0f);
 
-        [UnityEngine.SerializeField] private bool isKinematic = false;
+        [SerializeField] private bool isKinematic = false;
 
-        [UnityEngine.Header("Freeze Position")]
-        [UnityEngine.SerializeField] private bool pX = false;
-        [UnityEngine.SerializeField] private bool pY = false;
-        [UnityEngine.SerializeField] private bool pZ = false;
+        [Header("Freeze Position")]
+        [SerializeField] private bool x = false;
+        [SerializeField] private bool y = false;
+        [SerializeField] private bool z = false;
 
-        Vector3 velocity = Vector3.Zero;
-        Vector3 position = Vector3.Zero;
+        private Vector3 velocity = Vector3.Zero;
+        private Vector3 position = Vector3.Zero;
+
+        new Collider collider;
+
+        /* UnityEngine Properties */
+        private float deltaTime;
+        private float fixedDeltaTime;
+
         UnityEngine.Vector3 pos = UnityEngine.Vector3.zero;
-
+        
         private void Start()
         {
-            collider = this.GetComponent<Collider>();
-            position.X = this.transform.position.x;
+            collider = GetComponent<Collider>();
+            position.X = transform.position.x;
+
+            deltaTime = Time.deltaTime;
+            fixedDeltaTime = Time.fixedDeltaTime;
         }
 
         private void Update()
@@ -38,7 +47,7 @@ namespace PhysicsEngine.CollisionModule
             if (!isKinematic)
                 velocity *= (1 - (drag * fixedDeltaTime));
 
-            velocity = (Vector3.Right * velocity.X * (pX ? 0 : 1)) + (Vector3.Up * velocity.Y * (pY ? 0 : 1)) + (Vector3.Forward * velocity.Z * (pZ ? 0 : 1));
+            velocity = (Vector3.Right * velocity.X * (x ? 0 : 1)) + (Vector3.Up * velocity.Y * (y ? 0 : 1)) + (Vector3.Forward * velocity.Z * (z ? 0 : 1));
 
             if (CheckCollision(Vector3.Up * velocity.Y * deltaTime) != null)
             {
@@ -59,7 +68,7 @@ namespace PhysicsEngine.CollisionModule
         public void AddForce(Vector3 force)
         {
             if (!isKinematic)
-                velocity += ((force / mass) + gravity * (useGravity?1 : 0)) * fixedDeltaTime;
+                velocity += ((force / mass) + gravity * (useGravity ? 1 : 0)) * fixedDeltaTime;
         }
 
         public void SetVelocity(Vector3 velocity)
