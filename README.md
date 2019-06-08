@@ -4,10 +4,10 @@
 			<img width="800" src="physics-engine.png" alt="Physics Engine">
 		</a>
 	</div>
-  <br>
-</div>
-</div>
-	<h1>Physics Engine</h1>
+	<br>
+	</div>
+		<h1>Physics Engine</h1>
+	</div>
 </div>
 
 | **`Build`** | **`Documentation`** | **`Issues`** | **`Contributors`** |
