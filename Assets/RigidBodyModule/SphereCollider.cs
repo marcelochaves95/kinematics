@@ -10,7 +10,7 @@ namespace PhysicsEngine.CollisionModule
         protected override void Start()
         {
             _radius = this.transform.localScale.x / 2 * radius;
-            rb_Colliders.Add(this);
+            colliders.Add(this);
             type = 0;
         }
 

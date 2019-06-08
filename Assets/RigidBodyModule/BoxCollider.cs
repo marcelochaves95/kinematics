@@ -19,7 +19,7 @@ namespace PhysicsEngine.CollisionModule
             _size.X = this.transform.localScale.x / 2 * size.x;
             _size.Y = this.transform.localScale.y / 2 * size.y;
             _size.Z = this.transform.localScale.z / 2 * size.z;
-            rb_Colliders.Add(this);
+            colliders.Add(this);
             type = 1;
         }
 

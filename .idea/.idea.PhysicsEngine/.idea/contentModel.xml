@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/Library/Caches/Rider2019.1/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/Library/Caches/Rider2019.1/resharper-host/local/Transient/ReSharperHost/v191/SolutionCaches/_PhysicsEngine.-290692836.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="CoreModule" t="Include">
+          <e p="UnityExtensions.cs" t="Include" />
+        </e>
+        <e p="Editor" t="Include">
+          <e p="QuaternionDrawer.cs" t="Include" />
+          <e p="Vector3Drawer.cs" t="Include" />
+        </e>
+        <e p="MathModule" t="Include">
+          <e p="Mathematics.cs" t="Include" />
+          <e p="Quaternion.cs" t="Include" />
+          <e p="Vector3.cs" t="Include" />
+          <e p="Vector4.cs" t="Include" />
+        </e>
+        <e p="RigidBodyModule" t="Include">
+          <e p="BoxCollider.cs" t="Include" />
+          <e p="Collider.cs" t="Include" />
+          <e p="PhysicsMaterial.cs" t="Include" />
+          <e p="Rigidbody.cs" t="Include" />
+          <e p="SphereCollider.cs" t="Include" />
+        </e>
+      </e>
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="PhysicsEngine.sln" t="IncludeFlat" />
+      <e p="Temp/bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>

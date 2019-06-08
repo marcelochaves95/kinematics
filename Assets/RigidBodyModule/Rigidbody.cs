@@ -83,10 +83,10 @@ namespace PhysicsEngine.CollisionModule
                 Vector3 aux = collider.center;
                 collider.center = position;
 
-                for (int i = 0; i < Collider.rb_Colliders.Count; i++)
+                for (int i = 0; i < Collider.colliders.Count; i++)
                 {
-                    if (Collider.CheckCollision(collider, Collider.rb_Colliders[i]) != null)
-                        return Collider.CheckCollision(collider, Collider.rb_Colliders[i]);
+                    if (Collider.CheckCollision(collider, Collider.colliders[i]) != null)
+                        return Collider.CheckCollision(collider, Collider.colliders[i]);
                 }
 
                 collider.center = aux;
