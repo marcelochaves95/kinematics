@@ -4,21 +4,9 @@
 			<img width="800" src="physics-engine.png" alt="Physics Engine">
 		</a>
 	</div>
-  	<br>
-	</div>
-		<h1>Physics Engine</h1>
-	</div>
-</div>
-
-<div align="center">
-	<div>
-		<a href="https://github.com/agarcialeon/awesome-unity/">
-			<img width="500" src="awesome-unity.png" alt="Awesome Unity">
-		</a>
-	</div>
   <br>
 	<div>
-		<h1>Awesome Unity</h1>
+		<h1>Physics Engine</h1>
 	</div>
 </div>
 
