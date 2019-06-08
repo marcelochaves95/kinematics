@@ -61,7 +61,7 @@
      <Compile Include="Assets\RigidBodyModule\BoxCollider.cs" />
      <Compile Include="Assets\RigidBodyModule\Collider.cs" />
      <Compile Include="Assets\RigidBodyModule\PhysicsMaterial.cs" />
-     <Compile Include="Assets\RigidBodyModule\Rigidbody.cs" />
+     <Compile Include="Assets\RigidBodyModule\RigidBody.cs" />
      <Compile Include="Assets\RigidBodyModule\SphereCollider.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>/Users/marcelochaves/Projects/PhysicsEngine/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>

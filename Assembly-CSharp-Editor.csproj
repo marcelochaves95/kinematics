@@ -322,9 +322,6 @@
  <Reference Include="UnityEditor.Purchasing">
  <HintPath>/Users/marcelochaves/Projects/PhysicsEngine/Library/PackageCache/com.unity.purchasing@2.0.3/Editor/UnityEditor.Purchasing.dll</HintPath>
  </Reference>
- <Reference Include="JetBrains.Rider.Unity.Editor.Plugin.Repacked">
- <HintPath>/Users/marcelochaves/Projects/PhysicsEngine/Assets/Plugins/Editor/JetBrains/JetBrains.Rider.Unity.Editor.Plugin.Repacked.dll</HintPath>
- </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>

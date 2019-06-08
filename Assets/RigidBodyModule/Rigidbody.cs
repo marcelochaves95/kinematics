@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PhysicsEngine.CollisionModule
 {
-    public class Rigidbody : MonoBehaviour
+    public class RigidBody : MonoBehaviour
     {
         [SerializeField] private float mass = 0.1f;
         [SerializeField] private float drag = 0.0f;
@@ -30,14 +30,14 @@ namespace PhysicsEngine.CollisionModule
         private float fixedDeltaTime;
 
         UnityEngine.Vector3 pos = UnityEngine.Vector3.zero;
-        
+
         private void Start()
         {
-            collider = GetComponent<Collider>();
-            position.X = transform.position.x;
-
             deltaTime = Time.deltaTime;
             fixedDeltaTime = Time.fixedDeltaTime;
+
+            collider = GetComponent<Collider>();
+            position.X = transform.position.x;
         }
 
         private void Update()
@@ -80,7 +80,7 @@ namespace PhysicsEngine.CollisionModule
         {
             if (collider != null)
             {
-                Vector3 aux = collider.center;
+                var aux = collider.center;
                 collider.center = position;
 
                 for (int i = 0; i < Collider.colliders.Count; i++)
