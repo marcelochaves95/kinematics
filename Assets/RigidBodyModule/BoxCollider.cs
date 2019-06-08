@@ -1,21 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-using UnityEngine;
+﻿using Vector3 = PhysicsEngine.MathModule.Vector3;
 
 namespace PhysicsEngine.CollisionModule
 {
     public class BoxCollider : Collider
     {
+        private Vector3 _size;
+        private Vector3 min;
+        private Vector3 max;
 
-        public Vector3 size = Vector3.one;
-        PhysicsEngine.MathModule.Vector3 _size;
-        PhysicsEngine.MathModule.Vector3 min;
-        PhysicsEngine.MathModule.Vector3 max;
+        /* Unity Properties */
+        public UnityEngine.Vector3 size = UnityEngine.Vector3.one;
 
         protected override void Start()
         {
             base.Start();
+
             _size.X = this.transform.localScale.x / 2 * size.x;
             _size.Y = this.transform.localScale.y / 2 * size.y;
             _size.Z = this.transform.localScale.z / 2 * size.z;
@@ -26,26 +25,17 @@ namespace PhysicsEngine.CollisionModule
         protected override void FixedUpdate()
         {
             base.FixedUpdate();
+
             min = _center - _size;
             max = _center + _size;
         }
 
-        public override PhysicsEngine.MathModule.Vector3 GetSize()
-        {
-            return _size;
-        }
+        public override Vector3 GetSize() => _size;
 
-        public PhysicsEngine.MathModule.Vector3 GetMin()
-        {
-            return min;
-        }
-        public PhysicsEngine.MathModule.Vector3 GetMax()
-        {
-            return max;
-        }
-        public float ScaleMagnitude()
-        {
-            return (_size.X + _size.Y + _size.Z) / 3;
-        }
+        public Vector3 GetMin() => min;
+
+        public Vector3 GetMax() => max;
+
+        public float ScaleMagnitude() => (_size.X + _size.Y + _size.Z) / 3;
     }
 }

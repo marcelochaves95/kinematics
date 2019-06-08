@@ -10,14 +10,15 @@ namespace PhysicsEngine.CollisionModule
 {
     public abstract class Collider : UnityEngine.MonoBehaviour
     {
-        public static List<Collider> colliders = new List<Collider>();
-        public Vector3 center;
-        public PhysicsMaterial material;
-
-        protected Vector3 _center;
         protected int type;
 
+        public Vector3 center;
+        protected Vector3 _center;
         private Vector3 position;
+
+        public PhysicsMaterial material;
+
+        public static List<Collider> colliders = new List<Collider>();
 
         protected virtual void Start()
         {
@@ -33,19 +34,19 @@ namespace PhysicsEngine.CollisionModule
             _center = position + center;
         }
 
-        public virtual int GetColType() => type;
+        public virtual int GetColliderType() => type;
 
         public static Collider CheckCollision(Collider actual, Collider other)
         {
             if (actual == other)
                 return null;
-            
-            if (actual.GetColType() == 0 && other.GetColType() == 0)
+
+            if (actual.GetColliderType() == 0 && other.GetColliderType() == 0)
             {
                 if (Vector3.Magnitude(actual._center - other._center) <= (actual.GetComponent<SphereCollider>().GetRadius() + other.GetComponent<SphereCollider>().GetRadius()))
                     return other;
             }
-            else if (actual.GetColType() == 0 && other.GetColType() == 1)
+            else if (actual.GetColliderType() == 0 && other.GetColliderType() == 1)
             {
                 var boxHalf = other.GetComponent<BoxCollider>().GetSize() / 2.0f;
                 var distance = actual.GetComponent<SphereCollider>().GetCenter() - other.GetComponent<BoxCollider>().GetCenter();
@@ -56,7 +57,7 @@ namespace PhysicsEngine.CollisionModule
                 if (Vector3.Magnitude(difference) <= actual.GetComponent<SphereCollider>().GetRadius())
                     return other;
             }
-            else if (actual.GetColType() == 1 && other.GetColType() == 0)
+            else if (actual.GetColliderType() == 1 && other.GetColliderType() == 0)
             {
                 var boxHalf = actual.GetComponent<BoxCollider>().GetSize() / 2.0f;
                 var distance = other.GetComponent<SphereCollider>().GetCenter() - actual.GetComponent<BoxCollider>().GetCenter();

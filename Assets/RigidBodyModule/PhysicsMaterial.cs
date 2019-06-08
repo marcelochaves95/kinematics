@@ -2,20 +2,25 @@
 
 using UnityEditor;
 
+using UnityEngine;
+
+using Vector3 = PhysicsEngine.MathModule.Vector3;
+
 namespace PhysicsEngine.CollisionModule
 {
-    public class PhysicsMaterial : UnityEngine.MonoBehaviour
+    public class PhysicsMaterial : MonoBehaviour
     {
-        [UnityEngine.SerializeField] private float ue = 0.3f;
-        [UnityEngine.SerializeField] private float uc = 0.3f;
-        
+        [SerializeField] private float ue = 0.3f;
+        [SerializeField] private float uc = 0.3f;
+
         private Vector3 fe;
         private Vector3 fc;
 
         public Vector3 CalculateFriction(Vector3 velocity, Vector3 force, float normal, float mass)
         {
-            float time = UnityEngine.Time.fixedDeltaTime;
-            Vector3 acceleration;
+            float time = Time.fixedDeltaTime;
+            var acceleration = new Vector3();
+
             fe = ue * -Vector3.Normalize(velocity) * normal;
             fc = uc * -Vector3.Normalize(velocity) * normal;
 
