@@ -1,7 +1,7 @@
 <div align="center">
 	<div>
 		<a href="https://github.com/marcelochaves95/PhysicsEngine">
-			<img width="800" src="physics-engine.png" alt="Physics Engine">
+			<img width="800" src="Images/physics-engine.png" alt="Physics Engine">
 		</a>
 	</div>
 </div>
