@@ -6,9 +6,9 @@
 	</div>
 </div>
 
-| **`Build`** | **`Documentation`** | **`Issues`** | **`Contributors`** |
-| --- | --- | --- | --- |
-| [![Build](https://travis-ci.org/marcelochaves95/PhysicsEngine.svg?branch=master)](https://travis-ci.org/marcelochaves95/PhysicsEngine) | [![Documentation](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/marcelochaves95/PhysicsEngine/wiki) | [![Issues](https://img.shields.io/github/issues/marcelochaves95/PhysicsEngine.svg)](https://github.com/marcelochaves95/PhysicsEngine/issues) | [![Contributors](https://img.shields.io/github/contributors/marcelochaves95/PhysicsEngine.svg)](https://github.com/marcelochaves95/PhysicsEngine/graphs/contributors)
+| **`Documentation`** | **`Issues`** | **`Contributors`** |
+| --- | --- | --- |
+| [![Documentation](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/marcelochaves95/PhysicsEngine/wiki) | [![Issues](https://img.shields.io/github/issues/marcelochaves95/PhysicsEngine.svg)](https://github.com/marcelochaves95/PhysicsEngine/issues) | [![Contributors](https://img.shields.io/github/contributors/marcelochaves95/PhysicsEngine.svg)](https://github.com/marcelochaves95/PhysicsEngine/graphs/contributors)
 
 ## Basics
 - Linear Physics
