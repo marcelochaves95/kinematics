@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace PhysicsEngine.CollisionModule
 {
+    [AddComponentMenu("PhysicsEngine/CollisionModule/RigidBody")]
     public class RigidBody : MonoBehaviour
     {
         [SerializeField] private float mass = 0.1f;

@@ -8,6 +8,7 @@ using Vector3 = PhysicsEngine.MathModule.Vector3;
 
 namespace PhysicsEngine.CollisionModule
 {
+    [AddComponentMenu("PhysicsEngine/CollisionModule/PhysicsMaterial")]
     public class PhysicsMaterial : MonoBehaviour
     {
         [SerializeField] private float ue = 0.3f;

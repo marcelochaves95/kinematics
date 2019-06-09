@@ -1,7 +1,10 @@
-﻿using Vector3 = PhysicsEngine.MathModule.Vector3;
+﻿using UnityEngine;
+
+using Vector3 = PhysicsEngine.MathModule.Vector3;
 
 namespace PhysicsEngine.CollisionModule
 {
+    [AddComponentMenu("PhysicsEngine/CollisionModule/BoxCollider")]
     public class BoxCollider : Collider
     {
         private Vector3 _size;

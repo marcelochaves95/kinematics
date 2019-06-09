@@ -4,6 +4,7 @@ using Vector3 = PhysicsEngine.MathModule.Vector3;
 
 namespace PhysicsEngine.CollisionModule
 {
+    [AddComponentMenu("PhysicsEngine/CollisionModule/SphereCollider")]
     public class SphereCollider : Collider
     {
         public float radius;
