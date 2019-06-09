@@ -33,14 +33,6 @@
 ## Extras
    - - [ ] Rig (Hook)
    - - [ ] Wheels
-
-## Team members
-[Ana Laura](http://www.linkedin.com/in/laura-meira-36aa9313a)<br/>
-[Gabriel Habran](https://www.linkedin.com/in/gabriel-augusto-mendes-habran-66ba20176)<br/>
-[Isabelle Oliveira](https://www.linkedin.com/in/1sabelle0liveira)<br/>
-[Jaelcio Dutra](https://www.linkedin.com/in/jaelcio-dutra)<br/>
-[Marcelo Chaves](https://www.linkedin.com/in/marcelochaves95)<br/>
-[Natã Batista](https://www.linkedin.com/in/nat%C3%A3-batista-brand%C3%A3o-51495967)<br/>
-[Roque Anderson](https://www.linkedin.com/in/roque-anderson-88a787101)
+   
 ## License
 Apache 2.0 license. See the [`LICENSE`](LICENSE) file for details.
