@@ -8,6 +8,7 @@ using Vector3 = PhysicsEngine.MathModule.Vector3;
 
 namespace PhysicsEngine.CollisionModule
 {
+    [RequireComponent(typeof(RigidBody))]
     [AddComponentMenu("PhysicsEngine/CollisionModule/PhysicsMaterial")]
     public class PhysicsMaterial : MonoBehaviour
     {
@@ -19,7 +20,7 @@ namespace PhysicsEngine.CollisionModule
 
         public Vector3 CalculateFriction(Vector3 velocity, Vector3 force, float normal, float mass)
         {
-            float time = Time.fixedDeltaTime;
+            var time = Time.fixedDeltaTime;
             var acceleration = new Vector3();
 
             fe = ue * -Vector3.Normalize(velocity) * normal;

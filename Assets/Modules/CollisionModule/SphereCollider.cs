@@ -12,13 +12,13 @@ namespace PhysicsEngine.CollisionModule
 
         protected override void Start()
         {
-            _radius = this.transform.localScale.x / 2 * radius;
+            _radius = transform.localScale.x / 2 * radius;
             colliders.Add(this);
             type = 0;
         }
 
         public float GetRadius() => _radius;
 
-        public override Vector3 GetSize() => new Vector3(_radius, _radius, _radius);
+        public override Vector3 GetSize() => new Vector3(_radius);
     }
 }

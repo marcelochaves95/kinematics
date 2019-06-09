@@ -1,6 +1,6 @@
-﻿using Vector3 = PhysicsEngine.MathModule.Vector3;
+﻿using UnityEngine;
 
-using UnityEngine;
+using Vector3 = PhysicsEngine.MathModule.Vector3;
 
 namespace PhysicsEngine.CollisionModule
 {
@@ -60,9 +60,7 @@ namespace PhysicsEngine.CollisionModule
             }
 
             position += velocity * deltaTime;
-            pos.x = position.X;
-            pos.y = position.Y;
-            pos.z = position.Z;
+            pos = position.ToUnity();
             this.transform.position = pos;
         }
 
