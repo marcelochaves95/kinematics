@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.574817, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -274,8 +274,8 @@ GameObject:
   - component: {fileID: 1792184502}
   - component: {fileID: 1792184501}
   - component: {fileID: 1792184500}
+  - component: {fileID: 1792184503}
   - component: {fileID: 1792184499}
-  - component: {fileID: 1792184504}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -283,19 +283,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &1792184499
-BoxCollider:
+--- !u!114 &1792184499
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1792184498}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c059b76ceeac94d45b993c183acc5e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ue: 0.3
+  uc: 0.3
 --- !u!23 &1792184500
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -355,7 +356,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1792184504
+--- !u!114 &1792184503
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -367,13 +368,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6813717822bcd4940a8cf6d88ea8de8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mass: 0
+  mass: 0.1
   drag: 0
   useGravity: 0
   gravity:
     x: 0
     y: -9.81
-    z: -0
+    z: 0
   isKinematic: 0
   x: 0
   y: 0

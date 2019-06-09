@@ -18,9 +18,7 @@ namespace PhysicsEngine.CollisionModule
         {
             base.Start();
 
-            _size.X = this.transform.localScale.x / 2 * size.x;
-            _size.Y = this.transform.localScale.y / 2 * size.y;
-            _size.Z = this.transform.localScale.z / 2 * size.z;
+            _size = transform.localScale.ToPhysics() / 2 * size.x;
             colliders.Add(this);
             type = 1;
         }
@@ -38,7 +36,5 @@ namespace PhysicsEngine.CollisionModule
         public Vector3 GetMin() => min;
 
         public Vector3 GetMax() => max;
-
-        public float ScaleMagnitude() => (_size.X + _size.Y + _size.Z) / 3;
     }
 }

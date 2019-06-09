@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using UnityEngine;
+
 using Vector3 = PhysicsEngine.MathModule.Vector3;
 using Collider = PhysicsEngine.CollisionModule.Collider;
 
@@ -8,7 +10,8 @@ using SphereCollider = PhysicsEngine.CollisionModule.SphereCollider;
 
 namespace PhysicsEngine.CollisionModule
 {
-    public abstract class Collider : UnityEngine.MonoBehaviour
+    [RequireComponent(typeof(RigidBody))]
+    public abstract class Collider : MonoBehaviour
     {
         protected int type;
 
@@ -28,9 +31,7 @@ namespace PhysicsEngine.CollisionModule
 
         protected virtual void FixedUpdate()
         {
-            position.X = transform.position.x;
-            position.Y = transform.position.y;
-            position.Z = transform.position.z;
+            position = transform.position.ToPhysics();
             _center = position + center;
         }
 
@@ -92,39 +93,30 @@ namespace PhysicsEngine.CollisionModule
 
         public virtual Vector3 GetCenter() => _center;
 
-        public static Vector3 Cut(Vector3 d, Vector3 min, Vector3 max)
+        public static Vector3 Cut(Vector3 distance, Vector3 min, Vector3 max)
         {
             float x, y, z;
-            x = d.X;
-            y = d.Y;
-            z = d.Z;
+            x = distance.X;
+            y = distance.Y;
+            z = distance.Z;
 
-            if (d.X > max.X)
+            if (distance.X > max.X)
                 x = max.X;
-            else if (d.X < min.X)
+            else if (distance.X < min.X)
                 x = min.X;
-            if (d.Y > max.Y)
+            if (distance.Y > max.Y)
                 y = max.Y;
-            else if (d.Y < min.Y)
+            else if (distance.Y < min.Y)
                 y = min.Y;
-            if (d.Z > max.Z)
+            if (distance.Z > max.Z)
                 z = max.Z;
-            else if (d.Z < min.Z)
+            else if (distance.Z < min.Z)
                 z = min.Z;
 
             return new Vector3(x, y, z);
         }
 
-        public virtual Vector3 GetSize()
-        {
-            var localscale = Vector3.Zero;
-
-            localscale.X = this.transform.localScale.x;
-            localscale.Y = this.transform.localScale.y;
-            localscale.Z = this.transform.localScale.z;
-
-            return localscale;
-        }
+        public virtual Vector3 GetSize() => transform.localScale.ToPhysics();
 
         public PhysicsMaterial GetPhysicsMaterial() => material;
     }
