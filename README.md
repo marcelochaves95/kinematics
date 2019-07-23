@@ -1,14 +1,8 @@
-<div align="center">
-	<div>
-		<a href="https://github.com/marcelochaves95/Kinematics">
-			<img width="800" src="Images/physics-engine.png" alt="Kinematics">
-		</a>
-	</div>
-</div>
+# Kinematics Physics Engine
 
 | **`Documentation`** | **`Issues`** | **`Contributors`** |
 | --- | --- | --- |
-| [![Documentation](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/marcelochaves95/Kinematics/wiki) | [![Issues](https://img.shields.io/github/issues/marcelochaves95/Kinematics.svg)](https://github.com/marcelochaves95/PhysicsEngine/issues) | [![Contributors](https://img.shields.io/github/contributors/marcelochaves95/Kinematics.svg)](https://github.com/marcelochaves95/Kinematics/graphs/contributors)
+| [![Documentation](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/marcelochaves95/Kinematics/wiki) | [![Issues](https://img.shields.io/github/issues/marcelochaves95/Kinematics.svg)](https://github.com/marcelochaves95/Kinematics/issues) | [![Contributors](https://img.shields.io/github/contributors/marcelochaves95/Kinematics.svg)](https://github.com/marcelochaves95/Kinematics/graphs/contributors)
 
 ## Basics
 - Linear Physics
