@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Projects\Kinematics" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Editor" t="Include">
+          <e p="GetSetDrawer.cs" t="Include" />
+          <e p="QuaternionDrawer.cs" t="Include" />
+          <e p="Vector3Drawer.cs" t="Include" />
+          <e p="Vector4Drawer.cs" t="Include" />
+        </e>
+        <e p="Modules" t="Include">
+          <e p="CollisionModule" t="Include">
+            <e p="BoxCollider.cs" t="Include" />
+            <e p="Collider.cs" t="Include" />
+            <e p="PhysicsMaterial.cs" t="Include" />
+            <e p="Rigidbody.cs" t="Include" />
+            <e p="SphereCollider.cs" t="Include" />
+          </e>
+          <e p="ExtensionModule" t="Include">
+            <e p="KinematicsExtension.cs" t="Include" />
+          </e>
+          <e p="MathModule" t="Include">
+            <e p="Mathematics.cs" t="Include" />
+            <e p="Quaternion.cs" t="Include" />
+            <e p="Vector3.cs" t="Include" />
+            <e p="Vector4.cs" t="Include" />
+          </e>
+          <e p="Shape" t="Include">
+            <e p="BoxShape.cs" t="Include" />
+          </e>
+          <e p="Utils" t="Include">
+            <e p="GetSet.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="Kinematics.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+    <e p="C:\Users\marcelo.chaves\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\marcelo.chaves\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_Kinematics.-1539232365.00" t="ExcludeRecursive" />
+  </component>
+</project>

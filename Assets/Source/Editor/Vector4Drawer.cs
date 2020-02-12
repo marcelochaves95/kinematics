@@ -1,11 +1,11 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-using Vector4 = PhysicsEngine.MathModule.Vector4;
+using Vector4 = Kinematics.MathModule.Vector4;
 
-namespace PhysicsEngine.Editor
+namespace Kinematics.Editor
 {
-    [CustomPropertyDrawer(typeof(Vector4))]
+    [CustomPropertyDrawer(typeof(MathModule.Vector4))]
     public class Vector4Drawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

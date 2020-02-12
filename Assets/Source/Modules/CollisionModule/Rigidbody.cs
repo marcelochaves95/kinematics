@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Modules.ExtensionModule;
+using UnityEngine;
 
-using Vector3 = PhysicsEngine.MathModule.Vector3;
+using Vector3 = Kinematics.MathModule.Vector3;
 
-namespace PhysicsEngine.CollisionModule
+namespace Kinematics.CollisionModule
 {
     [AddComponentMenu("PhysicsEngine/CollisionModule/RigidBody")]
     public class RigidBody : MonoBehaviour
@@ -19,7 +20,7 @@ namespace PhysicsEngine.CollisionModule
 
         [SerializeField] private bool UseGravity = false;
 
-        [SerializeField] private Vector3 Gravity = new Vector3(0.0f, -9.81f, 0.0f);
+        [SerializeField] private MathModule.Vector3 Gravity = new MathModule.Vector3(0.0f, -9.81f, 0.0f);
 
         [SerializeField] private bool IsKinematic = false;
 
@@ -28,8 +29,8 @@ namespace PhysicsEngine.CollisionModule
         [SerializeField] private bool Y = false;
         [SerializeField] private bool Z = false;
 
-        private Vector3 velocity = Vector3.Zero;
-        private Vector3 position = Vector3.Zero;
+        private MathModule.Vector3 velocity = MathModule.Vector3.Zero;
+        private MathModule.Vector3 position = MathModule.Vector3.Zero;
 
         new Collider collider;
 
@@ -55,14 +56,14 @@ namespace PhysicsEngine.CollisionModule
             if (!IsKinematic)
                 velocity *= (1 - (Drag * fixedDeltaTime));
 
-            velocity = (Vector3.Right * velocity.X * (X ? 0 : 1)) + (Vector3.Up * velocity.Y * (Y ? 0 : 1)) + (Vector3.Forward * velocity.Z * (Z ? 0 : 1));
+            velocity = (MathModule.Vector3.Right * velocity.X * (X ? 0 : 1)) + (MathModule.Vector3.Up * velocity.Y * (Y ? 0 : 1)) + (MathModule.Vector3.Forward * velocity.Z * (Z ? 0 : 1));
 
-            if (CheckCollision(Vector3.Up * velocity.Y * deltaTime) != null)
+            if (CheckCollision(MathModule.Vector3.Up * velocity.Y * deltaTime) != null)
             {
                 if (collider.GetPhysicsMaterial() != null)
-                    velocity = collider.GetPhysicsMaterial().CalculateFriction(velocity, Vector3.Zero, Vector3.Magnitude(Gravity) * Mass, Mass);
+                    velocity = collider.GetPhysicsMaterial().CalculateFriction(velocity, MathModule.Vector3.Zero, MathModule.Vector3.Magnitude(Gravity) * Mass, Mass);
 
-                if (CheckCollision(Vector3.Up * velocity.Y * deltaTime).GetCenter().Y + CheckCollision(Vector3.Up * velocity.Y * deltaTime).GetSize().Y <= collider.GetCenter().Y)
+                if (CheckCollision(MathModule.Vector3.Up * velocity.Y * deltaTime).GetCenter().Y + CheckCollision(MathModule.Vector3.Up * velocity.Y * deltaTime).GetSize().Y <= collider.GetCenter().Y)
                     velocity.Y = 0;
             }
 
@@ -71,18 +72,18 @@ namespace PhysicsEngine.CollisionModule
             this.transform.position = pos;
         }
 
-        public void AddForce(Vector3 force)
+        public void AddForce(MathModule.Vector3 force)
         {
             if (!IsKinematic)
                 velocity += ((force / Mass) + Gravity * (UseGravity ? 1 : 0)) * fixedDeltaTime;
         }
 
-        public void SetVelocity(Vector3 velocity)
+        public void SetVelocity(MathModule.Vector3 velocity)
         {
             this.velocity = velocity;
         }
 
-        public Collider CheckCollision(Vector3 position)
+        public Collider CheckCollision(MathModule.Vector3 position)
         {
             if (collider != null)
             {

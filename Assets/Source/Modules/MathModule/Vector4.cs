@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace PhysicsEngine.MathModule
+namespace Kinematics.MathModule
 {
     /// <summary>
     /// Represents a four dimensional mathematical vector.

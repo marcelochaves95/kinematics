@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
-
+using Modules.ExtensionModule;
 using UnityEngine;
 
-using Vector3 = PhysicsEngine.MathModule.Vector3;
-using Collider = PhysicsEngine.CollisionModule.Collider;
+using Vector3 = Kinematics.MathModule.Vector3;
+using Collider = Kinematics.CollisionModule.Collider;
 
-using BoxCollider = PhysicsEngine.CollisionModule.BoxCollider;
-using SphereCollider = PhysicsEngine.CollisionModule.SphereCollider;
+using BoxCollider = Kinematics.CollisionModule.BoxCollider;
+using SphereCollider = Kinematics.CollisionModule.SphereCollider;
 
-namespace PhysicsEngine.CollisionModule
+namespace Kinematics.CollisionModule
 {
     [RequireComponent(typeof(RigidBody))]
     public abstract class Collider : MonoBehaviour
     {
         protected int type;
 
-        public Vector3 center;
-        protected Vector3 _center;
-        private Vector3 position;
+        public MathModule.Vector3 center;
+        protected MathModule.Vector3 _center;
+        private MathModule.Vector3 position;
 
         public PhysicsMaterial material;
 
@@ -25,7 +25,7 @@ namespace PhysicsEngine.CollisionModule
 
         protected virtual void Start()
         {
-            position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            position = new MathModule.Vector3(transform.position.x, transform.position.y, transform.position.z);
             _center = position + center;
         }
 
@@ -44,7 +44,7 @@ namespace PhysicsEngine.CollisionModule
 
             if (actual.GetColliderType() == 0 && other.GetColliderType() == 0)
             {
-                if (Vector3.Magnitude(actual._center - other._center) <= (actual.GetComponent<SphereCollider>().GetRadius() + other.GetComponent<SphereCollider>().GetRadius()))
+                if (MathModule.Vector3.Magnitude(actual._center - other._center) <= (actual.GetComponent<SphereCollider>().GetRadius() + other.GetComponent<SphereCollider>().GetRadius()))
                     return other;
             }
             else if (actual.GetColliderType() == 0 && other.GetColliderType() == 1)
@@ -55,7 +55,7 @@ namespace PhysicsEngine.CollisionModule
                 var next = other.GetComponent<BoxCollider>().GetCenter() + cut;
                 var difference = next - actual.GetComponent<SphereCollider>().GetCenter();
 
-                if (Vector3.Magnitude(difference) <= actual.GetComponent<SphereCollider>().GetRadius())
+                if (MathModule.Vector3.Magnitude(difference) <= actual.GetComponent<SphereCollider>().GetRadius())
                     return other;
             }
             else if (actual.GetColliderType() == 1 && other.GetColliderType() == 0)
@@ -66,7 +66,7 @@ namespace PhysicsEngine.CollisionModule
                 var next = actual.GetComponent<BoxCollider>().GetCenter() + cut;
                 var difference = next - other.GetComponent<SphereCollider>().GetCenter();
 
-                if (Vector3.Magnitude(difference) <= other.GetComponent<SphereCollider>().GetRadius())
+                if (MathModule.Vector3.Magnitude(difference) <= other.GetComponent<SphereCollider>().GetRadius())
                     return other;
             }
             else
@@ -91,9 +91,9 @@ namespace PhysicsEngine.CollisionModule
             return null;
         }
 
-        public virtual Vector3 GetCenter() => _center;
+        public virtual MathModule.Vector3 GetCenter() => _center;
 
-        public static Vector3 Cut(Vector3 distance, Vector3 min, Vector3 max)
+        public static MathModule.Vector3 Cut(MathModule.Vector3 distance, MathModule.Vector3 min, MathModule.Vector3 max)
         {
             float x, y, z;
             x = distance.X;
@@ -113,10 +113,10 @@ namespace PhysicsEngine.CollisionModule
             else if (distance.Z < min.Z)
                 z = min.Z;
 
-            return new Vector3(x, y, z);
+            return new MathModule.Vector3(x, y, z);
         }
 
-        public virtual Vector3 GetSize() => transform.localScale.ToPhysics();
+        public virtual MathModule.Vector3 GetSize() => transform.localScale.ToPhysics();
 
         public PhysicsMaterial GetPhysicsMaterial() => material;
     }

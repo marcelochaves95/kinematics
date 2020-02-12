@@ -1,6 +1,6 @@
 using System;
 
-namespace PhysicsEngine.MathModule
+namespace Kinematics.MathModule
 {
     /// <summary>
     /// A collection of common mathematics functions
