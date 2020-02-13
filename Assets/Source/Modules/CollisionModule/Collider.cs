@@ -1,12 +1,6 @@
 ﻿using System.Collections.Generic;
-using Modules.ExtensionModule;
 using UnityEngine;
-
 using Vector3 = Kinematics.MathModule.Vector3;
-using Collider = Kinematics.CollisionModule.Collider;
-
-using BoxCollider = Kinematics.CollisionModule.BoxCollider;
-using SphereCollider = Kinematics.CollisionModule.SphereCollider;
 
 namespace Kinematics.CollisionModule
 {
@@ -15,9 +9,9 @@ namespace Kinematics.CollisionModule
     {
         protected int type;
 
-        public MathModule.Vector3 center;
-        protected MathModule.Vector3 _center;
-        private MathModule.Vector3 position;
+        public Vector3 center;
+        protected Vector3 _center;
+        private Vector3 position;
 
         public PhysicsMaterial material;
 
@@ -25,13 +19,13 @@ namespace Kinematics.CollisionModule
 
         protected virtual void Start()
         {
-            position = new MathModule.Vector3(transform.position.x, transform.position.y, transform.position.z);
+            position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             _center = position + center;
         }
 
         protected virtual void FixedUpdate()
         {
-            position = transform.position.ToPhysics();
+            position = transform.position;
             _center = position + center;
         }
 
@@ -44,7 +38,7 @@ namespace Kinematics.CollisionModule
 
             if (actual.GetColliderType() == 0 && other.GetColliderType() == 0)
             {
-                if (MathModule.Vector3.Magnitude(actual._center - other._center) <= (actual.GetComponent<SphereCollider>().GetRadius() + other.GetComponent<SphereCollider>().GetRadius()))
+                if (Vector3.Magnitude(actual._center - other._center) <= (actual.GetComponent<SphereCollider>().GetRadius() + other.GetComponent<SphereCollider>().GetRadius()))
                     return other;
             }
             else if (actual.GetColliderType() == 0 && other.GetColliderType() == 1)
@@ -55,7 +49,7 @@ namespace Kinematics.CollisionModule
                 var next = other.GetComponent<BoxCollider>().GetCenter() + cut;
                 var difference = next - actual.GetComponent<SphereCollider>().GetCenter();
 
-                if (MathModule.Vector3.Magnitude(difference) <= actual.GetComponent<SphereCollider>().GetRadius())
+                if (Vector3.Magnitude(difference) <= actual.GetComponent<SphereCollider>().GetRadius())
                     return other;
             }
             else if (actual.GetColliderType() == 1 && other.GetColliderType() == 0)
@@ -66,7 +60,7 @@ namespace Kinematics.CollisionModule
                 var next = actual.GetComponent<BoxCollider>().GetCenter() + cut;
                 var difference = next - other.GetComponent<SphereCollider>().GetCenter();
 
-                if (MathModule.Vector3.Magnitude(difference) <= other.GetComponent<SphereCollider>().GetRadius())
+                if (Vector3.Magnitude(difference) <= other.GetComponent<SphereCollider>().GetRadius())
                     return other;
             }
             else
@@ -81,7 +75,8 @@ namespace Kinematics.CollisionModule
                     print("Collision of type Box with Box:" + actual.gameObject.name + " " + other.gameObject.name);
                     return other;
                 }
-                else if (actualMax.X >= otherMin.X && actualMax.Y >= otherMin.Y && actualMax.Z >= otherMax.Z && actualMax.X <= otherMax.X && actualMax.Y <= otherMax.Y && actualMax.Z <= otherMax.Z)
+
+                if (actualMax.X >= otherMin.X && actualMax.Y >= otherMin.Y && actualMax.Z >= otherMax.Z && actualMax.X <= otherMax.X && actualMax.Y <= otherMax.Y && actualMax.Z <= otherMax.Z)
                 {
                     print("Collision of type Box with Box:" + actual.gameObject.name + " " + other.gameObject.name);
                     return other;
@@ -91,9 +86,9 @@ namespace Kinematics.CollisionModule
             return null;
         }
 
-        public virtual MathModule.Vector3 GetCenter() => _center;
+        public virtual Vector3 GetCenter() => _center;
 
-        public static MathModule.Vector3 Cut(MathModule.Vector3 distance, MathModule.Vector3 min, MathModule.Vector3 max)
+        public static Vector3 Cut(Vector3 distance, Vector3 min, Vector3 max)
         {
             float x, y, z;
             x = distance.X;
@@ -113,10 +108,10 @@ namespace Kinematics.CollisionModule
             else if (distance.Z < min.Z)
                 z = min.Z;
 
-            return new MathModule.Vector3(x, y, z);
+            return new Vector3(x, y, z);
         }
 
-        public virtual MathModule.Vector3 GetSize() => transform.localScale.ToPhysics();
+        public virtual Vector3 GetSize() => transform.localScale;
 
         public PhysicsMaterial GetPhysicsMaterial() => material;
     }

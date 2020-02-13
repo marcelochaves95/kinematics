@@ -536,5 +536,17 @@ namespace Kinematics.MathModule
         /// </summary>
         /// <returns>String description of the object</returns>
         public override string ToString() => $"[Quaternion] X({ X }) Y({ Y }) Z({ Z }) W({ W })";
+
+        #region Kinematics/Unity
+        public static implicit operator Quaternion(UnityEngine.Quaternion value)
+        {
+            return new Quaternion(value.x, value.y, value.z, value.w);
+        }
+
+        public static implicit operator UnityEngine.Quaternion(Quaternion value)
+        {
+            return new UnityEngine.Quaternion(value.X, value.Y, value.Z, value.W);
+        }
+        #endregion
     }
 }

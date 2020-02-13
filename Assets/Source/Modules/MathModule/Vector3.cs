@@ -529,5 +529,17 @@ namespace Kinematics.MathModule
         /// </summary>
         /// <returns>String description of the object</returns>
         public override string ToString() => $"[Vector3] X({ X }) Y({ Y }) Z({ Z })";
+
+        #region Kinematics/Unity
+        public static implicit operator Vector3(UnityEngine.Vector3 value)
+        {
+            return new Vector3(value.x, value.y, value.z);
+        }
+
+        public static implicit operator UnityEngine.Vector3(Vector3 value)
+        {
+            return new UnityEngine.Vector3(value.X, value.Y, value.Z);
+        }
+        #endregion
     }
 }

@@ -1,6 +1,4 @@
-﻿using Modules.ExtensionModule;
-using UnityEngine;
-
+﻿using UnityEngine;
 using Vector3 = Kinematics.MathModule.Vector3;
 
 namespace Kinematics.CollisionModule
@@ -9,18 +7,18 @@ namespace Kinematics.CollisionModule
     [AddComponentMenu("PhysicsEngine/CollisionModule/BoxCollider")]
     public class BoxCollider : Collider
     {
-        private MathModule.Vector3 sizeBox;
-        private MathModule.Vector3 min;
-        private MathModule.Vector3 max;
+        private Vector3 sizeBox;
+        private Vector3 min;
+        private Vector3 max;
 
         /* Unity Properties */
-        public UnityEngine.Vector3 size = UnityEngine.Vector3.one;
+        public Vector3 size = Vector3.One;
 
         protected override void Start()
         {
             base.Start();
 
-            sizeBox = transform.localScale.ToPhysics() / 2 * size.x;
+            sizeBox = transform.localScale / 2 * size.X;
             colliders.Add(this);
             type = 1;
         }
@@ -33,10 +31,10 @@ namespace Kinematics.CollisionModule
             max = _center + sizeBox;
         }
 
-        public override MathModule.Vector3 GetSize() => sizeBox;
+        public override Vector3 GetSize() => sizeBox;
 
-        public MathModule.Vector3 GetMin() => min;
+        public Vector3 GetMin() => min;
 
-        public MathModule.Vector3 GetMax() => max;
+        public Vector3 GetMax() => max;
     }
 }

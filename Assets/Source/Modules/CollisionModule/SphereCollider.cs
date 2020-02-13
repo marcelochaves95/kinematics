@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-
 using Vector3 = Kinematics.MathModule.Vector3;
 
 namespace Kinematics.CollisionModule
@@ -19,6 +18,6 @@ namespace Kinematics.CollisionModule
 
         public float GetRadius() => _radius;
 
-        public override MathModule.Vector3 GetSize() => new MathModule.Vector3(_radius);
+        public override Vector3 GetSize() => new Vector3(_radius);
     }
 }
