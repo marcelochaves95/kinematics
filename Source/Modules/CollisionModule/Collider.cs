@@ -4,7 +4,7 @@ using Vector3 = Kinematics.MathModule.Vector3;
 
 namespace Kinematics.CollisionModule
 {
-    [RequireComponent(typeof(RigidBody))]
+    [RequireComponent(typeof(Rigidbody))]
     public abstract class Collider : MonoBehaviour
     {
         protected int type;

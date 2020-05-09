@@ -3,7 +3,7 @@ using Vector3 = Kinematics.MathModule.Vector3;
 
 namespace Kinematics.CollisionModule
 {
-    [AddComponentMenu("PhysicsEngine/CollisionModule/SphereCollider")]
+    [AddComponentMenu("Kinematics/CollisionModule/SphereCollider")]
     public class SphereCollider : Collider
     {
         public float radius;

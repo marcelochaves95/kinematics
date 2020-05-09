@@ -4,7 +4,7 @@ using Vector3 = Kinematics.MathModule.Vector3;
 namespace Kinematics.CollisionModule
 {
     [RequireComponent(typeof(BoxShape))]
-    [AddComponentMenu("PhysicsEngine/CollisionModule/BoxCollider")]
+    [AddComponentMenu("Kinematics/CollisionModule/BoxCollider")]
     public class BoxCollider : Collider
     {
         private Vector3 sizeBox;

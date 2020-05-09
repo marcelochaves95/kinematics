@@ -3,8 +3,8 @@ using Vector3 = Kinematics.MathModule.Vector3;
 
 namespace Kinematics.CollisionModule
 {
-    [RequireComponent(typeof(RigidBody))]
-    [AddComponentMenu("PhysicsEngine/CollisionModule/PhysicsMaterial")]
+    [RequireComponent(typeof(Rigidbody))]
+    [AddComponentMenu("Kinematics/CollisionModule/PhysicsMaterial")]
     public class PhysicsMaterial : MonoBehaviour
     {
         [SerializeField] private float ue = 0.3f;

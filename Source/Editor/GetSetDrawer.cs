@@ -1,15 +1,13 @@
 ﻿using System.Reflection;
-
 using UnityEditor;
-
 using UnityEngine;
 
-[CustomPropertyDrawer(typeof(GetSet))]
+[CustomPropertyDrawer(typeof(GetSetAttribute))]
 sealed class GetSetDrawer : PropertyDrawer
 {
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        GetSet attribute = (GetSet)base.attribute;
+        GetSetAttribute attribute = (GetSetAttribute)this.attribute;
 
         EditorGUI.BeginChangeCheck();
         EditorGUI.PropertyField(position, property, label);
