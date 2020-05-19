@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using Kinematics.Shape;
+using UnityEngine;
 using Vector3 = Kinematics.MathModule.Vector3;
 
-namespace Kinematics.CollisionModule
+namespace Kinematics.Collision
 {
     [RequireComponent(typeof(BoxShape))]
-    [AddComponentMenu("Kinematics/CollisionModule/BoxCollider")]
+    [AddComponentMenu("Kinematics/Collision/BoxCollider")]
     public class BoxCollider : Collider
     {
         private Vector3 sizeBox;

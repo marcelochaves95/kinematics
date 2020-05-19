@@ -2,7 +2,7 @@
 using UnityEngine;
 using Vector3 = Kinematics.MathModule.Vector3;
 
-namespace Kinematics.CollisionModule
+namespace Kinematics.Collision
 {
     [RequireComponent(typeof(Rigidbody))]
     public abstract class Collider : MonoBehaviour
@@ -134,8 +134,14 @@ namespace Kinematics.CollisionModule
             return new Vector3(x, y, z);
         }
 
-        public virtual Vector3 GetSize() => transform.localScale;
+        public virtual Vector3 GetSize()
+        {
+            return transform.localScale;
+        }
 
-        public PhysicsMaterial GetPhysicsMaterial() => material;
+        public virtual PhysicsMaterial GetPhysicsMaterial()
+        {
+            return material;
+        }
     }
 }
