@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 
-namespace Kinematics.Shape
+namespace Kinematics.CollisionModule
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(MeshFilter))]
-    public sealed class BoxShape : Shape
+    public sealed partial class BoxCollider
     {
         private Vector3 frontTopLeft;
         private Vector3 frontTopRight;
@@ -15,9 +15,22 @@ namespace Kinematics.Shape
         private Vector3 backBottomLeft;
         private Vector3 backBottomRight;
 
-        protected override void CalculatePosition()
+        private readonly Color color = Color.green;
+
+        private Mesh mesh;
+
+        private void Update()
         {
-            Mesh mesh = GetComponent<MeshFilter>().sharedMesh;
+            if (drawShape)
+            {
+                CalculatePosition();
+                DrawCollider();
+            }
+        }
+
+        private void CalculatePosition()
+        {
+            mesh = GetComponent<MeshFilter>().sharedMesh;
             Bounds bounds = mesh.bounds;
             Vector3 center = bounds.center;
             Vector3 extents = bounds.extents;
@@ -49,7 +62,7 @@ namespace Kinematics.Shape
             backBottomRight = transform.TransformPoint(backBottomRight);
         }
 
-        protected override void DrawCollider()
+        private void DrawCollider()
         {
             CalculatePosition();
 

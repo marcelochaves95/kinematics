@@ -2,9 +2,9 @@
 using UnityEngine;
 using Vector3 = Kinematics.MathModule.Vector3;
 
-namespace Kinematics.Collision
+namespace Kinematics.CollisionModule
 {
-    [AddComponentMenu("Kinematics/Collision/RigidBody")]
+    [AddComponentMenu("Kinematics/CollisionModule/RigidBody")]
     public class Rigidbody : MonoBehaviour
     {
         [SerializeField]
@@ -14,7 +14,7 @@ namespace Kinematics.Collision
             get => mass;
             set
             {
-                if (Mathematics.Abs(mass - 0.1f) > Mathematics.Epsilon)
+                if (Math.Abs(mass - 0.1f) > Math.Epsilon)
                 {
                     mass = value;
                 }

@@ -194,13 +194,13 @@ namespace Kinematics.MathModule
         /// <summary>
         /// Get's a value indicting whether this instance is normalized
         /// </summary>
-        public bool IsNormalized() => Mathematics.Abs(X * X + Y * Y + Z * Z + W * W - 1f) < 0f;
+        public bool IsNormalized() => Math.Abs(X * X + Y * Y + Z * Z + W * W - 1f) < 0f;
 
         /// <summary>
         /// Calculates the length of the vector
         /// </summary>
         /// <returns>May be preferred when only the relative length is needed and speed is of the essence</returns>
-        public static float Magnitude(Vector4 value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2) + Mathematics.Pow(value.Y, 2) + Mathematics.Pow(value.Z, 2) + Mathematics.Pow(value.W, 2));
+        public static float Magnitude(Vector4 value) => Math.Sqrt(Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) + Math.Pow(value.Z, 2) + Math.Pow(value.W, 2));
 
         /// <summary>
         /// Converts the vector into a unit vector
@@ -276,7 +276,7 @@ namespace Kinematics.MathModule
             float z = value1.Z - value2.Z;
             float w = value1.W - value2.W;
 
-            return Mathematics.Sqrt(x * x + y * y + z * z + w * w);
+            return Math.Sqrt(x * x + y * y + z * z + w * w);
         }
 
         /// <summary>

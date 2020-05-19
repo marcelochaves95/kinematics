@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Kinematics.MathModule
@@ -77,11 +76,11 @@ namespace Kinematics.MathModule
         public Quaternion(Vector3 axis, float angle)
         {
             float angle2 = angle * 0.5f;
-            float s = Mathematics.Sin(angle2) / Vector3.Magnitude(axis);
+            float s = Math.Sin(angle2) / Vector3.Magnitude(axis);
             X = axis.X * s;
             Y = axis.Y * s;
             Z = axis.Z * s;
-            W = Mathematics.Cos(angle2);
+            W = Math.Cos(angle2);
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace Kinematics.MathModule
         /// <summary>
         /// Gets a value indicting whether this instance is normalized
         /// </summary>
-        public bool IsNormalized => Mathematics.Abs(X * X + Y * Y + Z * Z + W * W - 1f) < 0f;
+        public bool IsNormalized => Math.Abs(X * X + Y * Y + Z * Z + W * W - 1f) < 0f;
 
         /// <summary>
         /// Adds two quaternions
@@ -226,7 +225,7 @@ namespace Kinematics.MathModule
                 if (magnitude < 0f)
                     return 0f;
 
-                return 2f * Mathematics.Acos(W);
+                return 2f * Math.Acos(W);
             }
         }
 
@@ -250,7 +249,7 @@ namespace Kinematics.MathModule
         /// Calculates the length of the quaternion
         /// </summary>
         /// <returns>The length of the vector</returns>
-        public static float Magnitude(Quaternion value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2)) + Mathematics.Sqrt(Mathematics.Pow(value.Y, 2)) + Mathematics.Sqrt(Mathematics.Pow(value.Z, 2)) + Mathematics.Sqrt(Mathematics.Pow(value.W, 2));
+        public static float Magnitude(Quaternion value) => Math.Sqrt(Math.Pow(value.X, 2)) + Math.Sqrt(Math.Pow(value.Y, 2)) + Math.Sqrt(Math.Pow(value.Z, 2)) + Math.Sqrt(Math.Pow(value.W, 2));
 
         /// <summary>
         /// Makes this vector have a magnitude of 1
@@ -330,10 +329,10 @@ namespace Kinematics.MathModule
         {
             Quaternion result = new Quaternion();
 
-            float angle = Mathematics.Sqrt((value.X * value.X) + (value.Y * value.Y) + (value.Z * value.Z));
-            float sin = Mathematics.Sin(angle);
+            float angle = Math.Sqrt((value.X * value.X) + (value.Y * value.Y) + (value.Z * value.Z));
+            float sin = Math.Sin(angle);
 
-            if (Mathematics.Abs(sin) >= 0f)
+            if (Math.Abs(sin) >= 0f)
             {
                 float coeff = sin / angle;
                 result.X = coeff * value.X;
@@ -343,7 +342,7 @@ namespace Kinematics.MathModule
             else
                 result = value;
 
-            result.W = Mathematics.Cos(angle);
+            result.W = Math.Cos(angle);
 
             return result;
         }
@@ -388,12 +387,12 @@ namespace Kinematics.MathModule
         {
             Quaternion result = new Quaternion();
 
-            if (Mathematics.Abs(value.W) < 1f)
+            if (Math.Abs(value.W) < 1f)
             {
-                float angle = Mathematics.Acos(value.W);
-                float sin = Mathematics.Sin(angle);
+                float angle = Math.Acos(value.W);
+                float sin = Math.Sin(angle);
 
-                if (Mathematics.Abs(sin) >= 0f)
+                if (Math.Abs(sin) >= 0f)
                 {
                     float coeff = angle / sin;
                     result.X = value.X * coeff;
@@ -436,8 +435,8 @@ namespace Kinematics.MathModule
             normalized = Vector3.Normalize(axis);
 
             float half = angle * 0.5f;
-            float sin = Mathematics.Sin(half);
-            float cos = Mathematics.Cos(half);
+            float sin = Math.Sin(half);
+            float cos = Math.Cos(half);
 
             return new Quaternion(normalized.X * sin, normalized.Y * sin, normalized.Z * sin, cos);
         }
@@ -455,12 +454,12 @@ namespace Kinematics.MathModule
             float halfPitch = pitch * 0.5f;
             float halfYaw = yaw * 0.5f;
 
-            float sinRoll = Mathematics.Sin(halfRoll);
-            float cosRoll = Mathematics.Cos(halfRoll);
-            float sinPitch = Mathematics.Sin(halfPitch);
-            float cosPitch = Mathematics.Cos(halfPitch);
-            float sinYaw = Mathematics.Sin(halfYaw);
-            float cosYaw = Mathematics.Cos(halfYaw);
+            float sinRoll = Math.Sin(halfRoll);
+            float cosRoll = Math.Cos(halfRoll);
+            float sinPitch = Math.Sin(halfPitch);
+            float cosPitch = Math.Cos(halfPitch);
+            float sinYaw = Math.Sin(halfYaw);
+            float cosYaw = Math.Cos(halfYaw);
 
             return new Quaternion(
                 (cosYaw * sinPitch * cosRoll) + (sinYaw * cosPitch * sinRoll),
@@ -483,18 +482,18 @@ namespace Kinematics.MathModule
             float inverse;
             float dot = DotProduct(start, end);
 
-            if (Mathematics.Abs(dot) > 1f - 0f)
+            if (Math.Abs(dot) > 1f - 0f)
             {
                 inverse = 1f - amount;
-                opposite = amount * Mathematics.Sign(dot);
+                opposite = amount * Math.Sign(dot);
             }
             else
             {
-                float acos = Mathematics.Acos(Mathematics.Abs(dot));
-                float invSin = (float)(1f / Mathematics.Sin(acos));
+                float acos = Math.Acos(Math.Abs(dot));
+                float invSin = (float)(1f / Math.Sin(acos));
 
-                inverse = Mathematics.Sin((1f - amount) * acos) * invSin;
-                opposite = Mathematics.Sin(amount * acos) * invSin * Mathematics.Sign(dot);
+                inverse = Math.Sin((1f - amount) * acos) * invSin;
+                opposite = Math.Sin(amount * acos) * invSin * Math.Sign(dot);
             }
 
             return new Quaternion(

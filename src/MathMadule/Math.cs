@@ -1,17 +1,15 @@
-using System;
-
 namespace Kinematics.MathModule
 {
     /// <summary>
     /// A collection of common mathematics functions
     /// </summary>
-    public class Mathematics
+    public class Math
     {
         /// <summary>
         /// The infamous ''3.14159265358979...'' value (RO)
         /// </summary>
         /// <returns>PI</returns>
-        public const float PI = (float) Math.PI;
+        public const float PI = (float) System.Math.PI;
 
         /// <summary>
         /// A tiny floating point value (Read Only)
@@ -37,7 +35,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Sin(float value)
         {
-            return (float) Math.Sin(value); 
+            return (float) System.Math.Sin(value); 
         }
 
         /// <summary>
@@ -47,7 +45,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Cos(float value)
         {
-            return (float) Math.Cos(value);
+            return (float) System.Math.Cos(value);
         }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Tan(float value)
         {
-            return (float)Math.Tan(value);
+            return (float) System.Math.Tan(value);
         }
 
         /// <summary>
@@ -67,7 +65,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Asin(float value)
         {
-            return (float) Math.Asin(value);
+            return (float) System.Math.Asin(value);
         }
 
         /// <summary>
@@ -77,7 +75,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Acos(float value)
         {
-            return (float) Math.Acos(value);
+            return (float) System.Math.Acos(value);
         }
 
         /// <summary>
@@ -87,7 +85,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Atan(float value)
         {
-            return (float) Math.Atan(value);
+            return (float) System.Math.Atan(value);
         }
 
         /// <summary>
@@ -98,7 +96,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Atan2(float y, float x)
         {
-            return (float) Math.Atan2(y, x);
+            return (float) System.Math.Atan2(y, x);
         }
 
         /// <summary>
@@ -108,7 +106,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Sqrt(float value)
         {
-            return (float) Math.Sqrt(value);
+            return (float) System.Math.Sqrt(value);
         }
 
         /// <summary>
@@ -118,7 +116,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Abs(float value)
         {
-            return (float) Math.Abs(value);
+            return System.Math.Abs(value);
         }
 
         /// <summary>
@@ -173,7 +171,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Pow(float value, float power)
         {
-            return (float) Math.Pow(value, power);
+            return (float) System.Math.Pow(value, power);
         }
 
         /// <summary>
@@ -183,7 +181,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Exp(float power)
         {
-            return (float) Math.Exp(power);
+            return (float) System.Math.Exp(power);
         }
 
         /// <summary>
@@ -194,7 +192,7 @@ namespace Kinematics.MathModule
         /// <returns></returns>
         public static float Log(float value, float logBase)
         {
-            return (float) Math.Log(value, logBase);
+            return (float) System.Math.Log(value, logBase);
         }
 
         /// <summary>
@@ -204,7 +202,7 @@ namespace Kinematics.MathModule
         /// <returns>Log on base e</returns>
         public static float Log(float value)
         {
-            return (float) Math.Log(value);
+            return (float) System.Math.Log(value);
         }
 
         /// <summary>
@@ -214,7 +212,7 @@ namespace Kinematics.MathModule
         /// <returns>Log on base 10</returns>
         public static float Log10(float value)
         {
-            return (float) Math.Log10(value);
+            return (float) System.Math.Log10(value);
         }
 
         /// <summary>

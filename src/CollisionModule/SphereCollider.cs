@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using Vector3 = Kinematics.MathModule.Vector3;
 
-namespace Kinematics.Collision
+namespace Kinematics.CollisionModule
 {
-    [AddComponentMenu("Kinematics/Collision/SphereCollider")]
+    [AddComponentMenu("Kinematics/CollisionModule/SphereCollider")]
     public class SphereCollider : Collider
     {
         public float radius;
@@ -18,8 +18,14 @@ namespace Kinematics.Collision
             type = 0;
         }
 
-        public float GetRadius() => _radius;
+        public float GetRadius()
+        {
+            return _radius;
+        }
 
-        public override Vector3 GetSize() => new Vector3(_radius);
+        public override Vector3 GetSize()
+        {
+            return new Vector3(_radius);
+        }
     }
 }

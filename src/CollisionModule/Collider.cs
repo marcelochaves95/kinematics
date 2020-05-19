@@ -2,7 +2,7 @@
 using UnityEngine;
 using Vector3 = Kinematics.MathModule.Vector3;
 
-namespace Kinematics.Collision
+namespace Kinematics.CollisionModule
 {
     [RequireComponent(typeof(Rigidbody))]
     public abstract class Collider : MonoBehaviour
@@ -13,7 +13,7 @@ namespace Kinematics.Collision
         protected Vector3 _center;
         private Vector3 position;
 
-        public PhysicsMaterial material;
+        public PhysicsMaterial physicsMaterial;
 
         public static readonly List<Collider> colliders = new List<Collider>();
 
@@ -30,7 +30,10 @@ namespace Kinematics.Collision
             _center = position + center;
         }
 
-        private int GetColliderType() => type;
+        private int GetColliderType()
+        {
+            return type;
+        }
 
         public static Collider CheckCollision(Collider actual, Collider other)
         {
@@ -52,7 +55,7 @@ namespace Kinematics.Collision
 
             int getColliderType = other.GetColliderType();
 
-            if (actual.GetColliderType() == 0 && getColliderType== 0)
+            if (actual.GetColliderType() == 0 && getColliderType == 0)
             {
                 if (Vector3.Magnitude(actual._center - other._center) <= actualSphereComponent.GetRadius() + otherSphereComponent.GetRadius())
                 {
@@ -75,10 +78,10 @@ namespace Kinematics.Collision
             }
             else
             {
-                Vector3 actualMin = actualBoxComponent.GetMin();
-                Vector3 actualMax = actualBoxComponent.GetMax();
-                Vector3 otherMin = otherBoxComponent.GetMin();
-                Vector3 otherMax = otherBoxComponent.GetMax();
+                Vector3 actualMin = actualBoxComponent.Min;
+                Vector3 actualMax = actualBoxComponent.Max;
+                Vector3 otherMin = otherBoxComponent.Min;
+                Vector3 otherMax = otherBoxComponent.Max;
 
                 if (actualMin.X >= otherMin.X && actualMin.Y >= otherMin.Y && actualMin.Z >= otherMin.Z && actualMin.X <= otherMax.X && actualMin.Y <= otherMax.Y && actualMin.Z <= otherMax.Z)
                 {
@@ -141,7 +144,7 @@ namespace Kinematics.Collision
 
         public virtual PhysicsMaterial GetPhysicsMaterial()
         {
-            return material;
+            return physicsMaterial;
         }
     }
 }

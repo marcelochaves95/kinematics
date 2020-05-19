@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using Vector3 = Kinematics.MathModule.Vector3;
 
-namespace Kinematics.Collision
+namespace Kinematics.CollisionModule
 {
     [RequireComponent(typeof(Rigidbody))]
-    [AddComponentMenu("Kinematics/Collision/PhysicsMaterial")]
+    [AddComponentMenu("Kinematics/CollisionModule/PhysicsMaterial")]
     public class PhysicsMaterial : MonoBehaviour
     {
         [SerializeField]

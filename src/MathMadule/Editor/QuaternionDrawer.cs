@@ -1,12 +1,10 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-using Vector4 = Kinematics.MathModule.Vector4;
-
-namespace Kinematics.Editor
+namespace Kinematics.MathModule.Editor
 {
-    [CustomPropertyDrawer(typeof(MathModule.Vector4))]
-    public class Vector4Drawer : PropertyDrawer
+    [CustomPropertyDrawer(typeof(Quaternion))]
+    public class QuaternionDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

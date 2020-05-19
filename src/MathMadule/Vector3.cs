@@ -233,7 +233,7 @@ namespace Kinematics.MathModule
         /// Calculates the length of the vector
         /// </summary>
         /// <returns>The length of the vector</returns>
-        public static float Magnitude(Vector3 value) => Mathematics.Sqrt(Mathematics.Pow(value.X, 2) + Mathematics.Pow(value.Y, 2) + Mathematics.Pow(value.Z, 2));
+        public static float Magnitude(Vector3 value) => Math.Sqrt(Math.Pow(value.X, 2) + Math.Pow(value.Y, 2) + Math.Pow(value.Z, 2));
 
         /// <summary>
         /// Calculates the squared length of the vector
@@ -320,7 +320,7 @@ namespace Kinematics.MathModule
             float y = value1.Y - value2.Y;
             float z = value1.Z - value2.Z;
 
-            return Mathematics.Sqrt((x * x) + (y * y) + (z * z));
+            return Math.Sqrt((x * x) + (y * y) + (z * z));
         }
 
         /// <summary>
@@ -475,7 +475,7 @@ namespace Kinematics.MathModule
                 return Zero;
             else
             {
-                float cos2 = Mathematics.Sqrt(radicand);
+                float cos2 = Math.Sqrt(radicand);
                 return (index * vector) + ((cos2 - index * cos1) * normal);
             }
         }
