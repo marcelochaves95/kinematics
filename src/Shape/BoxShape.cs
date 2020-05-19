@@ -22,21 +22,21 @@ namespace Kinematics.Shape
             Vector3 center = bounds.center;
             Vector3 extents = bounds.extents;
 
-            float a = center.x - extents.x;
-            float b = center.x + extents.x;
-            float c = center.y - extents.y;
-            float d = center.y + extents.y;
-            float e = center.z - extents.z;
-            float f = center.z + extents.z;
+            float xMinor = center.x - extents.x;
+            float xMajor = center.x + extents.x;
+            float yMinor = center.y - extents.y;
+            float yMajor = center.y + extents.y;
+            float zMinor = center.z - extents.z;
+            float zMajor = center.z + extents.z;
 
-            frontTopLeft = new Vector3(a, d, e);
-            frontTopRight = new Vector3(b, d, e);
-            frontBottomLeft = new Vector3(a, c, e);
-            frontBottomRight = new Vector3(b, c, e);
-            backTopLeft = new Vector3(a, d, f);
-            backTopRight = new Vector3(b, d, f);
-            backBottomLeft = new Vector3(a, c, f);
-            backBottomRight = new Vector3(b, c, f);
+            frontTopLeft = new Vector3(xMinor, yMajor, zMinor);
+            frontTopRight = new Vector3(xMajor, yMajor, zMinor);
+            frontBottomLeft = new Vector3(xMinor, yMinor, zMinor);
+            frontBottomRight = new Vector3(xMajor, yMinor, zMinor);
+            backTopLeft = new Vector3(xMinor, yMajor, zMajor);
+            backTopRight = new Vector3(xMajor, yMajor, zMajor);
+            backBottomLeft = new Vector3(xMinor, yMinor, zMajor);
+            backBottomRight = new Vector3(xMajor, yMinor, zMajor);
 
             frontTopLeft = transform.TransformPoint(frontTopLeft);
             frontTopRight = transform.TransformPoint(frontTopRight);

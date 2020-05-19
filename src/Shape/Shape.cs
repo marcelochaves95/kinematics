@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Kinematics.Shape
 {
-    public abstract class Shape : MonoBehaviour
+    public abstract class Shape : MonoBehaviour, IDisposable
     {
         protected readonly Color color = Color.green;
 
@@ -14,5 +15,10 @@ namespace Kinematics.Shape
 
         protected abstract void CalculatePosition();
         protected abstract void DrawCollider();
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
     }
 }
