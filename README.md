@@ -1,8 +1,8 @@
 # Kinematics Physics Engine
 
-| **`Documentation`** | **`Issues`** | **`Contributors`** |
-| --- | --- | --- |
-| [![Documentation](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/marcelochaves95/Kinematics/wiki) | [![Issues](https://img.shields.io/github/issues/marcelochaves95/Kinematics.svg)](https://github.com/marcelochaves95/Kinematics/issues) | [![Contributors](https://img.shields.io/github/contributors/marcelochaves95/Kinematics.svg)](https://github.com/marcelochaves95/Kinematics/graphs/contributors)
+| **`Documentation`** |
+| --- |
+| [![Documentation](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/marcelochaves95/Kinematics/wiki) | 
 
 ## Basics
 - Linear Physics
@@ -22,7 +22,7 @@
    - - [x] Cube
 
 ## Utils
-   - - [x] Mathematics
+   - - [x] Math
    
 ## Extras
    - - [ ] Rig (Hook)
