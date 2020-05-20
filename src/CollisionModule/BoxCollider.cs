@@ -3,7 +3,7 @@ using Vector3 = Kinematics.MathModule.Vector3;
 
 namespace Kinematics.CollisionModule
 {
-    [AddComponentMenu("Kinematics/Collision/BoxCollider")]
+    [AddComponentMenu("Kinematics/CollisionModule/BoxCollider")]
     public partial class BoxCollider : Collider
     {
         [Compact]
