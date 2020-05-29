@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using SerializeField = UnityEngine.SerializeField;
 
-namespace Kinematics.MathModule
+namespace Kinematics.Mathematics
 {
     /// <summary>
     /// Vector3 is an utility class for manipulating 3 dimensional

@@ -1,4 +1,4 @@
-namespace Kinematics.MathModule
+namespace Kinematics.Mathematics
 {
     /// <summary>
     /// A collection of common mathematics functions

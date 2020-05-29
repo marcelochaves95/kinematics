@@ -1,33 +1,33 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using Vector3 = Kinematics.MathModule.Vector3;
+using Vector3 = Kinematics.Mathematics.Vector3;
 
-namespace Kinematics.CollisionModule
+namespace Kinematics.Collision
 {
     [RequireComponent(typeof(Rigidbody))]
     public abstract class Collider : MonoBehaviour
     {
         protected int type;
 
-        public Vector3 center;
-        protected Vector3 _center;
+        public Vector3 Center;
+        protected Vector3 center;
         private Vector3 position;
 
-        public PhysicsMaterial physicsMaterial;
+        public PhysicsMaterial PhysicsMaterial;
 
-        public static readonly List<Collider> colliders = new List<Collider>();
+        public static readonly List<Collider> Colliders = new List<Collider>();
 
         protected virtual void Start()
         {
-            UnityEngine.Vector3 positionRef = transform.position;
-            position = new Vector3(positionRef.x, positionRef.y, positionRef.z);
-            _center = position + center;
+            Vector3 positionRef = transform.position;
+            position = new Vector3(positionRef.X, positionRef.Y, positionRef.Z);
+            center = position + Center;
         }
 
         protected virtual void FixedUpdate()
         {
             position = transform.position;
-            _center = position + center;
+            center = position + Center;
         }
 
         private int GetColliderType()
@@ -57,7 +57,7 @@ namespace Kinematics.CollisionModule
 
             if (actual.GetColliderType() == 0 && getColliderType == 0)
             {
-                if (Vector3.Magnitude(actual._center - other._center) <= actualSphereComponent.GetRadius() + otherSphereComponent.GetRadius())
+                if (Vector3.Magnitude(actual.center - other.center) <= actualSphereComponent.GetRadius() + otherSphereComponent.GetRadius())
                 {
                     return other;
                 }
@@ -99,7 +99,7 @@ namespace Kinematics.CollisionModule
             return null;
         }
 
-        public Vector3 GetCenter() => _center;
+        public Vector3 GetCenter() => center;
 
         private static Vector3 Cut(Vector3 distance, Vector3 min, Vector3 max)
         {
@@ -144,7 +144,7 @@ namespace Kinematics.CollisionModule
 
         public virtual PhysicsMaterial GetPhysicsMaterial()
         {
-            return physicsMaterial;
+            return PhysicsMaterial;
         }
     }
 }

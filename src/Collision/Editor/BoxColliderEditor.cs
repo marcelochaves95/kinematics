@@ -1,4 +1,4 @@
-﻿namespace Kinematics.CollisionModule.Editor
+﻿namespace Kinematics.Collision.Editor
 {
     public class BoxColliderEditor : UnityEditor.Editor
     {

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using Vector3 = Kinematics.MathModule.Vector3;
+using Vector3 = Kinematics.Mathematics.Vector3;
 
-namespace Kinematics.CollisionModule
+namespace Kinematics.Collision
 {
-    [AddComponentMenu("Kinematics/CollisionModule/BoxCollider")]
+    [AddComponentMenu("Kinematics/Collision/BoxCollider")]
     public partial class BoxCollider : Collider
     {
         [Compact]
@@ -20,7 +20,7 @@ namespace Kinematics.CollisionModule
             base.Start();
 
             sizeBox = transform.localScale / 2 * Size.X;
-            colliders.Add(this);
+            Colliders.Add(this);
             type = 1;
         }
 
@@ -28,8 +28,8 @@ namespace Kinematics.CollisionModule
         {
             base.FixedUpdate();
 
-            Min = _center - sizeBox;
-            Max = _center + sizeBox;
+            Min = center - sizeBox;
+            Max = center + sizeBox;
         }
     }
 }

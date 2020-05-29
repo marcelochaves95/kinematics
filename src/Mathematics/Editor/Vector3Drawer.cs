@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Kinematics.MathModule.Editor
+namespace Kinematics.Mathematics.Editor
 {
     [CustomPropertyDrawer(typeof(Vector3))]
     public class Vector3Drawer : PropertyDrawer

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Kinematics.CollisionModule
+namespace Kinematics.Collision
 {
     [ExecuteInEditMode]
     [RequireComponent(typeof(MeshFilter))]

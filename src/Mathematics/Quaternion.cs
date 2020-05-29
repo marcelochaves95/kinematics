@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Kinematics.MathModule
+namespace Kinematics.Mathematics
 {
     /// <summary>
     /// Represents a four dimensional mathematical quaternion

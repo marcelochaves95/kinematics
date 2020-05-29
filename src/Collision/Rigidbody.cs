@@ -1,56 +1,46 @@
-﻿using Kinematics.MathModule;
-using UnityEngine;
-using Vector3 = Kinematics.MathModule.Vector3;
+﻿using UnityEngine;
+using Vector3 = Kinematics.Mathematics.Vector3;
 
-namespace Kinematics.CollisionModule
+namespace Kinematics.Collision
 {
-    [AddComponentMenu("Kinematics/CollisionModule/RigidBody")]
+    [AddComponentMenu("Kinematics/Collision/RigidBody")]
     public class Rigidbody : MonoBehaviour
     {
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private float mass = 0.1f;
-        public float Mass
-        {
-            get => mass;
-            set
-            {
-                if (Math.Abs(mass - 0.1f) > Math.Epsilon)
-                {
-                    mass = value;
-                }
-            }
-        }
-
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private float drag;
-
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private bool useGravity;
-
-        [SerializeField]
-        private Vector3 gravity = new Vector3(0.0f, -9.81f, 0.0f);
-
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private bool isKinematic;
 
         [Header("Freeze Position")]
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private bool x;
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private bool y;
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private bool z;
 
-        private Vector3 velocity = Vector3.Zero;
-        private Vector3 position = Vector3.Zero;
+        [SerializeField, HideInInspector]
+        public Vector3 velocity = Vector3.Zero;
+        [SerializeField, HideInInspector]
+        public Vector3 position = Vector3.Zero;
+        [SerializeField, HideInInspector]
+        public Vector3 rotation = Vector3.Zero;
 
+        [SerializeField]
+        private RigidbodyConstraints constraints;
+        
         private Collider collider;
+        private Vector3 gravity = new Vector3(0.0f, -9.81f, 0.0f);
 
         #region Unity Properties
         private float deltaTime;
         private float fixedDeltaTime;
 
-        private UnityEngine.Vector3 pos = Vector3.Zero;
+        private Vector3 pos = Vector3.Zero;
         #endregion
 
         private void Start()
@@ -77,7 +67,7 @@ namespace Kinematics.CollisionModule
             {
                 if (collider.GetPhysicsMaterial() != null)
                 {
-                    velocity = collider.GetPhysicsMaterial().CalculateFriction(velocity, Vector3.Zero, Vector3.Magnitude(gravity) * Mass, Mass);
+                    velocity = collider.GetPhysicsMaterial().CalculateFriction(velocity, Vector3.Zero, Vector3.Magnitude(gravity) * mass, mass);
                 }
 
                 if (CheckCollision(Vector3.Up * velocity.Y * deltaTime).GetCenter().Y + CheckCollision(Vector3.Up * velocity.Y * deltaTime).GetSize().Y <= collider.GetCenter().Y)
@@ -95,7 +85,7 @@ namespace Kinematics.CollisionModule
         {
             if (!isKinematic)
             {
-                velocity += ((force / Mass) + gravity * (useGravity ? 1 : 0)) * fixedDeltaTime;
+                velocity += (force / mass + gravity * (useGravity ? 1 : 0)) * fixedDeltaTime;
             }
         }
 
@@ -108,18 +98,18 @@ namespace Kinematics.CollisionModule
         {
             if (collider != null)
             {
-                Vector3 aux = collider.center;
-                collider.center = position;
+                Vector3 aux = collider.Center;
+                collider.Center = position;
 
-                for (int i = 0; i < Collider.colliders.Count; i++)
+                foreach (Collider collider in Collider.Colliders)
                 {
-                    if (Collider.CheckCollision(collider, Collider.colliders[i]) != null)
+                    if (Collider.CheckCollision(collider, collider) != null)
                     {
-                        return Collider.CheckCollision(collider, Collider.colliders[i]);
+                        return Collider.CheckCollision(collider, collider);
                     }
                 }
 
-                collider.center = aux;
+                collider.Center = aux;
             }
 
             return null;
