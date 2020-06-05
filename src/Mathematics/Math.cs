@@ -3,7 +3,7 @@ namespace Kinematics.Mathematics
     /// <summary>
     /// A collection of common mathematics functions
     /// </summary>
-    public class Math
+    public static class Math
     {
         /// <summary>
         /// The infamous ''3.14159265358979...'' value (RO)
@@ -120,7 +120,7 @@ namespace Kinematics.Mathematics
         }
 
         /// <summary>
-        /// 
+        /// Returns the smaller of two numbers.
         /// </summary>
         /// <param name="value1">First value</param>
         /// <param name="value2">Second value</param>
@@ -131,7 +131,7 @@ namespace Kinematics.Mathematics
         }
 
         /// <summary>
-        /// 
+        /// Returns the smaller of two numbers.
         /// </summary>
         /// <param name="value1">First value</param>
         /// <param name="value2">Second value</param>
@@ -142,7 +142,7 @@ namespace Kinematics.Mathematics
         }
 
         /// <summary>
-        /// 
+        /// Returns the larger of two specified numbers.
         /// </summary>
         /// <param name="value1">First value</param>
         /// <param name="value2">Second value</param>
@@ -153,7 +153,7 @@ namespace Kinematics.Mathematics
         }
 
         /// <summary>
-        /// 
+        /// Returns the larger of two specified numbers.
         /// </summary>
         /// <param name="value1">First value</param>
         /// <param name="value2">Second value</param>
