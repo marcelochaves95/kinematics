@@ -8,6 +8,7 @@ namespace Kinematics.Mathematics
     /// Vector2f is an utility class for manipulating 2 dimensional
     /// vectors with float components
     /// </summary>
+    [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector2 : IEquatable<Vector2>
     {
@@ -112,7 +113,7 @@ namespace Kinematics.Mathematics
         }
         #endregion
 
-        #region Overloads
+        #region Operators
         /// <summary>
         /// Operator - overload ; returns the opposite of a vector
         /// </summary>
@@ -182,7 +183,7 @@ namespace Kinematics.Mathematics
         /// Performs an explicit conversion from Vector3 to Vector4D
         /// </summary>
         /// <param name="value">The value</param>
-        /// <returns>The result of the conversion./returns>
+        /// <returns>The result of the conversion.</returns>
         public static explicit operator Vector3(Vector2 value)
         {
             return new Vector3(value, 0f);
