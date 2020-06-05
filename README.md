@@ -6,13 +6,11 @@
 
 ## Basics
 - Linear Physics
-   - - [x] Vector
+   - - [x] Vectors
    - - [x] Uniformly Accelerated Rectilinear Motion
    - - [x] Forces
 
 - Angular Physics
-   - - [x] Matrix
-   - - [x] Quaternion
    - - [x] Rotation
    - - [x] Force (Torque)
 
