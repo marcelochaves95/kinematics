@@ -1,4 +1,4 @@
-![Kinematics logo](assets/logo.png)
+<p align="left"><img src="assets/logo.png" width="150" title="Kinematics"></p>
 
 | **`Documentation`** |
 | --- |
