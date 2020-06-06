@@ -16,8 +16,8 @@
 
 - Collision
    - - [x] Point
+   - - [x] Box
    - - [x] Sphere
-   - - [x] Cube
 
 ## Utils
    - - [x] Math
