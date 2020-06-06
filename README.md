@@ -1,4 +1,4 @@
-# Kinematics Physics Engine
+![Kinematics logo](assets/logo.png)
 
 | **`Documentation`** |
 | --- |
