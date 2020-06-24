@@ -1,9 +1,9 @@
-namespace Kinematics.Mathematics
+namespace Kinematics.Math
 {
     /// <summary>
     /// A collection of common mathematics functions
     /// </summary>
-    public static class Math
+    public static class Mathf
     {
         /// <summary>
         /// The infamous ''3.14159265358979...'' value (RO)

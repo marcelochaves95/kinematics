@@ -1,14 +1,9 @@
-﻿using UnityEngine;
-using Vector3 = Kinematics.Mathematics.Vector3;
+﻿using Kinematics.Math;
 
 namespace Kinematics.Collision
 {
-    [AddComponentMenu("Kinematics/Collision/BoxCollider")]
-    public partial class BoxCollider : Collider
+    public class BoxCollider : Collider
     {
-        [Compact]
-        public Vector3 vec3;
-        [SerializeField]
         private bool drawShape = true;
         private Vector3 sizeBox;
         public Vector3 Min { get; private set; }
@@ -19,7 +14,7 @@ namespace Kinematics.Collision
         {
             base.Start();
 
-            sizeBox = transform.localScale / 2 * Size.X;
+            //sizeBox = transform.localScale / 2 * Size.X;
             Colliders.Add(this);
             type = 1;
         }

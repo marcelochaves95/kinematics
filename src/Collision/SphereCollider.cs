@@ -1,9 +1,7 @@
-﻿using UnityEngine;
-using Vector3 = Kinematics.Mathematics.Vector3;
+﻿using Kinematics.Math;
 
 namespace Kinematics.Collision
 {
-    [AddComponentMenu("Kinematics/Collision/SphereCollider")]
     public class SphereCollider : Collider
     {
         public float Radius;
@@ -13,7 +11,7 @@ namespace Kinematics.Collision
         {
             base.Start();
 
-            radius = transform.localScale.x / 2 * Radius;
+            //radius = transform.localScale.x / 2 * Radius;
             Colliders.Add(this);
             type = 0;
         }

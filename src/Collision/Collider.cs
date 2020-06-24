@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using Vector3 = Kinematics.Mathematics.Vector3;
+﻿using System;
+using System.Collections.Generic;
+using Kinematics.Math;
 
 namespace Kinematics.Collision
 {
-    [RequireComponent(typeof(Rigidbody))]
-    public abstract class Collider : MonoBehaviour
+    public abstract class Collider
     {
         protected int type;
 
@@ -19,14 +18,14 @@ namespace Kinematics.Collision
 
         protected virtual void Start()
         {
-            Vector3 positionRef = transform.position;
-            position = new Vector3(positionRef.X, positionRef.Y, positionRef.Z);
+            /*Vector3 positionRef = transform.position;
+            position = new Vector3(positionRef.X, positionRef.Y, positionRef.Z);*/
             center = position + Center;
         }
 
         protected virtual void FixedUpdate()
         {
-            position = transform.position;
+            //position = transform.position;
             center = position + Center;
         }
 
@@ -42,7 +41,7 @@ namespace Kinematics.Collision
                 return null;
             }
 
-            SphereCollider actualSphereComponent = actual.GetComponent<SphereCollider>();
+            /*SphereCollider actualSphereComponent = actual.GetComponent<SphereCollider>();
             BoxCollider actualBoxComponent = actual.GetComponent<BoxCollider>();
             SphereCollider otherSphereComponent = other.GetComponent<SphereCollider>();
             BoxCollider otherBoxComponent = actual.GetComponent<BoxCollider>();
@@ -85,16 +84,16 @@ namespace Kinematics.Collision
 
                 if (actualMin.X >= otherMin.X && actualMin.Y >= otherMin.Y && actualMin.Z >= otherMin.Z && actualMin.X <= otherMax.X && actualMin.Y <= otherMax.Y && actualMin.Z <= otherMax.Z)
                 {
-                    print("Collision of type Box with Box:" + actual.gameObject.name + " " + other.gameObject.name);
+                    Console.WriteLine("Collision of type Box with Box:" + actual.gameObject.name + " " + other.gameObject.name);
                     return other;
                 }
 
                 if (actualMax.X >= otherMin.X && actualMax.Y >= otherMin.Y && actualMax.Z >= otherMax.Z && actualMax.X <= otherMax.X && actualMax.Y <= otherMax.Y && actualMax.Z <= otherMax.Z)
                 {
-                    print("Collision of type Box with Box:" + actual.gameObject.name + " " + other.gameObject.name);
+                    Console.WriteLine("Collision of type Box with Box:" + actual.gameObject.name + " " + other.gameObject.name);
                     return other;
                 }
-            }
+            }*/
 
             return null;
         }
@@ -139,7 +138,7 @@ namespace Kinematics.Collision
 
         public virtual Vector3 GetSize()
         {
-            return transform.localScale;
+            return new Vector3(); //transform.localScale;
         }
 
         public virtual PhysicsMaterial GetPhysicsMaterial()

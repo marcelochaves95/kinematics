@@ -1,38 +1,22 @@
-﻿using UnityEngine;
-using Vector3 = Kinematics.Mathematics.Vector3;
+﻿using Kinematics.Math;
 
 namespace Kinematics.Collision
 {
-    [AddComponentMenu("Kinematics/Collision/RigidBody")]
-    public class Rigidbody : MonoBehaviour
+    public class Rigidbody
     {
-        [SerializeField, HideInInspector]
         private float mass = 0.1f;
-        [SerializeField, HideInInspector]
         private float drag;
-        [SerializeField, HideInInspector]
         private bool useGravity;
-        [SerializeField, HideInInspector]
         private bool isKinematic;
 
-        [Header("Freeze Position")]
-        [SerializeField, HideInInspector]
         private bool x;
-        [SerializeField, HideInInspector]
         private bool y;
-        [SerializeField, HideInInspector]
         private bool z;
 
-        [SerializeField, HideInInspector]
         public Vector3 velocity = Vector3.Zero;
-        [SerializeField, HideInInspector]
         public Vector3 position = Vector3.Zero;
-        [SerializeField, HideInInspector]
         public Vector3 rotation = Vector3.Zero;
 
-        [SerializeField]
-        private RigidbodyConstraints constraints;
-        
         private Collider collider;
         private Vector3 gravity = new Vector3(0.0f, -9.81f, 0.0f);
 
@@ -45,11 +29,11 @@ namespace Kinematics.Collision
 
         private void Start()
         {
-            deltaTime = Time.deltaTime;
+            /*deltaTime = Time.deltaTime;
             fixedDeltaTime = Time.fixedDeltaTime;
 
             collider = GetComponent<Collider>();
-            position.X = transform.position.x;
+            position.X = transform.position.x;*/
         }
 
         private void Update()
@@ -78,7 +62,7 @@ namespace Kinematics.Collision
 
             position += velocity * deltaTime;
             pos = position;
-            transform.position = pos;
+            //transform.position = pos;
         }
 
         public void AddForce(Vector3 force)

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using SerializeField = UnityEngine.SerializeField;
 
-namespace Kinematics.Mathematics
+namespace Kinematics.Math
 {
     /// <summary>
     /// Vector3 is an utility class for manipulating 3 dimensional
     /// vectors with float components
     /// </summary>
-    [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector3 : IEquatable<Vector3>
     {
         #region Properties
         /// <summary>X (horizontal) component of the vector</summary>
-        [SerializeField]
         private float _x;
         public float X
         {
@@ -23,7 +20,6 @@ namespace Kinematics.Mathematics
         }
 
         /// <summary>Y (vertical) component of the vector</summary>
-        [SerializeField]
         private float _y;
         public float Y
         {
@@ -32,7 +28,6 @@ namespace Kinematics.Mathematics
         }
 
         /// <summary>Z (depth) component of the vector</summary>
-        [SerializeField]
         private float _z;
         public float Z
         {
@@ -298,7 +293,7 @@ namespace Kinematics.Mathematics
         /// <returns>The length of the vector</returns>
         public static float Magnitude(Vector3 v)
         {
-            return Math.Sqrt(Math.Pow(v._x, 2) + Math.Pow(v._y, 2) + Math.Pow(v._z, 2));
+            return Mathf.Sqrt(Mathf.Pow(v._x, 2) + Mathf.Pow(v._y, 2) + Mathf.Pow(v._z, 2));
         }
 
         /// <summary>
@@ -385,7 +380,7 @@ namespace Kinematics.Mathematics
             float y = v1._y - v2._y;
             float z = v1._z - v2._z;
 
-            return Math.Sqrt(x * x + y * y + z * z);
+            return Mathf.Sqrt(x * x + y * y + z * z);
         }
 
         /// <summary>
@@ -533,7 +528,7 @@ namespace Kinematics.Mathematics
                 return Zero;
             }
 
-            float cos2 = Math.Sqrt(radians);
+            float cos2 = Mathf.Sqrt(radians);
             return i * v + (cos2 - i * cos1) * n;
         }
 
@@ -554,17 +549,5 @@ namespace Kinematics.Mathematics
         {
             return $"[Vector3] X({_x}) Y({_y}) Z({_z})";
         }
-
-        #region Kinematics/Unity
-        public static implicit operator Vector3(UnityEngine.Vector3 v)
-        {
-            return new Vector3(v.x, v.y, v.z);
-        }
-
-        public static implicit operator UnityEngine.Vector3(Vector3 v)
-        {
-            return new UnityEngine.Vector3(v._x, v._y, v._z);
-        }
-        #endregion
     }
 }

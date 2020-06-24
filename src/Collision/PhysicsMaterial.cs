@@ -1,15 +1,10 @@
-﻿using UnityEngine;
-using Vector3 = Kinematics.Mathematics.Vector3;
+﻿using Kinematics.Math;
 
 namespace Kinematics.Collision
 {
-    [RequireComponent(typeof(Rigidbody))]
-    [AddComponentMenu("Kinematics/Collision/PhysicsMaterial")]
-    public class PhysicsMaterial : MonoBehaviour
+    public class PhysicsMaterial
     {
-        [SerializeField]
         private float ue = 0.3f;
-        [SerializeField]
         private float uc = 0.3f;
 
         private Vector3 fe;
@@ -17,7 +12,7 @@ namespace Kinematics.Collision
 
         public Vector3 CalculateFriction(Vector3 velocity, Vector3 force, float normal, float mass)
         {
-            float time = Time.fixedDeltaTime;
+            //float time = Time.fixedDeltaTime;
             Vector3 acceleration;
 
             fe = ue * -Vector3.Normalize(velocity) * normal;
@@ -34,7 +29,7 @@ namespace Kinematics.Collision
 
             if ((Vector3.Magnitude(force) - Vector3.Magnitude(fe)) > 0f || (Vector3.Magnitude(velocity) > 0f))
             {
-                velocity += acceleration * time;
+                //velocity += acceleration * time;
             }
             else
             {

@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using SerializeField = UnityEngine.SerializeField;
 
-namespace Kinematics.Mathematics
+namespace Kinematics.Math
 {
     /// <summary>
     /// Vector2f is an utility class for manipulating 2 dimensional
     /// vectors with float components
     /// </summary>
-    [Serializable]
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector2 : IEquatable<Vector2>
     {
         #region Properties
         /// <summary>X (horizontal) component of the vector</summary>
-        [SerializeField]
         private float _x;
         public float X
         {
@@ -23,7 +20,6 @@ namespace Kinematics.Mathematics
         }
 
         /// <summary>Y (vertical) component of the vector</summary>
-        [SerializeField]
         private float _y;
         public float Y
         {
@@ -249,17 +245,5 @@ namespace Kinematics.Mathematics
         {
             return $"[Vector2] X({_x}) Y({_y})";
         }
-
-        #region Kinematics/Unity
-        public static implicit operator Vector2(UnityEngine.Vector2 v)
-        {
-            return new Vector2(v.x, v.y);
-        }
-
-        public static implicit operator UnityEngine.Vector2(Vector2 v)
-        {
-            return new UnityEngine.Vector2(v._x, v._y);
-        }
-        #endregion
     }
 }
