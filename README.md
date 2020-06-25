@@ -1,4 +1,4 @@
-<p align="left"><img src="assets/logo.png" width="150" title="Kinematics"></p>
+<p align="left"><img src="images/logo.png" width="150" title="Kinematics"></p>
 
 | **`Documentation`** |
 | --- |
