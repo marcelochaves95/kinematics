@@ -15,9 +15,9 @@
    - - [x] Force (Torque)
 
 - Collision
-   - - [x] Point
-   - - [x] Box
-   - - [x] Sphere
+   - - [ ] Point
+   - - [ ] Box
+   - - [ ] Sphere
 
 ## Utils
    - - [x] Math
