@@ -4,11 +4,11 @@ namespace Kinematics.CollisionModule
 {
     public class Spring
     {
-        public float damping;
-        public float k;
-        public float d;
-        public PointMass pointmass_a;
-        public PointMass pointmass_b;
+        public float Damping;
+        public float K;
+        public float D;
+        public PointMass PointMassA;
+        public PointMass PointMassB;
 
         public Spring(PointMass pointMassA, PointMass pointMassB, float k, float damping) : this(pointMassA, pointMassB, k, damping, 0)
         {
@@ -17,28 +17,27 @@ namespace Kinematics.CollisionModule
 
         public Spring(PointMass pointMassA, PointMass pointMassB, float k, float damping, float length)
         {
-            pointmass_a = pointMassA;
-            pointmass_b = pointMassB;
-            d = length;
-            this.k = k;
-            this.damping = damping;
+            PointMassA = pointMassA;
+            PointMassB = pointMassB;
+            D = length;
+            K = k;
+            Damping = damping;
         }
 
         public override string ToString()
         {
-            return $"{{a:[{pointmass_a}] b:[{pointmass_b}] length:{d}}}";
+            return $"{{a:[{PointMassA}] b:[{PointMassB}] length:{D}}}";
         }
 
         public void Reset()
         {
-            d = (pointmass_a.position - pointmass_b.position).Length();
+            D = (PointMassA.position - PointMassB.position).Length();
         }
-
 
         public static void SpringForce(ref Spring spring, out Vector2 forceOut)
         {
-            SpringForce(ref spring.pointmass_a.position, ref spring.pointmass_a.velocity,
-                ref spring.pointmass_b.position, ref spring.pointmass_b.velocity, spring.d, spring.k, spring.damping, out forceOut);
+            SpringForce(ref spring.PointMassA.position, ref spring.PointMassA.velocity,
+                ref spring.PointMassB.position, ref spring.PointMassB.velocity, spring.D, spring.K, spring.Damping, out forceOut);
         }
 
         public static void SpringForce(ref Vector2 posA, ref Vector2 velA, ref Vector2 posB, ref Vector2 velB, float springD, float springK, float damping, out Vector2 forceOut)

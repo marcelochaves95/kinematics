@@ -35,14 +35,14 @@ namespace Kinematics.CollisionModule
 
         public void Add(Spring spring)
         {
-            if (!PointMassList.Contains(spring.pointmass_a))
+            if (!PointMassList.Contains(spring.PointMassA))
             {
-                spring_pointmass_list.Add(spring.pointmass_a);
+                spring_pointmass_list.Add(spring.PointMassA);
             }
 
-            if (!PointMassList.Contains(spring.pointmass_b))
+            if (!PointMassList.Contains(spring.PointMassB))
             {
-                spring_pointmass_list.Add(spring.pointmass_b);
+                spring_pointmass_list.Add(spring.PointMassB);
             }
 
             spring_list.Add(spring);
@@ -56,11 +56,11 @@ namespace Kinematics.CollisionModule
                 Spring s = spring_list[i];
                 Spring.SpringForce(ref s, out force);
 
-                s.pointmass_a.force.X += force.X;
-                s.pointmass_a.force.Y += force.Y;
+                s.PointMassA.force.X += force.X;
+                s.PointMassA.force.Y += force.Y;
    
-                s.pointmass_b.force.X -= force.X;
-                s.pointmass_b.force.Y -= force.Y;
+                s.PointMassB.force.X -= force.X;
+                s.PointMassB.force.Y -= force.Y;
             }
 
             if (is_constrained)

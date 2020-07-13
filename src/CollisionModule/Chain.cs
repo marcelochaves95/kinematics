@@ -39,11 +39,11 @@ namespace Kinematics.CollisionModule
                 Spring s = spring_list[i];
                 Spring.SpringForce(ref s, out Vector2 force);
 
-                s.pointmass_a.force.X += force.X;
-                s.pointmass_a.force.Y += force.Y;
+                s.PointMassA.force.X += force.X;
+                s.PointMassA.force.Y += force.Y;
 
-                s.pointmass_b.force.X -= force.X;
-                s.pointmass_b.force.Y -= force.Y;
+                s.PointMassB.force.X -= force.X;
+                s.PointMassB.force.Y -= force.Y;
             }
 
             for (int i = 1; i < pointmass_list.Count-1; i++)
