@@ -4,25 +4,25 @@ namespace Kinematics.CollisionModule
 {
     public class PressureBody : SpringBody
     {
-        internal float volume;
-        internal float pressure;
-        internal Vector2[] normal_list;
-        internal float[] edgelength_list;
+        private float _volume;
+        private readonly float _pressure;
+        private readonly Vector2[] _normalList;
+        private readonly float[] _edgeLengthList;
 
 
         public PressureBody(Shape s, float mass, float gasPressure, float edgeSpringK, float edgeSpringDamp, float shapeSpringK, float shapeSpringDamp)
             : base(s, mass, edgeSpringK, edgeSpringDamp, shapeSpringK, shapeSpringDamp)
         {
-            pressure = gasPressure;
-            normal_list = new Vector2[Count];
-            edgelength_list = new float[Count];
+            _pressure = gasPressure;
+            _normalList = new Vector2[Count];
+            _edgeLengthList = new float[Count];
         }
 
         public override void ApplyInternalForces(double elapsed)
         {
             base.ApplyInternalForces(elapsed);
 
-            volume = 0f;
+            _volume = 0f;
 
             for (int i = 0; i < Count; i++)
             {
@@ -58,26 +58,26 @@ namespace Kinematics.CollisionModule
 
                 float edgeL = Mathf.Sqrt((edge2N.X * edge2N.X) + (edge2N.Y * edge2N.Y));
 
-                normal_list[i] = norm;
-                edgelength_list[i] = edgeL;
+                _normalList[i] = norm;
+                _edgeLengthList[i] = edgeL;
 
                 float xDistance = Mathf.Abs(PointMassList[i].Position.X - PointMassList[next].Position.X);
                 float volumeProduct = xDistance * Mathf.Abs(norm.X) * edgeL;
-                volume += 0.5f * volumeProduct;
+                _volume += 0.5f * volumeProduct;
             }
 
-            float invVolume = 1f / volume;
+            float invVolume = 1f / _volume;
 
             for (int i = 0; i < Count; i++)
             {
                 int j = (i < Count - 1) ? i + 1 : 0;
 
-                float pressureV = (invVolume * edgelength_list[i] * pressure);
-                PointMassList[i].Force.X += normal_list[i].X * pressureV;
-                PointMassList[i].Force.Y += normal_list[i].Y * pressureV;
+                float pressureV = (invVolume * _edgeLengthList[i] * _pressure);
+                PointMassList[i].Force.X += _normalList[i].X * pressureV;
+                PointMassList[i].Force.Y += _normalList[i].Y * pressureV;
                                   
-                PointMassList[j].Force.X += normal_list[j].X * pressureV;
-                PointMassList[j].Force.Y += normal_list[j].Y * pressureV;
+                PointMassList[j].Force.X += _normalList[j].X * pressureV;
+                PointMassList[j].Force.Y += _normalList[j].Y * pressureV;
             }
         }
     }
