@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Kinematics.MathModule
+namespace Kinematics.Common
 {
     /// <summary>
     /// Vector2f is an utility class for manipulating 2 dimensional

@@ -1,4 +1,4 @@
-namespace Kinematics.CollisionModule
+namespace Kinematics.Collision
 {
     public class Bitmask
     {

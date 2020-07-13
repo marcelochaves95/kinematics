@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Kinematics.MathModule;
+using Kinematics.Common;
 
-namespace Kinematics.CollisionModule
+namespace Kinematics.Collision
 {
     public class Shape
     {
