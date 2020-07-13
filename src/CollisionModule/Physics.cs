@@ -6,77 +6,77 @@ namespace Kinematics.CollisionModule
 {
     public class Physics
     {
-        private static Random rand = new Random();
-        public List<Chain> chain_list;
-        public List<Body> body_list;
-        public List<CollisionInfo> collision_list;
-        public int penetration_count;
-        public float penetration_threshold = 0.015f;
-        public float friction = 1.9f;
-        public float elasticity = 1.5f;
+        private static Random _random = new Random();
+        public List<Chain> ChainList;
+        public List<Body> BodyList;
+        public List<CollisionInfo> CollisionList;
+        public int PenetrationCount;
+        public float PenetrationThreshold = 0.015f;
+        public float Friction = 1.9f;
+        public float Elasticity = 1.5f;
 
-        public AxisAlignedBoundingBox aabb;
-        public Vector2 size;
-        public Vector2 cell;
-        private bool initialized;
+        public AxisAlignedBoundingBox AABB;
+        public Vector2 Size;
+        public Vector2 Cell;
+        private readonly bool _initialized;
 
-        public Action<Body, Body> on_aabb_collision;
-        public Action<Body, Body, CollisionInfo> on_collision;
-        public Action<float, Body, Body> on_penetration;
+        public Action<Body, Body> OnAABBCollision;
+        public Action<Body, Body, CollisionInfo> OnCollision;
+        public Action<float, Body, Body> OnPenetration;
 
         public Physics()
         {
-            chain_list = new List<Chain>();
-            body_list = new List<Body>();
-            collision_list = new List<CollisionInfo>();
-            initialized = false;
+            ChainList = new List<Chain>();
+            BodyList = new List<Body>();
+            CollisionList = new List<CollisionInfo>();
+            _initialized = false;
         }
 
         public void Add(Chain chain)
         {
-            if (!chain_list.Contains(chain))
+            if (!ChainList.Contains(chain))
             {
-                chain_list.Add(chain);
+                ChainList.Add(chain);
             }
         }
 
         public void Remove(Chain chain)
         {
-            if (chain_list.Contains(chain))
+            if (ChainList.Contains(chain))
             {
-                chain_list.Remove(chain);
+                ChainList.Remove(chain);
             }
         }
 
         public void Add(Body body)
         {
-            if (!body_list.Contains(body))
+            if (!BodyList.Contains(body))
             {
-                body_list.Add(body);
+                BodyList.Add(body);
             }
         }
 
         public void Remove(Body body)
         {
-            if (body_list.Contains(body))
+            if (BodyList.Contains(body))
             {
-                body_list.Remove(body);
+                BodyList.Remove(body);
             }
         }
 
         public void SetWorldLimits(Vector2 min, Vector2 max)
         {
-            aabb = new AxisAlignedBoundingBox(ref min, ref max);
-            size = max - min;
-            cell = size / 32;
+            AABB = new AxisAlignedBoundingBox(ref min, ref max);
+            Size = max - min;
+            Cell = Size / 32;
         }
 
         public void UpdateBitmask(Body body)
         {
             AxisAlignedBoundingBox box = body.AABB;
 
-            int minX = (int) Mathf.Floor((box.min.X - aabb.min.X) / cell.X);
-            int maxX = (int) Mathf.Floor((box.max.X - aabb.min.X) / cell.X);
+            int minX = (int) Mathf.Floor((box.min.X - AABB.min.X) / Cell.X);
+            int maxX = (int) Mathf.Floor((box.max.X - AABB.min.X) / Cell.X);
 
             if (minX < 0)
             {
@@ -94,8 +94,8 @@ namespace Kinematics.CollisionModule
                 maxX = 32;
             }
 
-            int minY = (int) Mathf.Floor((box.min.Y - aabb.min.Y) / cell.Y);
-            int maxY = (int) Mathf.Floor((box.max.Y - aabb.min.Y) / cell.Y);
+            int minY = (int) Mathf.Floor((box.min.Y - AABB.min.Y) / Cell.Y);
+            int maxY = (int) Mathf.Floor((box.max.Y - AABB.min.Y) / Cell.Y);
 
             if (minY < 0)
             {
@@ -128,9 +128,9 @@ namespace Kinematics.CollisionModule
 
         public bool IsPointInsideAnyBody(Vector2 point)
         {
-            for (int i = 0; i < body_list.Count; i++)
+            for (int i = 0; i < BodyList.Count; i++)
             {
-                Body body = body_list[i];
+                Body body = BodyList[i];
                 if (!body.AABB.Contains(point.X, point.Y))
                 {
                     continue;
@@ -150,34 +150,34 @@ namespace Kinematics.CollisionModule
             Vector2 min = Vector2.Zero;
             Vector2 max = Vector2.Zero;
 
-            for (int i = 0; i < body_list.Count; i++)
+            for (int i = 0; i < BodyList.Count; i++)
             {
-                if (!body_list[i].IsStatic)
+                if (!BodyList[i].IsStatic)
                 {
                     continue;
                 }
 
-                body_list[i].RotateShape(0);
-                body_list[i].Update(0);
+                BodyList[i].RotateShape(0);
+                BodyList[i].Update(0);
 
-                if (body_list[i].AABB.min.X < min.X)
+                if (BodyList[i].AABB.min.X < min.X)
                 {
-                    min.X = body_list[i].AABB.min.X;
+                    min.X = BodyList[i].AABB.min.X;
                 }
 
-                if (body_list[i].AABB.min.Y < min.Y)
+                if (BodyList[i].AABB.min.Y < min.Y)
                 {
-                    min.Y = body_list[i].AABB.min.Y;
+                    min.Y = BodyList[i].AABB.min.Y;
                 }
 
-                if (body_list[i].AABB.max.X > max.X)
+                if (BodyList[i].AABB.max.X > max.X)
                 {
-                    max.X = body_list[i].AABB.max.X;
+                    max.X = BodyList[i].AABB.max.X;
                 }
 
-                if (body_list[i].AABB.max.Y > max.Y)
+                if (BodyList[i].AABB.max.Y > max.Y)
                 {
-                    max.Y = body_list[i].AABB.max.Y;
+                    max.Y = BodyList[i].AABB.max.Y;
                 }
             }
 
@@ -186,10 +186,9 @@ namespace Kinematics.CollisionModule
 
         public void MoveDistantBodies(Vector2 position, float near, float far)
         {
-            for (int i = 0; i < body_list.Count; i++)
+            for (int i = 0; i < BodyList.Count; i++)
             {
-                Body body = body_list[i];
-
+                Body body = BodyList[i];
                 if (body.IsStatic)
                 {
                     continue;
@@ -199,92 +198,87 @@ namespace Kinematics.CollisionModule
                 Vector2 point = new Vector2();
                 if (distance > far)
                 {
-                    point.X = ((float)rand.NextDouble() - 0.5f);
-                    point.Y = ((float)rand.NextDouble() - 0.5f);
+                    point.X = ((float)_random.NextDouble() - 0.5f);
+                    point.Y = ((float)_random.NextDouble() - 0.5f);
                     point.Normalize();
 
-                    point *= near + (far - near) * ((float)rand.NextDouble());
+                    point *= near + (far - near) * ((float)_random.NextDouble());
                     point += position;
 
                     while (IsPointInsideAnyBody(point))
                     {
-                        point.X = ((float)rand.NextDouble() - 0.5f);
-                        point.Y = ((float)rand.NextDouble() - 0.5f);
+                        point.X = ((float)_random.NextDouble() - 0.5f);
+                        point.Y = ((float)_random.NextDouble() - 0.5f);
                         point.Normalize();
 
-                        point *= near + (far - near) * ((float)rand.NextDouble());
+                        point *= near + (far - near) * ((float)_random.NextDouble());
                         point += position;
                     }
 
-                    body_list[i].Position = point;
-                    body_list[i].Update(0);
+                    BodyList[i].Position = point;
+                    BodyList[i].Update(0);
                 }
             }
         }
 
         public void Update(double elapsed)
         {
-            if (!initialized)
+            if (!_initialized)
             {
                 Initialize();
             }
 
-            penetration_count = 0;
-            collision_list.Clear();
+            PenetrationCount = 0;
+            CollisionList.Clear();
 
-            for (int i = 0; i < body_list.Count; i++)
+            for (int i = 0; i < BodyList.Count; i++)
             {
-                body_list[i].Update(elapsed);
-                UpdateBitmask(body_list[i]);
+                BodyList[i].Update(elapsed);
+                UpdateBitmask(BodyList[i]);
             }
 
-            for (int i = 0; i < chain_list.Count; i++)
+            for (int i = 0; i < ChainList.Count; i++)
             {
-                chain_list[i].Update(elapsed);
+                ChainList[i].Update(elapsed);
             }
 
-            for (int i = 0; i < body_list.Count; i++)
+            for (int i = 0; i < BodyList.Count; i++)
             {
-                for (int j = i + 1; j < body_list.Count; j++)
+                for (int j = i + 1; j < BodyList.Count; j++)
                 {
-                    if (body_list[i].IsStatic && body_list[j].IsStatic)
+                    if (BodyList[i].IsStatic && BodyList[j].IsStatic)
                     {
                         continue;
                     }
 
-                    if (((body_list[i].BitmaskX.Mask & body_list[j].BitmaskX.Mask) == 0) && ((body_list[i].BitmaskY.Mask & body_list[j].BitmaskY.Mask) == 0))
+                    if (((BodyList[i].BitmaskX.Mask & BodyList[j].BitmaskX.Mask) == 0) && ((BodyList[i].BitmaskY.Mask & BodyList[j].BitmaskY.Mask) == 0))
                     {
                         continue;
                     }
 
-                    if (!(body_list[i].AABB).Intersects(ref (body_list[j].AABB)))
+                    if (!(BodyList[i].AABB).Intersects(ref (BodyList[j].AABB)))
                     {
                         continue;
                     }
 
-                    if (on_aabb_collision != null)
-                    {
-                        this.on_aabb_collision(body_list[i], body_list[j]);
-                    }
+                    OnAABBCollision?.Invoke(BodyList[i], BodyList[j]);
 
-                    collision_list.AddRange(Collision.Intersects(body_list[j], body_list[i]));
-                    collision_list.AddRange(Collision.Intersects(body_list[i], body_list[j]));
+                    CollisionList.AddRange(Collision.Intersects(BodyList[j], BodyList[i]));
+                    CollisionList.AddRange(Collision.Intersects(BodyList[i], BodyList[j]));
                 }
             }
 
-            // now handle all collisions found during the update at once.
-            // handle all collisions!
-            for (int i = 0; i < collision_list.Count; i++)
+            for (int i = 0; i < CollisionList.Count; i++)
             {
-                CollisionInfo info = collision_list[i];
+                CollisionInfo info = CollisionList[i];
 
                 PointMass A = info.PointMassA;
                 PointMass B1 = info.PointMassB;
                 PointMass B2 = info.PointMassC;
 
-                if (on_collision != null)
+                if (OnCollision != null)
                 {
-                    this.on_collision(info.BodyA, info.BodyB, info);
+                    OnCollision(info.BodyA, info.BodyB, info);
                 }
 
                 Vector2 bVel = new Vector2
@@ -301,53 +295,53 @@ namespace Kinematics.CollisionModule
 
                 Vector2.Dot(ref relVel, ref info.Normal, out float relDot);
 
-                if (on_penetration != null)
+                if (OnPenetration != null)
                 {
-                    this.on_penetration(info.Penetration, info.BodyA, info.BodyB);
+                    OnPenetration(info.Penetration, info.BodyA, info.BodyB);
                 }
 
                 if (info.Penetration > 0.3f)
                 {
-                    penetration_count++;
+                    PenetrationCount++;
                     continue;
                 }
 
                 float b1inf = 1.0f - info.EdgeDistance;
                 float b2inf = info.EdgeDistance;
 
-                float b2MassSum = ((float.IsPositiveInfinity(B1.mass)) || (float.IsPositiveInfinity(B2.mass))) ? float.PositiveInfinity : (B1.mass + B2.mass);
+                float b2MassSum = float.IsPositiveInfinity(B1.mass) || float.IsPositiveInfinity(B2.mass) ? float.PositiveInfinity : (B1.mass + B2.mass);
 
                 float massSum = A.mass + b2MassSum;
 
-                float Amove;
-                float Bmove;
+                float moveA;
+                float moveB;
                 if (float.IsPositiveInfinity(A.mass))
                 {
-                    Amove = 0f;
-                    Bmove = (info.Penetration) + 0.001f;
+                    moveA = 0f;
+                    moveB = (info.Penetration) + 0.001f;
                 }
                 else if (float.IsPositiveInfinity(b2MassSum))
                 {
-                    Amove = (info.Penetration) + 0.001f;
-                    Bmove = 0f;
+                    moveA = (info.Penetration) + 0.001f;
+                    moveB = 0f;
                 }
                 else
                 {
-                    Amove = (info.Penetration * (b2MassSum / massSum));
-                    Bmove = (info.Penetration * (A.mass / massSum));
+                    moveA = (info.Penetration * (b2MassSum / massSum));
+                    moveB = (info.Penetration * (A.mass / massSum));
                 }
 
-                float B1move = Bmove * b1inf;
-                float B2move = Bmove * b2inf;
+                float B1move = moveB * b1inf;
+                float B2move = moveB * b2inf;
 
-                float AinvMass = (float.IsPositiveInfinity(A.mass)) ? 0f : 1f / A.mass;
-                float BinvMass = (float.IsPositiveInfinity(b2MassSum)) ? 0f : 1f / b2MassSum;
+                float invMassA = (float.IsPositiveInfinity(A.mass)) ? 0f : 1f / A.mass;
+                float invMassB = (float.IsPositiveInfinity(b2MassSum)) ? 0f : 1f / b2MassSum;
 
-                float jDenom = AinvMass + BinvMass;
+                float jDenom = invMassA + invMassB;
                 Vector2 numV = new Vector2();
-                float elas = elasticity;
-                numV.X = relVel.X * elas;
-                numV.Y = relVel.Y * elas;
+                float elasticity = Elasticity;
+                numV.X = relVel.X * elasticity;
+                numV.Y = relVel.Y * elasticity;
 
                 Vector2.Dot(ref numV, ref info.Normal, out float jNumerator);
                 jNumerator = -jNumerator;
@@ -356,8 +350,8 @@ namespace Kinematics.CollisionModule
 
                 if (!float.IsPositiveInfinity(A.mass))
                 {
-                    A.position.X += info.Normal.X * Amove;
-                    A.position.Y += info.Normal.Y * Amove;
+                    A.position.X += info.Normal.X * moveA;
+                    A.position.Y += info.Normal.Y * moveA;
                 }
 
                 if (!float.IsPositiveInfinity(B1.mass))
@@ -375,7 +369,7 @@ namespace Kinematics.CollisionModule
                 Vector2 tangent = new Vector2();
                 VectorHelper.Perpendicular(ref info.Normal, ref tangent);
                 Vector2.Dot(ref relVel, ref tangent, out float fNumerator);
-                fNumerator *= friction;
+                fNumerator *= Friction;
                 float f = fNumerator / jDenom;
 
                 if (relDot <= 0.0001f)
@@ -400,9 +394,9 @@ namespace Kinematics.CollisionModule
                 }
             }
 
-            for (int i = 0; i < body_list.Count; i++)
+            for (int i = 0; i < BodyList.Count; i++)
             {
-                body_list[i].UpdateBodyPositionVelocityForce(elapsed);
+                BodyList[i].UpdateBodyPositionVelocityForce(elapsed);
             }
         }
     }
