@@ -8,7 +8,7 @@ namespace Kinematics.CollisionModule
         public Shape BaseShape;
         public Shape CurrentShape;
         public List<PointMass> PointMassList;
-        public AxisAlignedBoundingBox AABB;
+        public AABB AABB;
         public Vector2 Scale = Vector2.One;
         public Vector2 Position;
         public Vector2 Velocity;

@@ -15,7 +15,7 @@ namespace Kinematics.CollisionModule
         public float Friction = 1.9f;
         public float Elasticity = 1.5f;
 
-        public AxisAlignedBoundingBox AABB;
+        public AABB AABB;
         public Vector2 Size;
         public Vector2 Cell;
         private readonly bool _initialized;
@@ -66,14 +66,14 @@ namespace Kinematics.CollisionModule
 
         public void SetWorldLimits(Vector2 min, Vector2 max)
         {
-            AABB = new AxisAlignedBoundingBox(ref min, ref max);
+            AABB = new AABB(ref min, ref max);
             Size = max - min;
             Cell = Size / 32;
         }
 
         public void UpdateBitmask(Body body)
         {
-            AxisAlignedBoundingBox box = body.AABB;
+            AABB box = body.AABB;
 
             int minX = (int) Mathf.Floor((box.min.X - AABB.min.X) / Cell.X);
             int maxX = (int) Mathf.Floor((box.max.X - AABB.min.X) / Cell.X);

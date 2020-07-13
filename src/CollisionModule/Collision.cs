@@ -12,7 +12,7 @@ namespace Kinematics.CollisionModule
             int bApmCount = bodyA.Count;
             int bBpmCount = bodyB.Count;
 
-            AxisAlignedBoundingBox boxB = bodyB.AABB;
+            AABB boxB = bodyB.AABB;
             CollisionInfo infoAway = new CollisionInfo();
             CollisionInfo infoSame = new CollisionInfo();
             for (int i = 0; i < bApmCount; i++)

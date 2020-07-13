@@ -2,20 +2,20 @@ using Kinematics.MathModule;
 
 namespace Kinematics.CollisionModule
 {
-    public struct AxisAlignedBoundingBox
+    public struct AABB
     {
         public Vector2 min;
         public Vector2 max;
         public bool valid;
 
-        public AxisAlignedBoundingBox(ref Vector2 min, ref Vector2 max)
+        public AABB(ref Vector2 min, ref Vector2 max)
         {
             this.min = min;
             this.max = max;
             valid = true;
         }
 
-        public AxisAlignedBoundingBox(Vector2 min, Vector2 max)
+        public AABB(Vector2 min, Vector2 max)
         {
             this.min = min;
             this.max = max;
@@ -80,7 +80,7 @@ namespace Kinematics.CollisionModule
             return true;
         }
 
-        public bool Intersects(ref AxisAlignedBoundingBox aabb)
+        public bool Intersects(ref AABB aabb)
         {
             if (max.X < aabb.min.X || min.X > aabb.max.X)
             {
