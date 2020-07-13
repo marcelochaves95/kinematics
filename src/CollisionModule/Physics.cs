@@ -113,13 +113,13 @@ namespace Kinematics.CollisionModule
                 maxY = 32;
             }
 
-            body.BitmaskX.clear();
+            body.BitmaskX.Clear();
             for (int i = minX; i <= maxX; i++)
             {
                 body.BitmaskX.setOn(i);
             }
 
-            body.BitmaskY.clear();
+            body.BitmaskY.Clear();
             for (int i = minY; i <= maxY; i++)
             {
                 body.BitmaskY.setOn(i);
