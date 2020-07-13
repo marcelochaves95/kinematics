@@ -3,7 +3,7 @@ using Kinematics.MathModule;
 
 namespace Kinematics.CollisionModule
 {
-    public class Collision
+    public static class Collision
     {
         public static List<CollisionInfo> Intersects(Body bodyA, Body bodyB)
         {
