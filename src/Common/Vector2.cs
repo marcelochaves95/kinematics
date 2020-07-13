@@ -11,11 +11,12 @@ namespace Kinematics.Common
     public struct Vector2 : IEquatable<Vector2>
     {
         #region Properties
+
         /// <summary>X (horizontal) component of the vector</summary>
-        public float X { get; set; }
+        public float X;
 
         /// <summary>Y (vertical) component of the vector</summary>
-        public float Y { get; set; }
+        public float Y;
 
         /// <summary>
         /// Shorthand for writing Vector2(0, 1)
