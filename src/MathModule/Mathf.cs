@@ -224,5 +224,10 @@ namespace Kinematics.MathModule
         {
             return value >= 0f ? 1f : -1f;
         }
+
+        public static float Floor(float value)
+        {
+            return (float) System.Math.Floor(value);
+        }
     }
 }
