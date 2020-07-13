@@ -16,4 +16,4 @@
    - - [ ] Sphere
 
 ## Utils
-   - - [x] Mathf
+   - - [x] Math
