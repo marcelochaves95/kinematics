@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using Kinematics.Collision;
 using Kinematics.Common;
 
-namespace Kinematics.Collision
+namespace Kinematics.Dynamics
 {
     public class SpringBody : Body
     {

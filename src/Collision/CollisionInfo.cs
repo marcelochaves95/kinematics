@@ -1,4 +1,5 @@
 using Kinematics.Common;
+using Kinematics.Dynamics;
 
 namespace Kinematics.Collision
 {

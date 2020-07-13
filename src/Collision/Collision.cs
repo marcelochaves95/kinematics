@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Kinematics.Common;
+using Kinematics.Dynamics;
 
 namespace Kinematics.Collision
 {
