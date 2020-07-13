@@ -52,7 +52,7 @@ namespace Kinematics.CollisionModule
                     Y = fromPrev.Y + toNext.Y
                 };
 
-                VectorHelper.Perpendicular(ref ptNorm);
+                Vector2.Perpendicular(ref ptNorm);
 
                 float closestAway = 100000.0f;
                 float closestSame = 100000.0f;

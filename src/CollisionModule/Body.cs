@@ -152,7 +152,7 @@ namespace Kinematics.CollisionModule
                 }
 
                 float thisAngle = Mathf.Acos(dot);
-                if (!VectorHelper.IsCCW(ref baseNorm, ref curNorm)) { thisAngle = -thisAngle; }
+                if (!Vector2.IsCCW(ref baseNorm, ref curNorm)) { thisAngle = -thisAngle; }
 
                 if (i == 0)
                 {
@@ -353,7 +353,7 @@ namespace Kinematics.CollisionModule
             }
 
             Vector2 n = new Vector2();
-            VectorHelper.Perpendicular(ref E, ref n);
+            Vector2.Perpendicular(ref E, ref n);
 
             Vector2.Dot(ref toP, ref E, out float x);
             if (x <= 0.0f)
@@ -431,7 +431,7 @@ namespace Kinematics.CollisionModule
             }
 
             Vector2 n = new Vector2();
-            VectorHelper.Perpendicular(ref E, ref n);
+            Vector2.Perpendicular(ref E, ref n);
 
             Vector2.Dot(ref toP, ref E, out float x);
             if (x <= 0.0f)
@@ -494,12 +494,12 @@ namespace Kinematics.CollisionModule
         {
             Vector2 R = (Position - point);
 
-            float torqueF = Vector3.Cross(VectorHelper.Vector3FromVector2(R), VectorHelper.Vector3FromVector2(force)).Z;
+            float torqueF = Vector3.Cross(Vector2.Vector3FromVector2(R), Vector2.Vector3FromVector2(force)).Z;
 
             for (int i = 0; i < Count; i++)
             {
                 Vector2 toPt = (PointMassList[i].Position - Position);
-                Vector2 torque = VectorHelper.Rotate(toPt, - Mathf.PI / 2f);
+                Vector2 torque = Vector2.Rotate(toPt, - Mathf.PI / 2f);
 
                 PointMassList[i].Force += torque * torqueF;
                 PointMassList[i].Force += force;

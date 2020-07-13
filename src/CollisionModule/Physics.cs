@@ -367,7 +367,7 @@ namespace Kinematics.CollisionModule
                 }
 
                 Vector2 tangent = new Vector2();
-                VectorHelper.Perpendicular(ref info.Normal, ref tangent);
+                Vector2.Perpendicular(ref info.Normal, ref tangent);
                 Vector2.Dot(ref relVel, ref tangent, out float fNumerator);
                 fNumerator *= Friction;
                 float f = fNumerator / jDenom;

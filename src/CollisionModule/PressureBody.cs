@@ -7,7 +7,7 @@ namespace Kinematics.CollisionModule
         private float _volume;
         private readonly float _pressure;
         private readonly Vector2[] _normalList;
-        private readonly float[] _edgeLengthList;
+        private float[] _edgeLengthList;
 
 
         public PressureBody(Shape s, float mass, float gasPressure, float edgeSpringK, float edgeSpringDamp, float shapeSpringK, float shapeSpringDamp)
@@ -34,14 +34,14 @@ namespace Kinematics.CollisionModule
                     X = PointMassList[i].Position.X - PointMassList[prev].Position.X,
                     Y = PointMassList[i].Position.Y - PointMassList[prev].Position.Y
                 };
-                VectorHelper.Perpendicular(ref edge1N);
+                Vector2.Perpendicular(ref edge1N);
 
                 Vector2 edge2N = new Vector2
                 {
                     X = PointMassList[next].Position.X - PointMassList[i].Position.X,
                     Y = PointMassList[next].Position.Y - PointMassList[i].Position.Y
                 };
-                VectorHelper.Perpendicular(ref edge2N);
+                Vector2.Perpendicular(ref edge2N);
 
                 Vector2 norm = new Vector2
                 {
