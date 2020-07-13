@@ -3,30 +3,6 @@ using Kinematics.MathModule;
 
 namespace Kinematics.CollisionModule
 {
-    public struct CollisionInfo
-    {
-        public Body body_a;
-        public Body body_b;
-        public PointMass pointmass_a;
-        public PointMass pointmass_b;
-        public PointMass pointmass_c;
-        public float edge_distance;
-        public Vector2 normal;
-        public Vector2 point;
-        public float penetration;
-
-        public void Clear()
-        {
-            body_a = body_b = null;
-            pointmass_a = pointmass_b = pointmass_c = new PointMass();
-            edge_distance = 0f;
-            point = Vector2.Zero;
-            normal = Vector2.Zero;
-            penetration = 0f;
-        }
-    }
-
-
     public class Collision
     {
         public static List<CollisionInfo> Intersects(Body bodyA, Body bodyB)
@@ -82,14 +58,14 @@ namespace Kinematics.CollisionModule
                 float closestSame = 100000.0f;
 
                 infoAway.Clear();
-                infoAway.body_a = bodyA;
-                infoAway.pointmass_a = bodyA.PointMassList[i];
-                infoAway.body_b = bodyB;
+                infoAway.BodyA = bodyA;
+                infoAway.PointMassA = bodyA.PointMassList[i];
+                infoAway.BodyB = bodyB;
 
                 infoSame.Clear();
-                infoSame.body_a = bodyA;
-                infoSame.pointmass_a = bodyA.PointMassList[i];
-                infoSame.body_b = bodyB;
+                infoSame.BodyA = bodyA;
+                infoSame.PointMassA = bodyA.PointMassList[i];
+                infoSame.BodyB = bodyB;
 
                 bool found = false;
 
@@ -126,12 +102,12 @@ namespace Kinematics.CollisionModule
                         if (dist < closestAway)
                         {
                             closestAway = dist;
-                            infoAway.pointmass_b = bodyB.PointMassList[b1];
-                            infoAway.pointmass_c = bodyB.PointMassList[b2];
-                            infoAway.edge_distance = edgeD;
-                            infoAway.point = hitPt;
-                            infoAway.normal = norm;
-                            infoAway.penetration = dist;
+                            infoAway.PointMassB = bodyB.PointMassList[b1];
+                            infoAway.PointMassC = bodyB.PointMassList[b2];
+                            infoAway.EdgeDistance = edgeD;
+                            infoAway.Point = hitPt;
+                            infoAway.Normal = norm;
+                            infoAway.Penetration = dist;
                             found = true;
                         }
                     }
@@ -140,24 +116,24 @@ namespace Kinematics.CollisionModule
                         if (dist < closestSame)
                         {
                             closestSame = dist;
-                            infoSame.pointmass_b = bodyB.PointMassList[b1];
-                            infoSame.pointmass_c = bodyB.PointMassList[b2];
-                            infoSame.edge_distance = edgeD;
-                            infoSame.point = hitPt;
-                            infoSame.normal = norm;
-                            infoSame.penetration = dist;
+                            infoSame.PointMassB = bodyB.PointMassList[b1];
+                            infoSame.PointMassC = bodyB.PointMassList[b2];
+                            infoSame.EdgeDistance = edgeD;
+                            infoSame.Point = hitPt;
+                            infoSame.Normal = norm;
+                            infoSame.Penetration = dist;
                         }
                     }
                 }
 
                 if ((found) && (closestAway > 0.3f) && (closestSame < closestAway))
                 {
-                    infoSame.penetration = Mathf.Sqrt(infoSame.penetration);
+                    infoSame.Penetration = Mathf.Sqrt(infoSame.Penetration);
                     data.Add(infoSame);
                 }
                 else
                 {
-                    infoAway.penetration = Mathf.Sqrt(infoAway.penetration);
+                    infoAway.Penetration = Mathf.Sqrt(infoAway.Penetration);
                     data.Add(infoAway);
                 }
             }

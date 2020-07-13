@@ -278,13 +278,13 @@ namespace Kinematics.CollisionModule
             {
                 CollisionInfo info = collision_list[i];
 
-                PointMass A = info.pointmass_a;
-                PointMass B1 = info.pointmass_b;
-                PointMass B2 = info.pointmass_c;
+                PointMass A = info.PointMassA;
+                PointMass B1 = info.PointMassB;
+                PointMass B2 = info.PointMassC;
 
                 if (on_collision != null)
                 {
-                    this.on_collision(info.body_a, info.body_b, info);
+                    this.on_collision(info.BodyA, info.BodyB, info);
                 }
 
                 Vector2 bVel = new Vector2
@@ -299,21 +299,21 @@ namespace Kinematics.CollisionModule
                     Y = A.velocity.Y - bVel.Y
                 };
 
-                Vector2.Dot(ref relVel, ref info.normal, out float relDot);
+                Vector2.Dot(ref relVel, ref info.Normal, out float relDot);
 
                 if (on_penetration != null)
                 {
-                    this.on_penetration(info.penetration, info.body_a, info.body_b);
+                    this.on_penetration(info.Penetration, info.BodyA, info.BodyB);
                 }
 
-                if (info.penetration > 0.3f)
+                if (info.Penetration > 0.3f)
                 {
                     penetration_count++;
                     continue;
                 }
 
-                float b1inf = 1.0f - info.edge_distance;
-                float b2inf = info.edge_distance;
+                float b1inf = 1.0f - info.EdgeDistance;
+                float b2inf = info.EdgeDistance;
 
                 float b2MassSum = ((float.IsPositiveInfinity(B1.mass)) || (float.IsPositiveInfinity(B2.mass))) ? float.PositiveInfinity : (B1.mass + B2.mass);
 
@@ -324,17 +324,17 @@ namespace Kinematics.CollisionModule
                 if (float.IsPositiveInfinity(A.mass))
                 {
                     Amove = 0f;
-                    Bmove = (info.penetration) + 0.001f;
+                    Bmove = (info.Penetration) + 0.001f;
                 }
                 else if (float.IsPositiveInfinity(b2MassSum))
                 {
-                    Amove = (info.penetration) + 0.001f;
+                    Amove = (info.Penetration) + 0.001f;
                     Bmove = 0f;
                 }
                 else
                 {
-                    Amove = (info.penetration * (b2MassSum / massSum));
-                    Bmove = (info.penetration * (A.mass / massSum));
+                    Amove = (info.Penetration * (b2MassSum / massSum));
+                    Bmove = (info.Penetration * (A.mass / massSum));
                 }
 
                 float B1move = Bmove * b1inf;
@@ -349,31 +349,31 @@ namespace Kinematics.CollisionModule
                 numV.X = relVel.X * elas;
                 numV.Y = relVel.Y * elas;
 
-                Vector2.Dot(ref numV, ref info.normal, out float jNumerator);
+                Vector2.Dot(ref numV, ref info.Normal, out float jNumerator);
                 jNumerator = -jNumerator;
 
                 float j = jNumerator / jDenom;
 
                 if (!float.IsPositiveInfinity(A.mass))
                 {
-                    A.position.X += info.normal.X * Amove;
-                    A.position.Y += info.normal.Y * Amove;
+                    A.position.X += info.Normal.X * Amove;
+                    A.position.Y += info.Normal.Y * Amove;
                 }
 
                 if (!float.IsPositiveInfinity(B1.mass))
                 {
-                    B1.position.X -= info.normal.X * B1move;
-                    B1.position.Y -= info.normal.Y * B1move;
+                    B1.position.X -= info.Normal.X * B1move;
+                    B1.position.Y -= info.Normal.Y * B1move;
                 }
 
                 if (!float.IsPositiveInfinity(B2.mass))
                 {
-                    B2.position.X -= info.normal.X * B2move;
-                    B2.position.Y -= info.normal.Y * B2move;
+                    B2.position.X -= info.Normal.X * B2move;
+                    B2.position.Y -= info.Normal.Y * B2move;
                 }
 
                 Vector2 tangent = new Vector2();
-                VectorHelper.Perpendicular(ref info.normal, ref tangent);
+                VectorHelper.Perpendicular(ref info.Normal, ref tangent);
                 Vector2.Dot(ref relVel, ref tangent, out float fNumerator);
                 fNumerator *= friction;
                 float f = fNumerator / jDenom;
@@ -382,20 +382,20 @@ namespace Kinematics.CollisionModule
                 {
                     if (!float.IsPositiveInfinity(A.mass))
                     {
-                        A.velocity.X += (info.normal.X * (j / A.mass)) - (tangent.X * (f / A.mass));
-                        A.velocity.Y += (info.normal.Y * (j / A.mass)) - (tangent.Y * (f / A.mass));
+                        A.velocity.X += (info.Normal.X * (j / A.mass)) - (tangent.X * (f / A.mass));
+                        A.velocity.Y += (info.Normal.Y * (j / A.mass)) - (tangent.Y * (f / A.mass));
                     }
 
                     if (!float.IsPositiveInfinity(b2MassSum))
                     {
-                        B1.velocity.X -= (info.normal.X * (j / b2MassSum) * b1inf) - (tangent.X * (f / b2MassSum) * b1inf);
-                        B1.velocity.Y -= (info.normal.Y * (j / b2MassSum) * b1inf) - (tangent.Y * (f / b2MassSum) * b1inf);
+                        B1.velocity.X -= (info.Normal.X * (j / b2MassSum) * b1inf) - (tangent.X * (f / b2MassSum) * b1inf);
+                        B1.velocity.Y -= (info.Normal.Y * (j / b2MassSum) * b1inf) - (tangent.Y * (f / b2MassSum) * b1inf);
                     }
 
                     if (!float.IsPositiveInfinity(b2MassSum))
                     {
-                        B2.velocity.X -= (info.normal.X * (j / b2MassSum) * b2inf) - (tangent.X * (f / b2MassSum) * b2inf);
-                        B2.velocity.Y -= (info.normal.Y * (j / b2MassSum) * b2inf) - (tangent.Y * (f / b2MassSum) * b2inf);
+                        B2.velocity.X -= (info.Normal.X * (j / b2MassSum) * b2inf) - (tangent.X * (f / b2MassSum) * b2inf);
+                        B2.velocity.Y -= (info.Normal.Y * (j / b2MassSum) * b2inf) - (tangent.Y * (f / b2MassSum) * b2inf);
                     }
                 }
             }
