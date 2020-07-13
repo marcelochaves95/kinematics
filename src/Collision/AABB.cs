@@ -4,70 +4,70 @@ namespace Kinematics.Collision
 {
     public struct AABB
     {
-        public Vector2 min;
-        public Vector2 max;
-        public bool valid;
+        public Vector2 Min;
+        public Vector2 Max;
+        public bool IsValid;
 
         public AABB(ref Vector2 min, ref Vector2 max)
         {
-            this.min = min;
-            this.max = max;
-            valid = true;
+            Min = min;
+            Max = max;
+            IsValid = true;
         }
 
         public AABB(Vector2 min, Vector2 max)
         {
-            this.min = min;
-            this.max = max;
-            valid = true;
+            Min = min;
+            Max = max;
+            IsValid = true;
         }
 
         public void Add(float x, float y)
         {
-            if (valid)
+            if (IsValid)
             {
-                if (x < min.X)
+                if (x < Min.X)
                 {
-                    min.X = x;
+                    Min.X = x;
                 }
-                else if (x > max.X)
+                else if (x > Max.X)
                 {
-                    max.X = x;
+                    Max.X = x;
                 }
 
-                if (y < min.Y)
+                if (y < Min.Y)
                 {
-                    min.Y = y;
+                    Min.Y = y;
                 }
-                else if (y > max.Y)
+                else if (y > Max.Y)
                 {
-                    max.Y = y;
+                    Max.Y = y;
                 }
             }
             else
             {
-                min.X = max.X = x;
-                min.Y = max.Y = y;
-                valid = true;
+                Min.X = Max.X = x;
+                Min.Y = Max.Y = y;
+                IsValid = true;
             }
         }
 
         public void Clear()
         {
-            min.X = max.X = min.Y = max.Y = 0;
-            valid = false;
+            Min.X = Max.X = Min.Y = Max.Y = 0;
+            IsValid = false;
         }
 
         public bool Contains(float x, float y)
         {
-            if (valid)
+            if (IsValid)
             {
-                if ((x < min.X) || (x > max.X))
+                if ((x < Min.X) || (x > Max.X))
                 {
                     return false;
                 }
 
-                if ((y < min.Y) || (y > max.Y))
+                if ((y < Min.Y) || (y > Max.Y))
                 {
                     return false;
                 }
@@ -82,12 +82,12 @@ namespace Kinematics.Collision
 
         public bool Intersects(ref AABB aabb)
         {
-            if (max.X < aabb.min.X || min.X > aabb.max.X)
+            if (Max.X < aabb.Min.X || Min.X > aabb.Max.X)
             {
                 return false;
             }
 
-            if (max.Y < aabb.min.Y || min.Y > aabb.max.Y)
+            if (Max.Y < aabb.Min.Y || Min.Y > aabb.Max.Y)
             {
                 return false;
             }

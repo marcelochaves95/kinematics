@@ -76,8 +76,8 @@ namespace Kinematics.Collision
         {
             AABB box = body.AABB;
 
-            int minX = (int) Mathf.Floor((box.min.X - AABB.min.X) / Cell.X);
-            int maxX = (int) Mathf.Floor((box.max.X - AABB.min.X) / Cell.X);
+            int minX = (int) Mathf.Floor((box.Min.X - AABB.Min.X) / Cell.X);
+            int maxX = (int) Mathf.Floor((box.Max.X - AABB.Min.X) / Cell.X);
 
             if (minX < 0)
             {
@@ -95,8 +95,8 @@ namespace Kinematics.Collision
                 maxX = 32;
             }
 
-            int minY = (int) Mathf.Floor((box.min.Y - AABB.min.Y) / Cell.Y);
-            int maxY = (int) Mathf.Floor((box.max.Y - AABB.min.Y) / Cell.Y);
+            int minY = (int) Mathf.Floor((box.Min.Y - AABB.Min.Y) / Cell.Y);
+            int maxY = (int) Mathf.Floor((box.Max.Y - AABB.Min.Y) / Cell.Y);
 
             if (minY < 0)
             {
@@ -161,24 +161,24 @@ namespace Kinematics.Collision
                 BodyList[i].RotateShape(0);
                 BodyList[i].Update(0);
 
-                if (BodyList[i].AABB.min.X < min.X)
+                if (BodyList[i].AABB.Min.X < min.X)
                 {
-                    min.X = BodyList[i].AABB.min.X;
+                    min.X = BodyList[i].AABB.Min.X;
                 }
 
-                if (BodyList[i].AABB.min.Y < min.Y)
+                if (BodyList[i].AABB.Min.Y < min.Y)
                 {
-                    min.Y = BodyList[i].AABB.min.Y;
+                    min.Y = BodyList[i].AABB.Min.Y;
                 }
 
-                if (BodyList[i].AABB.max.X > max.X)
+                if (BodyList[i].AABB.Max.X > max.X)
                 {
-                    max.X = BodyList[i].AABB.max.X;
+                    max.X = BodyList[i].AABB.Max.X;
                 }
 
-                if (BodyList[i].AABB.max.Y > max.Y)
+                if (BodyList[i].AABB.Max.Y > max.Y)
                 {
-                    max.Y = BodyList[i].AABB.max.Y;
+                    max.Y = BodyList[i].AABB.Max.Y;
                 }
             }
 

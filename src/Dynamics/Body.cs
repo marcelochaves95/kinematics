@@ -249,7 +249,7 @@ namespace Kinematics.Dynamics
         {
             Vector2 endPt = new Vector2
             {
-                X = AABB.max.X + 0.1f,
+                X = AABB.Max.X + 0.1f,
                 Y = point.Y
             };
 
