@@ -16,8 +16,4 @@
    - - [ ] Sphere
 
 ## Utils
-   - - [x] Math
-   
-## Extras
-   - - [ ] Rig (Hook)
-   - - [ ] Wheels
+   - - [x] Mathf
