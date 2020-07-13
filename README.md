@@ -1,9 +1,5 @@
 <p align="left"><img src="logo.png" width="150" title="Kinematics"></p>
 
-| **`Documentation`** |
-| --- |
-| [![Documentation](https://img.shields.io/badge/docs-reference-blue.svg)](https://github.com/marcelochaves95/Kinematics/wiki) | 
-
 ## Basics
 - Linear Physics
    - - [x] Vectors
