@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Kinematics.Math;
+using Kinematics.MathModule;
 
-namespace Kinematics.Collision
+namespace Kinematics.CollisionModule
 {
     public abstract class Collider
     {

@@ -1,6 +1,6 @@
-using Kinematics.Math;
+using Kinematics.MathModule;
 
-namespace Kinematics.Collision
+namespace Kinematics.CollisionModule
 {
     public class Body
     {
