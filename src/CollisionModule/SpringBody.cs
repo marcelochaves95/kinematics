@@ -25,22 +25,22 @@ namespace Kinematics.CollisionModule
             edge_damping = edgeSpringDamp;
 
             int i;
-            for (i = 0; i < count - 1; i++)
+            for (i = 0; i < Count - 1; i++)
             {
-                Add(new Spring(pointmass_list[i], pointmass_list[i + 1], edgeSpringK, edgeSpringDamp));
+                Add(new Spring(PointMassList[i], PointMassList[i + 1], edgeSpringK, edgeSpringDamp));
             }
 
-            Add(new Spring(pointmass_list[i], pointmass_list[0], edgeSpringK, edgeSpringDamp));
+            Add(new Spring(PointMassList[i], PointMassList[0], edgeSpringK, edgeSpringDamp));
         }
 
         public void Add(Spring spring)
         {
-            if (!pointmass_list.Contains(spring.pointmass_a))
+            if (!PointMassList.Contains(spring.pointmass_a))
             {
                 spring_pointmass_list.Add(spring.pointmass_a);
             }
 
-            if (!pointmass_list.Contains(spring.pointmass_b))
+            if (!PointMassList.Contains(spring.pointmass_b))
             {
                 spring_pointmass_list.Add(spring.pointmass_b);
             }
@@ -65,24 +65,24 @@ namespace Kinematics.CollisionModule
 
             if (is_constrained)
             {
-                for (int i = 0; i < count; i++)
+                for (int i = 0; i < Count; i++)
                 {
                     if (shape_k > 0)
                     {
 
-                        Spring.SpringForce(ref pointmass_list[i].position, ref pointmass_list[i].velocity, ref curr_shape.points[i],
-                                                        ref pointmass_list[i].velocity, 0.0f, shape_k, shape_damping, out force);
+                        Spring.SpringForce(ref PointMassList[i].position, ref PointMassList[i].velocity, ref CurrentShape.points[i],
+                                                        ref PointMassList[i].velocity, 0.0f, shape_k, shape_damping, out force);
 
-                        pointmass_list[i].force.X += force.X;
-                        pointmass_list[i].force.Y += force.Y;
+                        PointMassList[i].force.X += force.X;
+                        PointMassList[i].force.Y += force.Y;
                     }
                 }
             }
 
             for (int i = 0; i < spring_pointmass_list.Count; i++)
             {
-                spring_pointmass_list[i].velocity.X *= damping;
-                spring_pointmass_list[i].velocity.Y *= damping;
+                spring_pointmass_list[i].velocity.X *= Damping;
+                spring_pointmass_list[i].velocity.Y *= Damping;
                 spring_pointmass_list[i].Update(elapsed);
             }
         }

@@ -14,8 +14,8 @@ namespace Kinematics.CollisionModule
             : base(s, mass, edgeSpringK, edgeSpringDamp, shapeSpringK, shapeSpringDamp)
         {
             pressure = gasPressure;
-            normal_list = new Vector2[count];
-            edgelength_list = new float[count];
+            normal_list = new Vector2[Count];
+            edgelength_list = new float[Count];
         }
 
         public override void ApplyInternalForces(double elapsed)
@@ -24,22 +24,22 @@ namespace Kinematics.CollisionModule
 
             volume = 0f;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                int prev = (i > 0) ? i - 1 : count - 1;
-                int next = (i < count - 1) ? i + 1 : 0;
+                int prev = (i > 0) ? i - 1 : Count - 1;
+                int next = (i < Count - 1) ? i + 1 : 0;
 
                 Vector2 edge1N = new Vector2
                 {
-                    X = pointmass_list[i].position.X - pointmass_list[prev].position.X,
-                    Y = pointmass_list[i].position.Y - pointmass_list[prev].position.Y
+                    X = PointMassList[i].position.X - PointMassList[prev].position.X,
+                    Y = PointMassList[i].position.Y - PointMassList[prev].position.Y
                 };
                 VectorHelper.Perpendicular(ref edge1N);
 
                 Vector2 edge2N = new Vector2
                 {
-                    X = pointmass_list[next].position.X - pointmass_list[i].position.X,
-                    Y = pointmass_list[next].position.Y - pointmass_list[i].position.Y
+                    X = PointMassList[next].position.X - PointMassList[i].position.X,
+                    Y = PointMassList[next].position.Y - PointMassList[i].position.Y
                 };
                 VectorHelper.Perpendicular(ref edge2N);
 
@@ -61,23 +61,23 @@ namespace Kinematics.CollisionModule
                 normal_list[i] = norm;
                 edgelength_list[i] = edgeL;
 
-                float xDistance = Mathf.Abs(pointmass_list[i].position.X - pointmass_list[next].position.X);
+                float xDistance = Mathf.Abs(PointMassList[i].position.X - PointMassList[next].position.X);
                 float volumeProduct = xDistance * Mathf.Abs(norm.X) * edgeL;
                 volume += 0.5f * volumeProduct;
             }
 
             float invVolume = 1f / volume;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                int j = (i < count - 1) ? i + 1 : 0;
+                int j = (i < Count - 1) ? i + 1 : 0;
 
                 float pressureV = (invVolume * edgelength_list[i] * pressure);
-                pointmass_list[i].force.X += normal_list[i].X * pressureV;
-                pointmass_list[i].force.Y += normal_list[i].Y * pressureV;
+                PointMassList[i].force.X += normal_list[i].X * pressureV;
+                PointMassList[i].force.Y += normal_list[i].Y * pressureV;
                                   
-                pointmass_list[j].force.X += normal_list[j].X * pressureV;
-                pointmass_list[j].force.Y += normal_list[j].Y * pressureV;
+                PointMassList[j].force.X += normal_list[j].X * pressureV;
+                PointMassList[j].force.Y += normal_list[j].Y * pressureV;
             }
         }
     }

@@ -33,15 +33,15 @@ namespace Kinematics.CollisionModule
         {
             List<CollisionInfo> data = new List<CollisionInfo>();
 
-            int bApmCount = bodyA.count;
-            int bBpmCount = bodyB.count;
+            int bApmCount = bodyA.Count;
+            int bBpmCount = bodyB.Count;
 
-            AxisAlignedBoundingBox boxB = bodyB.aabb;
+            AxisAlignedBoundingBox boxB = bodyB.AABB;
             CollisionInfo infoAway = new CollisionInfo();
             CollisionInfo infoSame = new CollisionInfo();
             for (int i = 0; i < bApmCount; i++)
             {
-                Vector2 pt = bodyA.pointmass_list[i].position;
+                Vector2 pt = bodyA.PointMassList[i].position;
                 if (!boxB.Contains(pt.X, pt.Y))
                 {
                     continue;
@@ -55,8 +55,8 @@ namespace Kinematics.CollisionModule
                 int prevPt = (i > 0) ? i - 1 : bApmCount - 1;
                 int nextPt = (i < bApmCount - 1) ? i + 1 : 0;
 
-                Vector2 prev = bodyA.pointmass_list[prevPt].position;
-                Vector2 next = bodyA.pointmass_list[nextPt].position;
+                Vector2 prev = bodyA.PointMassList[prevPt].position;
+                Vector2 next = bodyA.PointMassList[nextPt].position;
 
                 Vector2 fromPrev = new Vector2
                 {
@@ -83,12 +83,12 @@ namespace Kinematics.CollisionModule
 
                 infoAway.Clear();
                 infoAway.body_a = bodyA;
-                infoAway.pointmass_a = bodyA.pointmass_list[i];
+                infoAway.pointmass_a = bodyA.PointMassList[i];
                 infoAway.body_b = bodyB;
 
                 infoSame.Clear();
                 infoSame.body_a = bodyA;
-                infoSame.pointmass_a = bodyA.pointmass_list[i];
+                infoSame.pointmass_a = bodyA.PointMassList[i];
                 infoSame.body_b = bodyB;
 
                 bool found = false;
@@ -107,8 +107,8 @@ namespace Kinematics.CollisionModule
                         b2 = 0;
                     }
 
-                    Vector2 pt1 = bodyB.pointmass_list[b1].position;
-                    Vector2 pt2 = bodyB.pointmass_list[b2].position;
+                    Vector2 pt1 = bodyB.PointMassList[b1].position;
+                    Vector2 pt2 = bodyB.PointMassList[b2].position;
 
                     float distToA = ((pt1.X - pt.X) * (pt1.X - pt.X)) + ((pt1.Y - pt.Y) * (pt1.Y - pt.Y));
                     float distToB = ((pt2.X - pt.X) * (pt2.X - pt.X)) + ((pt2.Y - pt.Y) * (pt2.Y - pt.Y));
@@ -126,8 +126,8 @@ namespace Kinematics.CollisionModule
                         if (dist < closestAway)
                         {
                             closestAway = dist;
-                            infoAway.pointmass_b = bodyB.pointmass_list[b1];
-                            infoAway.pointmass_c = bodyB.pointmass_list[b2];
+                            infoAway.pointmass_b = bodyB.PointMassList[b1];
+                            infoAway.pointmass_c = bodyB.PointMassList[b2];
                             infoAway.edge_distance = edgeD;
                             infoAway.point = hitPt;
                             infoAway.normal = norm;
@@ -140,8 +140,8 @@ namespace Kinematics.CollisionModule
                         if (dist < closestSame)
                         {
                             closestSame = dist;
-                            infoSame.pointmass_b = bodyB.pointmass_list[b1];
-                            infoSame.pointmass_c = bodyB.pointmass_list[b2];
+                            infoSame.pointmass_b = bodyB.PointMassList[b1];
+                            infoSame.pointmass_c = bodyB.PointMassList[b2];
                             infoSame.edge_distance = edgeD;
                             infoSame.point = hitPt;
                             infoSame.normal = norm;

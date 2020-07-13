@@ -1,69 +1,70 @@
+using System.Collections.Generic;
 using Kinematics.MathModule;
 
 namespace Kinematics.CollisionModule
 {
     public class Body
     {
-        public Shape base_shape;
-        public Shape curr_shape;
-        public PointMass[] pointmass_list;
-        public AxisAlignedBoundingBox aabb;
-        public Vector2 scale = Vector2.One;
-        public Vector2 position;
-        public Vector2 velocity;
-        public Vector2 force;
-        public int count;
-        public float curr_angle;
-        public float prev_angle;
-        public float omega;
-        public float damping = 0.999f;
-        public bool is_static = false;
-        public bool is_dirty = true;
-        public bool is_merging = false;
-        public Bitmask bitmaskx;
-        public Bitmask bitmasky;
+        public Shape BaseShape;
+        public Shape CurrentShape;
+        public List<PointMass> PointMassList;
+        public AxisAlignedBoundingBox AABB;
+        public Vector2 Scale = Vector2.One;
+        public Vector2 Position;
+        public Vector2 Velocity;
+        public Vector2 Force;
+        public int Count;
+        public float CurrentAngle;
+        public float PreviousAngle;
+        public float Omega;
+        public float Damping = 0.999f;
+        public bool IsStatic = false;
+        public bool IsDirty = true;
+        public bool IsMerging = false;
+        public Bitmask BitmaskX;
+        public Bitmask BitmaskY;
 
         public Body(Shape shape, float mass)
         {
-            base_shape = shape;
-            curr_shape = shape.Clone();
-            count = shape.count;
+            BaseShape = shape;
+            CurrentShape = shape.Clone();
+            Count = shape.count;
 
-            pointmass_list = new PointMass[shape.count];
+            PointMassList = new List<PointMass>(shape.count);
             for (int i = 0; i < shape.count; i++)
             {
-                pointmass_list[i] = new PointMass(shape.points[i], mass);
+                PointMassList[i] = new PointMass(shape.points[i], mass);
             }
 
-            bitmaskx = new Bitmask();
-            bitmasky = new Bitmask();
+            BitmaskX = new Bitmask();
+            BitmaskY = new Bitmask();
         }
 
         private void UpdatePointMasses(double elapsed)
         {
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                pointmass_list[i].velocity.X *= damping;
-                pointmass_list[i].velocity.Y *= damping;
-                pointmass_list[i].Update(elapsed);
+                PointMassList[i].velocity.X *= Damping;
+                PointMassList[i].velocity.Y *= Damping;
+                PointMassList[i].Update(elapsed);
             }
         }
 
         private void UpdataAABB(double elapsed)
         {
-            aabb.Clear();
+            AABB.Clear();
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                float x = pointmass_list[i].position.X;
-                float y = pointmass_list[i].position.Y;
+                float x = PointMassList[i].position.X;
+                float y = PointMassList[i].position.Y;
 
-                aabb.Add(x, y);
+                AABB.Add(x, y);
 
-                x += (float)(pointmass_list[i].velocity.X * elapsed);
-                y += (float)(pointmass_list[i].velocity.Y * elapsed);
+                x += (float)(PointMassList[i].velocity.X * elapsed);
+                y += (float)(PointMassList[i].velocity.Y * elapsed);
 
-                aabb.Add(x, y);
+                AABB.Add(x, y);
             }
         }
 
@@ -71,16 +72,16 @@ namespace Kinematics.CollisionModule
         {
             GetBodyPositionVelocityForce(out Vector2 currentPosition, out Vector2 currentVelocity, out Vector2 currentForce);
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                pointmass_list[i].position -= currentPosition;
-                pointmass_list[i].position += position;
+                PointMassList[i].position -= currentPosition;
+                PointMassList[i].position += position;
 
-                pointmass_list[i].velocity -= currentVelocity;
-                pointmass_list[i].velocity += velocity;
+                PointMassList[i].velocity -= currentVelocity;
+                PointMassList[i].velocity += velocity;
 
-                pointmass_list[i].force -= currentForce;
-                pointmass_list[i].force += force;
+                PointMassList[i].force -= currentForce;
+                PointMassList[i].force += force;
             }
         }
 
@@ -89,7 +90,7 @@ namespace Kinematics.CollisionModule
             position = default;
             velocity = default;
             force = default;
-            float inverse_count = 1.0f / count;
+            float inverse_count = 1.0f / Count;
 
             position.X = 0;
             position.Y = 0;
@@ -100,22 +101,22 @@ namespace Kinematics.CollisionModule
             force.X = 0;
             force.Y = 0;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                position.X += pointmass_list[i].position.X * inverse_count;
-                position.Y += pointmass_list[i].position.Y * inverse_count;
+                position.X += PointMassList[i].position.X * inverse_count;
+                position.Y += PointMassList[i].position.Y * inverse_count;
 
-                velocity.X += pointmass_list[i].velocity.X * inverse_count;
-                velocity.Y += pointmass_list[i].velocity.Y * inverse_count;
+                velocity.X += PointMassList[i].velocity.X * inverse_count;
+                velocity.Y += PointMassList[i].velocity.Y * inverse_count;
 
-                force.X += pointmass_list[i].force.X * inverse_count;
-                force.Y += pointmass_list[i].force.Y * inverse_count;
+                force.X += PointMassList[i].force.X * inverse_count;
+                force.Y += PointMassList[i].force.Y * inverse_count;
             }
         }
 
         public void UpdateBodyPositionVelocityForce(double elapsed)
         {
-            GetBodyPositionVelocityForce(out position, out velocity, out force);
+            GetBodyPositionVelocityForce(out Position, out Velocity, out Force);
         }
 
         public void RotateShape(double elapsed)
@@ -123,19 +124,19 @@ namespace Kinematics.CollisionModule
             float angle = 0;
             int originalSign = 1;
             float originalAngle = 0;
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 Vector2 baseNorm = new Vector2
                 {
-                    X = base_shape.points[i].X,
-                    Y = base_shape.points[i].Y
+                    X = BaseShape.points[i].X,
+                    Y = BaseShape.points[i].Y
                 };
                 Vector2.Normalize(ref baseNorm, out baseNorm);
 
                 Vector2 curNorm = new Vector2
                 {
-                    X = pointmass_list[i].position.X - position.X,
-                    Y = pointmass_list[i].position.Y - position.Y
+                    X = PointMassList[i].position.X - Position.X,
+                    Y = PointMassList[i].position.Y - Position.Y
                 };
                 Vector2.Normalize(ref curNorm, out curNorm);
 
@@ -172,9 +173,9 @@ namespace Kinematics.CollisionModule
                 angle += thisAngle;
             }
 
-            angle /= count;
+            angle /= Count;
 
-            float angleChange = (angle - prev_angle);
+            float angleChange = (angle - PreviousAngle);
             if (Mathf.Abs(angleChange) >= Mathf.PI)
             {
                 if (angleChange < 0f)
@@ -187,17 +188,17 @@ namespace Kinematics.CollisionModule
                 }
             }
 
-            omega = angleChange / (float)elapsed;
-            prev_angle = angle;
+            Omega = angleChange / (float)elapsed;
+            PreviousAngle = angle;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                float x = base_shape.points[i].X * scale.X;
-                float y = base_shape.points[i].Y * scale.Y;
+                float x = BaseShape.points[i].X * Scale.X;
+                float y = BaseShape.points[i].Y * Scale.Y;
                 float c = Mathf.Cos(angle);
                 float s = Mathf.Sin(angle);
-                curr_shape.points[i].X = (c * x) - (s * y) + position.X;
-                curr_shape.points[i].Y = (c * y) + (s * x) + position.Y;
+                CurrentShape.points[i].X = (c * x) - (s * y) + Position.X;
+                CurrentShape.points[i].Y = (c * y) + (s * x) + Position.Y;
             }
         }
 
@@ -205,17 +206,17 @@ namespace Kinematics.CollisionModule
 
         public void Update(double elapsed)
         {
-            if (!is_dirty)
+            if (!IsDirty)
             {
                 return;
             }
 
-            if (is_merging)
+            if (IsMerging)
             {
                 return;
             }
 
-            SetBodyPositionVelocityForce(position, velocity, force);
+            SetBodyPositionVelocityForce(Position, Velocity, Force);
 
             RotateShape(elapsed);
             
@@ -226,41 +227,35 @@ namespace Kinematics.CollisionModule
 
             UpdateBodyPositionVelocityForce(elapsed);
 
-            if (is_static)
+            if (IsStatic)
             {
-                is_dirty = false;
+                IsDirty = false;
             }
         }
 
         public override string ToString()
         {
-            return $"{{position:[{position}] velocity:[{velocity}] force[{force}]}}";
+            return $"{{position:[{Position}] velocity:[{Velocity}] force[{Force}]}}";
         }
 
         public string ToStringSimple()
         {
-            return $"{{position:[{{{position.X:0.0}, {position.Y:0.0}}}] velocity:[{{{velocity.X:0.0}, {velocity.Y:0.0}}}]}}";
+            return $"{{position:[{{{Position.X:0.0}, {Position.Y:0.0}}}] velocity:[{{{Velocity.X:0.0}, {Velocity.Y:0.0}}}]}}";
         }
 
         public bool Contains(ref Vector2 point)
         {
-            Vector2 endPt = new Vector2();
-            endPt.X = aabb.max.X + 0.1f;
-            endPt.Y = point.Y;
+            Vector2 endPt = new Vector2
+            {
+                X = AABB.max.X + 0.1f,
+                Y = point.Y
+            };
 
             bool inside = false;
-            Vector2 edgeSt = pointmass_list[0].position;
-            Vector2 edgeEnd = new Vector2();
-            for (int i = 0; i < count; i++)
+            Vector2 edgeSt = PointMassList[0].position;
+            for (int i = 0; i < Count; i++)
             {
-                if (i < (count - 1))
-                {
-                    edgeEnd = pointmass_list[i + 1].position;
-                }
-                else
-                {
-                    edgeEnd = pointmass_list[0].position;
-                }
+                Vector2 edgeEnd = i < (Count - 1) ? PointMassList[i + 1].position : PointMassList[0].position;
 
                 if (((edgeSt.Y <= point.Y) && (edgeEnd.Y > point.Y)) || ((edgeSt.Y > point.Y) && (edgeEnd.Y <= point.Y)))
                 {
@@ -289,14 +284,14 @@ namespace Kinematics.CollisionModule
 
             float closestD = 1000.0f;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
                 float dist = GetClosestPointOnEdge(point, i, out Vector2 tempHit, out Vector2 tempNorm, out float tempEdgeD);
                 if (dist < closestD)
                 {
                     closestD = dist;
                     pointA = i;
-                    if (i < (count - 1))
+                    if (i < (Count - 1))
                     {
                         pointB = i + 1;
                     }
@@ -328,16 +323,16 @@ namespace Kinematics.CollisionModule
             edgeD = 0f;
             float distance;
 
-            Vector2 ptA = pointmass_list[edgeNum].position;
-            Vector2 ptB = new Vector2();
+            Vector2 ptA = PointMassList[edgeNum].position;
+            Vector2 ptB;
 
-            if (edgeNum < (count - 1))
+            if (edgeNum < (Count - 1))
             {
-                ptB = pointmass_list[edgeNum + 1].position;
+                ptB = PointMassList[edgeNum + 1].position;
             }
             else
             {
-                ptB = pointmass_list[0].position;
+                ptB = PointMassList[0].position;
             }
 
             Vector2 toP = new Vector2
@@ -400,28 +395,23 @@ namespace Kinematics.CollisionModule
 
         public float GetClosestPointOnEdgeSquared(Vector2 point, int edgeNum, out Vector2 hitPt, out Vector2 normal, out float edgeD)
         {
-            hitPt = new Vector2();
-            hitPt.X = 0f;
-            hitPt.Y = 0f;
+            hitPt = new Vector2
+            {
+                X = 0f,
+                Y = 0f
+            };
 
-            normal = new Vector2();
-            normal.X = 0f;
-            normal.Y = 0f;
+            normal = new Vector2
+            {
+                X = 0f,
+                Y = 0f
+            };
 
             edgeD = 0f;
             float dist;
 
-            Vector2 ptA = pointmass_list[edgeNum].position;
-            Vector2 ptB;
-
-            if (edgeNum < (count - 1))
-            {
-                ptB = pointmass_list[edgeNum + 1].position;
-            }
-            else
-            {
-                ptB = pointmass_list[0].position;
-            }
+            Vector2 ptA = PointMassList[edgeNum].position;
+            Vector2 ptB = edgeNum < (Count - 1) ? PointMassList[edgeNum + 1].position : PointMassList[0].position;
 
             Vector2 toP = new Vector2
             {
@@ -440,17 +430,12 @@ namespace Kinematics.CollisionModule
                 E.Y /= edgeLength;
             }
 
-            // normal
             Vector2 n = new Vector2();
             VectorHelper.Perpendicular(ref E, ref n);
 
-            // calculate the distance!
-            float x;
-            Vector2.Dot(ref toP, ref E, out x);
+            Vector2.Dot(ref toP, ref E, out float x);
             if (x <= 0.0f)
             {
-                // x is outside the line segment, distance is from pt to ptA.
-                //dist = (pt - ptA).Length();
                 Vector2.DistanceSquared(ref point, ref ptA, out dist);
                 hitPt = ptA;
                 edgeD = 0f;
@@ -458,8 +443,6 @@ namespace Kinematics.CollisionModule
             }
             else if (x >= edgeLength)
             {
-                // x is outside of the line segment, distance is from pt to ptB.
-                //dist = (pt - ptB).Length();
                 Vector2.DistanceSquared(ref point, ref ptB, out dist);
                 hitPt = ptB;
                 edgeD = 1f;
@@ -493,9 +476,9 @@ namespace Kinematics.CollisionModule
             float closestSQD = 100000.0f;
             int closest = -1;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                float thisD = (point - pointmass_list[i].position).LengthSquared();
+                float thisD = (point - PointMassList[i].position).LengthSquared();
                 if (thisD < closestSQD)
                 {
                     closestSQD = thisD;
@@ -504,22 +487,22 @@ namespace Kinematics.CollisionModule
             }
 
             dist = Mathf.Sqrt(closestSQD);
-            return pointmass_list[closest];
+            return PointMassList[closest];
         }
 
         public void ApplyForce(ref Vector2 point, ref Vector2 force)
         {
-            Vector2 R = (position - point);
+            Vector2 R = (Position - point);
 
             float torqueF = Vector3.Cross(VectorHelper.Vector3FromVector2(R), VectorHelper.Vector3FromVector2(force)).Z;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                Vector2 toPt = (pointmass_list[i].position - position);
+                Vector2 toPt = (PointMassList[i].position - Position);
                 Vector2 torque = VectorHelper.Rotate(toPt, - Mathf.PI / 2f);
 
-                pointmass_list[i].force += torque * torqueF;
-                pointmass_list[i].force += force;
+                PointMassList[i].force += torque * torqueF;
+                PointMassList[i].force += force;
             }
         }
     }

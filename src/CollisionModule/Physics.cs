@@ -73,7 +73,7 @@ namespace Kinematics.CollisionModule
 
         public void UpdateBitmask(Body body)
         {
-            AxisAlignedBoundingBox box = body.aabb;
+            AxisAlignedBoundingBox box = body.AABB;
 
             int minX = (int) Mathf.Floor((box.min.X - aabb.min.X) / cell.X);
             int maxX = (int) Mathf.Floor((box.max.X - aabb.min.X) / cell.X);
@@ -113,16 +113,16 @@ namespace Kinematics.CollisionModule
                 maxY = 32;
             }
 
-            body.bitmaskx.clear();
+            body.BitmaskX.clear();
             for (int i = minX; i <= maxX; i++)
             {
-                body.bitmaskx.setOn(i);
+                body.BitmaskX.setOn(i);
             }
 
-            body.bitmasky.clear();
+            body.BitmaskY.clear();
             for (int i = minY; i <= maxY; i++)
             {
-                body.bitmasky.setOn(i);
+                body.BitmaskY.setOn(i);
             }
         }
 
@@ -131,7 +131,7 @@ namespace Kinematics.CollisionModule
             for (int i = 0; i < body_list.Count; i++)
             {
                 Body body = body_list[i];
-                if (!body.aabb.Contains(point.X, point.Y))
+                if (!body.AABB.Contains(point.X, point.Y))
                 {
                     continue;
                 }
@@ -152,7 +152,7 @@ namespace Kinematics.CollisionModule
 
             for (int i = 0; i < body_list.Count; i++)
             {
-                if (!body_list[i].is_static)
+                if (!body_list[i].IsStatic)
                 {
                     continue;
                 }
@@ -160,24 +160,24 @@ namespace Kinematics.CollisionModule
                 body_list[i].RotateShape(0);
                 body_list[i].Update(0);
 
-                if (body_list[i].aabb.min.X < min.X)
+                if (body_list[i].AABB.min.X < min.X)
                 {
-                    min.X = body_list[i].aabb.min.X;
+                    min.X = body_list[i].AABB.min.X;
                 }
 
-                if (body_list[i].aabb.min.Y < min.Y)
+                if (body_list[i].AABB.min.Y < min.Y)
                 {
-                    min.Y = body_list[i].aabb.min.Y;
+                    min.Y = body_list[i].AABB.min.Y;
                 }
 
-                if (body_list[i].aabb.max.X > max.X)
+                if (body_list[i].AABB.max.X > max.X)
                 {
-                    max.X = body_list[i].aabb.max.X;
+                    max.X = body_list[i].AABB.max.X;
                 }
 
-                if (body_list[i].aabb.max.Y > max.Y)
+                if (body_list[i].AABB.max.Y > max.Y)
                 {
-                    max.Y = body_list[i].aabb.max.Y;
+                    max.Y = body_list[i].AABB.max.Y;
                 }
             }
 
@@ -190,12 +190,12 @@ namespace Kinematics.CollisionModule
             {
                 Body body = body_list[i];
 
-                if (body.is_static)
+                if (body.IsStatic)
                 {
                     continue;
                 }
 
-                float distance = (body.position - position).Length();
+                float distance = (body.Position - position).Length();
                 Vector2 point = new Vector2();
                 if (distance > far)
                 {
@@ -216,7 +216,7 @@ namespace Kinematics.CollisionModule
                         point += position;
                     }
 
-                    body_list[i].position = point;
+                    body_list[i].Position = point;
                     body_list[i].Update(0);
                 }
             }
@@ -247,17 +247,17 @@ namespace Kinematics.CollisionModule
             {
                 for (int j = i + 1; j < body_list.Count; j++)
                 {
-                    if (body_list[i].is_static && body_list[j].is_static)
+                    if (body_list[i].IsStatic && body_list[j].IsStatic)
                     {
                         continue;
                     }
 
-                    if (((body_list[i].bitmaskx.mask & body_list[j].bitmaskx.mask) == 0) && ((body_list[i].bitmasky.mask & body_list[j].bitmasky.mask) == 0))
+                    if (((body_list[i].BitmaskX.mask & body_list[j].BitmaskX.mask) == 0) && ((body_list[i].BitmaskY.mask & body_list[j].BitmaskY.mask) == 0))
                     {
                         continue;
                     }
 
-                    if (!(body_list[i].aabb).Intersects(ref (body_list[j].aabb)))
+                    if (!(body_list[i].AABB).Intersects(ref (body_list[j].AABB)))
                     {
                         continue;
                     }
