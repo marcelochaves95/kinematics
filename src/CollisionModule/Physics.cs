@@ -252,7 +252,7 @@ namespace Kinematics.CollisionModule
                         continue;
                     }
 
-                    if (((body_list[i].BitmaskX.mask & body_list[j].BitmaskX.mask) == 0) && ((body_list[i].BitmaskY.mask & body_list[j].BitmaskY.mask) == 0))
+                    if (((body_list[i].BitmaskX.Mask & body_list[j].BitmaskX.Mask) == 0) && ((body_list[i].BitmaskY.Mask & body_list[j].BitmaskY.Mask) == 0))
                     {
                         continue;
                     }
