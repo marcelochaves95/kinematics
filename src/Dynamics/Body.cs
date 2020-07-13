@@ -494,9 +494,9 @@ namespace Kinematics.Dynamics
 
         public void ApplyForce(ref Vector2 point, ref Vector2 force)
         {
-            Vector2 R = (Position - point);
+            Vector2 r = Position - point;
 
-            float torqueF = Vector3.Cross(Vector2.Vector3FromVector2(R), Vector2.Vector3FromVector2(force)).Z;
+            float torqueF = Vector3.Cross(new Vector3(r), new Vector3(force)).Z;
 
             for (int i = 0; i < Count; i++)
             {

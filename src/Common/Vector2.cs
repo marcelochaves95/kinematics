@@ -76,6 +76,16 @@ namespace Kinematics.Common
             X = v.X;
             Y = v.Y;
         }
+
+        /// <summary>
+        /// Construct the vector from its coordinates
+        /// </summary>
+        /// <param name="v">Vector3</param>
+        public Vector2(Vector3 v)
+        {
+            X = v.X;
+            Y = v.Y;
+        }
         #endregion
 
         #region Operators
@@ -145,16 +155,6 @@ namespace Kinematics.Common
         }
 
         /// <summary>
-        /// Performs an explicit conversion from Vector3 to Vector4D
-        /// </summary>
-        /// <param name="v">The value</param>
-        /// <returns>The result of the conversion.</returns>
-        public static explicit operator Vector3(Vector2 v)
-        {
-            return new Vector3(v, 0f);
-        }
-
-        /// <summary>
         /// Operator == overload ; check vector equality
         /// </summary>
         /// <param name="v1">First vector</param>
@@ -174,6 +174,16 @@ namespace Kinematics.Common
         public static bool operator !=(Vector2 v1, Vector2 v2)
         {
             return !v1.Equals(v2);
+        }
+
+        /// <summary>
+        /// Performs an explicit conversion from Vector2 to Vector3
+        /// </summary>
+        /// <param name="v">Vector</param>
+        /// <returns>The result of the conversion</returns>
+        public static explicit operator Vector3(Vector2 v)
+        {
+            return new Vector3(v);
         }
         #endregion
 
@@ -303,48 +313,6 @@ namespace Kinematics.Common
             Vector2.Dot(ref v2, ref perp, out float dot);
 
             return dot >= 0.0f;
-        }
-
-        /// <summary>
-        /// Turn a Vector2 into a Vector3 (sets Z component to zero)
-        /// </summary>
-        /// <param name="v">Input Vector2</param>
-        /// <returns>Result Vector3</returns>
-        public static Vector3 Vector3FromVector2(Vector2 v)
-        {
-            return new Vector3(v.X, v.Y, 0);
-        }
-
-        /// <summary>
-        /// Turn a Vector2 into a Vector3 (sets Z component to zero) (reference type version)
-        /// </summary>
-        /// <param name="v">Input Vector2</param>
-        /// <returns>Result Vector3</returns>
-        public static Vector3 Vector3FromVector2(ref Vector2 v)
-        {
-            return new Vector3(v.X, v.Y, 0);
-        }
-
-        /// <summary>
-        /// Turn a Vector2 into a Vector3, specifying the Z component to use.
-        /// </summary>
-        /// <param name="v">Input Vector2</param>
-        /// <param name="z">Z component</param>
-        /// <returns>Result Vector3</returns>
-        public static Vector3 Vector3FromVector2(Vector2 v, float z)
-        {
-            return new Vector3(v.X, v.Y, z);
-        }
-
-        /// <summary>
-        /// Turn a Vector2 into a Vector3, specifying the Z component to use.
-        /// </summary>
-        /// <param name="v">Input Vector2</param>
-        /// <param name="z">Z component</param>
-        /// <returns>Result Vector3</returns>
-        public static Vector3 Vector3FromVector2(ref Vector2 v, float z)
-        {
-            return new Vector3(v.X, v.Y, z);
         }
 
         /// <summary>

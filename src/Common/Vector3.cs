@@ -11,29 +11,15 @@ namespace Kinematics.Common
     public struct Vector3 : IEquatable<Vector3>
     {
         #region Properties
+
         /// <summary>X (horizontal) component of the vector</summary>
-        private float _x;
-        public float X
-        {
-            get => _x;
-            set => _x = value;
-        }
+        public float X;
 
         /// <summary>Y (vertical) component of the vector</summary>
-        private float _y;
-        public float Y
-        {
-            get => _y;
-            set => _y = value;
-        }
+        public float Y;
 
         /// <summary>Z (depth) component of the vector</summary>
-        private float _z;
-        public float Z
-        {
-            get => _z;
-            set => _z = value;
-        }
+        public float Z;
 
         /// <summary>
         /// Shorthand for writing Vector3(0, 0, 1)
@@ -93,9 +79,9 @@ namespace Kinematics.Common
         /// <param name="z">Z coordinate</param>
         public Vector3(float x, float y, float z)
         {
-            _x = x;
-            _y = y;
-            _z = z;
+            X = x;
+            Y = y;
+            Z = z;
         }
 
         /// <summary>
@@ -104,20 +90,9 @@ namespace Kinematics.Common
         /// <param name="v">The v to assign to the X, Y, and Z components of the vector. This must be an array with three elements</param>
         public Vector3(Vector3 v)
         {
-            _x = v._x;
-            _y = v._y;
-            _z = v._z;
-        }
-
-        /// <summary>
-        /// Construct the vector from it's coordinates
-        /// </summary>
-        /// <param name="v">The v to assign to the X, Y, and Z components of the vector. This must be an array with three elements</param>
-        public Vector3(float v)
-        {
-            _x = v;
-            _y = v;
-            _z = v;
+            X = v.X;
+            Y = v.Y;
+            Z = v.Z;
         }
 
         /// <summary>
@@ -125,34 +100,11 @@ namespace Kinematics.Common
         /// </summary>
         /// <param name="v">A vector containing the values with which to initialize the X, Y, and Z components</param>
         /// <param name="z">Initial value for the Z component of the vector</param>
-        public Vector3(Vector2 v, float z)
+        public Vector3(Vector2 v)
         {
-            _x = v.X;
-            _y = v.Y;
-            _z = z;
-        }
-
-        /// <summary>
-        /// Construct the vector from it's coordinates
-        /// </summary>
-        /// <param name="values">The values to assign to the X, Y, and Z components of the vector. This must be an array with three elements</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="values"/> is <c>null</c></exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="values"/> contains more or less than three elements</exception>
-        public Vector3(float[] values)
-        {
-            if (values == null)
-            {
-                throw new ArgumentNullException(nameof(values));
-            }
-
-            if (values.Length != 3)
-            {
-                throw new ArgumentOutOfRangeException(nameof(values), "There must be three and only three input values for Vector3.");
-            }
-
-            _x = values[0];
-            _y = values[1];
-            _z = values[2];
+            X = v.X;
+            Y = v.Y;
+            Z = 0.0f;
         }
         #endregion
 
@@ -165,7 +117,7 @@ namespace Kinematics.Common
         /// <returns>v1 + v2</returns>
         public static Vector3 operator +(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1._x + v2._x, v1.Y + v2._y, v1._z + v2._z);
+            return new Vector3(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
         }
 
         /// <summary>
@@ -176,7 +128,7 @@ namespace Kinematics.Common
         /// <returns>v1 - v2</returns>
         public static Vector3 operator -(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1._x - v2._x, v1._y - v2._y, v1._z - v2._z);
+            return new Vector3(v1.X - v2.X, v1.Y - v2.Y, v1.Z - v2.Z);
         }
 
         /// <summary>
@@ -186,7 +138,7 @@ namespace Kinematics.Common
         /// <returns>-v</returns>
         public static Vector3 operator -(Vector3 v)
         {
-            return new Vector3(-v._x, -v._y, -v._z);
+            return new Vector3(-v.X, -v.Y, -v.Z);
         }
 
         /// <summary>
@@ -197,7 +149,7 @@ namespace Kinematics.Common
         /// <returns>The scaled vector</returns>
         public static Vector3 operator *(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1._x * v2._x, v1._y * v2._y, v1._z * v2._z);
+            return new Vector3(v1.X * v2.X, v1.Y * v2.Y, v1.Z * v2.Z);
         }
 
         /// <summary>
@@ -208,7 +160,7 @@ namespace Kinematics.Common
         /// <returns>v * s</returns>
         public static Vector3 operator *(Vector3 v, float s)
         {
-            return new Vector3(v._x * s, v._y * s, v._z * s);
+            return new Vector3(v.X * s, v.Y * s, v.Z * s);
         }
 
         /// <summary>
@@ -219,7 +171,7 @@ namespace Kinematics.Common
         /// <returns>s * v</returns>
         public static Vector3 operator *(float s, Vector3 v)
         {
-            return new Vector3(v._x * s, v._y * s, v._z * s);
+            return new Vector3(v.X * s, v.Y * s, v.Z * s);
         }
 
         /// <summary>
@@ -230,7 +182,7 @@ namespace Kinematics.Common
         /// <returns>The scaled vector</returns>
         public static Vector3 operator /(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1._x / v2._x, v1._y / v2._y, v1._z / v2._z);
+            return new Vector3(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z);
         }
 
         /// <summary>
@@ -241,7 +193,7 @@ namespace Kinematics.Common
         /// <returns>v / s</returns>
         public static Vector3 operator /(Vector3 v, float s)
         {
-            return new Vector3(v._x / s, v._y / s, v._z / s);
+            return new Vector3(v.X / s, v.Y / s, v.Z / s);
         }
 
         /// <summary>
@@ -265,6 +217,16 @@ namespace Kinematics.Common
         {
             return !v1.Equals(v2);
         }
+
+        /// <summary>
+        /// Performs an explicit conversion from Vector3 to Vector2
+        /// </summary>
+        /// <param name="v">Vector</param>
+        /// <returns>The result of the conversion</returns>
+        public static explicit operator Vector2(Vector3 v)
+        {
+            return new Vector2(v);
+        }
         #endregion
 
         /// <summary>
@@ -284,7 +246,7 @@ namespace Kinematics.Common
         /// <returns>Vectors are equal</returns>
         public bool Equals(Vector3 other)
         {
-            return _x.Equals(other._x) && _y.Equals(other._y) && _z.Equals(other._z);
+            return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         }
 
         /// <summary>
@@ -293,7 +255,7 @@ namespace Kinematics.Common
         /// <returns>The length of the vector</returns>
         public static float Magnitude(Vector3 v)
         {
-            return Mathf.Sqrt(Mathf.Pow(v._x, 2) + Mathf.Pow(v._y, 2) + Mathf.Pow(v._z, 2));
+            return Mathf.Sqrt(Mathf.Pow(v.X, 2) + Mathf.Pow(v.Y, 2) + Mathf.Pow(v.Z, 2));
         }
 
         /// <summary>
@@ -314,7 +276,7 @@ namespace Kinematics.Common
         /// <returns>Dot Product of two vectors</returns>
         public static float Dot(Vector3 v1, Vector3 v2)
         {
-            return v1._x * v2._x + v1._y * v2._y + v1._z * v2._z;
+            return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
         }
 
         /// <summary>
@@ -325,7 +287,7 @@ namespace Kinematics.Common
         /// <returns>Cross Product of two vectors</returns>
         public static Vector3 Cross(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1._y * v2._z - v1._z * v2._y, v1._z * v2._x - v1._x * v2._z, v1._x * v2._y - v1._y * v2._x);
+            return new Vector3(v1.Y * v2.Z - v1.Z * v2.Y, v1.Z * v2.X - v1.X * v2.Z, v1.X * v2.Y - v1.Y * v2.X);
         }
 
         /// <summary>
@@ -339,9 +301,9 @@ namespace Kinematics.Common
         /// <returns>A new <see cref="Vector3"/> containing the 3D Cartesian coordinates of the specified point</returns>
         public static Vector3 Barycentric(Vector3 v1, Vector3 v2, Vector3 v3, float a1, float a2)
         {
-            return new Vector3((v1._x + (a1 * (v2._x - v1._x))) + (a2 * (v3._x - v1._x)),
-                (v1._y + (a1 * (v2._y - v1._y))) + (a2 * (v3._y - v1._y)),
-                (v1._z + (a1 * (v2._z - v1._z))) + (a2 * (v3._z - v1._z)));
+            return new Vector3((v1.X + (a1 * (v2.X - v1.X))) + (a2 * (v3.X - v1.X)),
+                (v1.Y + (a1 * (v2.Y - v1.Y))) + (a2 * (v3.Y - v1.Y)),
+                (v1.Z + (a1 * (v2.Z - v1.Z))) + (a2 * (v3.Z - v1.Z)));
         }
 
         /// <summary>
@@ -353,17 +315,17 @@ namespace Kinematics.Common
         /// <returns>The clamped value</returns>
         public static Vector3 Clamp(Vector3 v, Vector3 min, Vector3 max)
         {
-            float x = v._x;
-            x = x > max._x ? max._x : x;
-            x = x < min._x ? min._x : x;
+            float x = v.X;
+            x = x > max.X ? max.X : x;
+            x = x < min.X ? min.X : x;
 
-            float y = v._y;
-            y = y > max._y ? max._y : y;
-            y = y < min._y ? min._y : y;
+            float y = v.Y;
+            y = y > max.Y ? max.Y : y;
+            y = y < min.Y ? min.Y : y;
 
-            float z = v._z;
-            z = z > max._z ? max._z : z;
-            z = z < min._z ? min._z : z;
+            float z = v.Z;
+            z = z > max.Z ? max.Z : z;
+            z = z < min.Z ? min.Z : z;
 
             return new Vector3(x, y, z);
         }
@@ -376,9 +338,9 @@ namespace Kinematics.Common
         /// <returns>The distance between the two vectors</returns>
         public static float Distance(Vector3 v1, Vector3 v2)
         {
-            float x = v1._x - v2._x;
-            float y = v1._y - v2._y;
-            float z = v1._z - v2._z;
+            float x = v1.X - v2.X;
+            float y = v1.Y - v2.Y;
+            float z = v1.Z - v2.Z;
 
             return Mathf.Sqrt(x * x + y * y + z * z);
         }
@@ -392,9 +354,9 @@ namespace Kinematics.Common
         /// <returns>The linear interpolation of the two vectors</returns>
         public static Vector3 Lerp(Vector3 s, Vector3 e, float a)
         {
-            return new Vector3(s._x + (e._x - s._x) * a,
-                            s._y + (e._y - s._y) * a,
-                            s._z + (e._z - s._z) * a
+            return new Vector3(s.X + (e.X - s.X) * a,
+                            s.Y + (e.Y - s.Y) * a,
+                            s.Z + (e.Z - s.Z) * a
             );
         }
 
@@ -409,9 +371,9 @@ namespace Kinematics.Common
         {
             float newAmount = a > 1f ? 1f : a < 0f ? 0f : a;
 
-            return new Vector3(s._x + (e._x - s._x) * (newAmount * newAmount) * (3f - 2f * newAmount),
-                            s._y + (e._y - s._y) * (newAmount * newAmount) * (3f - 2f * newAmount),
-                            s._z + (e._z - s._z) * (newAmount * newAmount) * (3f - 2f * newAmount)
+            return new Vector3(s.X + (e.X - s.X) * (newAmount * newAmount) * (3f - 2f * newAmount),
+                            s.Y + (e.Y - s.Y) * (newAmount * newAmount) * (3f - 2f * newAmount),
+                            s.Z + (e.Z - s.Z) * (newAmount * newAmount) * (3f - 2f * newAmount)
             );
         }
 
@@ -433,9 +395,9 @@ namespace Kinematics.Common
             float part3 = cubed - 2f * squared + a;
             float part4 = cubed - squared;
 
-            return new Vector3(v1._x * part1 + v2._x * part2 + t1._x * part3 + t2._x * part4,
-                            v1._y * part1 + v2._y * part2 + t1._y * part3 + t2._y * part4,
-                            v1._z * part1 + v2._z * part2 + t1._z * part3 + t2._z * part4
+            return new Vector3(v1.X * part1 + v2.X * part2 + t1.X * part3 + t2.X * part4,
+                            v1.Y * part1 + v2.Y * part2 + t1.Y * part3 + t2.Y * part4,
+                            v1.Z * part1 + v2.Z * part2 + t1.Z * part3 + t2.Z * part4
             );
         }
 
@@ -454,15 +416,15 @@ namespace Kinematics.Common
             float cubed = a * squared;
 
             return new Vector3(
-                0.5f * ((((2f * v2._x) + ((-v1._x + v3._x) * a)) +
-                        (((((2f * v1._x) - (5f * v2._x)) + (4f * v3._x)) - v4._x) * squared)) +
-                    ((((-v1._x + (3f * v2._x)) - (3f * v3._x)) + v4._x) * cubed)),
-                0.5f * ((((2f * v2._y) + ((-v1._y + v3._y) * a)) +
-                        (((((2f * v1._y) - (5f * v2._y)) + (4f * v3._y)) - v4._y) * squared)) +
-                    ((((-v1._y + (3f * v2._y)) - (3f * v3._y)) + v4._y) * cubed)),
-                0.5f * ((((2f * v2._z) + ((-v1._z + v3._z) * a)) +
-                        (((((2f * v1._z) - (5f * v2._z)) + (4f * v3._z)) - v4._z) * squared)) +
-                    ((((-v1._z + (3f * v2._z)) - (3f * v3._z)) + v4._z) * cubed))
+                0.5f * ((((2f * v2.X) + ((-v1.X + v3.X) * a)) +
+                        (((((2f * v1.X) - (5f * v2.X)) + (4f * v3.X)) - v4.X) * squared)) +
+                    ((((-v1.X + (3f * v2.X)) - (3f * v3.X)) + v4.X) * cubed)),
+                0.5f * ((((2f * v2.Y) + ((-v1.Y + v3.Y) * a)) +
+                        (((((2f * v1.Y) - (5f * v2.Y)) + (4f * v3.Y)) - v4.Y) * squared)) +
+                    ((((-v1.Y + (3f * v2.Y)) - (3f * v3.Y)) + v4.Y) * cubed)),
+                0.5f * ((((2f * v2.Z) + ((-v1.Z + v3.Z) * a)) +
+                        (((((2f * v1.Z) - (5f * v2.Z)) + (4f * v3.Z)) - v4.Z) * squared)) +
+                    ((((-v1.Z + (3f * v2.Z)) - (3f * v3.Z)) + v4.Z) * cubed))
             );
         }
 
@@ -474,9 +436,9 @@ namespace Kinematics.Common
         /// <returns>A vector containing the largest components of the source vectors</returns>
         public static Vector3 Max(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1._x > v2._x ? v1._x : v2._x,
-                            v1._y > v2._y ? v1._y : v2._y,
-                            v1._z > v2._z ? v1._z : v2._z
+            return new Vector3(v1.X > v2.X ? v1.X : v2.X,
+                            v1.Y > v2.Y ? v1.Y : v2.Y,
+                            v1.Z > v2.Z ? v1.Z : v2.Z
             );
         }
 
@@ -488,9 +450,9 @@ namespace Kinematics.Common
         /// <returns>A vector containing the smallest components of the source vectors</returns>
         public static Vector3 Min(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1._x < v2._x ? v1._x : v2._x,
-                            v1._y < v2._y ? v1._y : v2._y,
-                            v1._z < v2._z ? v1._z : v2._z
+            return new Vector3(v1.X < v2.X ? v1.X : v2.X,
+                            v1.Y < v2.Y ? v1.Y : v2.Y,
+                            v1.Z < v2.Z ? v1.Z : v2.Z
             );
         }
 
@@ -504,9 +466,9 @@ namespace Kinematics.Common
         {
             float dot = Dot(v, n);
 
-            return new Vector3(v._x - 2f * dot * n._x,
-                            v._y - 2f * dot * n._y,
-                            v._z - 2f * dot * n._z
+            return new Vector3(v.X - 2f * dot * n.X,
+                            v.Y - 2f * dot * n.Y,
+                            v.Z - 2f * dot * n.Z
             );
         }
 
@@ -538,7 +500,7 @@ namespace Kinematics.Common
         /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
         public override int GetHashCode()
         {
-            return _x.GetHashCode() ^ (_y.GetHashCode() << 2) ^ (_z.GetHashCode() >> 2);
+            return X.GetHashCode() ^ (Y.GetHashCode() << 2) ^ (Z.GetHashCode() >> 2);
         }
 
         /// <summary>
@@ -547,7 +509,7 @@ namespace Kinematics.Common
         /// <returns>String description of the object</returns>
         public override string ToString()
         {
-            return $"[Vector3] X({_x}) Y({_y}) Z({_z})";
+            return $"[Vector3] X({X}) Y({Y}) Z({Z})";
         }
     }
 }
