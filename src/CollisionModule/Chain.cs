@@ -16,13 +16,13 @@ namespace Kinematics.CollisionModule
             PointMassList = new List<PointMass>();
             SpringList = new List<Spring>();
 
-            float length = Vector2.Distance(from.position, to.position) / count;
-            Vector2 direction = to.position - from.position;
+            float length = Vector2.Distance(from.Position, to.Position) / count;
+            Vector2 direction = to.Position - from.Position;
             direction.Normalize();
 
             for (int i = 0; i < count + 1; i++)
             {
-                PointMassList.Add(new PointMass(new Vector2(from.position.X + direction.X * length * i, from.position.Y + direction.Y * length* i), mass));
+                PointMassList.Add(new PointMass(new Vector2(from.Position.X + direction.X * length * i, from.Position.Y + direction.Y * length* i), mass));
             }
 
             PointMassList[0] = from;
@@ -41,17 +41,17 @@ namespace Kinematics.CollisionModule
                 Spring spring = SpringList[i];
                 Spring.SpringForce(ref spring, out Vector2 force);
 
-                spring.PointMassA.force.X += force.X;
-                spring.PointMassA.force.Y += force.Y;
+                spring.PointMassA.Force.X += force.X;
+                spring.PointMassA.Force.Y += force.Y;
 
-                spring.PointMassB.force.X -= force.X;
-                spring.PointMassB.force.Y -= force.Y;
+                spring.PointMassB.Force.X -= force.X;
+                spring.PointMassB.Force.Y -= force.Y;
             }
 
             for (int i = 1; i < PointMassList.Count-1; i++)
             {
-                PointMassList[i].velocity.X *= Damping;
-                PointMassList[i].velocity.Y *= Damping;
+                PointMassList[i].Velocity.X *= Damping;
+                PointMassList[i].Velocity.Y *= Damping;
                 PointMassList[i].Update(elapsed);
             }
         }

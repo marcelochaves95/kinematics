@@ -4,37 +4,37 @@ namespace Kinematics.CollisionModule
 {
     public class PointMass
     {
-        public float mass;
-        public Vector2 position;
-        public Vector2 velocity;
-        public Vector2 force;
+        public float Mass;
+        public Vector2 Position;
+        public Vector2 Velocity;
+        public Vector2 Force;
 
         public PointMass() { }
 
         public PointMass(Vector2 position, float mass)
         {
-            this.mass = mass;
-            this.position = position;
-            velocity = force = Vector2.Zero;
+            Mass = mass;
+            Position = position;
+            Velocity = Force = Vector2.Zero;
         }
 
         public override string ToString()
         {
-            return $"{{position:[{position}] velocity:[{velocity}] force:[{force}]}}";
+            return $"{{position:[{Position}] velocity:[{Velocity}] force:[{Force}]}}";
         }
 
         public void Update(double elapsed)
         {
-            float k = (float) elapsed / mass;
+            float k = (float) elapsed / Mass;
 
-            velocity.X += (force.X * k);
-            velocity.Y += (force.Y * k);
+            Velocity.X += (Force.X * k);
+            Velocity.Y += (Force.Y * k);
 
-            position.X += (velocity.X * k);
-            position.Y += (velocity.Y * k);
+            Position.X += (Velocity.X * k);
+            Position.Y += (Velocity.Y * k);
 
-            force.X = 0f;
-            force.Y = 0f;
+            Force.X = 0f;
+            Force.Y = 0f;
         }
     }
 }

@@ -31,15 +31,15 @@ namespace Kinematics.CollisionModule
 
                 Vector2 edge1N = new Vector2
                 {
-                    X = PointMassList[i].position.X - PointMassList[prev].position.X,
-                    Y = PointMassList[i].position.Y - PointMassList[prev].position.Y
+                    X = PointMassList[i].Position.X - PointMassList[prev].Position.X,
+                    Y = PointMassList[i].Position.Y - PointMassList[prev].Position.Y
                 };
                 VectorHelper.Perpendicular(ref edge1N);
 
                 Vector2 edge2N = new Vector2
                 {
-                    X = PointMassList[next].position.X - PointMassList[i].position.X,
-                    Y = PointMassList[next].position.Y - PointMassList[i].position.Y
+                    X = PointMassList[next].Position.X - PointMassList[i].Position.X,
+                    Y = PointMassList[next].Position.Y - PointMassList[i].Position.Y
                 };
                 VectorHelper.Perpendicular(ref edge2N);
 
@@ -61,7 +61,7 @@ namespace Kinematics.CollisionModule
                 normal_list[i] = norm;
                 edgelength_list[i] = edgeL;
 
-                float xDistance = Mathf.Abs(PointMassList[i].position.X - PointMassList[next].position.X);
+                float xDistance = Mathf.Abs(PointMassList[i].Position.X - PointMassList[next].Position.X);
                 float volumeProduct = xDistance * Mathf.Abs(norm.X) * edgeL;
                 volume += 0.5f * volumeProduct;
             }
@@ -73,11 +73,11 @@ namespace Kinematics.CollisionModule
                 int j = (i < Count - 1) ? i + 1 : 0;
 
                 float pressureV = (invVolume * edgelength_list[i] * pressure);
-                PointMassList[i].force.X += normal_list[i].X * pressureV;
-                PointMassList[i].force.Y += normal_list[i].Y * pressureV;
+                PointMassList[i].Force.X += normal_list[i].X * pressureV;
+                PointMassList[i].Force.Y += normal_list[i].Y * pressureV;
                                   
-                PointMassList[j].force.X += normal_list[j].X * pressureV;
-                PointMassList[j].force.Y += normal_list[j].Y * pressureV;
+                PointMassList[j].Force.X += normal_list[j].X * pressureV;
+                PointMassList[j].Force.Y += normal_list[j].Y * pressureV;
             }
         }
     }

@@ -44,8 +44,8 @@ namespace Kinematics.CollisionModule
         {
             for (int i = 0; i < Count; i++)
             {
-                PointMassList[i].velocity.X *= Damping;
-                PointMassList[i].velocity.Y *= Damping;
+                PointMassList[i].Velocity.X *= Damping;
+                PointMassList[i].Velocity.Y *= Damping;
                 PointMassList[i].Update(elapsed);
             }
         }
@@ -56,13 +56,13 @@ namespace Kinematics.CollisionModule
 
             for (int i = 0; i < Count; i++)
             {
-                float x = PointMassList[i].position.X;
-                float y = PointMassList[i].position.Y;
+                float x = PointMassList[i].Position.X;
+                float y = PointMassList[i].Position.Y;
 
                 AABB.Add(x, y);
 
-                x += (float)(PointMassList[i].velocity.X * elapsed);
-                y += (float)(PointMassList[i].velocity.Y * elapsed);
+                x += (float)(PointMassList[i].Velocity.X * elapsed);
+                y += (float)(PointMassList[i].Velocity.Y * elapsed);
 
                 AABB.Add(x, y);
             }
@@ -74,14 +74,14 @@ namespace Kinematics.CollisionModule
 
             for (int i = 0; i < Count; i++)
             {
-                PointMassList[i].position -= currentPosition;
-                PointMassList[i].position += position;
+                PointMassList[i].Position -= currentPosition;
+                PointMassList[i].Position += position;
 
-                PointMassList[i].velocity -= currentVelocity;
-                PointMassList[i].velocity += velocity;
+                PointMassList[i].Velocity -= currentVelocity;
+                PointMassList[i].Velocity += velocity;
 
-                PointMassList[i].force -= currentForce;
-                PointMassList[i].force += force;
+                PointMassList[i].Force -= currentForce;
+                PointMassList[i].Force += force;
             }
         }
 
@@ -103,14 +103,14 @@ namespace Kinematics.CollisionModule
 
             for (int i = 0; i < Count; i++)
             {
-                position.X += PointMassList[i].position.X * inverse_count;
-                position.Y += PointMassList[i].position.Y * inverse_count;
+                position.X += PointMassList[i].Position.X * inverse_count;
+                position.Y += PointMassList[i].Position.Y * inverse_count;
 
-                velocity.X += PointMassList[i].velocity.X * inverse_count;
-                velocity.Y += PointMassList[i].velocity.Y * inverse_count;
+                velocity.X += PointMassList[i].Velocity.X * inverse_count;
+                velocity.Y += PointMassList[i].Velocity.Y * inverse_count;
 
-                force.X += PointMassList[i].force.X * inverse_count;
-                force.Y += PointMassList[i].force.Y * inverse_count;
+                force.X += PointMassList[i].Force.X * inverse_count;
+                force.Y += PointMassList[i].Force.Y * inverse_count;
             }
         }
 
@@ -135,8 +135,8 @@ namespace Kinematics.CollisionModule
 
                 Vector2 curNorm = new Vector2
                 {
-                    X = PointMassList[i].position.X - Position.X,
-                    Y = PointMassList[i].position.Y - Position.Y
+                    X = PointMassList[i].Position.X - Position.X,
+                    Y = PointMassList[i].Position.Y - Position.Y
                 };
                 Vector2.Normalize(ref curNorm, out curNorm);
 
@@ -252,10 +252,10 @@ namespace Kinematics.CollisionModule
             };
 
             bool inside = false;
-            Vector2 edgeSt = PointMassList[0].position;
+            Vector2 edgeSt = PointMassList[0].Position;
             for (int i = 0; i < Count; i++)
             {
-                Vector2 edgeEnd = i < (Count - 1) ? PointMassList[i + 1].position : PointMassList[0].position;
+                Vector2 edgeEnd = i < (Count - 1) ? PointMassList[i + 1].Position : PointMassList[0].Position;
 
                 if (((edgeSt.Y <= point.Y) && (edgeEnd.Y > point.Y)) || ((edgeSt.Y > point.Y) && (edgeEnd.Y <= point.Y)))
                 {
@@ -323,16 +323,16 @@ namespace Kinematics.CollisionModule
             edgeD = 0f;
             float distance;
 
-            Vector2 ptA = PointMassList[edgeNum].position;
+            Vector2 ptA = PointMassList[edgeNum].Position;
             Vector2 ptB;
 
             if (edgeNum < (Count - 1))
             {
-                ptB = PointMassList[edgeNum + 1].position;
+                ptB = PointMassList[edgeNum + 1].Position;
             }
             else
             {
-                ptB = PointMassList[0].position;
+                ptB = PointMassList[0].Position;
             }
 
             Vector2 toP = new Vector2
@@ -410,8 +410,8 @@ namespace Kinematics.CollisionModule
             edgeD = 0f;
             float dist;
 
-            Vector2 ptA = PointMassList[edgeNum].position;
-            Vector2 ptB = edgeNum < (Count - 1) ? PointMassList[edgeNum + 1].position : PointMassList[0].position;
+            Vector2 ptA = PointMassList[edgeNum].Position;
+            Vector2 ptB = edgeNum < (Count - 1) ? PointMassList[edgeNum + 1].Position : PointMassList[0].Position;
 
             Vector2 toP = new Vector2
             {
@@ -478,7 +478,7 @@ namespace Kinematics.CollisionModule
 
             for (int i = 0; i < Count; i++)
             {
-                float thisD = (point - PointMassList[i].position).LengthSquared();
+                float thisD = (point - PointMassList[i].Position).LengthSquared();
                 if (thisD < closestSQD)
                 {
                     closestSQD = thisD;
@@ -498,11 +498,11 @@ namespace Kinematics.CollisionModule
 
             for (int i = 0; i < Count; i++)
             {
-                Vector2 toPt = (PointMassList[i].position - Position);
+                Vector2 toPt = (PointMassList[i].Position - Position);
                 Vector2 torque = VectorHelper.Rotate(toPt, - Mathf.PI / 2f);
 
-                PointMassList[i].force += torque * torqueF;
-                PointMassList[i].force += force;
+                PointMassList[i].Force += torque * torqueF;
+                PointMassList[i].Force += force;
             }
         }
     }

@@ -17,7 +17,7 @@ namespace Kinematics.CollisionModule
             CollisionInfo infoSame = new CollisionInfo();
             for (int i = 0; i < bApmCount; i++)
             {
-                Vector2 pt = bodyA.PointMassList[i].position;
+                Vector2 pt = bodyA.PointMassList[i].Position;
                 if (!boxB.Contains(pt.X, pt.Y))
                 {
                     continue;
@@ -31,8 +31,8 @@ namespace Kinematics.CollisionModule
                 int prevPt = (i > 0) ? i - 1 : bApmCount - 1;
                 int nextPt = (i < bApmCount - 1) ? i + 1 : 0;
 
-                Vector2 prev = bodyA.PointMassList[prevPt].position;
-                Vector2 next = bodyA.PointMassList[nextPt].position;
+                Vector2 prev = bodyA.PointMassList[prevPt].Position;
+                Vector2 next = bodyA.PointMassList[nextPt].Position;
 
                 Vector2 fromPrev = new Vector2
                 {
@@ -83,8 +83,8 @@ namespace Kinematics.CollisionModule
                         b2 = 0;
                     }
 
-                    Vector2 pt1 = bodyB.PointMassList[b1].position;
-                    Vector2 pt2 = bodyB.PointMassList[b2].position;
+                    Vector2 pt1 = bodyB.PointMassList[b1].Position;
+                    Vector2 pt2 = bodyB.PointMassList[b2].Position;
 
                     float distToA = ((pt1.X - pt.X) * (pt1.X - pt.X)) + ((pt1.Y - pt.Y) * (pt1.Y - pt.Y));
                     float distToB = ((pt2.X - pt.X) * (pt2.X - pt.X)) + ((pt2.Y - pt.Y) * (pt2.Y - pt.Y));

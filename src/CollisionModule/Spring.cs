@@ -31,13 +31,13 @@ namespace Kinematics.CollisionModule
 
         public void Reset()
         {
-            D = (PointMassA.position - PointMassB.position).Length();
+            D = (PointMassA.Position - PointMassB.Position).Length();
         }
 
         public static void SpringForce(ref Spring spring, out Vector2 forceOut)
         {
-            SpringForce(ref spring.PointMassA.position, ref spring.PointMassA.velocity,
-                ref spring.PointMassB.position, ref spring.PointMassB.velocity, spring.D, spring.K, spring.Damping, out forceOut);
+            SpringForce(ref spring.PointMassA.Position, ref spring.PointMassA.Velocity,
+                ref spring.PointMassB.Position, ref spring.PointMassB.Velocity, spring.D, spring.K, spring.Damping, out forceOut);
         }
 
         public static void SpringForce(ref Vector2 posA, ref Vector2 velA, ref Vector2 posB, ref Vector2 velB, float springD, float springK, float damping, out Vector2 forceOut)

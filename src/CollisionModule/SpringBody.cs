@@ -56,11 +56,11 @@ namespace Kinematics.CollisionModule
                 Spring s = spring_list[i];
                 Spring.SpringForce(ref s, out force);
 
-                s.PointMassA.force.X += force.X;
-                s.PointMassA.force.Y += force.Y;
+                s.PointMassA.Force.X += force.X;
+                s.PointMassA.Force.Y += force.Y;
    
-                s.PointMassB.force.X -= force.X;
-                s.PointMassB.force.Y -= force.Y;
+                s.PointMassB.Force.X -= force.X;
+                s.PointMassB.Force.Y -= force.Y;
             }
 
             if (is_constrained)
@@ -70,19 +70,19 @@ namespace Kinematics.CollisionModule
                     if (shape_k > 0)
                     {
 
-                        Spring.SpringForce(ref PointMassList[i].position, ref PointMassList[i].velocity, ref CurrentShape.Points[i],
-                                                        ref PointMassList[i].velocity, 0.0f, shape_k, shape_damping, out force);
+                        Spring.SpringForce(ref PointMassList[i].Position, ref PointMassList[i].Velocity, ref CurrentShape.Points[i],
+                                                        ref PointMassList[i].Velocity, 0.0f, shape_k, shape_damping, out force);
 
-                        PointMassList[i].force.X += force.X;
-                        PointMassList[i].force.Y += force.Y;
+                        PointMassList[i].Force.X += force.X;
+                        PointMassList[i].Force.Y += force.Y;
                     }
                 }
             }
 
             for (int i = 0; i < spring_pointmass_list.Count; i++)
             {
-                spring_pointmass_list[i].velocity.X *= Damping;
-                spring_pointmass_list[i].velocity.Y *= Damping;
+                spring_pointmass_list[i].Velocity.X *= Damping;
+                spring_pointmass_list[i].Velocity.Y *= Damping;
                 spring_pointmass_list[i].Update(elapsed);
             }
         }
