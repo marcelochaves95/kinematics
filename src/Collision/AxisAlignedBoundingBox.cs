@@ -12,14 +12,14 @@ namespace Kinematics.Collision
         {
             this.min = min;
             this.max = max;
-            this.valid = true;
+            valid = true;
         }
 
         public AxisAlignedBoundingBox(Vector2 min, Vector2 max)
         {
             this.min = min;
             this.max = max;
-            this.valid = true;
+            valid = true;
         }
 
         public void Add(float x, float y)
@@ -82,12 +82,12 @@ namespace Kinematics.Collision
 
         public bool Intersects(ref AxisAlignedBoundingBox aabb)
         {
-            if (this.max.X < aabb.min.X || this.min.X > aabb.max.X)
+            if (max.X < aabb.min.X || min.X > aabb.max.X)
             {
                 return false;
             }
 
-            if (this.max.Y < aabb.min.Y || this.min.Y > aabb.max.Y)
+            if (max.Y < aabb.min.Y || min.Y > aabb.max.Y)
             {
                 return false;
             }

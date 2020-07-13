@@ -312,7 +312,7 @@ namespace Kinematics.Math
         /// <param name="v1">Vector 1</param>
         /// <param name="v2">Vector 2</param>
         /// <returns>Dot Product of two vectors</returns>
-        public static float DotProduct(Vector3 v1, Vector3 v2)
+        public static float Dot(Vector3 v1, Vector3 v2)
         {
             return v1._x * v2._x + v1._y * v2._y + v1._z * v2._z;
         }
@@ -323,7 +323,7 @@ namespace Kinematics.Math
         /// <param name="v1">Vector 1</param>
         /// <param name="v2">Vector 2</param>
         /// <returns>Cross Product of two vectors</returns>
-        public static Vector3 CrossProduct(Vector3 v1, Vector3 v2)
+        public static Vector3 Cross(Vector3 v1, Vector3 v2)
         {
             return new Vector3(v1._y * v2._z - v1._z * v2._y, v1._z * v2._x - v1._x * v2._z, v1._x * v2._y - v1._y * v2._x);
         }
@@ -502,7 +502,7 @@ namespace Kinematics.Math
         /// <returns>The reflected vector</returns>
         public static Vector3 Reflect(Vector3 v, Vector3 n)
         {
-            float dot = DotProduct(v, n);
+            float dot = Dot(v, n);
 
             return new Vector3(v._x - 2f * dot * n._x,
                             v._y - 2f * dot * n._y,
@@ -519,7 +519,7 @@ namespace Kinematics.Math
         /// <returns>The refracted vector</returns>
         public static Vector3 Refract(Vector3 v, Vector3 n, float i)
         {
-            float cos1 = DotProduct(v, n);
+            float cos1 = Dot(v, n);
 
             float radians = 1f - i * i * (1f - cos1 * cos1);
 
