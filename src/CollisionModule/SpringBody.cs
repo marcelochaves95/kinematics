@@ -70,7 +70,7 @@ namespace Kinematics.CollisionModule
                     if (shape_k > 0)
                     {
 
-                        Spring.SpringForce(ref PointMassList[i].position, ref PointMassList[i].velocity, ref CurrentShape.points[i],
+                        Spring.SpringForce(ref PointMassList[i].position, ref PointMassList[i].velocity, ref CurrentShape.Points[i],
                                                         ref PointMassList[i].velocity, 0.0f, shape_k, shape_damping, out force);
 
                         PointMassList[i].force.X += force.X;

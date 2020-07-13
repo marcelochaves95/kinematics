@@ -6,51 +6,51 @@ namespace Kinematics.CollisionModule
 {
     public class Shape
     {
-        public Vector2[] points;
-        public int count;
-        private bool hasBegun;
-        private List<Vector2> pointList;
-        private bool center;
+        public Vector2[] Points;
+        public int Count;
+        private bool _hasBegun;
+        private readonly List<Vector2> _pointList;
+        private bool _center;
 
         public Shape()
         {
-            pointList = new List<Vector2>(128);
+            _pointList = new List<Vector2>(128);
         }
 
         public void Begin(bool center)
         {
-            if (hasBegun)
+            if (_hasBegun)
             {
                 throw new Exception("You must call End() before calling Begin()");
             }
 
-            hasBegun = true;
-            pointList.Clear();
-            this.center = center;
+            _hasBegun = true;
+            _pointList.Clear();
+            _center = center;
         }
 
         public void Add(Vector2 point)
         {
-            if (!hasBegun)
+            if (!_hasBegun)
             {
                 throw new Exception("You must call Begin() before adding points");
             }
 
-            pointList.Add(point);
+            _pointList.Add(point);
         }
 
         public void End()
         {
-            if (!hasBegun)
+            if (!_hasBegun)
             {
                 throw new Exception("You must call Begin() before calling End()");
             }
 
-            hasBegun = false;
-            points = pointList.ToArray();
-            count = points.Length;
+            _hasBegun = false;
+            Points = _pointList.ToArray();
+            Count = Points.Length;
 
-            if (center)
+            if (_center)
             {
                 CenterAtZero();
             }
@@ -60,11 +60,11 @@ namespace Kinematics.CollisionModule
         {
             Shape clone = new Shape
             {
-                count = points.Length,
-                points = new Vector2[points.Length]
+                Count = Points.Length,
+                Points = new Vector2[Points.Length]
             };
 
-            points.CopyTo(clone.points, 0);
+            Points.CopyTo(clone.Points, 0);
             return clone; 
         }
 
@@ -73,14 +73,14 @@ namespace Kinematics.CollisionModule
             float x = 0;
             float y = 0;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                x += points[i].X;
-                y += points[i].Y;
+                x += Points[i].X;
+                y += Points[i].Y;
             }
 
-            x /= count;
-            y /= count;
+            x /= Count;
+            y /= Count;
 
             return new Vector2(x, y);
         }
@@ -89,20 +89,20 @@ namespace Kinematics.CollisionModule
         {
             float x = 0;
             float y = 0;
-           
-            for (int i = 0; i < count; i++)
+
+            for (int i = 0; i < Count; i++)
             {
-                x += points[i].X;
-                y += points[i].Y;
+                x += Points[i].X;
+                y += Points[i].Y;
             }
 
-            x /= count;
-            y /= count;
+            x /= Count;
+            y /= Count;
 
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < Count; i++)
             {
-                points[i].X -= x;
-                points[i].Y -= y;
+                Points[i].X -= x;
+                Points[i].Y -= y;
             }
         }
 
@@ -115,8 +115,8 @@ namespace Kinematics.CollisionModule
             {
                 float x = points[i].X * scale.X;
                 float y = points[i].Y * scale.Y;
-                float c = (float)Math.Cos(angle);
-                float s = (float)Math.Sin(angle);
+                float c = Mathf.Cos(angle);
+                float s = Mathf.Sin(angle);
                 array[i].X = (c * x) - (s * y) + position.X;
                 array[i].Y = (c * y) + (s * x) + position.Y;
             }

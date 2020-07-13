@@ -28,12 +28,12 @@ namespace Kinematics.CollisionModule
         {
             BaseShape = shape;
             CurrentShape = shape.Clone();
-            Count = shape.count;
+            Count = shape.Count;
 
-            PointMassList = new List<PointMass>(shape.count);
-            for (int i = 0; i < shape.count; i++)
+            PointMassList = new List<PointMass>(shape.Count);
+            for (int i = 0; i < shape.Count; i++)
             {
-                PointMassList[i] = new PointMass(shape.points[i], mass);
+                PointMassList[i] = new PointMass(shape.Points[i], mass);
             }
 
             BitmaskX = new Bitmask();
@@ -128,8 +128,8 @@ namespace Kinematics.CollisionModule
             {
                 Vector2 baseNorm = new Vector2
                 {
-                    X = BaseShape.points[i].X,
-                    Y = BaseShape.points[i].Y
+                    X = BaseShape.Points[i].X,
+                    Y = BaseShape.Points[i].Y
                 };
                 Vector2.Normalize(ref baseNorm, out baseNorm);
 
@@ -193,12 +193,12 @@ namespace Kinematics.CollisionModule
 
             for (int i = 0; i < Count; i++)
             {
-                float x = BaseShape.points[i].X * Scale.X;
-                float y = BaseShape.points[i].Y * Scale.Y;
+                float x = BaseShape.Points[i].X * Scale.X;
+                float y = BaseShape.Points[i].Y * Scale.Y;
                 float c = Mathf.Cos(angle);
                 float s = Mathf.Sin(angle);
-                CurrentShape.points[i].X = (c * x) - (s * y) + Position.X;
-                CurrentShape.points[i].Y = (c * y) + (s * x) + Position.Y;
+                CurrentShape.Points[i].X = (c * x) - (s * y) + Position.X;
+                CurrentShape.Points[i].Y = (c * y) + (s * x) + Position.Y;
             }
         }
 
