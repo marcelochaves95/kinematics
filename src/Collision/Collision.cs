@@ -29,8 +29,8 @@ namespace Kinematics.Collision
                     continue;
                 }
 
-                int prevPt = (i > 0) ? i - 1 : bApmCount - 1;
-                int nextPt = (i < bApmCount - 1) ? i + 1 : 0;
+                int prevPt = i > 0 ? i - 1 : bApmCount - 1;
+                int nextPt = i < bApmCount - 1 ? i + 1 : 0;
 
                 Vector2 prev = bodyA.PointMassList[prevPt].Position;
                 Vector2 next = bodyA.PointMassList[nextPt].Position;
@@ -87,16 +87,15 @@ namespace Kinematics.Collision
                     Vector2 pt1 = bodyB.PointMassList[b1].Position;
                     Vector2 pt2 = bodyB.PointMassList[b2].Position;
 
-                    float distToA = ((pt1.X - pt.X) * (pt1.X - pt.X)) + ((pt1.Y - pt.Y) * (pt1.Y - pt.Y));
-                    float distToB = ((pt2.X - pt.X) * (pt2.X - pt.X)) + ((pt2.Y - pt.Y) * (pt2.Y - pt.Y));
+                    float distToA = (pt1.X - pt.X) * (pt1.X - pt.X) + (pt1.Y - pt.Y) * (pt1.Y - pt.Y);
+                    float distToB = (pt2.X - pt.X) * (pt2.X - pt.X) + (pt2.Y - pt.Y) * (pt2.Y - pt.Y);
 
-                    if ((distToA > closestAway) && (distToA > closestSame) && (distToB > closestAway) && (distToB > closestSame))
+                    if (distToA > closestAway && distToA > closestSame && distToB > closestAway && distToB > closestSame)
                     {
                         continue;
                     }
 
                     float dist = bodyB.GetClosestPointOnEdgeSquared(pt, j, out Vector2 hitPt, out Vector2 normal, out float edgeD);
-
                     float dot = Vector2.Dot(ptNorm, normal);
                     if (dot <= 0f)
                     {
@@ -127,7 +126,7 @@ namespace Kinematics.Collision
                     }
                 }
 
-                if ((found) && (closestAway > 0.3f) && (closestSame < closestAway))
+                if (found && closestAway > 0.3f && closestSame < closestAway)
                 {
                     infoSame.Penetration = Mathf.Sqrt(infoSame.Penetration);
                     data.Add(infoSame);

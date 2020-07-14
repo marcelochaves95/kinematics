@@ -27,11 +27,11 @@ namespace Kinematics.Collision
         {
             float k = (float) elapsed / Mass;
 
-            Velocity.X += (Force.X * k);
-            Velocity.Y += (Force.Y * k);
+            Velocity.X += Force.X * k;
+            Velocity.Y += Force.Y * k;
 
-            Position.X += (Velocity.X * k);
-            Position.Y += (Velocity.Y * k);
+            Position.X += Velocity.X * k;
+            Position.Y += Velocity.Y * k;
 
             Force.X = 0f;
             Force.Y = 0f;

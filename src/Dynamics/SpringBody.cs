@@ -6,24 +6,24 @@ namespace Kinematics.Dynamics
 {
     public class SpringBody : Body
     {
-        public List<Spring> spring_list;
-        public List<PointMass> spring_pointmass_list;
-        public bool is_constrained = true;
-        public float edge_k;
-        public float edge_damping;
-        public float shape_k;
-        public float shape_damping;
+        public List<Spring> SpringList;
+        public List<PointMass> SpringPointMassList;
+        public bool IsConstrained = true;
+        public float EdgeK;
+        public float EdgeDamping;
+        public float ShapeK;
+        public float ShapeDamping;
 
         public SpringBody(Shape shape, float mass, float edgeSpringK, float edgeSpringDamp, float shapeSpringK, float shapeSpringDamp) : base(shape, mass)
         {
-            is_constrained = true;
-            spring_list = new List<Spring>();
-            spring_pointmass_list = new List<PointMass>();
+            IsConstrained = true;
+            SpringList = new List<Spring>();
+            SpringPointMassList = new List<PointMass>();
 
-            shape_k = shapeSpringK;
-            shape_damping = shapeSpringDamp;
-            edge_k = edgeSpringK;
-            edge_damping = edgeSpringDamp;
+            ShapeK = shapeSpringK;
+            ShapeDamping = shapeSpringDamp;
+            EdgeK = edgeSpringK;
+            EdgeDamping = edgeSpringDamp;
 
             int i;
             for (i = 0; i < Count - 1; i++)
@@ -38,41 +38,40 @@ namespace Kinematics.Dynamics
         {
             if (!PointMassList.Contains(spring.PointMassA))
             {
-                spring_pointmass_list.Add(spring.PointMassA);
+                SpringPointMassList.Add(spring.PointMassA);
             }
 
             if (!PointMassList.Contains(spring.PointMassB))
             {
-                spring_pointmass_list.Add(spring.PointMassB);
+                SpringPointMassList.Add(spring.PointMassB);
             }
 
-            spring_list.Add(spring);
+            SpringList.Add(spring);
         }
 
         public override void ApplyInternalForces(double elapsed)
         {
-            Vector2 force = new Vector2();
-            for (int i = 0; i < spring_list.Count; i++)
+            Vector2 force;
+            for (int i = 0; i < SpringList.Count; i++)
             {
-                Spring s = spring_list[i];
-                Spring.SpringForce(ref s, out force);
+                Spring spring = SpringList[i];
+                Spring.SpringForce(ref spring, out force);
 
-                s.PointMassA.Force.X += force.X;
-                s.PointMassA.Force.Y += force.Y;
+                spring.PointMassA.Force.X += force.X;
+                spring.PointMassA.Force.Y += force.Y;
    
-                s.PointMassB.Force.X -= force.X;
-                s.PointMassB.Force.Y -= force.Y;
+                spring.PointMassB.Force.X -= force.X;
+                spring.PointMassB.Force.Y -= force.Y;
             }
 
-            if (is_constrained)
+            if (IsConstrained)
             {
                 for (int i = 0; i < Count; i++)
                 {
-                    if (shape_k > 0)
+                    if (ShapeK > 0)
                     {
-
                         Spring.SpringForce(ref PointMassList[i].Position, ref PointMassList[i].Velocity, ref CurrentShape.Points[i],
-                                                        ref PointMassList[i].Velocity, 0.0f, shape_k, shape_damping, out force);
+                                                        ref PointMassList[i].Velocity, 0.0f, ShapeK, ShapeDamping, out force);
 
                         PointMassList[i].Force.X += force.X;
                         PointMassList[i].Force.Y += force.Y;
@@ -80,11 +79,11 @@ namespace Kinematics.Dynamics
                 }
             }
 
-            for (int i = 0; i < spring_pointmass_list.Count; i++)
+            for (int i = 0; i < SpringPointMassList.Count; i++)
             {
-                spring_pointmass_list[i].Velocity.X *= Damping;
-                spring_pointmass_list[i].Velocity.Y *= Damping;
-                spring_pointmass_list[i].Update(elapsed);
+                SpringPointMassList[i].Velocity.X *= Damping;
+                SpringPointMassList[i].Velocity.Y *= Damping;
+                SpringPointMassList[i].Update(elapsed);
             }
         }
     }

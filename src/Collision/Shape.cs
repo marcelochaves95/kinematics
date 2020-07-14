@@ -115,10 +115,10 @@ namespace Kinematics.Collision
             {
                 float x = points[i].X * scale.X;
                 float y = points[i].Y * scale.Y;
-                float c = Mathf.Cos(angle);
-                float s = Mathf.Sin(angle);
-                array[i].X = (c * x) - (s * y) + position.X;
-                array[i].Y = (c * y) + (s * x) + position.Y;
+                float cos = Mathf.Cos(angle);
+                float sin = Mathf.Sin(angle);
+                array[i].X = cos * x - sin * y + position.X;
+                array[i].Y = cos * y + sin * x + position.Y;
             }
 
             list = array;

@@ -11,8 +11,7 @@ namespace Kinematics.Dynamics
         private float[] _edgeLengthList;
 
 
-        public PressureBody(Shape s, float mass, float gasPressure, float edgeSpringK, float edgeSpringDamp, float shapeSpringK, float shapeSpringDamp)
-            : base(s, mass, edgeSpringK, edgeSpringDamp, shapeSpringK, shapeSpringDamp)
+        public PressureBody(Shape s, float mass, float gasPressure, float edgeSpringK, float edgeSpringDamp, float shapeSpringK, float shapeSpringDamp) : base(s, mass, edgeSpringK, edgeSpringDamp, shapeSpringK, shapeSpringDamp)
         {
             _pressure = gasPressure;
             _normalList = new Vector2[Count];
@@ -27,8 +26,8 @@ namespace Kinematics.Dynamics
 
             for (int i = 0; i < Count; i++)
             {
-                int prev = (i > 0) ? i - 1 : Count - 1;
-                int next = (i < Count - 1) ? i + 1 : 0;
+                int prev = i > 0 ? i - 1 : Count - 1;
+                int next = i < Count - 1 ? i + 1 : 0;
 
                 Vector2 edge1N = new Vector2
                 {
@@ -50,14 +49,14 @@ namespace Kinematics.Dynamics
                     Y = edge1N.Y + edge2N.Y
                 };
 
-                float nL = Mathf.Sqrt((norm.X * norm.X) + (norm.Y * norm.Y));
+                float nL = Mathf.Sqrt(norm.X * norm.X + norm.Y * norm.Y);
                 if (nL > 0.001f)
                 {
                     norm.X /= nL;
                     norm.Y /= nL;
                 }
 
-                float edgeL = Mathf.Sqrt((edge2N.X * edge2N.X) + (edge2N.Y * edge2N.Y));
+                float edgeL = Mathf.Sqrt(edge2N.X * edge2N.X + edge2N.Y * edge2N.Y);
 
                 _normalList[i] = norm;
                 _edgeLengthList[i] = edgeL;
@@ -71,9 +70,9 @@ namespace Kinematics.Dynamics
 
             for (int i = 0; i < Count; i++)
             {
-                int j = (i < Count - 1) ? i + 1 : 0;
+                int j = i < Count - 1 ? i + 1 : 0;
 
-                float pressureV = (invVolume * _edgeLengthList[i] * _pressure);
+                float pressureV = invVolume * _edgeLengthList[i] * _pressure;
                 PointMassList[i].Force.X += _normalList[i].X * pressureV;
                 PointMassList[i].Force.Y += _normalList[i].Y * pressureV;
                                   

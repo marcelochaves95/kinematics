@@ -201,6 +201,7 @@ namespace Kinematics.Common
         }
         #endregion
 
+        #region Overrides
         /// <summary>
         /// Compare vector and object and checks if they are equal
         /// </summary>
@@ -220,9 +221,27 @@ namespace Kinematics.Common
         {
             return X.Equals(other.X) && Y.Equals(other.Y);
         }
+        
+        /// <summary>
+        /// Provide a integer describing the object
+        /// </summary>
+        /// <returns>Integer description of the object</returns>
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode();
+        }
+
+        /// <summary>
+        /// Provide a string describing the object
+        /// </summary>
+        /// <returns>String description of the object</returns>
+        public override string ToString()
+        {
+            return $"[Vector2] X({X}) Y({Y})";
+        }
+        #endregion
 
         #region Public Methods
-
         /// <summary>
         /// Creates a new <see cref="Vector2"/> that contains the cartesian coordinates of a vector specified in barycentric coordinates and relative to 2d-triangle.
         /// </summary>
@@ -705,26 +724,5 @@ namespace Kinematics.Common
             return LineIntersect(ref ptA, ref ptB, ref ptC, ref ptD, out hitPt, out float _, out float _);
         }
         #endregion
-
-        /// <summary>
-        /// Provide a integer describing the object
-        /// </summary>
-        /// <returns>Integer description of the object</returns>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                return X.GetHashCode() ^ Y.GetHashCode();
-            }
-        }
-
-        /// <summary>
-        /// Provide a string describing the object
-        /// </summary>
-        /// <returns>String description of the object</returns>
-        public override string ToString()
-        {
-            return $"[Vector2] X({X}) Y({Y})";
-        }
     }
 }

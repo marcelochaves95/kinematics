@@ -199,20 +199,20 @@ namespace Kinematics.Collision
                 Vector2 point = new Vector2();
                 if (distance > far)
                 {
-                    point.X = ((float)_random.NextDouble() - 0.5f);
-                    point.Y = ((float)_random.NextDouble() - 0.5f);
+                    point.X = (float) _random.NextDouble() - 0.5f;
+                    point.Y = (float) _random.NextDouble() - 0.5f;
                     point.Normalize();
 
-                    point *= near + (far - near) * ((float)_random.NextDouble());
+                    point *= near + (far - near) * (float) _random.NextDouble();
                     point += position;
 
                     while (IsPointInsideAnyBody(point))
                     {
-                        point.X = ((float)_random.NextDouble() - 0.5f);
-                        point.Y = ((float)_random.NextDouble() - 0.5f);
+                        point.X = (float) _random.NextDouble() - 0.5f;
+                        point.Y = (float) _random.NextDouble() - 0.5f;
                         point.Normalize();
 
-                        point *= near + (far - near) * ((float)_random.NextDouble());
+                        point *= near + (far - near) * (float) _random.NextDouble();
                         point += position;
                     }
 
@@ -252,12 +252,12 @@ namespace Kinematics.Collision
                         continue;
                     }
 
-                    if (((BodyList[i].BitmaskX.Mask & BodyList[j].BitmaskX.Mask) == 0) && ((BodyList[i].BitmaskY.Mask & BodyList[j].BitmaskY.Mask) == 0))
+                    if ((BodyList[i].BitmaskX.Mask & BodyList[j].BitmaskX.Mask) == 0 && ((BodyList[i].BitmaskY.Mask & BodyList[j].BitmaskY.Mask) == 0))
                     {
                         continue;
                     }
 
-                    if (!(BodyList[i].AABB).Intersects(ref (BodyList[j].AABB)))
+                    if (!BodyList[i].AABB.Intersects(ref BodyList[j].AABB))
                     {
                         continue;
                     }
@@ -313,24 +313,24 @@ namespace Kinematics.Collision
                 if (float.IsPositiveInfinity(A.Mass))
                 {
                     moveA = 0f;
-                    moveB = (info.Penetration) + 0.001f;
+                    moveB = info.Penetration + 0.001f;
                 }
                 else if (float.IsPositiveInfinity(b2MassSum))
                 {
-                    moveA = (info.Penetration) + 0.001f;
+                    moveA = info.Penetration + 0.001f;
                     moveB = 0f;
                 }
                 else
                 {
-                    moveA = (info.Penetration * (b2MassSum / massSum));
-                    moveB = (info.Penetration * (A.Mass / massSum));
+                    moveA = info.Penetration * (b2MassSum / massSum);
+                    moveB = info.Penetration * (A.Mass / massSum);
                 }
 
                 float B1move = moveB * b1inf;
                 float B2move = moveB * b2inf;
 
-                float invMassA = (float.IsPositiveInfinity(A.Mass)) ? 0f : 1f / A.Mass;
-                float invMassB = (float.IsPositiveInfinity(b2MassSum)) ? 0f : 1f / b2MassSum;
+                float invMassA = float.IsPositiveInfinity(A.Mass) ? 0f : 1f / A.Mass;
+                float invMassB = float.IsPositiveInfinity(b2MassSum) ? 0f : 1f / b2MassSum;
 
                 float jDenom = invMassA + invMassB;
                 Vector2 numV = new Vector2();
@@ -361,8 +361,7 @@ namespace Kinematics.Collision
                     B2.Position.Y -= info.Normal.Y * B2move;
                 }
 
-                Vector2 tangent = new Vector2();
-                tangent = Vector2.Perpendicular(info.Normal);
+                Vector2 tangent = Vector2.Perpendicular(info.Normal);
                 float fNumerator = Vector2.Dot(relVel, tangent);
                 fNumerator *= Friction;
                 float f = fNumerator / jDenom;
@@ -371,27 +370,27 @@ namespace Kinematics.Collision
                 {
                     if (!float.IsPositiveInfinity(A.Mass))
                     {
-                        A.Velocity.X += (info.Normal.X * (j / A.Mass)) - (tangent.X * (f / A.Mass));
-                        A.Velocity.Y += (info.Normal.Y * (j / A.Mass)) - (tangent.Y * (f / A.Mass));
+                        A.Velocity.X += info.Normal.X * (j / A.Mass) - tangent.X * (f / A.Mass);
+                        A.Velocity.Y += info.Normal.Y * (j / A.Mass) - tangent.Y * (f / A.Mass);
                     }
 
                     if (!float.IsPositiveInfinity(b2MassSum))
                     {
-                        B1.Velocity.X -= (info.Normal.X * (j / b2MassSum) * b1inf) - (tangent.X * (f / b2MassSum) * b1inf);
-                        B1.Velocity.Y -= (info.Normal.Y * (j / b2MassSum) * b1inf) - (tangent.Y * (f / b2MassSum) * b1inf);
+                        B1.Velocity.X -= info.Normal.X * (j / b2MassSum) * b1inf - tangent.X * (f / b2MassSum) * b1inf;
+                        B1.Velocity.Y -= info.Normal.Y * (j / b2MassSum) * b1inf - tangent.Y * (f / b2MassSum) * b1inf;
                     }
 
                     if (!float.IsPositiveInfinity(b2MassSum))
                     {
-                        B2.Velocity.X -= (info.Normal.X * (j / b2MassSum) * b2inf) - (tangent.X * (f / b2MassSum) * b2inf);
-                        B2.Velocity.Y -= (info.Normal.Y * (j / b2MassSum) * b2inf) - (tangent.Y * (f / b2MassSum) * b2inf);
+                        B2.Velocity.X -= info.Normal.X * (j / b2MassSum) * b2inf - tangent.X * (f / b2MassSum) * b2inf;
+                        B2.Velocity.Y -= info.Normal.Y * (j / b2MassSum) * b2inf - tangent.Y * (f / b2MassSum) * b2inf;
                     }
                 }
             }
 
             for (int i = 0; i < BodyList.Count; i++)
             {
-                BodyList[i].UpdateBodyPositionVelocityForce(elapsed);
+                BodyList[i].UpdateBodyPositionVelocityForce();
             }
         }
     }

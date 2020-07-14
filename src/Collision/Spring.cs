@@ -43,11 +43,11 @@ namespace Kinematics.Collision
         public static void SpringForce(ref Vector2 posA, ref Vector2 velA, ref Vector2 posB, ref Vector2 velB, float springD, float springK, float damping, out Vector2 forceOut)
         {
             forceOut = default;
-            float BtoAX = (posA.X - posB.X);
-            float BtoAY = (posA.Y - posB.Y);
+            float BtoAX = posA.X - posB.X;
+            float BtoAY = posA.Y - posB.Y;
 
             float distance = Mathf.Sqrt((BtoAX * BtoAX) + (BtoAY * BtoAY));
-            if (distance > 0.0001f)
+            if (distance > Mathf.Epsilon)
             {
                 BtoAX /= distance;
                 BtoAY /= distance;
@@ -64,10 +64,10 @@ namespace Kinematics.Collision
             float relVelX = velA.X - velB.X;
             float relVelY = velA.Y - velB.Y;
 
-            float totalRelVel = (relVelX * BtoAX) + (relVelY * BtoAY);
+            float totalRelVel = relVelX * BtoAX + relVelY * BtoAY;
 
-            forceOut.X = BtoAX * ((distance * springK) - (totalRelVel * damping));
-            forceOut.Y = BtoAY * ((distance * springK) - (totalRelVel * damping));
+            forceOut.X = BtoAX * (distance * springK - totalRelVel * damping);
+            forceOut.Y = BtoAY * (distance * springK - totalRelVel * damping);
         }
     }
 }

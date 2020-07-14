@@ -62,12 +62,12 @@ namespace Kinematics.Collision
         {
             if (IsValid)
             {
-                if ((x < Min.X) || (x > Max.X))
+                if (x < Min.X || x > Max.X)
                 {
                     return false;
                 }
 
-                if ((y < Min.Y) || (y > Max.Y))
+                if (y < Min.Y || y > Max.Y)
                 {
                     return false;
                 }
