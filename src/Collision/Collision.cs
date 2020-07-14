@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Kinematics.Common;
+using Kinematics.Math;
 using Kinematics.Dynamics;
 
 namespace Kinematics.Collision
 {
-    public static class Collision
+    public class Collision
     {
         public static List<CollisionInfo> Intersects(Body bodyA, Body bodyB)
         {

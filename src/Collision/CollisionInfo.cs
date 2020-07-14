@@ -1,4 +1,4 @@
-using Kinematics.Common;
+using Kinematics.Math;
 using Kinematics.Dynamics;
 
 namespace Kinematics.Collision

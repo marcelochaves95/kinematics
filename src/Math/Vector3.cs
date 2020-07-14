@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Kinematics.Common
+namespace Kinematics.Math
 {
     /// <summary>
     /// Vector3 is an utility class for manipulating 3 dimensional

@@ -1,5 +1,5 @@
 using Kinematics.Collision;
-using Kinematics.Common;
+using Kinematics.Math;
 
 namespace Kinematics.Dynamics
 {
@@ -9,7 +9,6 @@ namespace Kinematics.Dynamics
         private readonly float _pressure;
         private readonly Vector2[] _normalList;
         private float[] _edgeLengthList;
-
 
         public PressureBody(Shape s, float mass, float gasPressure, float edgeSpringK, float edgeSpringDamp, float shapeSpringK, float shapeSpringDamp) : base(s, mass, edgeSpringK, edgeSpringDamp, shapeSpringK, shapeSpringDamp)
         {

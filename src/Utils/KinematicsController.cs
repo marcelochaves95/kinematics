@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Kinematics.Common;
+using Kinematics.Collision;
+using Kinematics.Math;
 using Kinematics.Dynamics;
 
-namespace Kinematics.Collision
+namespace Kinematics.Utils
 {
-    public class Physics
+    public class KinematicsController
     {
         private static Random _random = new Random();
         public List<Chain> ChainList;
@@ -25,7 +26,7 @@ namespace Kinematics.Collision
         public Action<Body, Body, CollisionInfo> OnCollision;
         public Action<float, Body, Body> OnPenetration;
 
-        public Physics()
+        public KinematicsController()
         {
             ChainList = new List<Chain>();
             BodyList = new List<Body>();
@@ -264,8 +265,8 @@ namespace Kinematics.Collision
 
                     OnAABBCollision?.Invoke(BodyList[i], BodyList[j]);
 
-                    CollisionList.AddRange(Collision.Intersects(BodyList[j], BodyList[i]));
-                    CollisionList.AddRange(Collision.Intersects(BodyList[i], BodyList[j]));
+                    CollisionList.AddRange(Collision.Collision.Intersects(BodyList[j], BodyList[i]));
+                    CollisionList.AddRange(Collision.Collision.Intersects(BodyList[i], BodyList[j]));
                 }
             }
 

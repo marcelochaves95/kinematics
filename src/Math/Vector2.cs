@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Kinematics.Common
+namespace Kinematics.Math
 {
     /// <summary>
     /// Vector2 is an utility class for manipulating 2 dimensional
