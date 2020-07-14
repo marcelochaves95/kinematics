@@ -53,7 +53,7 @@ namespace Kinematics.Collision
                     Y = fromPrev.Y + toNext.Y
                 };
 
-                Vector2.Perpendicular(ref ptNorm);
+                ptNorm = Vector2.Perpendicular(ptNorm);
 
                 float closestAway = 100000.0f;
                 float closestSame = 100000.0f;
@@ -95,9 +95,9 @@ namespace Kinematics.Collision
                         continue;
                     }
 
-                    float dist = bodyB.GetClosestPointOnEdgeSquared(pt, j, out Vector2 hitPt, out Vector2 norm, out float edgeD);
+                    float dist = bodyB.GetClosestPointOnEdgeSquared(pt, j, out Vector2 hitPt, out Vector2 normal, out float edgeD);
 
-                    Vector2.Dot(ref ptNorm, ref norm, out float dot);
+                    float dot = Vector2.Dot(ptNorm, normal);
                     if (dot <= 0f)
                     {
                         if (dist < closestAway)
@@ -107,7 +107,7 @@ namespace Kinematics.Collision
                             infoAway.PointMassC = bodyB.PointMassList[b2];
                             infoAway.EdgeDistance = edgeD;
                             infoAway.Point = hitPt;
-                            infoAway.Normal = norm;
+                            infoAway.Normal = normal;
                             infoAway.Penetration = dist;
                             found = true;
                         }
@@ -121,7 +121,7 @@ namespace Kinematics.Collision
                             infoSame.PointMassC = bodyB.PointMassList[b2];
                             infoSame.EdgeDistance = edgeD;
                             infoSame.Point = hitPt;
-                            infoSame.Normal = norm;
+                            infoSame.Normal = normal;
                             infoSame.Penetration = dist;
                         }
                     }

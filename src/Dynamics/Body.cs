@@ -128,21 +128,21 @@ namespace Kinematics.Dynamics
             float originalAngle = 0;
             for (int i = 0; i < Count; i++)
             {
-                Vector2 baseNorm = new Vector2
+                Vector2 baseNormal = new Vector2
                 {
                     X = BaseShape.Points[i].X,
                     Y = BaseShape.Points[i].Y
                 };
-                Vector2.Normalize(ref baseNorm, out baseNorm);
+                Vector2.Normalize(baseNormal);
 
-                Vector2 curNorm = new Vector2
+                Vector2 currentNormal = new Vector2
                 {
                     X = PointMassList[i].Position.X - Position.X,
                     Y = PointMassList[i].Position.Y - Position.Y
                 };
-                Vector2.Normalize(ref curNorm, out curNorm);
+                Vector2.Normalize(currentNormal);
 
-                Vector2.Dot(ref baseNorm, ref curNorm, out float dot);
+                float dot = Vector2.Dot(baseNormal, currentNormal);
                 if (dot > 1.0f)
                 {
                     dot = 1.0f;
@@ -154,7 +154,10 @@ namespace Kinematics.Dynamics
                 }
 
                 float thisAngle = Mathf.Acos(dot);
-                if (!Vector2.IsCCW(ref baseNorm, ref curNorm)) { thisAngle = -thisAngle; }
+                if (!Vector2.IsCCW(ref baseNormal, ref currentNormal))
+                {
+                    thisAngle = -thisAngle;
+                }
 
                 if (i == 0)
                 {
@@ -342,32 +345,32 @@ namespace Kinematics.Dynamics
                 X = point.X - ptA.X, Y = point.Y - ptA.Y
             };
 
-            Vector2 E = new Vector2
+            Vector2 e = new Vector2
             {
                 X = ptB.X - ptA.X, Y = ptB.Y - ptA.Y
             };
 
-            float edgeLength = Mathf.Sqrt((E.X * E.X) + (E.Y * E.Y));
+            float edgeLength = Mathf.Sqrt((e.X * e.X) + (e.Y * e.Y));
             if (edgeLength > 0.00001f)
             {
-                E.X /= edgeLength;
-                E.Y /= edgeLength;
+                e.X /= edgeLength;
+                e.Y /= edgeLength;
             }
 
             Vector2 n = new Vector2();
-            Vector2.Perpendicular(ref E, ref n);
+            Vector2.Perpendicular(ref e, ref n);
 
-            Vector2.Dot(ref toP, ref E, out float x);
+            float x = Vector2.Dot(toP, e);
             if (x <= 0.0f)
             {
-                Vector2.Distance(ref point, ref ptA, out distance);
+                distance = Vector2.Distance(point, ptA);
                 hitPt = ptA;
                 edgeD = 0f;
                 normal = n;
             }
             else if (x >= edgeLength)
             {
-                Vector2.Distance(ref point, ref ptB, out distance);
+                distance = Vector2.Distance(point, ptB);
                 hitPt = ptB;
                 edgeD = 1f;
                 normal = n;
@@ -381,13 +384,13 @@ namespace Kinematics.Dynamics
 
                 Vector3 E3 = new Vector3
                 {
-                    X = E.X, Y = E.Y
+                    X = e.X, Y = e.Y
                 };
 
                 E3 = Vector3.Cross(toP3, E3);
                 distance = Mathf.Abs(E3.Z);
-                hitPt.X = ptA.X + (E.X * x);
-                hitPt.Y = ptA.Y + (E.Y * x);
+                hitPt.X = ptA.X + (e.X * x);
+                hitPt.Y = ptA.Y + (e.Y * x);
                 edgeD = x / edgeLength;
                 normal = n;
             }
@@ -435,17 +438,17 @@ namespace Kinematics.Dynamics
             Vector2 n = new Vector2();
             Vector2.Perpendicular(ref E, ref n);
 
-            Vector2.Dot(ref toP, ref E, out float x);
+            float x = Vector2.Dot(toP, E);
             if (x <= 0.0f)
             {
-                Vector2.DistanceSquared(ref point, ref ptA, out dist);
+                dist = Vector2.DistanceSquared(point, ptA);
                 hitPt = ptA;
                 edgeD = 0f;
                 normal = n;
             }
             else if (x >= edgeLength)
             {
-                Vector2.DistanceSquared(ref point, ref ptB, out dist);
+                dist = Vector2.DistanceSquared(point, ptB);
                 hitPt = ptB;
                 edgeD = 1f;
                 normal = n;

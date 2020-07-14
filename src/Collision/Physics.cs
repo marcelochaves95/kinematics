@@ -277,10 +277,7 @@ namespace Kinematics.Collision
                 PointMass B1 = info.PointMassB;
                 PointMass B2 = info.PointMassC;
 
-                if (OnCollision != null)
-                {
-                    OnCollision(info.BodyA, info.BodyB, info);
-                }
+                OnCollision?.Invoke(info.BodyA, info.BodyB, info);
 
                 Vector2 bVel = new Vector2
                 {
@@ -294,12 +291,9 @@ namespace Kinematics.Collision
                     Y = A.Velocity.Y - bVel.Y
                 };
 
-                Vector2.Dot(ref relVel, ref info.Normal, out float relDot);
+                float relDot = Vector2.Dot(relVel, info.Normal);
 
-                if (OnPenetration != null)
-                {
-                    OnPenetration(info.Penetration, info.BodyA, info.BodyB);
-                }
+                OnPenetration?.Invoke(info.Penetration, info.BodyA, info.BodyB);
 
                 if (info.Penetration > 0.3f)
                 {
@@ -344,7 +338,7 @@ namespace Kinematics.Collision
                 numV.X = relVel.X * elasticity;
                 numV.Y = relVel.Y * elasticity;
 
-                Vector2.Dot(ref numV, ref info.Normal, out float jNumerator);
+                float jNumerator = Vector2.Dot(numV, info.Normal);
                 jNumerator = -jNumerator;
 
                 float j = jNumerator / jDenom;
@@ -368,8 +362,8 @@ namespace Kinematics.Collision
                 }
 
                 Vector2 tangent = new Vector2();
-                Vector2.Perpendicular(ref info.Normal, ref tangent);
-                Vector2.Dot(ref relVel, ref tangent, out float fNumerator);
+                tangent = Vector2.Perpendicular(info.Normal);
+                float fNumerator = Vector2.Dot(relVel, tangent);
                 fNumerator *= Friction;
                 float f = fNumerator / jDenom;
 
