@@ -6,24 +6,24 @@ namespace Kinematics.Dynamics
 {
     public class SpringBody : Body
     {
-        public List<Spring> SpringList;
-        public List<PointMass> SpringPointMassList;
-        public bool IsConstrained = true;
-        public float EdgeK;
-        public float EdgeDamping;
-        public float ShapeK;
-        public float ShapeDamping;
+        private readonly List<Spring> _springList;
+        private readonly List<PointMass> _springPointMassList;
+        private readonly bool _isConstrained = true;
+        private float _edgeK;
+        private float _edgeDamping;
+        private readonly float _shapeK;
+        private readonly float _shapeDamping;
 
         public SpringBody(Shape shape, float mass, float edgeSpringK, float edgeSpringDamp, float shapeSpringK, float shapeSpringDamp) : base(shape, mass)
         {
-            IsConstrained = true;
-            SpringList = new List<Spring>();
-            SpringPointMassList = new List<PointMass>();
+            _isConstrained = true;
+            _springList = new List<Spring>();
+            _springPointMassList = new List<PointMass>();
 
-            ShapeK = shapeSpringK;
-            ShapeDamping = shapeSpringDamp;
-            EdgeK = edgeSpringK;
-            EdgeDamping = edgeSpringDamp;
+            _shapeK = shapeSpringK;
+            _shapeDamping = shapeSpringDamp;
+            _edgeK = edgeSpringK;
+            _edgeDamping = edgeSpringDamp;
 
             int i;
             for (i = 0; i < Count - 1; i++)
@@ -38,23 +38,23 @@ namespace Kinematics.Dynamics
         {
             if (!PointMassList.Contains(spring.PointMassA))
             {
-                SpringPointMassList.Add(spring.PointMassA);
+                _springPointMassList.Add(spring.PointMassA);
             }
 
             if (!PointMassList.Contains(spring.PointMassB))
             {
-                SpringPointMassList.Add(spring.PointMassB);
+                _springPointMassList.Add(spring.PointMassB);
             }
 
-            SpringList.Add(spring);
+            _springList.Add(spring);
         }
 
         public override void ApplyInternalForces(double elapsed)
         {
             Vector2 force;
-            for (int i = 0; i < SpringList.Count; i++)
+            for (int i = 0; i < _springList.Count; i++)
             {
-                Spring spring = SpringList[i];
+                Spring spring = _springList[i];
                 Spring.SpringForce(ref spring, out force);
 
                 spring.PointMassA.Force.X += force.X;
@@ -64,14 +64,14 @@ namespace Kinematics.Dynamics
                 spring.PointMassB.Force.Y -= force.Y;
             }
 
-            if (IsConstrained)
+            if (_isConstrained)
             {
                 for (int i = 0; i < Count; i++)
                 {
-                    if (ShapeK > 0)
+                    if (_shapeK > 0)
                     {
                         Spring.SpringForce(ref PointMassList[i].Position, ref PointMassList[i].Velocity, ref CurrentShape.Points[i],
-                                                        ref PointMassList[i].Velocity, 0.0f, ShapeK, ShapeDamping, out force);
+                                                        ref PointMassList[i].Velocity, 0.0f, _shapeK, _shapeDamping, out force);
 
                         PointMassList[i].Force.X += force.X;
                         PointMassList[i].Force.Y += force.Y;
@@ -79,11 +79,11 @@ namespace Kinematics.Dynamics
                 }
             }
 
-            for (int i = 0; i < SpringPointMassList.Count; i++)
+            for (int i = 0; i < _springPointMassList.Count; i++)
             {
-                SpringPointMassList[i].Velocity.X *= Damping;
-                SpringPointMassList[i].Velocity.Y *= Damping;
-                SpringPointMassList[i].Update(elapsed);
+                _springPointMassList[i].Velocity.X *= Damping;
+                _springPointMassList[i].Velocity.Y *= Damping;
+                _springPointMassList[i].Update(elapsed);
             }
         }
     }

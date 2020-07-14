@@ -11,7 +11,7 @@ namespace Kinematics.Utils
         private static Random _random = new Random();
         public List<Chain> ChainList;
         public List<Body> BodyList;
-        public List<CollisionInfo> CollisionList;
+        private List<CollisionInfo> _collisionList;
         public int PenetrationCount;
         public float PenetrationThreshold = 0.015f;
         public float Friction = 1.9f;
@@ -22,15 +22,15 @@ namespace Kinematics.Utils
         public Vector2 Cell;
         private readonly bool _initialized;
 
-        public Action<Body, Body> OnAABBCollision;
-        public Action<Body, Body, CollisionInfo> OnCollision;
-        public Action<float, Body, Body> OnPenetration;
+        private Action<Body, Body> _onAABBCollision;
+        private Action<Body, Body, CollisionInfo> _onCollision;
+        private Action<float, Body, Body> _onPenetration;
 
         public KinematicsController()
         {
             ChainList = new List<Chain>();
             BodyList = new List<Body>();
-            CollisionList = new List<CollisionInfo>();
+            _collisionList = new List<CollisionInfo>();
             _initialized = false;
         }
 
@@ -231,7 +231,7 @@ namespace Kinematics.Utils
             }
 
             PenetrationCount = 0;
-            CollisionList.Clear();
+            _collisionList.Clear();
 
             for (int i = 0; i < BodyList.Count; i++)
             {
@@ -263,22 +263,22 @@ namespace Kinematics.Utils
                         continue;
                     }
 
-                    OnAABBCollision?.Invoke(BodyList[i], BodyList[j]);
+                    _onAABBCollision?.Invoke(BodyList[i], BodyList[j]);
 
-                    CollisionList.AddRange(Collision.Collision.Intersects(BodyList[j], BodyList[i]));
-                    CollisionList.AddRange(Collision.Collision.Intersects(BodyList[i], BodyList[j]));
+                    _collisionList.AddRange(Collision.Collision.Intersects(BodyList[j], BodyList[i]));
+                    _collisionList.AddRange(Collision.Collision.Intersects(BodyList[i], BodyList[j]));
                 }
             }
 
-            for (int i = 0; i < CollisionList.Count; i++)
+            for (int i = 0; i < _collisionList.Count; i++)
             {
-                CollisionInfo info = CollisionList[i];
+                CollisionInfo info = _collisionList[i];
 
                 PointMass A = info.PointMassA;
                 PointMass B1 = info.PointMassB;
                 PointMass B2 = info.PointMassC;
 
-                OnCollision?.Invoke(info.BodyA, info.BodyB, info);
+                _onCollision?.Invoke(info.BodyA, info.BodyB, info);
 
                 Vector2 bVel = new Vector2
                 {
@@ -294,7 +294,7 @@ namespace Kinematics.Utils
 
                 float relDot = Vector2.Dot(relVel, info.Normal);
 
-                OnPenetration?.Invoke(info.Penetration, info.BodyA, info.BodyB);
+                _onPenetration?.Invoke(info.Penetration, info.BodyA, info.BodyB);
 
                 if (info.Penetration > 0.3f)
                 {

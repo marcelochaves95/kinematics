@@ -3,7 +3,7 @@ using Kinematics.Dynamics;
 
 namespace Kinematics.Collision
 {
-    public struct CollisionInfo
+    internal struct CollisionInfo
     {
         public Body BodyA;
         public Body BodyB;

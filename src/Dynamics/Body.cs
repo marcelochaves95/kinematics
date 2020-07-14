@@ -7,28 +7,26 @@ namespace Kinematics.Dynamics
 {
     public class Body
     {
-        public Shape BaseShape;
+        private readonly Shape _baseShape;
         public Shape CurrentShape;
         public List<PointMass> PointMassList;
-        public AABB AABB;
-        public Vector2 Scale = Vector2.One;
+        internal AABB AABB;
+        private Vector2 _scale = Vector2.One;
         public Vector2 Position;
         public Vector2 Velocity;
-        public Vector2 Force;
+        private Vector2 _force;
         public int Count;
-        public float CurrentAngle;
-        public float PreviousAngle;
-        public float Omega;
-        public float Damping = 0.999f;
+        private float _previousAngle;
+        protected float Damping = 0.999f;
         public bool IsStatic = false;
-        public bool IsDirty = true;
-        public bool IsMerging = false;
-        public Bitmask BitmaskX;
-        public Bitmask BitmaskY;
+        private bool _isDirty = true;
+        private readonly bool _isMerging = false;
+        internal readonly Bitmask BitmaskX;
+        internal readonly Bitmask BitmaskY;
 
         public Body(Shape shape, float mass)
         {
-            BaseShape = shape;
+            _baseShape = shape;
             CurrentShape = shape.Clone();
             Count = shape.Count;
 
@@ -118,7 +116,7 @@ namespace Kinematics.Dynamics
 
         public void UpdateBodyPositionVelocityForce()
         {
-            GetBodyPositionVelocityForce(out Position, out Velocity, out Force);
+            GetBodyPositionVelocityForce(out Position, out Velocity, out _force);
         }
 
         public void RotateShape(double elapsed)
@@ -130,8 +128,8 @@ namespace Kinematics.Dynamics
             {
                 Vector2 baseNormal = new Vector2
                 {
-                    X = BaseShape.Points[i].X,
-                    Y = BaseShape.Points[i].Y
+                    X = _baseShape.Points[i].X,
+                    Y = _baseShape.Points[i].Y
                 };
                 Vector2.Normalize(baseNormal);
 
@@ -180,7 +178,7 @@ namespace Kinematics.Dynamics
 
             angle /= Count;
 
-            float angleChange = (angle - PreviousAngle);
+            float angleChange = (angle - _previousAngle);
             if (Mathf.Abs(angleChange) >= Mathf.PI)
             {
                 if (angleChange < 0f)
@@ -193,13 +191,12 @@ namespace Kinematics.Dynamics
                 }
             }
 
-            Omega = angleChange / (float)elapsed;
-            PreviousAngle = angle;
+            _previousAngle = angle;
 
             for (int i = 0; i < Count; i++)
             {
-                float x = BaseShape.Points[i].X * Scale.X;
-                float y = BaseShape.Points[i].Y * Scale.Y;
+                float x = _baseShape.Points[i].X * _scale.X;
+                float y = _baseShape.Points[i].Y * _scale.Y;
                 float cos = Mathf.Cos(angle);
                 float sin = Mathf.Sin(angle);
                 CurrentShape.Points[i].X = (cos * x) - (sin * y) + Position.X;
@@ -211,17 +208,17 @@ namespace Kinematics.Dynamics
 
         public void Update(double elapsed)
         {
-            if (!IsDirty)
+            if (!_isDirty)
             {
                 return;
             }
 
-            if (IsMerging)
+            if (_isMerging)
             {
                 return;
             }
 
-            SetBodyPositionVelocityForce(Position, Velocity, Force);
+            SetBodyPositionVelocityForce(Position, Velocity, _force);
 
             RotateShape(elapsed);
             
@@ -234,13 +231,13 @@ namespace Kinematics.Dynamics
 
             if (IsStatic)
             {
-                IsDirty = false;
+                _isDirty = false;
             }
         }
 
         public override string ToString()
         {
-            return $"{{position:[{Position}] velocity:[{Velocity}] force[{Force}]}}";
+            return $"{{position:[{Position}] velocity:[{Velocity}] force[{_force}]}}";
         }
 
         public bool Contains(ref Vector2 point)

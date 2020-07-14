@@ -4,7 +4,7 @@ using Kinematics.Dynamics;
 
 namespace Kinematics.Collision
 {
-    public class Collision
+    internal class Collision
     {
         public static List<CollisionInfo> Intersects(Body bodyA, Body bodyB)
         {

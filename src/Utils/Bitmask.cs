@@ -1,6 +1,6 @@
 namespace Kinematics.Utils
 {
-    public class Bitmask
+    internal class Bitmask
     {
         public int Mask;
 
