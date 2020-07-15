@@ -54,9 +54,11 @@ namespace Kinematics.Math
         /// </summary>
         /// <returns>Vector zero</returns>
         public static readonly Vector2 Zero = new Vector2(0f, 0f);
+
         #endregion
 
         #region Construtors
+
         /// <summary>
         /// Construct the vector from its coordinates
         /// </summary>
@@ -87,9 +89,11 @@ namespace Kinematics.Math
             X = v.X;
             Y = v.Y;
         }
+
         #endregion
 
         #region Operators
+
         /// <summary>
         /// Operator - overload ; returns the opposite of a vector
         /// </summary>
@@ -199,9 +203,11 @@ namespace Kinematics.Math
         {
             return new Vector3(v);
         }
+
         #endregion
 
         #region Overrides
+
         /// <summary>
         /// Compare vector and object and checks if they are equal
         /// </summary>
@@ -239,39 +245,41 @@ namespace Kinematics.Math
         {
             return $"[Vector2] X({X}) Y({Y})";
         }
+
         #endregion
 
         #region Public Methods
+
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains the cartesian coordinates of a vector specified in barycentric coordinates and relative to 2d-triangle.
+        /// Creates a new <see cref="Vector2"/> that contains the cartesian coordinates of a vector specified in barycentric coordinates and relative to 2d-triangle
         /// </summary>
-        /// <param name="v1">The first vector of 2d-triangle.</param>
-        /// <param name="v2">The second vector of 2d-triangle.</param>
-        /// <param name="v3">The third vector of 2d-triangle.</param>
-        /// <param name="a1">Barycentric scalar <c>b2</c> which represents a weighting factor towards second vector of 2d-triangle.</param>
-        /// <param name="a2">Barycentric scalar <c>b3</c> which represents a weighting factor towards third vector of 2d-triangle.</param>
-        /// <returns>The cartesian translation of barycentric coordinates.</returns>
+        /// <param name="v1">The first vector of 2d-triangle</param>
+        /// <param name="v2">The second vector of 2d-triangle</param>
+        /// <param name="v3">The third vector of 2d-triangle</param>
+        /// <param name="a1">Barycentric scalar <c>b2</c> which represents a weighting factor towards second vector of 2d-triangle</param>
+        /// <param name="a2">Barycentric scalar <c>b3</c> which represents a weighting factor towards third vector of 2d-triangle</param>
+        /// <returns>The cartesian translation of barycentric coordinates</returns>
         public static Vector2 Barycentric(Vector2 v1, Vector2 v2, Vector2 v3, float a1, float a2)
         {
             return new Vector2(Mathf.Barycentric(v1.X, v2.X, v3.X, a1, a2), Mathf.Barycentric(v1.Y, v2.Y, v3.Y, a1, a2));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains CatmullRom interpolation of the specified vectors.
+        /// Creates a new <see cref="Vector2"/> that contains CatmullRom interpolation of the specified vectors
         /// </summary>
-        /// <param name="v1">The first vector in interpolation.</param>
-        /// <param name="v2">The second vector in interpolation.</param>
-        /// <param name="v3">The third vector in interpolation.</param>
-        /// <param name="v4">The fourth vector in interpolation.</param>
-        /// <param name="a">Weighting factor.</param>
-        /// <returns>The result of CatmullRom interpolation.</returns>
+        /// <param name="v1">The first vector in interpolation</param>
+        /// <param name="v2">The second vector in interpolation</param>
+        /// <param name="v3">The third vector in interpolation</param>
+        /// <param name="v4">The fourth vector in interpolation</param>
+        /// <param name="a">Weighting factor</param>
+        /// <returns>The result of CatmullRom interpolation</returns>
         public static Vector2 CatmullRom(Vector2 v1, Vector2 v2, Vector2 v3, Vector2 v4, float a)
         {
             return new Vector2(Mathf.CatmullRom(v1.X, v2.X, v3.X, v4.X, a), Mathf.CatmullRom(v1.Y, v2.Y, v3.Y, v4.Y, a));
         }
 
         /// <summary>
-        /// Round the members of this <see cref="Vector2"/> towards positive infinity.
+        /// Round the members of this <see cref="Vector2"/> towards positive infinity
         /// </summary>
         public void Ceiling()
         {
@@ -280,10 +288,10 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains members from another vector rounded towards positive infinity.
+        /// Creates a new <see cref="Vector2"/> that contains members from another vector rounded towards positive infinity
         /// </summary>
-        /// <param name="v">Source <see cref="Vector2"/>.</param>
-        /// <returns>The rounded <see cref="Vector2"/>.</returns>
+        /// <param name="v">Source <see cref="Vector2"/></param>
+        /// <returns>The rounded <see cref="Vector2"/></returns>
         public static Vector2 Ceiling(Vector2 v)
         {
             v.X = Mathf.Ceiling(v.X);
@@ -292,23 +300,23 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Clamps the specified value within a range.
+        /// Clamps the specified value within a range
         /// </summary>
-        /// <param name="v1">The value to clamp.</param>
-        /// <param name="min">The min value.</param>
-        /// <param name="max">The max value.</param>
-        /// <returns>The clamped value.</returns>
+        /// <param name="v1">The value to clamp</param>
+        /// <param name="min">The min value</param>
+        /// <param name="max">The max value</param>
+        /// <returns>The clamped value</returns>
         public static Vector2 Clamp(Vector2 v1, Vector2 min, Vector2 max)
         {
             return new Vector2(Mathf.Clamp(v1.X, min.X, max.X), Mathf.Clamp(v1.Y, min.Y, max.Y));
         }
 
         /// <summary>
-        /// Returns the distance between two vectors.
+        /// Returns the distance between two vectors
         /// </summary>
-        /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The second vector.</param>
-        /// <returns>The distance between two vectors.</returns>
+        /// <param name="v1">The first vector</param>
+        /// <param name="v2">The second vector</param>
+        /// <returns>The distance between two vectors</returns>
         public static float Distance(Vector2 v1, Vector2 v2)
         {
             float v1X = v1.X - v2.X;
@@ -317,11 +325,11 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Returns the squared distance between two vectors.
+        /// Returns the squared distance between two vectors
         /// </summary>
-        /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The second vector.</param>
-        /// <returns>The squared distance between two vectors.</returns>
+        /// <param name="v1">The first vector</param>
+        /// <param name="v2">The second vector</param>
+        /// <returns>The squared distance between two vectors</returns>
         public static float DistanceSquared(Vector2 v1, Vector2 v2)
         {
             float v1X = v1.X - v2.X;
@@ -330,18 +338,18 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Returns a dot product of two vectors.
+        /// Returns a dot product of two vectors
         /// </summary>
-        /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The second vector.</param>
-        /// <returns>The dot product of two vectors.</returns>
+        /// <param name="v1">The first vector</param>
+        /// <param name="v2">The second vector</param>
+        /// <returns>The dot product of two vectors</returns>
         public static float Dot(Vector2 v1, Vector2 v2)
         {
             return v1.X * v2.X + v1.Y * v2.Y;
         }
 
         /// <summary>
-        /// Round the members of this <see cref="Vector2"/> towards negative infinity.
+        /// Round the members of this <see cref="Vector2"/> towards negative infinity
         /// </summary>
         public void Floor()
         {
@@ -350,10 +358,10 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains members from another vector rounded towards negative infinity.
+        /// Creates a new <see cref="Vector2"/> that contains members from another vector rounded towards negative infinity
         /// </summary>
-        /// <param name="v">Source <see cref="Vector2"/>.</param>
-        /// <returns>The rounded <see cref="Vector2"/>.</returns>
+        /// <param name="v">Source <see cref="Vector2"/></param>
+        /// <returns>The rounded <see cref="Vector2"/></returns>
         public static Vector2 Floor(Vector2 v)
         {
             v.X = Mathf.Floor(v.X);
@@ -362,81 +370,91 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains hermite spline interpolation.
+        /// Creates a new <see cref="Vector2"/> that contains hermite spline interpolation
         /// </summary>
-        /// <param name="v1">The first position vector.</param>
-        /// <param name="t1">The first tangent vector.</param>
-        /// <param name="v2">The second position vector.</param>
-        /// <param name="t2">The second tangent vector.</param>
-        /// <param name="a">Weighting factor.</param>
-        /// <returns>The hermite spline interpolation vector.</returns>
+        /// <param name="v1">The first position vector</param>
+        /// <param name="t1">The first tangent vector</param>
+        /// <param name="v2">The second position vector</param>
+        /// <param name="t2">The second tangent vector</param>
+        /// <param name="a">Weighting factor</param>
+        /// <returns>The hermite spline interpolation vector</returns>
         public static Vector2 Hermite(Vector2 v1, Vector2 t1, Vector2 v2, Vector2 t2, float a)
         {
             return new Vector2(Mathf.Hermite(v1.X, t1.X, v2.X, t2.X, a), Mathf.Hermite(v1.Y, t1.Y, v2.Y, t2.Y, a));
         }
 
         /// <summary>
-        /// Returns the length of this <see cref="Vector2"/>.
+        /// Returns the length of this <see cref="Vector2"/>
         /// </summary>
-        /// <returns>The length of this <see cref="Vector2"/>.</returns>
+        /// <returns>The length of this <see cref="Vector2"/></returns>
         public float Length()
         {
             return Mathf.Sqrt(X * X + Y * Y);
         }
-
+        
         /// <summary>
-        /// Returns the squared length of this <see cref="Vector2"/>.
+        /// Returns the length of this <see cref="Vector2"/>
         /// </summary>
-        /// <returns>The squared length of this <see cref="Vector2"/>.</returns>
-        public float LengthSquared()
+        /// <param name="v">Vector</param>
+        /// <returns>The length of this <see cref="Vector2"/></returns>
+        public static float Length(Vector2 v)
         {
-            return X * X + Y * Y;
+            return Mathf.Sqrt(Mathf.Pow(v.X, 2) + Mathf.Pow(v.Y, 2));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains linear interpolation of the specified vectors.
+        /// Returns the squared length of this <see cref="Vector2"/>
         /// </summary>
-        /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The second vector.</param>
-        /// <param name="a">Weighting value(between 0.0 and 1.0).</param>
-        /// <returns>The result of linear interpolation of the specified vectors.</returns>
+        /// <returns>The squared length of this <see cref="Vector2"/></returns>
+        public float LengthSquared()
+        {
+            return Mathf.Pow(X, 2) + Mathf.Pow(Y, 2);
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="Vector2"/> that contains linear interpolation of the specified vectors
+        /// </summary>
+        /// <param name="v1">The first vector</param>
+        /// <param name="v2">The second vector</param>
+        /// <param name="a">Weighting value (between 0.0 and 1.0)</param>
+        /// <returns>The result of linear interpolation of the specified vectors</returns>
         public static Vector2 Lerp(Vector2 v1, Vector2 v2, float a)
         {
             return new Vector2(Mathf.Lerp(v1.X, v2.X, a), Mathf.Lerp(v1.Y, v2.Y, a));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains linear interpolation of the specified vectors.
-        /// Uses <see cref="Mathf.LerpPrecise"/> on Mathf for the interpolation.
-        /// Less efficient but more precise compared to <see cref="Vector2.Lerp(Vector2, Vector2, float)"/>.
-        /// See remarks section of <see cref="Mathf.LerpPrecise"/> on Mathf for more info.
+        /// Creates a new <see cref="Vector2"/> that contains linear interpolation of the specified vectors
+        /// Uses <see cref="Mathf.LerpPrecise"/> on Mathf for the interpolation
+        /// Less efficient but more precise compared to <see cref="Vector2.Lerp(Vector2, Vector2, float)"/>
+        /// See remarks section of <see cref="Mathf.LerpPrecise"/> on Mathf for more info
         /// </summary>
-        /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The second vector.</param>
-        /// <param name="a">Weighting value(between 0.0 and 1.0).</param>
-        /// <returns>The result of linear interpolation of the specified vectors.</returns>
+        /// <param name="v1">The first vector</param>
+        /// <param name="v2">The second vector</param>
+        /// <param name="a">Weighting value (between 0.0 and 1.0)</param>
+        /// <returns>The result of linear interpolation of the specified vectors</returns>
         public static Vector2 LerpPrecise(Vector2 v1, Vector2 v2, float a)
         {
             return new Vector2(Mathf.LerpPrecise(v1.X, v2.X, a), Mathf.LerpPrecise(v1.Y, v2.Y, a));
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains a maximal values from the two vectors.
+        /// Creates a new <see cref="Vector2"/> that contains a maximal values from the two vectors
         /// </summary>
-        /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The second vector.</param>
-        /// <returns>The <see cref="Vector2"/> with maximal values from the two vectors.</returns>
+        /// <param name="v1">The first vector</param>
+        /// <param name="v2">The second vector</param>
+        /// <returns>The <see cref="Vector2"/> with maximal values from the two vectors</returns>
         public static Vector2 Max(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.X > v2.X ? v1.X : v2.X, v1.Y > v2.Y ? v1.Y : v2.Y);
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains a minimal values from the two vectors.
+        /// Creates a new <see cref="Vector2"/> that contains a minimal values from the two vectors
         /// </summary>
-        /// <param name="v1">The first vector.</param>
-        /// <param name="v2">The second vector.</param>
-        /// <returns>The <see cref="Vector2"/> with minimal values from the two vectors.</returns>
+        /// <param name="v1">The first vector</param>
+        /// <param name="v2">The second vector</param>
+        /// <returns>The <see cref="Vector2"/> with minimal values from the two vectors</returns>
         public static Vector2 Min(Vector2 v1, Vector2 v2)
         {
             return new Vector2(v1.X < v2.X ? v1.X : v2.X, v1.Y < v2.Y ? v1.Y : v2.Y);
@@ -447,30 +465,30 @@ namespace Kinematics.Math
         /// </summary>
         public void Normalize()
         {
-            float val = 1.0f / Mathf.Sqrt(X * X + Y * Y);
+            float val = 1.0f / Length();
             X *= val;
             Y *= val;
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains a normalized values from another vector.
+        /// Creates a new <see cref="Vector2"/> that contains a normalized values from another vector
         /// </summary>
-        /// <param name="v">Source <see cref="Vector2"/>.</param>
-        /// <returns>Unit vector.</returns>
+        /// <param name="v">Source <see cref="Vector2"/></param>
+        /// <returns>Unit vector</returns>
         public static Vector2 Normalize(Vector2 v)
         {
-            float val = 1.0f / Mathf.Sqrt(v.X * v.X + v.Y * v.Y);
+            float val = 1.0f / Length(v);
             v.X *= val;
             v.Y *= val;
             return v;
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains reflect vector of the given vector and normal.
+        /// Creates a new <see cref="Vector2"/> that contains reflect vector of the given vector and normal
         /// </summary>
-        /// <param name="v">Source <see cref="Vector2"/>.</param>
-        /// <param name="n">Reflection normal.</param>
-        /// <returns>Reflected vector.</returns>
+        /// <param name="v">Source <see cref="Vector2"/></param>
+        /// <param name="n">Reflection normal</param>
+        /// <returns>Reflected vector</returns>
         public static Vector2 Reflect(Vector2 v, Vector2 n)
         {
             Vector2 result;
@@ -481,7 +499,7 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Round the members of this <see cref="Vector2"/> to the nearest integer value.
+        /// Round the members of this <see cref="Vector2"/> to the nearest integer value
         /// </summary>
         public void Round()
         {
@@ -490,10 +508,10 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains members from another vector rounded to the nearest integer value.
+        /// Creates a new <see cref="Vector2"/> that contains members from another vector rounded to the nearest integer value
         /// </summary>
-        /// <param name="v">Source <see cref="Vector2"/>.</param>
-        /// <returns>The rounded <see cref="Vector2"/>.</returns>
+        /// <param name="v">Source <see cref="Vector2"/></param>
+        /// <returns>The rounded <see cref="Vector2"/></returns>
         public static Vector2 Round(Vector2 v)
         {
             v.X = Mathf.Round(v.X);
@@ -502,12 +520,12 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector2"/> that contains cubic interpolation of the specified vectors.
+        /// Creates a new <see cref="Vector2"/> that contains cubic interpolation of the specified vectors
         /// </summary>
-        /// <param name="v1">Source <see cref="Vector2"/>.</param>
-        /// <param name="v2">Source <see cref="Vector2"/>.</param>
-        /// <param name="a">Weighting value.</param>
-        /// <returns>Cubic interpolation of the specified vectors.</returns>
+        /// <param name="v1">Source <see cref="Vector2"/></param>
+        /// <param name="v2">Source <see cref="Vector2"/></param>
+        /// <param name="a">Weighting value</param>
+        /// <returns>Cubic interpolation of the specified vectors</returns>
         public static Vector2 SmoothStep(Vector2 v1, Vector2 v2, float a)
         {
             return new Vector2(Mathf.SmoothStep(v1.X, v2.X, a), Mathf.SmoothStep(v1.Y, v2.Y, a));
@@ -560,7 +578,7 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Get a vector perpendicular to this vector.
+        /// Get a vector perpendicular to this vector
         /// </summary>
         /// <param name="v">Vector</param>
         /// <returns>Perpendicular vector</returns>
@@ -621,7 +639,7 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// See if 2 line segments intersect. (line AB collides with line CD)
+        /// See if 2 line segments intersect (line AB collides with line CD)
         /// </summary>
         /// <param name="ptA">First point on line AB</param>
         /// <param name="ptB">Second point on line AB</param>
@@ -659,7 +677,7 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// See if 2 line segments intersect. (line AB collides with line CD) (reference type version)
+        /// See if 2 line segments intersect (line AB collides with line CD) (reference type version)
         /// </summary>
         /// <param name="ptA">First point on line AB</param>
         /// <param name="ptB">Second point on line AB</param>
@@ -697,7 +715,7 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// See if 2 line segments intersect. (line AB collides with line CD) - simplified version
+        /// See if 2 line segments intersect (line AB collides with line CD) - simplified version
         /// </summary>
         /// <param name="ptA">First point on line AB</param>
         /// <param name="ptB">Second point on line AB</param>
@@ -711,7 +729,7 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// See if 2 line segments intersect. (line AB collides with line CD) - simplified version (reference type version)
+        /// See if 2 line segments intersect (line AB collides with line CD) - simplified version (reference type version)
         /// </summary>
         /// <param name="ptA">First point on line AB</param>
         /// <param name="ptB">Second point on line AB</param>
@@ -723,6 +741,7 @@ namespace Kinematics.Math
         {
             return LineIntersect(ref ptA, ref ptB, ref ptC, ref ptD, out hitPt, out float _, out float _);
         }
+
         #endregion
     }
 }

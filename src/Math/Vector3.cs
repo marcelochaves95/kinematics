@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Kinematics.Math
@@ -68,9 +69,11 @@ namespace Kinematics.Math
         /// </summary>
         /// <returns>Vector zero</returns>
         public static readonly Vector3 Zero = new Vector3(0f, 0f, 0f);
+
         #endregion
 
         #region Contrutors
+
         /// <summary>
         /// Construct the vector from it's coordinates
         /// </summary>
@@ -85,9 +88,9 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Construct the vector from it's coordinates
+        /// Construct the vector from its coordinates
         /// </summary>
-        /// <param name="v">The v to assign to the X, Y, and Z components of the vector. This must be an array with three elements</param>
+        /// <param name="v">Vector3</param>
         public Vector3(Vector3 v)
         {
             X = v.X;
@@ -96,19 +99,20 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Construct the vector from it's coordinates
+        /// Construct the vector from its coordinates
         /// </summary>
-        /// <param name="v">A vector containing the values with which to initialize the X, Y, and Z components</param>
-        /// <param name="z">Initial value for the Z component of the vector</param>
+        /// <param name="v">Vector2</param>
         public Vector3(Vector2 v)
         {
             X = v.X;
             Y = v.Y;
             Z = 0.0f;
         }
+
         #endregion
 
         #region Operators
+
         /// <summary>
         /// Operator + overload ; add two vectors
         /// </summary>
@@ -180,6 +184,7 @@ namespace Kinematics.Math
         /// <param name="v1">The vector to scale</param>
         /// <param name="v2">The amount by which to scale the vector</param>
         /// <returns>The scaled vector</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator /(Vector3 v1, Vector3 v2)
         {
             return new Vector3(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z);
@@ -191,6 +196,7 @@ namespace Kinematics.Math
         /// <param name="v">Vector</param>
         /// <param name="s">Scalar value</param>
         /// <returns>v / s</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator /(Vector3 v, float s)
         {
             return new Vector3(v.X / s, v.Y / s, v.Z / s);
@@ -227,7 +233,10 @@ namespace Kinematics.Math
         {
             return new Vector2(v);
         }
+
         #endregion
+
+        #region Overrides
 
         /// <summary>
         /// Compare vector and object and checks if they are equal
@@ -250,12 +259,54 @@ namespace Kinematics.Math
         }
 
         /// <summary>
+        /// Used to allow Vector3s to be used as keys in hash tables
+        /// </summary>
+        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table</returns>
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ (Y.GetHashCode() << 2) ^ (Z.GetHashCode() >> 2);
+        }
+
+        /// <summary>
+        /// Provide a string describing the object
+        /// </summary>
+        /// <returns>String description of the object</returns>
+        public override string ToString()
+        {
+            return $"[Vector3] X({X}) Y({Y}) Z({Z})";
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        /// <summary>
         /// Calculates the length of the vector
         /// </summary>
         /// <returns>The length of the vector</returns>
-        public static float Magnitude(Vector3 v)
+        public static float Length(Vector3 v)
         {
             return Mathf.Sqrt(Mathf.Pow(v.X, 2) + Mathf.Pow(v.Y, 2) + Mathf.Pow(v.Z, 2));
+        }
+
+        /// <summary>
+        /// Returns the squared length of this <see cref="Vector3"/>
+        /// </summary>
+        /// <returns>The squared length of this <see cref="Vector3"/></returns>
+        public float LengthSquared()
+        {
+            return Mathf.Pow(X, 2) + Mathf.Pow(Y, 2) + Mathf.Pow(Z, 2);
+        }
+
+        /// <summary>
+        /// Turns this <see cref="Vector3"/> to a unit vector with the same direction
+        /// </summary>
+        public void Normalize()
+        {
+            float val = 1.0f / Length(this);
+            X *= val;
+            Y *= val;
+            Z *= val;
         }
 
         /// <summary>
@@ -265,7 +316,11 @@ namespace Kinematics.Math
         /// <returns>Normalized vector</returns>
         public static Vector3 Normalize(Vector3 v)
         {
-            return v / Magnitude(v);
+            float val = 1.0f / Length(v);
+            v.X *= val;
+            v.Y *= val;
+            v.Z *= val;
+            return v;
         }
 
         /// <summary>
@@ -341,8 +396,8 @@ namespace Kinematics.Math
             float x = v1.X - v2.X;
             float y = v1.Y - v2.Y;
             float z = v1.Z - v2.Z;
-
-            return Mathf.Sqrt(x * x + y * y + z * z);
+            Vector3 v3 = new Vector3(x, y, z);
+            return Length(v3);
         }
 
         /// <summary>
@@ -354,10 +409,7 @@ namespace Kinematics.Math
         /// <returns>The linear interpolation of the two vectors</returns>
         public static Vector3 Lerp(Vector3 s, Vector3 e, float a)
         {
-            return new Vector3(s.X + (e.X - s.X) * a,
-                            s.Y + (e.Y - s.Y) * a,
-                            s.Z + (e.Z - s.Z) * a
-            );
+            return new Vector3(s.X + (e.X - s.X) * a, s.Y + (e.Y - s.Y) * a, s.Z + (e.Z - s.Z) * a);
         }
 
         /// <summary>
@@ -436,10 +488,7 @@ namespace Kinematics.Math
         /// <returns>A vector containing the largest components of the source vectors</returns>
         public static Vector3 Max(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1.X > v2.X ? v1.X : v2.X,
-                            v1.Y > v2.Y ? v1.Y : v2.Y,
-                            v1.Z > v2.Z ? v1.Z : v2.Z
-            );
+            return new Vector3(v1.X > v2.X ? v1.X : v2.X, v1.Y > v2.Y ? v1.Y : v2.Y, v1.Z > v2.Z ? v1.Z : v2.Z);
         }
 
         /// <summary>
@@ -450,10 +499,7 @@ namespace Kinematics.Math
         /// <returns>A vector containing the smallest components of the source vectors</returns>
         public static Vector3 Min(Vector3 v1, Vector3 v2)
         {
-            return new Vector3(v1.X < v2.X ? v1.X : v2.X,
-                            v1.Y < v2.Y ? v1.Y : v2.Y,
-                            v1.Z < v2.Z ? v1.Z : v2.Z
-            );
+            return new Vector3(v1.X < v2.X ? v1.X : v2.X, v1.Y < v2.Y ? v1.Y : v2.Y, v1.Z < v2.Z ? v1.Z : v2.Z);
         }
 
         /// <summary>
@@ -465,11 +511,7 @@ namespace Kinematics.Math
         public static Vector3 Reflect(Vector3 v, Vector3 n)
         {
             float dot = Dot(v, n);
-
-            return new Vector3(v.X - 2f * dot * n.X,
-                            v.Y - 2f * dot * n.Y,
-                            v.Z - 2f * dot * n.Z
-            );
+            return new Vector3(v.X - 2f * dot * n.X, v.Y - 2f * dot * n.Y, v.Z - 2f * dot * n.Z);
         }
 
         /// <summary>
@@ -494,22 +536,6 @@ namespace Kinematics.Math
             return i * v + (cos2 - i * cos1) * n;
         }
 
-        /// <summary>
-        /// Used to allow Vector3s to be used as keys in hash tables
-        /// </summary>
-        /// <returns>A hash code for this instance that is suitable for use in hashing algorithms and data structures such as a hash table.</returns>
-        public override int GetHashCode()
-        {
-            return X.GetHashCode() ^ (Y.GetHashCode() << 2) ^ (Z.GetHashCode() >> 2);
-        }
-
-        /// <summary>
-        /// Provide a string describing the object
-        /// </summary>
-        /// <returns>String description of the object</returns>
-        public override string ToString()
-        {
-            return $"[Vector3] X({X}) Y({Y}) Z({Z})";
-        }
+        #endregion
     }
 }
