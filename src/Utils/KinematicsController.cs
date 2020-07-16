@@ -118,13 +118,13 @@ namespace Kinematics.Utils
             body.BitmaskX.Clear();
             for (int i = minX; i <= maxX; i++)
             {
-                body.BitmaskX.setOn(i);
+                body.BitmaskX.SetOn(i);
             }
 
             body.BitmaskY.Clear();
             for (int i = minY; i <= maxY; i++)
             {
-                body.BitmaskY.setOn(i);
+                body.BitmaskY.SetOn(i);
             }
         }
 

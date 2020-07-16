@@ -1,8 +1,9 @@
+using System;
 using Kinematics.Math;
 
 namespace Kinematics.Collision
 {
-    public struct AABB
+    public struct AABB : IDisposable
     {
         public Vector2 Min;
         public Vector2 Max;
@@ -54,8 +55,7 @@ namespace Kinematics.Collision
 
         public void Clear()
         {
-            Min.X = Max.X = Min.Y = Max.Y = 0;
-            IsValid = false;
+            Dispose();
         }
 
         public bool Contains(float x, float y)
@@ -93,6 +93,15 @@ namespace Kinematics.Collision
             }
 
             return true;
+        }
+
+        public void Dispose()
+        {
+            Min.X = 0;
+            Max.X = 0;
+            Min.Y = 0;
+            Max.Y = 0;
+            IsValid = false;
         }
     }
 }

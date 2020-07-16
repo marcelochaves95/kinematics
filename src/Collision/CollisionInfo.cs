@@ -1,9 +1,10 @@
+using System;
 using Kinematics.Math;
 using Kinematics.Dynamics;
 
 namespace Kinematics.Collision
 {
-    internal struct CollisionInfo
+    internal struct CollisionInfo : IDisposable
     {
         public Body BodyA;
         public Body BodyB;
@@ -16,6 +17,11 @@ namespace Kinematics.Collision
         public float Penetration;
 
         public void Clear()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
         {
             BodyA = BodyB = null;
             PointMassA = PointMassB = PointMassC = new PointMass();
