@@ -1,8 +1,5 @@
 using System;
-using System.Diagnostics;
-using System.Drawing;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 
 namespace Kinematics.Math
 { 
@@ -36,22 +33,22 @@ namespace Kinematics.Math
         public Matrix(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31,
                       float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
-            this.M11 = m11;
-            this.M12 = m12;
-            this.M13 = m13;
-            this.M14 = m14;
-            this.M21 = m21;
-            this.M22 = m22;
-            this.M23 = m23;
-            this.M24 = m24;
-            this.M31 = m31;
-            this.M32 = m32;
-            this.M33 = m33;
-            this.M34 = m34;
-            this.M41 = m41;
-            this.M42 = m42;
-            this.M43 = m43;
-            this.M44 = m44;
+            M11 = m11;
+            M12 = m12;
+            M13 = m13;
+            M14 = m14;
+            M21 = m21;
+            M22 = m22;
+            M23 = m23;
+            M24 = m24;
+            M31 = m31;
+            M32 = m32;
+            M33 = m33;
+            M34 = m34;
+            M41 = m41;
+            M42 = m42;
+            M43 = m43;
+            M44 = m44;
         }
 
         /// <summary>
@@ -63,22 +60,22 @@ namespace Kinematics.Math
         /// <param name="row4">A fourth row of the created matrix.</param>
         public Matrix(Vector4 row1, Vector4 row2, Vector4 row3, Vector4 row4)
         {
-            this.M11 = row1.X;
-            this.M12 = row1.Y;
-            this.M13 = row1.Z;
-            this.M14 = row1.W;
-            this.M21 = row2.X;
-            this.M22 = row2.Y;
-            this.M23 = row2.Z;
-            this.M24 = row2.W;
-            this.M31 = row3.X;
-            this.M32 = row3.Y;
-            this.M33 = row3.Z;
-            this.M34 = row3.W;
-            this.M41 = row4.X;
-            this.M42 = row4.Y;
-            this.M43 = row4.Z;
-            this.M44 = row4.W;
+            M11 = row1.X;
+            M12 = row1.Y;
+            M13 = row1.Z;
+            M14 = row1.W;
+            M21 = row2.X;
+            M22 = row2.Y;
+            M23 = row2.Z;
+            M24 = row2.W;
+            M31 = row3.X;
+            M32 = row3.Y;
+            M33 = row3.Z;
+            M34 = row3.W;
+            M41 = row4.X;
+            M42 = row4.Y;
+            M43 = row4.Z;
+            M44 = row4.W;
         }
 
         #endregion
@@ -88,25 +85,21 @@ namespace Kinematics.Math
         /// <summary>
         /// A first row and first column value.
         /// </summary>
-        [DataMember]
         public float M11;
 
         /// <summary>
         /// A first row and second column value.
         /// </summary>
-        [DataMember]
         public float M12;
 
         /// <summary>
         /// A first row and third column value.
         /// </summary>
-        [DataMember]
         public float M13;
 
         /// <summary>
         /// A first row and fourth column value.
         /// </summary>
-        [DataMember]
         public float M14;
 
         /// <summary>
@@ -180,74 +173,6 @@ namespace Kinematics.Math
         /// </summary>
         [DataMember]
         public float M44;
-
-        #endregion
-
-        #region Indexers
-
-        public float this[int index]
-        {
-            get
-            {
-                switch (index)
-                {
-                    case 0: return M11;
-                    case 1: return M12;
-                    case 2: return M13;
-                    case 3: return M14;
-                    case 4: return M21;
-                    case 5: return M22;
-                    case 6: return M23;
-                    case 7: return M24;
-                    case 8: return M31;
-                    case 9: return M32;
-                    case 10: return M33;
-                    case 11: return M34;
-                    case 12: return M41;
-                    case 13: return M42;
-                    case 14: return M43;
-                    case 15: return M44;
-                }
-                throw new ArgumentOutOfRangeException();
-            }
-
-            set
-            {
-                switch (index)
-                {
-                    case 0: M11 = value; break;
-                    case 1: M12 = value; break;
-                    case 2: M13 = value; break;
-                    case 3: M14 = value; break;
-                    case 4: M21 = value; break;
-                    case 5: M22 = value; break;
-                    case 6: M23 = value; break;
-                    case 7: M24 = value; break;
-                    case 8: M31 = value; break;
-                    case 9: M32 = value; break;
-                    case 10: M33 = value; break;
-                    case 11: M34 = value; break;
-                    case 12: M41 = value; break;
-                    case 13: M42 = value; break;
-                    case 14: M43 = value; break;
-                    case 15: M44 = value; break;
-                    default: throw new ArgumentOutOfRangeException();
-                }
-            }
-        }
-
-        public float this[int row, int column]
-        {
-            get
-            {
-                return this[(row * 4) + column];
-            }
-
-            set
-            {
-                this[(row * 4) + column] = value;
-            }
-        }
 
         #endregion
 
