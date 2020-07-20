@@ -1,22 +1,19 @@
 using System;
 using System.Runtime.Serialization;
 using System.Runtime.InteropServices;
-using Kinematics.Math;
 
-namespace Microsoft.Xna.Framework
+namespace Kinematics.Math
 {
     /// <summary>
-    /// Describes a 4D-vector.
+    /// Vector3 is an utility class for manipulating 4 dimensional
+    /// vectors with float components
     /// </summary>
-#if XNADESIGNPROVIDED
-    [System.ComponentModel.TypeConverter(typeof(Microsoft.Xna.Framework.Design.Vector4TypeConverter))]
-#endif
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector4 : IEquatable<Vector4>
     {
         #region Private Fields
 
-        private static readonly Vector4 zero = new Vector4();
+        private static readonly Vector4 zero;
         private static readonly Vector4 one = new Vector4(1f, 1f, 1f, 1f);
         private static readonly Vector4 unitX = new Vector4(1f, 0f, 0f, 0f);
         private static readonly Vector4 unitY = new Vector4(0f, 1f, 0f, 0f);
@@ -58,10 +55,7 @@ namespace Microsoft.Xna.Framework
         /// <summary>
         /// Returns a <see cref="Vector4"/> with components 0, 0, 0, 0.
         /// </summary>
-        public static Vector4 Zero
-        {
-            get { return zero; }
-        }
+        public static Vector4 Zero => new Vector4();
 
         /// <summary>
         /// Returns a <see cref="Vector4"/> with components 1, 1, 1, 1.

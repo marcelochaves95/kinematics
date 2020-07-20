@@ -57,7 +57,7 @@ namespace Kinematics.Math
 
         #endregion
 
-        #region Construtors
+        #region Constructors
 
         /// <summary>
         /// Construct the vector from its coordinates

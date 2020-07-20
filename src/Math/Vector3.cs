@@ -32,7 +32,7 @@ namespace Kinematics.Math
         /// Shorthand for writing Vector3(0, 0, -1)
         /// </summary>
         /// <returns>Vector back</returns>
-        public static readonly Vector3 Back = new Vector3(0f, 0f, -1f);
+        public static readonly Vector3 Backward = new Vector3(0f, 0f, -1f);
 
         /// <summary>
         /// Shorthand for writing Vector3(0, 1, 0)
@@ -72,7 +72,7 @@ namespace Kinematics.Math
 
         #endregion
 
-        #region Contrutors
+        #region Constructors
 
         /// <summary>
         /// Construct the vector from it's coordinates

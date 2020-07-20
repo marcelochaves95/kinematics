@@ -1,9 +1,8 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
-using Kinematics.Math;
 
-namespace Microsoft.Xna.Framework
+namespace Kinematics.Math
 {
     /// <summary>
     /// An efficient mathematical representation for three dimensional rotations.
