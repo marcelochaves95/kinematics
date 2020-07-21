@@ -267,15 +267,16 @@ namespace Kinematics.Math
         /// <summary>
         /// Creates a new <see cref="Vector2"/> that contains CatmullRom interpolation of the specified vectors
         /// </summary>
-        /// <param name="v1">The first vector in interpolation</param>
-        /// <param name="v2">The second vector in interpolation</param>
-        /// <param name="v3">The third vector in interpolation</param>
-        /// <param name="v4">The fourth vector in interpolation</param>
-        /// <param name="a">Weighting factor</param>
+        /// <param name="value1">The first vector in interpolation</param>
+        /// <param name="value2">The second vector in interpolation</param>
+        /// <param name="value3">The third vector in interpolation</param>
+        /// <param name="value4">The fourth vector in interpolation</param>
+        /// <param name="amount">Weighting factor</param>
         /// <returns>The result of CatmullRom interpolation</returns>
-        public static Vector2 CatmullRom(Vector2 v1, Vector2 v2, Vector2 v3, Vector2 v4, float a)
+        public static Vector2 CatmullRom(Vector2 value1, Vector2 value2, Vector2 value3, Vector2 value4, float amount)
         {
-            return new Vector2(Mathf.CatmullRom(v1.X, v2.X, v3.X, v4.X, a), Mathf.CatmullRom(v1.Y, v2.Y, v3.Y, v4.Y, a));
+            return new Vector2(Mathf.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount),
+                Mathf.CatmullRom(value1.Y, value2.Y, value3.Y, value4.Y, amount));
         }
 
         /// <summary>

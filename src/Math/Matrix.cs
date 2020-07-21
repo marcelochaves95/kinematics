@@ -10,7 +10,7 @@ namespace Kinematics.Math
     public struct Matrix : IEquatable<Matrix>
     {
 	    #region Properties
-	    
+
 	    /// <summary>
         /// A first row and first column value
         /// </summary>
