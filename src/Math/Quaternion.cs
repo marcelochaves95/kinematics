@@ -188,12 +188,12 @@ namespace Kinematics.Math
 		    return new Quaternion(axis.X * sin, axis.Y * sin, axis.Z * sin, cos);
         }
 
-        public static Quaternion CreateFromRotationMatrix(Matrix matrix)
+        public static Quaternion CreateFromRotationMatrix(Matrix4x4 matrix4X4)
         {
             Quaternion quaternion;
             float sqrt;
             float half;
-            float scale = matrix.M11 + matrix.M22 + matrix.M33;
+            float scale = matrix4X4.M11 + matrix4X4.M22 + matrix4X4.M33;
 
 		    if (scale > 0.0f)
 		    {
@@ -201,44 +201,44 @@ namespace Kinematics.Math
 		        quaternion.W = sqrt * 0.5f;
                 sqrt = 0.5f / sqrt;
 
-		        quaternion.X = (matrix.M23 - matrix.M32) * sqrt;
-		        quaternion.Y = (matrix.M31 - matrix.M13) * sqrt;
-		        quaternion.Z = (matrix.M12 - matrix.M21) * sqrt;
+		        quaternion.X = (matrix4X4.M23 - matrix4X4.M32) * sqrt;
+		        quaternion.Y = (matrix4X4.M31 - matrix4X4.M13) * sqrt;
+		        quaternion.Z = (matrix4X4.M12 - matrix4X4.M21) * sqrt;
 		        return quaternion;
 		    }
 
-		    if (matrix.M11 >= matrix.M22 && matrix.M11 >= matrix.M33)
+		    if (matrix4X4.M11 >= matrix4X4.M22 && matrix4X4.M11 >= matrix4X4.M33)
 		    {
-                sqrt = Mathf.Sqrt(1.0f + matrix.M11 - matrix.M22 - matrix.M33);
+                sqrt = Mathf.Sqrt(1.0f + matrix4X4.M11 - matrix4X4.M22 - matrix4X4.M33);
                 half = 0.5f / sqrt;
 
 		        quaternion.X = 0.5f * sqrt;
-		        quaternion.Y = (matrix.M12 + matrix.M21) * half;
-		        quaternion.Z = (matrix.M13 + matrix.M31) * half;
-		        quaternion.W = (matrix.M23 - matrix.M32) * half;
+		        quaternion.Y = (matrix4X4.M12 + matrix4X4.M21) * half;
+		        quaternion.Z = (matrix4X4.M13 + matrix4X4.M31) * half;
+		        quaternion.W = (matrix4X4.M23 - matrix4X4.M32) * half;
 		        return quaternion;
 		    }
 
-		    if (matrix.M22 > matrix.M33)
+		    if (matrix4X4.M22 > matrix4X4.M33)
 		    {
-                sqrt = Mathf.Sqrt(1.0f + matrix.M22 - matrix.M11 - matrix.M33);
+                sqrt = Mathf.Sqrt(1.0f + matrix4X4.M22 - matrix4X4.M11 - matrix4X4.M33);
                 half = 0.5f / sqrt;
 
-		        quaternion.X = (matrix.M21 + matrix.M12) * half;
+		        quaternion.X = (matrix4X4.M21 + matrix4X4.M12) * half;
 		        quaternion.Y = 0.5f * sqrt;
-		        quaternion.Z = (matrix.M32 + matrix.M23) * half;
-		        quaternion.W = (matrix.M31 - matrix.M13) * half;
+		        quaternion.Z = (matrix4X4.M32 + matrix4X4.M23) * half;
+		        quaternion.W = (matrix4X4.M31 - matrix4X4.M13) * half;
 
 		        return quaternion;
 		    }
 
-            sqrt = Mathf.Sqrt(1.0f + matrix.M33 - matrix.M11 - matrix.M22);
+            sqrt = Mathf.Sqrt(1.0f + matrix4X4.M33 - matrix4X4.M11 - matrix4X4.M22);
 		    half = 0.5f / sqrt;
 
-		    quaternion.X = (matrix.M31 + matrix.M13) * half;
-		    quaternion.Y = (matrix.M32 + matrix.M23) * half;
+		    quaternion.X = (matrix4X4.M31 + matrix4X4.M13) * half;
+		    quaternion.Y = (matrix4X4.M32 + matrix4X4.M23) * half;
 		    quaternion.Z = 0.5f * sqrt;
-		    quaternion.W = (matrix.M12 - matrix.M21) * half;
+		    quaternion.W = (matrix4X4.M12 - matrix4X4.M21) * half;
 		    return quaternion;
         }
 

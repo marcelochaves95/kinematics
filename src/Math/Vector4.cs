@@ -879,15 +879,15 @@ namespace Kinematics.Math
         #region Transform
 
         /// <summary>
-        /// Creates a new <see cref="Vector4"/> that contains a transformation of 2d-vector by the specified <see cref="Matrix"/>.
+        /// Creates a new <see cref="Vector4"/> that contains a transformation of 2d-vector by the specified <see cref="Matrix4x4"/>.
         /// </summary>
         /// <param name="value">Source <see cref="Vector2"/>.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
+        /// <param name="matrix4X4">The transformation <see cref="Matrix4x4"/>.</param>
         /// <returns>Transformed <see cref="Vector4"/>.</returns>
-        public static Vector4 Transform(Vector2 value, Matrix matrix)
+        public static Vector4 Transform(Vector2 value, Matrix4x4 matrix4X4)
         {
             Vector4 result;
-            Transform(ref value, ref matrix, out result);
+            Transform(ref value, ref matrix4X4, out result);
             return result;
         }
 
@@ -905,15 +905,15 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector4"/> that contains a transformation of 3d-vector by the specified <see cref="Matrix"/>.
+        /// Creates a new <see cref="Vector4"/> that contains a transformation of 3d-vector by the specified <see cref="Matrix4x4"/>.
         /// </summary>
         /// <param name="value">Source <see cref="Vector3"/>.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
+        /// <param name="matrix4X4">The transformation <see cref="Matrix4x4"/>.</param>
         /// <returns>Transformed <see cref="Vector4"/>.</returns>
-        public static Vector4 Transform(Vector3 value, Matrix matrix)
+        public static Vector4 Transform(Vector3 value, Matrix4x4 matrix4X4)
         {
             Vector4 result;
-            Transform(ref value, ref matrix, out result);
+            Transform(ref value, ref matrix4X4, out result);
             return result;
         }
 
@@ -931,14 +931,14 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector4"/> that contains a transformation of 4d-vector by the specified <see cref="Matrix"/>.
+        /// Creates a new <see cref="Vector4"/> that contains a transformation of 4d-vector by the specified <see cref="Matrix4x4"/>.
         /// </summary>
         /// <param name="value">Source <see cref="Vector4"/>.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
+        /// <param name="matrix4X4">The transformation <see cref="Matrix4x4"/>.</param>
         /// <returns>Transformed <see cref="Vector4"/>.</returns>
-        public static Vector4 Transform(Vector4 value, Matrix matrix)
+        public static Vector4 Transform(Vector4 value, Matrix4x4 matrix4X4)
         {
-            Transform(ref value, ref matrix, out value);
+            Transform(ref value, ref matrix4X4, out value);
             return value;
         }
 
@@ -956,17 +956,17 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector4"/> that contains a transformation of 2d-vector by the specified <see cref="Matrix"/>.
+        /// Creates a new <see cref="Vector4"/> that contains a transformation of 2d-vector by the specified <see cref="Matrix4x4"/>.
         /// </summary>
         /// <param name="value">Source <see cref="Vector2"/>.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
+        /// <param name="matrix4X4">The transformation <see cref="Matrix4x4"/>.</param>
         /// <param name="result">Transformed <see cref="Vector4"/> as an output parameter.</param>
-        public static void Transform(ref Vector2 value, ref Matrix matrix, out Vector4 result)
+        public static void Transform(ref Vector2 value, ref Matrix4x4 matrix4X4, out Vector4 result)
         {
-            result.X = (value.X * matrix.M11) + (value.Y * matrix.M21) + matrix.M41;
-            result.Y = (value.X * matrix.M12) + (value.Y * matrix.M22) + matrix.M42;
-            result.Z = (value.X * matrix.M13) + (value.Y * matrix.M23) + matrix.M43;
-            result.W = (value.X * matrix.M14) + (value.Y * matrix.M24) + matrix.M44;
+            result.X = (value.X * matrix4X4.M11) + (value.Y * matrix4X4.M21) + matrix4X4.M41;
+            result.Y = (value.X * matrix4X4.M12) + (value.Y * matrix4X4.M22) + matrix4X4.M42;
+            result.Z = (value.X * matrix4X4.M13) + (value.Y * matrix4X4.M23) + matrix4X4.M43;
+            result.W = (value.X * matrix4X4.M14) + (value.Y * matrix4X4.M24) + matrix4X4.M44;
         }
 
         /// <summary>
@@ -981,17 +981,17 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector4"/> that contains a transformation of 3d-vector by the specified <see cref="Matrix"/>.
+        /// Creates a new <see cref="Vector4"/> that contains a transformation of 3d-vector by the specified <see cref="Matrix4x4"/>.
         /// </summary>
         /// <param name="value">Source <see cref="Vector3"/>.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
+        /// <param name="matrix4X4">The transformation <see cref="Matrix4x4"/>.</param>
         /// <param name="result">Transformed <see cref="Vector4"/> as an output parameter.</param>
-        public static void Transform(ref Vector3 value, ref Matrix matrix, out Vector4 result)
+        public static void Transform(ref Vector3 value, ref Matrix4x4 matrix4X4, out Vector4 result)
         {
-            result.X = (value.X * matrix.M11) + (value.Y * matrix.M21) + (value.Z * matrix.M31) + matrix.M41;
-            result.Y = (value.X * matrix.M12) + (value.Y * matrix.M22) + (value.Z * matrix.M32) + matrix.M42;
-            result.Z = (value.X * matrix.M13) + (value.Y * matrix.M23) + (value.Z * matrix.M33) + matrix.M43;
-            result.W = (value.X * matrix.M14) + (value.Y * matrix.M24) + (value.Z * matrix.M34) + matrix.M44;
+            result.X = (value.X * matrix4X4.M11) + (value.Y * matrix4X4.M21) + (value.Z * matrix4X4.M31) + matrix4X4.M41;
+            result.Y = (value.X * matrix4X4.M12) + (value.Y * matrix4X4.M22) + (value.Z * matrix4X4.M32) + matrix4X4.M42;
+            result.Z = (value.X * matrix4X4.M13) + (value.Y * matrix4X4.M23) + (value.Z * matrix4X4.M33) + matrix4X4.M43;
+            result.W = (value.X * matrix4X4.M14) + (value.Y * matrix4X4.M24) + (value.Z * matrix4X4.M34) + matrix4X4.M44;
         }
 
         /// <summary>
@@ -1006,17 +1006,17 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Creates a new <see cref="Vector4"/> that contains a transformation of 4d-vector by the specified <see cref="Matrix"/>.
+        /// Creates a new <see cref="Vector4"/> that contains a transformation of 4d-vector by the specified <see cref="Matrix4x4"/>.
         /// </summary>
         /// <param name="value">Source <see cref="Vector4"/>.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
+        /// <param name="matrix4X4">The transformation <see cref="Matrix4x4"/>.</param>
         /// <param name="result">Transformed <see cref="Vector4"/> as an output parameter.</param>
-        public static void Transform(ref Vector4 value, ref Matrix matrix, out Vector4 result)
+        public static void Transform(ref Vector4 value, ref Matrix4x4 matrix4X4, out Vector4 result)
         {
-            var x = (value.X * matrix.M11) + (value.Y * matrix.M21) + (value.Z * matrix.M31) + (value.W * matrix.M41);
-            var y = (value.X * matrix.M12) + (value.Y * matrix.M22) + (value.Z * matrix.M32) + (value.W * matrix.M42);
-            var z = (value.X * matrix.M13) + (value.Y * matrix.M23) + (value.Z * matrix.M33) + (value.W * matrix.M43);
-            var w = (value.X * matrix.M14) + (value.Y * matrix.M24) + (value.Z * matrix.M34) + (value.W * matrix.M44);
+            var x = (value.X * matrix4X4.M11) + (value.Y * matrix4X4.M21) + (value.Z * matrix4X4.M31) + (value.W * matrix4X4.M41);
+            var y = (value.X * matrix4X4.M12) + (value.Y * matrix4X4.M22) + (value.Z * matrix4X4.M32) + (value.W * matrix4X4.M42);
+            var z = (value.X * matrix4X4.M13) + (value.Y * matrix4X4.M23) + (value.Z * matrix4X4.M33) + (value.W * matrix4X4.M43);
+            var w = (value.X * matrix4X4.M14) + (value.Y * matrix4X4.M24) + (value.Z * matrix4X4.M34) + (value.W * matrix4X4.M44);
             result.X = x;
             result.Y = y;
             result.Z = z;
@@ -1035,11 +1035,11 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Apply transformation on vectors within array of <see cref="Vector4"/> by the specified <see cref="Matrix"/> and places the results in an another array.
+        /// Apply transformation on vectors within array of <see cref="Vector4"/> by the specified <see cref="Matrix4x4"/> and places the results in an another array.
         /// </summary>
         /// <param name="sourceArray">Source array.</param>
         /// <param name="sourceIndex">The starting index of transformation in the source array.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
+        /// <param name="matrix4X4">The transformation <see cref="Matrix4x4"/>.</param>
         /// <param name="destinationArray">Destination array.</param>
         /// <param name="destinationIndex">The starting index in the destination array, where the first <see cref="Vector4"/> should be written.</param>
         /// <param name="length">The number of vectors to be transformed.</param>
@@ -1047,7 +1047,7 @@ namespace Kinematics.Math
         (
             Vector4[] sourceArray,
             int sourceIndex,
-            ref Matrix matrix,
+            ref Matrix4x4 matrix4X4,
             Vector4[] destinationArray,
             int destinationIndex,
             int length
@@ -1065,7 +1065,7 @@ namespace Kinematics.Math
             for (var i = 0; i < length; i++)
             {
                 var value = sourceArray[sourceIndex + i];
-                destinationArray[destinationIndex + i] = Transform(value, matrix);
+                destinationArray[destinationIndex + i] = Transform(value, matrix4X4);
             }
         }
 
@@ -1101,12 +1101,12 @@ namespace Kinematics.Math
         }
 
         /// <summary>
-        /// Apply transformation on all vectors within array of <see cref="Vector4"/> by the specified <see cref="Matrix"/> and places the results in an another array.
+        /// Apply transformation on all vectors within array of <see cref="Vector4"/> by the specified <see cref="Matrix4x4"/> and places the results in an another array.
         /// </summary>
         /// <param name="sourceArray">Source array.</param>
-        /// <param name="matrix">The transformation <see cref="Matrix"/>.</param>
+        /// <param name="matrix4X4">The transformation <see cref="Matrix4x4"/>.</param>
         /// <param name="destinationArray">Destination array.</param>
-        public static void Transform(Vector4[] sourceArray, ref Matrix matrix, Vector4[] destinationArray)
+        public static void Transform(Vector4[] sourceArray, ref Matrix4x4 matrix4X4, Vector4[] destinationArray)
         {
             if (sourceArray == null)
             {
@@ -1126,7 +1126,7 @@ namespace Kinematics.Math
             for (int i = 0; i < sourceArray.Length; i++)
             {
                 Vector4 value = sourceArray[i];
-                destinationArray[i] = Transform(value, matrix);
+                destinationArray[i] = Transform(value, matrix4X4);
             }
         }
 
