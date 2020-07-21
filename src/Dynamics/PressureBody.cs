@@ -33,14 +33,14 @@ namespace Kinematics.Dynamics
                     X = PointMassList[i].Position.X - PointMassList[prev].Position.X,
                     Y = PointMassList[i].Position.Y - PointMassList[prev].Position.Y
                 };
-                Vector2.Perpendicular(ref edge1N);
+                edge1N = Vector2.Perpendicular(edge1N);
 
                 Vector2 edge2N = new Vector2
                 {
                     X = PointMassList[next].Position.X - PointMassList[i].Position.X,
                     Y = PointMassList[next].Position.Y - PointMassList[i].Position.Y
                 };
-                Vector2.Perpendicular(ref edge2N);
+                edge2N = Vector2.Perpendicular(edge2N);
 
                 Vector2 norm = new Vector2
                 {

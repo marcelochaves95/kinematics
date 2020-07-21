@@ -152,7 +152,7 @@ namespace Kinematics.Dynamics
                 }
 
                 float thisAngle = Mathf.Acos(dot);
-                if (!Vector2.IsCCW(ref baseNormal, ref currentNormal))
+                if (!Vector2.IsCCW(baseNormal, currentNormal))
                 {
                     thisAngle = -thisAngle;
                 }
@@ -487,7 +487,7 @@ namespace Kinematics.Dynamics
             for (int i = 0; i < Count; i++)
             {
                 Vector2 toPt = (PointMassList[i].Position - Position);
-                Vector2 torque = Vector2.Rotate(toPt, - Mathf.PI / 2f);
+                Vector2 torque = Vector2.Rotate(toPt, -Mathf.PI / 2f);
 
                 PointMassList[i].Force += torque * torqueF;
                 PointMassList[i].Force += force;
