@@ -204,8 +204,7 @@ namespace Kinematics.Math
 
         public float Length()
         {
-            float lengthSquared = LengthSquared();
-            return Mathf.Sqrt(lengthSquared);
+            return Length(this);
         }
 
         public static float Length(Vector2 value)
