@@ -3,9 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace Kinematics.Math
 {
-    /// <summary>
-    /// An efficient mathematical representation for three dimensional rotations.
-    /// </summary>
     [StructLayout(LayoutKind.Sequential)]
     public struct Quaternion : IEquatable<Quaternion>
     {
@@ -16,7 +13,7 @@ namespace Kinematics.Math
         public float Z;
         public float W;
 
-        public static Quaternion Identity => new Quaternion(0, 0, 0, 1);
+        public static readonly Quaternion Identity = new Quaternion(0, 0, 0, 1);
 
         #endregion
 
@@ -87,6 +84,11 @@ namespace Kinematics.Math
 	        return new Quaternion(quaternion.X * scalar, quaternion.Y * scalar, quaternion.Z * scalar, quaternion.W * scalar);
         }
 
+        public static Quaternion operator *(float scalar, Quaternion quaternion)
+        {
+	        return new Quaternion(quaternion.X * scalar, quaternion.Y * scalar, quaternion.Z * scalar, quaternion.W * scalar);
+        }
+
         public static Quaternion operator /(Quaternion lhs, Quaternion rhs)
         {
 	        float x = lhs.W / rhs.X + lhs.X / rhs.W + lhs.Y / rhs.Z - lhs.Z / rhs.Y;
@@ -147,7 +149,7 @@ namespace Kinematics.Math
 
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         public static Quaternion Concatenate(Quaternion lhs, Quaternion rhs)
 		{
@@ -270,7 +272,7 @@ namespace Kinematics.Math
         public static Quaternion Inverse(Quaternion value)
         {
 		    float num2 = LengthSquared(value);
-		    float num = 1f / num2;
+		    float num = 1.0f / num2;
 		    float x = -value.X * num;
 		    float y = -value.Y * num;
 		    float z = -value.Z * num;
@@ -282,6 +284,7 @@ namespace Kinematics.Math
         {
 	        return Length(this);
         }
+
         public static float Length(Quaternion value)
         {
 	        float lengthSquared = LengthSquared(value);
@@ -301,10 +304,10 @@ namespace Kinematics.Math
         public static Quaternion Lerp(Quaternion lhs, Quaternion rhs, float amount)
         {
             float num = amount;
-		    float num2 = 1f - num;
+		    float num2 = 1.0f - num;
 		    Quaternion quaternion;
 		    float dot = Dot(lhs, rhs);
-		    if (dot >= 0f)
+		    if (dot >= 0.0f)
 		    {
 		        quaternion.X = num2 * lhs.X + num * rhs.X;
 		        quaternion.Y = num2 * lhs.Y + num * rhs.Y;
@@ -329,7 +332,7 @@ namespace Kinematics.Math
 		    float num3;
 		    float dot = Dot(lhs, rhs);
 		    bool flag = false;
-		    if (dot < 0f)
+		    if (dot < 0.0f)
 		    {
 		        flag = true;
 		        dot = -dot;
@@ -337,14 +340,14 @@ namespace Kinematics.Math
 
 		    if (dot > 0.999999f)
 		    {
-		        num3 = 1f - num;
+		        num3 = 1.0f - num;
 		        num2 = flag ? -num : num;
 		    }
 		    else
 		    {
 		        float num5 = Mathf.Acos(dot);
 		        float num6 = 1.0f / Mathf.Sin(num5);
-		        num3 = Mathf.Sin((1f - num) * num5) * num6;
+		        num3 = Mathf.Sin((1.0f - num) * num5) * num6;
 		        num2 = Mathf.Sin(num * num5) * num6;
 		    }
 
@@ -362,7 +365,7 @@ namespace Kinematics.Math
 
         public static Quaternion Normalize(Quaternion value)
         {
-	        float length = 1f / Length(value);
+	        float length = 1.0f / Length(value);
 		    value.X *= length;
 		    value.Y *= length;
 		    value.Z *= length;

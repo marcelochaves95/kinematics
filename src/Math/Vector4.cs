@@ -110,6 +110,16 @@ namespace Kinematics.Math
             return !lhs.Equals(rhs);
         }
 
+        public static explicit operator Vector3(Vector4 value)
+        {
+            return new Vector3(value);
+        }
+
+        public static explicit operator Quaternion(Vector4 value)
+        {
+            return new Quaternion(value);
+        }
+
         #endregion
 
         #region Overrides
