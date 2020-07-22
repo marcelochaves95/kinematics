@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Kinematics.Math
@@ -24,6 +25,7 @@ namespace Kinematics.Math
 
         #region Constructors
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4(float x, float y, float z, float w)
         {
             X = x;
@@ -32,6 +34,7 @@ namespace Kinematics.Math
             W = w;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4(Vector4 value)
         {
             X = value.X;
@@ -40,6 +43,7 @@ namespace Kinematics.Math
             W = value.W;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4(Vector3 value)
         {
             X = value.X;
@@ -48,6 +52,7 @@ namespace Kinematics.Math
             W = 0f;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4(Quaternion value)
         {
             X = value.X;
@@ -60,61 +65,73 @@ namespace Kinematics.Math
 
         #region Operators
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
         {
             return new Vector4(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z, lhs.W + rhs.W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 operator -(Vector4 lhs, Vector4 rhs)
         {
             return new Vector4(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z, lhs.W - rhs.W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 operator -(Vector4 value)
         {
             return new Vector4(-value.X, -value.Y, -value.Z, -value.W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 operator *(Vector4 lhs, Vector4 rhs)
         {
             return new Vector4(lhs.X * rhs.X, lhs.Y * rhs.Y, lhs.Z * rhs.Z, lhs.W * rhs.W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 operator *(Vector4 vector, float scalar)
         {
             return new Vector4(vector.X * scalar, vector.Y * scalar, vector.Z * scalar, vector.W * scalar);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 operator *(float scalar, Vector4 vector)
         {
             return new Vector4(vector.X * scalar, vector.Y * scalar, vector.Z * scalar, vector.W * scalar);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 operator /(Vector4 lhs, Vector4 rhs)
         {
             return new Vector4(lhs.X / rhs.X, lhs.Y / rhs.Y, lhs.Z / rhs.Z, lhs.W / rhs.W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 operator /(Vector4 vector, float scalar)
         {
             return new Vector4(vector.X / scalar, vector.Y / scalar, vector.Z / scalar, vector.W / scalar);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(Vector4 lhs, Vector4 rhs)
         {
             return lhs.Equals(rhs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Vector4 lhs, Vector4 rhs)
         {
             return !lhs.Equals(rhs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector3(Vector4 value)
         {
             return new Vector3(value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Quaternion(Vector4 value)
         {
             return new Quaternion(value);
@@ -124,21 +141,25 @@ namespace Kinematics.Math
 
         #region Overrides
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object obj)
         {
             return obj is Vector4 vector && Equals(vector);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector4 other)
         {
             return W.Equals(other.W) && X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
             return X.GetHashCode() + Y.GetHashCode() + Z.GetHashCode() + W.GetHashCode();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString()
         {
             return $"[Vector4] X({X}) Y({Y}) Z({Z}) W({W})";
@@ -148,6 +169,7 @@ namespace Kinematics.Math
 
         #region Methods
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Barycentric(Vector4 value1, Vector4 value2, Vector4 value3, float amount1, float amount2)
         {
             float x = Mathf.Barycentric(value1.X, value2.X, value3.X, amount1, amount2);
@@ -157,6 +179,7 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 CatmullRom(Vector4 value1, Vector4 value2, Vector4 value3, Vector4 value4, float amount)
         {
             float x = Mathf.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount);
@@ -166,6 +189,7 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Ceiling()
         {
             X = Mathf.Ceiling(X);
@@ -174,6 +198,7 @@ namespace Kinematics.Math
             W = Mathf.Ceiling(W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Ceiling(Vector4 value)
         {
             value.X = Mathf.Ceiling(value.X);
@@ -183,6 +208,7 @@ namespace Kinematics.Math
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Clamp(Vector4 value, Vector4 min, Vector4 max)
         {
             float x = Mathf.Clamp(value.X, min.X, max.X);
@@ -192,22 +218,26 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Distance(Vector4 lhs, Vector4 rhs)
         {
             float distanceSquared = DistanceSquared(lhs, rhs);
             return Mathf.Sqrt(distanceSquared);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float DistanceSquared(Vector4 lhs, Vector4 rhs)
         {
               return (lhs.W - rhs.W) * (lhs.W - rhs.W) + (lhs.X - rhs.X) * (lhs.X - rhs.X) + (lhs.Y - rhs.Y) * (lhs.Y - rhs.Y) + (lhs.Z - rhs.Z) * (lhs.Z - rhs.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Dot(Vector4 value1, Vector4 value2)
         {
             return value1.X * value2.X + value1.Y * value2.Y + value1.Z * value2.Z + value1.W * value2.W;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Floor()
         {
             X = Mathf.Floor(X);
@@ -216,6 +246,7 @@ namespace Kinematics.Math
             W = Mathf.Floor(W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Floor(Vector4 value)
         {
             value.X = Mathf.Floor(value.X);
@@ -225,6 +256,7 @@ namespace Kinematics.Math
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Hermite(Vector4 value1, Vector4 tangent1, Vector4 value2, Vector4 tangent2, float amount)
         {
             float x = Mathf.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
@@ -234,28 +266,33 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float Length()
         {
             float lengthSquared = LengthSquared(this);
             return Mathf.Sqrt(lengthSquared);
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Length(Vector4 value)
         {
             float lengthSquared = LengthSquared(value);
             return Mathf.Sqrt(lengthSquared);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float LengthSquared()
         {
             return LengthSquared(this);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float LengthSquared(Vector4 value)
         {
             return Mathf.Pow(value.X, 2) + Mathf.Pow(value.Y, 2) + Mathf.Pow(value.Z, 2) + Mathf.Pow(value.W, 2);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Lerp(Vector4 lhs, Vector4 rhs, float amount)
         {
             float x = Mathf.Lerp(lhs.X, rhs.X, amount);
@@ -265,6 +302,7 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 LerpPrecise(Vector4 lhs, Vector4 rhs, float amount)
         {
             float x = Mathf.LerpPrecise(lhs.X, rhs.X, amount);
@@ -274,6 +312,7 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Max(Vector4 lhs, Vector4 rhs)
         {
             float x = Mathf.Max(lhs.X, rhs.X);
@@ -283,6 +322,7 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Min(Vector4 lhs, Vector4 rhs)
         {
             float x = Mathf.Min(lhs.X, rhs.X);
@@ -292,11 +332,13 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Normalize()
         {
             Normalize(this);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Normalize(Vector4 value)
         {
             float length = 1f / Length(value);
@@ -307,6 +349,7 @@ namespace Kinematics.Math
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Round()
         {
             X = Mathf.Round(X);
@@ -315,6 +358,7 @@ namespace Kinematics.Math
             W = Mathf.Round(W);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Round(Vector4 value)
         {
             value.X = Mathf.Round(value.X);
@@ -324,6 +368,7 @@ namespace Kinematics.Math
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 SmoothStep(Vector4 lhs, Vector4 rhs, float amount)
         {
             float x = Mathf.SmoothStep(lhs.X, rhs.X, amount);
@@ -333,6 +378,7 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Transform(Vector2 value, Matrix4x4 matrix4X4)
         {
             float x = value.X * matrix4X4.M11 + value.Y * matrix4X4.M21 + matrix4X4.M41;
@@ -342,6 +388,7 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Transform(Vector3 value, Matrix4x4 matrix4X4)
         {
             float x = value.X * matrix4X4.M11 + value.Y * matrix4X4.M21 + value.Z * matrix4X4.M31 + matrix4X4.M41;
@@ -351,6 +398,7 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Transform(Vector4 value, Matrix4x4 matrix4X4)
         {
             float x = value.X * matrix4X4.M11 + value.Y * matrix4X4.M21 + value.Z * matrix4X4.M31 + value.W * matrix4X4.M41;
