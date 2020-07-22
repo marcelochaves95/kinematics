@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Kinematics.Math
@@ -38,6 +39,7 @@ namespace Kinematics.Math
 
         #region Constructors
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31,
                       float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
@@ -59,6 +61,7 @@ namespace Kinematics.Math
             M44 = m44;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4(Vector4 row1, Vector4 row2, Vector4 row3, Vector4 row4)
         {
             M11 = row1.X;
@@ -83,6 +86,7 @@ namespace Kinematics.Math
 
         #region Operators
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 operator +(Matrix4x4 lhs, Matrix4x4 rhs)
         {
             lhs.M11 += rhs.M11;
@@ -104,6 +108,7 @@ namespace Kinematics.Math
             return lhs;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 operator -(Matrix4x4 lhs, Matrix4x4 rhs)
         {
 	        lhs.M11 -= rhs.M11;
@@ -125,6 +130,7 @@ namespace Kinematics.Math
 	        return lhs;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 operator -(Matrix4x4 value)
         {
 	        value.M11 = -value.M11;
@@ -146,6 +152,7 @@ namespace Kinematics.Math
 	        return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 operator *(Matrix4x4 lhs, Matrix4x4 rhs)
         {
             float m11 = lhs.M11 * rhs.M11 + lhs.M12 * rhs.M21 + lhs.M13 * rhs.M31 + lhs.M14 * rhs.M41;
@@ -183,27 +190,29 @@ namespace Kinematics.Math
 			return lhs;
         }
 
-        public static Matrix4x4 operator *(Matrix4x4 matrix4X4, float scalar)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator *(Matrix4x4 matrix, float scalar)
         {
-		    matrix4X4.M11 *= scalar;
-		    matrix4X4.M12 *= scalar;
-		    matrix4X4.M13 *= scalar;
-		    matrix4X4.M14 *= scalar;
-		    matrix4X4.M21 *= scalar;
-		    matrix4X4.M22 *= scalar;
-		    matrix4X4.M23 *= scalar;
-		    matrix4X4.M24 *= scalar;
-		    matrix4X4.M31 *= scalar;
-		    matrix4X4.M32 *= scalar;
-		    matrix4X4.M33 *= scalar;
-		    matrix4X4.M34 *= scalar;
-		    matrix4X4.M41 *= scalar;
-		    matrix4X4.M42 *= scalar;
-		    matrix4X4.M43 *= scalar;
-		    matrix4X4.M44 *= scalar;
-		    return matrix4X4;
+		    matrix.M11 *= scalar;
+		    matrix.M12 *= scalar;
+		    matrix.M13 *= scalar;
+		    matrix.M14 *= scalar;
+		    matrix.M21 *= scalar;
+		    matrix.M22 *= scalar;
+		    matrix.M23 *= scalar;
+		    matrix.M24 *= scalar;
+		    matrix.M31 *= scalar;
+		    matrix.M32 *= scalar;
+		    matrix.M33 *= scalar;
+		    matrix.M34 *= scalar;
+		    matrix.M41 *= scalar;
+		    matrix.M42 *= scalar;
+		    matrix.M43 *= scalar;
+		    matrix.M44 *= scalar;
+		    return matrix;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 operator /(Matrix4x4 lhs, Matrix4x4 rhs)
         {
 		    lhs.M11 /= rhs.M11;
@@ -225,33 +234,36 @@ namespace Kinematics.Math
 		    return lhs;
         }
 
-        public static Matrix4x4 operator /(Matrix4x4 matrix4X4, float scalar)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator /(Matrix4x4 matrix, float scalar)
         {
 		    float num = 1f / scalar;
-		    matrix4X4.M11 *= num;
-		    matrix4X4.M12 *= num;
-		    matrix4X4.M13 *= num;
-		    matrix4X4.M14 *= num;
-		    matrix4X4.M21 *= num;
-		    matrix4X4.M22 *= num;
-		    matrix4X4.M23 *= num;
-		    matrix4X4.M24 *= num;
-		    matrix4X4.M31 *= num;
-		    matrix4X4.M32 *= num;
-		    matrix4X4.M33 *= num;
-		    matrix4X4.M34 *= num;
-		    matrix4X4.M41 *= num;
-		    matrix4X4.M42 *= num;
-		    matrix4X4.M43 *= num;
-		    matrix4X4.M44 *= num;
-		    return matrix4X4;
+		    matrix.M11 *= num;
+		    matrix.M12 *= num;
+		    matrix.M13 *= num;
+		    matrix.M14 *= num;
+		    matrix.M21 *= num;
+		    matrix.M22 *= num;
+		    matrix.M23 *= num;
+		    matrix.M24 *= num;
+		    matrix.M31 *= num;
+		    matrix.M32 *= num;
+		    matrix.M33 *= num;
+		    matrix.M34 *= num;
+		    matrix.M41 *= num;
+		    matrix.M42 *= num;
+		    matrix.M43 *= num;
+		    matrix.M44 *= num;
+		    return matrix;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(Matrix4x4 lhs, Matrix4x4 rhs)
         {
 	        return lhs.Equals(rhs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Matrix4x4 lhs, Matrix4x4 rhs)
         {
 	        return !lhs.Equals(rhs);
@@ -261,11 +273,13 @@ namespace Kinematics.Math
 
         #region Overrides
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override bool Equals(object obj)
 		{
 			return obj is Matrix4x4 matrix && Equals(matrix);
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Matrix4x4 other)
         {
 	        return M11.Equals(other.M11) &&
@@ -286,6 +300,7 @@ namespace Kinematics.Math
 	               M43.Equals(other.M43);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
             return M11.GetHashCode() +
@@ -306,18 +321,20 @@ namespace Kinematics.Math
                    M44.GetHashCode();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString()
         {
-	        return "{M11:" + M11 + " M12:" + M12 + " M13:" + M13 + " M14:" + M14 + "}" +
-	               " {M21:" + M21 + " M22:" + M22 + " M23:" + M23 + " M24:" + M24 + "}" +
-	               " {M31:" + M31 + " M32:" + M32 + " M33:" + M33 + " M34:" + M34 + "}" +
-	               " {M41:" + M41 + " M42:" + M42 + " M43:" + M43 + " M44:" + M44 + "}";
+	        return $"[Matrix4x4] M11({M11}) M12({M12}) M13({M13}) M14({M14})" +
+	               $"M21({M21}) M22({M22}) M23({M23}) M24({M24})" +
+	               $"M31({M31}) M32({M32}) M33({M33}) M34({M34})" +
+	               $"M41({M41}) M42({M42}) M43({M43}) M44({M44})";
         }
 
         #endregion
 
         #region Methods
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 cameraUpVector, Vector3? cameraForwardVector)
         {
             Vector3 vector;
@@ -342,22 +359,23 @@ namespace Kinematics.Math
             result.M11 = vector3.X;
             result.M12 = vector3.Y;
             result.M13 = vector3.Z;
-            result.M14 = 0;
+            result.M14 = 0f;
             result.M21 = vector2.X;
             result.M22 = vector2.Y;
             result.M23 = vector2.Z;
-            result.M24 = 0;
+            result.M24 = 0f;
             result.M31 = vector.X;
             result.M32 = vector.Y;
             result.M33 = vector.Z;
-            result.M34 = 0;
+            result.M34 = 0f;
             result.M41 = objectPosition.X;
             result.M42 = objectPosition.Y;
             result.M43 = objectPosition.Z;
-            result.M44 = 1;
+            result.M44 = 1f;
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateConstrainedBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 rotateAxis, Vector3? cameraForwardVector, Vector3? objectForwardVector)
         {
             Vector3 vector;
@@ -367,7 +385,7 @@ namespace Kinematics.Math
 		    vector2.Y = objectPosition.Y - cameraPosition.Y;
 		    vector2.Z = objectPosition.Z - cameraPosition.Z;
 		    float lengthSquared = vector2.LengthSquared();
-		    if (lengthSquared < 0.0001f)
+		    if (lengthSquared < Mathf.Epsilon)
 		    {
 		        vector2 = cameraForwardVector.HasValue ? -cameraForwardVector.Value : Vector3.Forward;
 		    }
@@ -413,22 +431,23 @@ namespace Kinematics.Math
 		    result.M11 = vector3.X;
 		    result.M12 = vector3.Y;
 		    result.M13 = vector3.Z;
-		    result.M14 = 0;
+		    result.M14 = 0f;
 		    result.M21 = vector4.X;
 		    result.M22 = vector4.Y;
 		    result.M23 = vector4.Z;
-		    result.M24 = 0;
+		    result.M24 = 0f;
 		    result.M31 = vector.X;
 		    result.M32 = vector.Y;
 		    result.M33 = vector.Z;
-		    result.M34 = 0;
+		    result.M34 = 0f;
 		    result.M41 = objectPosition.X;
 		    result.M42 = objectPosition.Y;
 		    result.M43 = objectPosition.Z;
-		    result.M44 = 1;
+		    result.M44 = 1f;
 		    return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateFromAxisAngle(Vector3 axis, float angle)
         {
             float x = axis.X;
@@ -447,22 +466,23 @@ namespace Kinematics.Math
             result.M11 = num11 + num * (1f - num11);
             result.M12 = num8 - num * num8 + num2 * z;
             result.M13 = num7 - num * num7 - num2 * y;
-            result.M14 = 0;
+            result.M14 = 0f;
             result.M21 = num8 - num * num8 - num2 * z;
             result.M22 = num10 + num * (1f - num10);
             result.M23 = num6 - num * num6 + num2 * x;
-            result.M24 = 0;
+            result.M24 = 0f;
             result.M31 = num7 - num * num7 + num2 * y;
             result.M32 = num6 - num * num6 - num2 * x;
             result.M33 = num9 + num * (1f - num9);
-            result.M34 = 0;
-            result.M41 = 0;
-            result.M42 = 0;
-            result.M43 = 0;
-            result.M44 = 1;
+            result.M34 = 0f;
+            result.M41 = 0f;
+            result.M42 = 0f;
+            result.M43 = 0f;
+            result.M44 = 1f;
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateFromQuaternion(Quaternion value)
         {
             float num9 = value.X * value.X;
@@ -495,6 +515,7 @@ namespace Kinematics.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public static Matrix4x4 CreateFromYawPitchRoll(float yaw, float pitch, float roll)
 		{
 			Quaternion quaternion = Quaternion.CreateFromYawPitchRoll(yaw, pitch, roll);
@@ -502,6 +523,7 @@ namespace Kinematics.Math
 		    return result;
 		}
 
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateLookAt(Vector3 cameraPosition, Vector3 cameraTarget, Vector3 cameraUpVector)
         {
             Vector3 vector = Vector3.Normalize(cameraPosition - cameraTarget);
@@ -528,6 +550,7 @@ namespace Kinematics.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateOrthographic(float width, float height, float zNearPlane, float zFarPlane)
         {
             Matrix4x4 result;
@@ -543,6 +566,7 @@ namespace Kinematics.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateOrthographicOffCenter(float left, float right, float bottom, float top, float zNearPlane, float zFarPlane)
         {
 			Matrix4x4 result;
@@ -565,6 +589,7 @@ namespace Kinematics.Math
 			return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreatePerspective(float width, float height, float nearPlaneDistance, float farPlaneDistance)
         {
             if (nearPlaneDistance <= 0f)
@@ -595,6 +620,7 @@ namespace Kinematics.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
         {
             if (fieldOfView <= 0f || fieldOfView >= 3.141593f)
@@ -620,17 +646,18 @@ namespace Kinematics.Math
             float num9 = num / aspectRatio;
             Matrix4x4 result;
             result.M11 = num9;
-            result.M12 = result.M13 = result.M14 = 0;
+            result.M12 = result.M13 = result.M14 = 0f;
             result.M22 = num;
-            result.M21 = result.M23 = result.M24 = 0;
+            result.M21 = result.M23 = result.M24 = 0f;
             result.M31 = result.M32 = 0f;
             result.M33 = farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
-            result.M34 = -1;
-            result.M41 = result.M42 = result.M44 = 0;
+            result.M34 = -1f;
+            result.M41 = result.M42 = result.M44 = 0f;
             result.M43 = nearPlaneDistance * farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreatePerspectiveOffCenter(float left, float right, float bottom, float top, float nearPlaneDistance, float farPlaneDistance)
         {
             if (nearPlaneDistance <= 0f)
@@ -650,18 +677,19 @@ namespace Kinematics.Math
 
             Matrix4x4 result;
             result.M11 = 2f * nearPlaneDistance / (right - left);
-            result.M12 = result.M13 = result.M14 = 0;
+            result.M12 = result.M13 = result.M14 = 0f;
             result.M22 = 2f * nearPlaneDistance / (top - bottom);
-            result.M21 = result.M23 = result.M24 = 0;
+            result.M21 = result.M23 = result.M24 = 0f;
             result.M31 = (left + right) / (right - left);
             result.M32 = (top + bottom) / (top - bottom);
             result.M33 = farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
             result.M34 = -1;
             result.M43 = nearPlaneDistance * farPlaneDistance / (nearPlaneDistance - farPlaneDistance);
-            result.M41 = result.M42 = result.M44 = 0;
+            result.M41 = result.M42 = result.M44 = 0f;
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateRotationX(float radians)
         {
 	        Matrix4x4 result = Identity;
@@ -676,6 +704,7 @@ namespace Kinematics.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateRotationY(float radians)
         {
 	        Matrix4x4 result = Identity;
@@ -690,6 +719,7 @@ namespace Kinematics.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateRotationZ(float radians)
         {
 	        Matrix4x4 result = Identity;
@@ -704,86 +734,91 @@ namespace Kinematics.Math
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateScale(float x, float y, float z)
         {
 	        Matrix4x4 result;
 	        result.M11 = x;
-	        result.M12 = 0;
-	        result.M13 = 0;
-	        result.M14 = 0;
-	        result.M21 = 0;
+	        result.M12 = 0f;
+	        result.M13 = 0f;
+	        result.M14 = 0f;
+	        result.M21 = 0f;
 	        result.M22 = y;
-	        result.M23 = 0;
-	        result.M24 = 0;
-	        result.M31 = 0;
-	        result.M32 = 0;
+	        result.M23 = 0f;
+	        result.M24 = 0f;
+	        result.M31 = 0f;
+	        result.M32 = 0f;
 	        result.M33 = z;
-	        result.M34 = 0;
-	        result.M41 = 0;
-	        result.M42 = 0;
-	        result.M43 = 0;
-	        result.M44 = 1;
+	        result.M34 = 0f;
+	        result.M41 = 0f;
+	        result.M42 = 0f;
+	        result.M43 = 0f;
+	        result.M44 = 1f;
 	        return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateScale(Vector3 scales)
         {
             Matrix4x4 result;
             result.M11 = scales.X;
-            result.M12 = 0;
-            result.M13 = 0;
-            result.M14 = 0;
-            result.M21 = 0;
+            result.M12 = 0f;
+            result.M13 = 0f;
+            result.M14 = 0f;
+            result.M21 = 0f;
             result.M22 = scales.Y;
-            result.M23 = 0;
-            result.M24 = 0;
-            result.M31 = 0;
-            result.M32 = 0;
+            result.M23 = 0f;
+            result.M24 = 0f;
+            result.M31 = 0f;
+            result.M32 = 0f;
             result.M33 = scales.Z;
-            result.M34 = 0;
-            result.M41 = 0;
-            result.M42 = 0;
-            result.M43 = 0;
-            result.M44 = 1;
+            result.M34 = 0f;
+            result.M41 = 0f;
+            result.M42 = 0f;
+            result.M43 = 0f;
+            result.M44 = 1f;
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateTranslation(float x, float y, float z)
         {
             Matrix4x4 result;
-            result.M11 = 1;
-            result.M12 = 0;
-            result.M13 = 0;
-            result.M14 = 0;
-            result.M21 = 0;
-            result.M22 = 1;
-            result.M23 = 0;
-            result.M24 = 0;
-            result.M31 = 0;
-            result.M32 = 0;
-            result.M33 = 1;
-            result.M34 = 0;
+            result.M11 = 1f;
+            result.M12 = 0f;
+            result.M13 = 0f;
+            result.M14 = 0f;
+            result.M21 = 0f;
+            result.M22 = 1f;
+            result.M23 = 0f;
+            result.M24 = 0f;
+            result.M31 = 0f;
+            result.M32 = 0f;
+            result.M33 = 1f;
+            result.M34 = 0f;
             result.M41 = x;
             result.M42 = y;
             result.M43 = z;
-            result.M44 = 1;
+            result.M44 = 1f;
             return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateTranslation(Vector3 position)
         {
 			return CreateTranslation(position.X, position.Y, position.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Decompose(Vector3 scale, Vector3 translation)
         {
             translation.X = M41;
             translation.Y = M42;
             translation.Z = M43;
 
-            float xs = Mathf.Sign(M11 * M12 * M13 * M14) < 0 ? -1 : 1;
-            float ys = Mathf.Sign(M21 * M22 * M23 * M24) < 0 ? -1 : 1;
-            float zs = Mathf.Sign(M31 * M32 * M33 * M34) < 0 ? -1 : 1;
+            float xs = Mathf.Sign(M11 * M12 * M13 * M14) < 0f ? -1f : 1f;
+            float ys = Mathf.Sign(M21 * M22 * M23 * M24) < 0f ? -1f : 1f;
+            float zs = Mathf.Sign(M31 * M32 * M33 * M34) < 0f ? -1f : 1f;
 
             scale.X = xs * Mathf.Sqrt(M11 * M11 + M12 * M12 + M13 * M13);
             scale.Y = ys * Mathf.Sqrt(M21 * M21 + M22 * M22 + M23 * M23);
@@ -794,15 +829,16 @@ namespace Kinematics.Math
 	            return false;
             }
 
-            Matrix4x4 m1 = new Matrix4x4(M11 / scale.X, M12 / scale.X, M13 / scale.X, 0,
-                                   M21 / scale.Y, M22 / scale.Y, M23 / scale.Y, 0,
-                                   M31 / scale.Z, M32 / scale.Z, M33 / scale.Z, 0,
-                                   0, 0, 0, 1);
+            Matrix4x4 m1 = new Matrix4x4(M11 / scale.X, M12 / scale.X, M13 / scale.X, 0f,
+                                   M21 / scale.Y, M22 / scale.Y, M23 / scale.Y, 0f,
+                                   M31 / scale.Z, M32 / scale.Z, M33 / scale.Z, 0f,
+                                   0f, 0f, 0f, 1f);
 
             Quaternion.CreateFromRotationMatrix(m1);
             return true;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float Determinant()
         {
             float num22 = M11;
@@ -831,6 +867,7 @@ namespace Kinematics.Math
 		           (num12 * num17 - num11 * num15 + num9 * num13) - num19 * (num12 * num16 - num11 * num14 + num10 * num13);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 Invert(Matrix4x4 value)
         {
             float num1 = value.M11;
@@ -893,6 +930,7 @@ namespace Kinematics.Math
 			return result;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 Lerp(Matrix4x4 lhs, Matrix4x4 rhs, float amount)
         {
 		    lhs.M11 += (rhs.M11 - lhs.M11) * amount;
@@ -914,6 +952,7 @@ namespace Kinematics.Math
 		    return lhs;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 Transpose(Matrix4x4 value)
         {
             Matrix4x4 result;
@@ -933,7 +972,6 @@ namespace Kinematics.Math
             result.M42 = value.M24;
             result.M43 = value.M34;
             result.M44 = value.M44;
-
             return result;
         }
 
