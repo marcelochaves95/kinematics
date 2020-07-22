@@ -7,18 +7,12 @@ namespace Kinematics.Math
     [StructLayout(LayoutKind.Sequential)]
     public struct Quaternion : IEquatable<Quaternion>
     {
-        #region Properties
-
         public float X;
         public float Y;
         public float Z;
         public float W;
 
         public static readonly Quaternion Identity = new Quaternion(0, 0, 0, 1);
-
-        #endregion
-
-        #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Quaternion(float x, float y, float z, float w)
@@ -55,122 +49,6 @@ namespace Kinematics.Math
             Z = value.Z;
             W = value.W;
         }
-
-        #endregion
-
-        #region Operators
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Quaternion operator +(Quaternion lhs, Quaternion rhs)
-        {
-	        return new Quaternion(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z, lhs.W + rhs.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Quaternion operator -(Quaternion lhs, Quaternion rhs)
-        {
-	        return new Quaternion(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z, lhs.W - rhs.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Quaternion operator -(Quaternion value)
-        {
-	        return new Quaternion(-value.X, -value.Y, -value.Z, -value.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Quaternion operator *(Quaternion lhs, Quaternion rhs)
-        {
-	        float x = lhs.W * rhs.X + lhs.X * rhs.W + lhs.Y * rhs.Z - lhs.Z * rhs.Y;
-	        float y = lhs.W * rhs.Y + lhs.Y * rhs.W + lhs.Z * rhs.X - lhs.X * rhs.Z;
-	        float z = lhs.W * rhs.Z + lhs.Z * rhs.W + lhs.X * rhs.Y - lhs.Y * rhs.X;
-	        float w = lhs.W * rhs.W - lhs.X * rhs.X - lhs.Y * rhs.Y - lhs.Z * rhs.Z;
-	        return new Quaternion(x, y, z, w);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Quaternion operator *(Quaternion quaternion, float scalar)
-        {
-	        return new Quaternion(quaternion.X * scalar, quaternion.Y * scalar, quaternion.Z * scalar, quaternion.W * scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Quaternion operator *(float scalar, Quaternion quaternion)
-        {
-	        return new Quaternion(quaternion.X * scalar, quaternion.Y * scalar, quaternion.Z * scalar, quaternion.W * scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Quaternion operator /(Quaternion lhs, Quaternion rhs)
-        {
-	        float x = lhs.W / rhs.X + lhs.X / rhs.W + lhs.Y / rhs.Z - lhs.Z / rhs.Y;
-	        float y = lhs.W / rhs.Y + lhs.Y / rhs.W + lhs.Z / rhs.X - lhs.X / rhs.Z;
-	        float z = lhs.W / rhs.Z + lhs.Z / rhs.W + lhs.X / rhs.Y - lhs.Y / rhs.X;
-	        float w = lhs.W / rhs.W - lhs.X / rhs.X - lhs.Y / rhs.Y - lhs.Z / rhs.Z;
-	        return new Quaternion(x, y, z, w);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Quaternion operator /(Quaternion quaternion, float scalar)
-        {
-	        return new Quaternion(quaternion.X / scalar, quaternion.Y / scalar, quaternion.Z / scalar, quaternion.W / scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Quaternion lhs, Quaternion rhs)
-        {
-	        return lhs.Equals(rhs);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Quaternion lhs, Quaternion rhs)
-        {
-	        return !lhs.Equals(rhs);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Vector3(Quaternion value)
-        {
-	        return new Vector3(value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Vector4(Quaternion value)
-        {
-	        return new Vector4(value);
-        }
-
-        #endregion
-
-        #region Overrides
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override bool Equals(object obj)
-        {
-	        return obj is Quaternion quaternion && Equals(quaternion);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Quaternion other)
-        {
-	        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
-        {
-	        return X.GetHashCode() + Y.GetHashCode() + Z.GetHashCode() + W.GetHashCode();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString()
-        {
-	        return $"[Quaternion] X({X}) Y({Y}) Z({Z}) W({W})";
-        }
-
-        #endregion
-
-        #region Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Quaternion Concatenate(Quaternion lhs, Quaternion rhs)
@@ -222,14 +100,12 @@ namespace Kinematics.Math
             float sqrt;
             float half;
             float scale = matrix4X4.M11 + matrix4X4.M22 + matrix4X4.M33;
-
-		    if (scale > 0f)
+            if (scale > 0f)
 		    {
                 sqrt = Mathf.Sqrt(scale + 1f);
 		        quaternion.W = sqrt * 0.5f;
                 sqrt = 0.5f / sqrt;
-
-		        quaternion.X = (matrix4X4.M23 - matrix4X4.M32) * sqrt;
+                quaternion.X = (matrix4X4.M23 - matrix4X4.M32) * sqrt;
 		        quaternion.Y = (matrix4X4.M31 - matrix4X4.M13) * sqrt;
 		        quaternion.Z = (matrix4X4.M12 - matrix4X4.M21) * sqrt;
 		        return quaternion;
@@ -239,8 +115,7 @@ namespace Kinematics.Math
 		    {
                 sqrt = Mathf.Sqrt(1f + matrix4X4.M11 - matrix4X4.M22 - matrix4X4.M33);
                 half = 0.5f / sqrt;
-
-		        quaternion.X = 0.5f * sqrt;
+                quaternion.X = 0.5f * sqrt;
 		        quaternion.Y = (matrix4X4.M12 + matrix4X4.M21) * half;
 		        quaternion.Z = (matrix4X4.M13 + matrix4X4.M31) * half;
 		        quaternion.W = (matrix4X4.M23 - matrix4X4.M32) * half;
@@ -251,18 +126,15 @@ namespace Kinematics.Math
 		    {
                 sqrt = Mathf.Sqrt(1f + matrix4X4.M22 - matrix4X4.M11 - matrix4X4.M33);
                 half = 0.5f / sqrt;
-
-		        quaternion.X = (matrix4X4.M21 + matrix4X4.M12) * half;
+                quaternion.X = (matrix4X4.M21 + matrix4X4.M12) * half;
 		        quaternion.Y = 0.5f * sqrt;
 		        quaternion.Z = (matrix4X4.M32 + matrix4X4.M23) * half;
 		        quaternion.W = (matrix4X4.M31 - matrix4X4.M13) * half;
-
 		        return quaternion;
 		    }
 
             sqrt = Mathf.Sqrt(1f + matrix4X4.M33 - matrix4X4.M11 - matrix4X4.M22);
 		    half = 0.5f / sqrt;
-
 		    quaternion.X = (matrix4X4.M31 + matrix4X4.M13) * half;
 		    quaternion.Y = (matrix4X4.M32 + matrix4X4.M23) * half;
 		    quaternion.Z = 0.5f * sqrt;
@@ -409,6 +281,108 @@ namespace Kinematics.Math
 		    return value;
         }
 
-        #endregion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion operator +(Quaternion lhs, Quaternion rhs)
+        {
+	        return new Quaternion(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z, lhs.W + rhs.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion operator -(Quaternion lhs, Quaternion rhs)
+        {
+	        return new Quaternion(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z, lhs.W - rhs.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion operator -(Quaternion value)
+        {
+	        return new Quaternion(-value.X, -value.Y, -value.Z, -value.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion operator *(Quaternion lhs, Quaternion rhs)
+        {
+	        float x = lhs.W * rhs.X + lhs.X * rhs.W + lhs.Y * rhs.Z - lhs.Z * rhs.Y;
+	        float y = lhs.W * rhs.Y + lhs.Y * rhs.W + lhs.Z * rhs.X - lhs.X * rhs.Z;
+	        float z = lhs.W * rhs.Z + lhs.Z * rhs.W + lhs.X * rhs.Y - lhs.Y * rhs.X;
+	        float w = lhs.W * rhs.W - lhs.X * rhs.X - lhs.Y * rhs.Y - lhs.Z * rhs.Z;
+	        return new Quaternion(x, y, z, w);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion operator *(Quaternion quaternion, float scalar)
+        {
+	        return new Quaternion(quaternion.X * scalar, quaternion.Y * scalar, quaternion.Z * scalar, quaternion.W * scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion operator *(float scalar, Quaternion quaternion)
+        {
+	        return new Quaternion(quaternion.X * scalar, quaternion.Y * scalar, quaternion.Z * scalar, quaternion.W * scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion operator /(Quaternion lhs, Quaternion rhs)
+        {
+	        float x = lhs.W / rhs.X + lhs.X / rhs.W + lhs.Y / rhs.Z - lhs.Z / rhs.Y;
+	        float y = lhs.W / rhs.Y + lhs.Y / rhs.W + lhs.Z / rhs.X - lhs.X / rhs.Z;
+	        float z = lhs.W / rhs.Z + lhs.Z / rhs.W + lhs.X / rhs.Y - lhs.Y / rhs.X;
+	        float w = lhs.W / rhs.W - lhs.X / rhs.X - lhs.Y / rhs.Y - lhs.Z / rhs.Z;
+	        return new Quaternion(x, y, z, w);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion operator /(Quaternion quaternion, float scalar)
+        {
+	        return new Quaternion(quaternion.X / scalar, quaternion.Y / scalar, quaternion.Z / scalar, quaternion.W / scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Quaternion lhs, Quaternion rhs)
+        {
+	        return lhs.Equals(rhs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Quaternion lhs, Quaternion rhs)
+        {
+	        return !lhs.Equals(rhs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Vector3(Quaternion value)
+        {
+	        return new Vector3(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Vector4(Quaternion value)
+        {
+	        return new Vector4(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override bool Equals(object obj)
+        {
+	        return obj is Quaternion quaternion && Equals(quaternion);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(Quaternion other)
+        {
+	        return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z) && W.Equals(other.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode()
+        {
+	        return X.GetHashCode() + Y.GetHashCode() + Z.GetHashCode() + W.GetHashCode();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override string ToString()
+        {
+	        return $"[Quaternion] X({X}) Y({Y}) Z({Z}) W({W})";
+        }
     }
 }
