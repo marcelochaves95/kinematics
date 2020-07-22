@@ -43,7 +43,7 @@ namespace Kinematics.Math
         {
             X = value.X;
             Y = value.Y;
-            Z = 0.0f;
+            Z = 0f;
         }
 
         public Vector3(Vector4 value)
@@ -64,14 +64,14 @@ namespace Kinematics.Math
 
         #region Operators
 
-        public static Vector3 operator +(Vector3 value1, Vector3 value2)
+        public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
         {
-            return new Vector3(value1.X + value2.X, value1.Y + value2.Y, value1.Z + value2.Z);
+            return new Vector3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
         }
 
-        public static Vector3 operator -(Vector3 value1, Vector3 value2)
+        public static Vector3 operator -(Vector3 lhs, Vector3 rhs)
         {
-            return new Vector3(value1.X - value2.X, value1.Y - value2.Y, value1.Z - value2.Z);
+            return new Vector3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
         }
 
         public static Vector3 operator -(Vector3 value)
@@ -79,9 +79,9 @@ namespace Kinematics.Math
             return new Vector3(-value.X, -value.Y, -value.Z);
         }
 
-        public static Vector3 operator *(Vector3 value1, Vector3 value2)
+        public static Vector3 operator *(Vector3 lhs, Vector3 rhs)
         {
-            return new Vector3(value1.X * value2.X, value1.Y * value2.Y, value1.Z * value2.Z);
+            return new Vector3(lhs.X * rhs.X, lhs.Y * rhs.Y, lhs.Z * rhs.Z);
         }
 
         public static Vector3 operator *(Vector3 vector, float scalar)
@@ -94,9 +94,9 @@ namespace Kinematics.Math
             return new Vector3(vector.X * scalar, vector.Y * scalar, vector.Z * scalar);
         }
 
-        public static Vector3 operator /(Vector3 value1, Vector3 value2)
+        public static Vector3 operator /(Vector3 lhs, Vector3 rhs)
         {
-            return new Vector3(value1.X / value2.X, value1.Y / value2.Y, value1.Z / value2.Z);
+            return new Vector3(lhs.X / rhs.X, lhs.Y / rhs.Y, lhs.Z / rhs.Z);
         }
 
         public static Vector3 operator /(Vector3 vector, float scalar)
@@ -104,14 +104,14 @@ namespace Kinematics.Math
             return new Vector3(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
         }
 
-        public static bool operator ==(Vector3 value1, Vector3 value2)
+        public static bool operator ==(Vector3 lhs, Vector3 rhs)
         {
-            return value1.Equals(value2);
+            return lhs.Equals(rhs);
         }
 
-        public static bool operator !=(Vector3 value1, Vector3 value2)
+        public static bool operator !=(Vector3 lhs, Vector3 rhs)
         {
-            return !value1.Equals(value2);
+            return !lhs.Equals(rhs);
         }
 
         public static explicit operator Vector2(Vector3 value)
@@ -155,7 +155,7 @@ namespace Kinematics.Math
 
         #endregion
 
-        #region Public Methods
+        #region Methods
         
         public float Length()
         {
@@ -184,7 +184,7 @@ namespace Kinematics.Math
 
         public static Vector3 Normalize(Vector3 value)
         {
-            float length = 1.0f / Length(value);
+            float length = 1f / Length(value);
             value.X *= length;
             value.Y *= length;
             value.Z *= length;
@@ -192,16 +192,16 @@ namespace Kinematics.Math
             return value;
         }
 
-        public static float Dot(Vector3 value1, Vector3 value2)
+        public static float Dot(Vector3 lhs, Vector3 rhs)
         {
-            return value1.X * value2.X + value1.Y * value2.Y + value1.Z * value2.Z;
+            return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;
         }
 
-        public static Vector3 Cross(Vector3 value1, Vector3 value2)
+        public static Vector3 Cross(Vector3 lhs, Vector3 rhs)
         {
-            float x = value1.Y * value2.Z - value1.Z * value2.Y;
-            float y = value1.Z * value2.X - value1.X * value2.Z;
-            float z = value1.X * value2.Y - value1.Y * value2.X;
+            float x = lhs.Y * rhs.Z - lhs.Z * rhs.Y;
+            float y = lhs.Z * rhs.X - lhs.X * rhs.Z;
+            float z = lhs.X * rhs.Y - lhs.Y * rhs.X;
             return new Vector3(x, y, z);
         }
 
@@ -221,28 +221,28 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
-        public static float Distance(Vector3 value1, Vector3 value2)
+        public static float Distance(Vector3 lhs, Vector3 rhs)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
-            float z = value1.Z - value2.Z;
+            float x = lhs.X - rhs.X;
+            float y = lhs.Y - rhs.Y;
+            float z = lhs.Z - rhs.Z;
             Vector3 result = new Vector3(x, y, z);
             return Length(result);
         }
 
-        public static Vector3 Lerp(Vector3 value1, Vector3 value2, float amount)
+        public static Vector3 Lerp(Vector3 lhs, Vector3 rhs, float amount)
         {
-            float x = Mathf.Lerp(value1.X, value2.X, amount);
-            float y = Mathf.Lerp(value1.Y, value2.Y, amount);
-            float z = Mathf.Lerp(value1.Z, value2.Z, amount);
+            float x = Mathf.Lerp(lhs.X, rhs.X, amount);
+            float y = Mathf.Lerp(lhs.Y, rhs.Y, amount);
+            float z = Mathf.Lerp(lhs.Z, rhs.Z, amount);
             return new Vector3(x, y, z);
         }
 
-        public static Vector3 SmoothStep(Vector3 value1, Vector3 value2, float amount)
+        public static Vector3 SmoothStep(Vector3 lhs, Vector3 rhs, float amount)
         {
-            float x = Mathf.SmoothStep(value1.X, value2.X, amount);
-            float y = Mathf.SmoothStep(value1.Y, value2.Y, amount);
-            float z = Mathf.SmoothStep(value1.Z, value2.Z, amount);
+            float x = Mathf.SmoothStep(lhs.X, rhs.X, amount);
+            float y = Mathf.SmoothStep(lhs.Y, rhs.Y, amount);
+            float z = Mathf.SmoothStep(lhs.Z, rhs.Z, amount);
             return new Vector3(x, y, z);
         }
 
@@ -262,28 +262,28 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
-        public static Vector3 Max(Vector3 value1, Vector3 value2)
+        public static Vector3 Max(Vector3 lhs, Vector3 rhs)
         {
-            float x = Mathf.Max(value1.X, value2.X);
-            float y = Mathf.Max(value1.Y, value2.Y);
-            float z = Mathf.Max(value1.Z, value2.Z);
+            float x = Mathf.Max(lhs.X, rhs.X);
+            float y = Mathf.Max(lhs.Y, rhs.Y);
+            float z = Mathf.Max(lhs.Z, rhs.Z);
             return new Vector3(x, y, z);
         }
 
-        public static Vector3 Min(Vector3 value1, Vector3 value2)
+        public static Vector3 Min(Vector3 lhs, Vector3 rhs)
         {
-            float x = Mathf.Min(value1.X, value2.X);
-            float y = Mathf.Min(value1.Y, value2.Y);
-            float z = Mathf.Min(value1.Z, value2.Z);
+            float x = Mathf.Min(lhs.X, rhs.X);
+            float y = Mathf.Min(lhs.Y, rhs.Y);
+            float z = Mathf.Min(lhs.Z, rhs.Z);
             return new Vector3(x, y, z);
         }
 
         public static Vector3 Reflect(Vector3 vector, Vector3 normal)
         {
             float dot = Dot(vector, normal);
-            float x = vector.X - 2.0f * dot * normal.X;
-            float y = vector.Y - 2.0f * dot * normal.Y;
-            float z = vector.Z - 2.0f * dot * normal.Z;
+            float x = vector.X - 2f * dot * normal.X;
+            float y = vector.Y - 2f * dot * normal.Y;
+            float z = vector.Z - 2f * dot * normal.Z;
             return new Vector3(x, y, z);
         }
 
