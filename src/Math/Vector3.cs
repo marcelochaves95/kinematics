@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Kinematics.Math
@@ -25,6 +26,7 @@ namespace Kinematics.Math
 
         #region Constructors
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3(float x, float y, float z)
         {
             X = x;
@@ -32,6 +34,7 @@ namespace Kinematics.Math
             Z = z;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3(Vector3 value)
         {
             X = value.X;
@@ -39,6 +42,7 @@ namespace Kinematics.Math
             Z = value.Z;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3(Vector2 value)
         {
             X = value.X;
@@ -46,6 +50,7 @@ namespace Kinematics.Math
             Z = 0f;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3(Vector4 value)
         {
             X = value.X;
@@ -53,6 +58,7 @@ namespace Kinematics.Math
             Z = value.Z;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector3(Quaternion value)
         {
             X = value.X;
@@ -64,66 +70,79 @@ namespace Kinematics.Math
 
         #region Operators
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator +(Vector3 lhs, Vector3 rhs)
         {
             return new Vector3(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator -(Vector3 lhs, Vector3 rhs)
         {
             return new Vector3(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator -(Vector3 value)
         {
             return new Vector3(-value.X, -value.Y, -value.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator *(Vector3 lhs, Vector3 rhs)
         {
             return new Vector3(lhs.X * rhs.X, lhs.Y * rhs.Y, lhs.Z * rhs.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator *(Vector3 vector, float scalar)
         {
             return new Vector3(vector.X * scalar, vector.Y * scalar, vector.Z * scalar);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator *(float scalar, Vector3 vector)
         {
             return new Vector3(vector.X * scalar, vector.Y * scalar, vector.Z * scalar);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator /(Vector3 lhs, Vector3 rhs)
         {
             return new Vector3(lhs.X / rhs.X, lhs.Y / rhs.Y, lhs.Z / rhs.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 operator /(Vector3 vector, float scalar)
         {
             return new Vector3(vector.X / scalar, vector.Y / scalar, vector.Z / scalar);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator ==(Vector3 lhs, Vector3 rhs)
         {
             return lhs.Equals(rhs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool operator !=(Vector3 lhs, Vector3 rhs)
         {
             return !lhs.Equals(rhs);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector2(Vector3 value)
         {
             return new Vector2(value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector4(Vector3 value)
         {
             return new Vector4(value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Quaternion(Vector3 value)
         {
             return new Quaternion(value);
@@ -133,21 +152,25 @@ namespace Kinematics.Math
 
         #region Overrides
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override bool Equals(object obj)
         {
             return obj is Vector3 vector && Equals(vector);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Vector3 other)
         {
             return X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
             return X.GetHashCode() + Y.GetHashCode() + Z.GetHashCode();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString()
         {
             return $"[Vector3] X({X}) Y({Y}) Z({Z})";
@@ -156,47 +179,55 @@ namespace Kinematics.Math
         #endregion
 
         #region Methods
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float Length()
         {
             return Length(this);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Length(Vector3 value)
         {
             float lengthSquared = LengthSquared(value);
             return Mathf.Sqrt(lengthSquared);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public float LengthSquared()
         {
             return LengthSquared(this);
         }
-        
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float LengthSquared(Vector3 value)
         {
             return Mathf.Pow(value.X, 2) + Mathf.Pow(value.Y, 2) + Mathf.Pow(value.Z, 2);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Normalize()
         {
             Normalize(this);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Normalize(Vector3 value)
         {
             float length = 1f / Length(value);
             value.X *= length;
             value.Y *= length;
             value.Z *= length;
-
             return value;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Dot(Vector3 lhs, Vector3 rhs)
         {
             return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Cross(Vector3 lhs, Vector3 rhs)
         {
             float x = lhs.Y * rhs.Z - lhs.Z * rhs.Y;
@@ -205,6 +236,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Barycentric(Vector3 value1, Vector3 value2, Vector3 value3, float amount1, float amount2)
         {
             float x = Mathf.Barycentric(value1.X, value2.X, value3.X, amount1, amount2);
@@ -213,6 +245,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Clamp(Vector3 value, Vector3 min, Vector3 max)
         {
             float x = Mathf.Clamp(value.X, min.X, max.X);
@@ -221,6 +254,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Distance(Vector3 lhs, Vector3 rhs)
         {
             float x = lhs.X - rhs.X;
@@ -230,6 +264,7 @@ namespace Kinematics.Math
             return Length(result);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Lerp(Vector3 lhs, Vector3 rhs, float amount)
         {
             float x = Mathf.Lerp(lhs.X, rhs.X, amount);
@@ -238,6 +273,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 SmoothStep(Vector3 lhs, Vector3 rhs, float amount)
         {
             float x = Mathf.SmoothStep(lhs.X, rhs.X, amount);
@@ -246,6 +282,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Hermite(Vector3 value1, Vector3 tangent1, Vector3 value2, Vector3 tangent2, float amount)
         {
             float x = Mathf.Hermite(value1.X, tangent1.X, value2.X, tangent2.X, amount);
@@ -254,6 +291,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 CatmullRom(Vector3 value1, Vector3 value2, Vector3 value3, Vector3 value4, float amount)
         {
             float x = Mathf.CatmullRom(value1.X, value2.X, value3.X, value4.X, amount);
@@ -262,6 +300,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Max(Vector3 lhs, Vector3 rhs)
         {
             float x = Mathf.Max(lhs.X, rhs.X);
@@ -270,6 +309,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Min(Vector3 lhs, Vector3 rhs)
         {
             float x = Mathf.Min(lhs.X, rhs.X);
@@ -278,6 +318,7 @@ namespace Kinematics.Math
             return new Vector3(x, y, z);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector3 Reflect(Vector3 vector, Vector3 normal)
         {
             float dot = Dot(vector, normal);
