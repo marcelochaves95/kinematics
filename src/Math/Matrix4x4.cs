@@ -7,8 +7,6 @@ namespace Kinematics.Math
     [StructLayout(LayoutKind.Sequential)]
     public struct Matrix4x4 : IEquatable<Matrix4x4>
     {
-	    #region Properties
-
         public float M11;
         public float M12;
         public float M13;
@@ -34,10 +32,6 @@ namespace Kinematics.Math
         public readonly Vector3 Right => new Vector3(M11, M12, M13);
         public readonly Vector3 Translation => new Vector3(M41, M42, M43);
         public static Matrix4x4 Identity => new Matrix4x4(1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f, 0f, 0f, 0f, 0f, 1f);
-
-        #endregion
-
-        #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Matrix4x4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31,
@@ -81,258 +75,6 @@ namespace Kinematics.Math
             M43 = row4.Z;
             M44 = row4.W;
         }
-
-        #endregion
-
-        #region Operators
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix4x4 operator +(Matrix4x4 lhs, Matrix4x4 rhs)
-        {
-            lhs.M11 += rhs.M11;
-            lhs.M12 += rhs.M12;
-            lhs.M13 += rhs.M13;
-            lhs.M14 += rhs.M14;
-            lhs.M21 += rhs.M21;
-            lhs.M22 += rhs.M22;
-            lhs.M23 += rhs.M23;
-            lhs.M24 += rhs.M24;
-            lhs.M31 += rhs.M31;
-            lhs.M32 += rhs.M32;
-            lhs.M33 += rhs.M33;
-            lhs.M34 += rhs.M34;
-            lhs.M41 += rhs.M41;
-            lhs.M42 += rhs.M42;
-            lhs.M43 += rhs.M43;
-            lhs.M44 += rhs.M44;
-            return lhs;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix4x4 operator -(Matrix4x4 lhs, Matrix4x4 rhs)
-        {
-	        lhs.M11 -= rhs.M11;
-	        lhs.M12 -= rhs.M12;
-	        lhs.M13 -= rhs.M13;
-	        lhs.M14 -= rhs.M14;
-	        lhs.M21 -= rhs.M21;
-	        lhs.M22 -= rhs.M22;
-	        lhs.M23 -= rhs.M23;
-	        lhs.M24 -= rhs.M24;
-	        lhs.M31 -= rhs.M31;
-	        lhs.M32 -= rhs.M32;
-	        lhs.M33 -= rhs.M33;
-	        lhs.M34 -= rhs.M34;
-	        lhs.M41 -= rhs.M41;
-	        lhs.M42 -= rhs.M42;
-	        lhs.M43 -= rhs.M43;
-	        lhs.M44 -= rhs.M44;
-	        return lhs;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix4x4 operator -(Matrix4x4 value)
-        {
-	        value.M11 = -value.M11;
-	        value.M12 = -value.M12;
-	        value.M13 = -value.M13;
-	        value.M14 = -value.M14;
-	        value.M21 = -value.M21;
-	        value.M22 = -value.M22;
-	        value.M23 = -value.M23;
-	        value.M24 = -value.M24;
-	        value.M31 = -value.M31;
-	        value.M32 = -value.M32;
-	        value.M33 = -value.M33;
-	        value.M34 = -value.M34;
-	        value.M41 = -value.M41;
-	        value.M42 = -value.M42;
-	        value.M43 = -value.M43;
-	        value.M44 = -value.M44;
-	        return value;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix4x4 operator *(Matrix4x4 lhs, Matrix4x4 rhs)
-        {
-            float m11 = lhs.M11 * rhs.M11 + lhs.M12 * rhs.M21 + lhs.M13 * rhs.M31 + lhs.M14 * rhs.M41;
-            float m12 = lhs.M11 * rhs.M12 + lhs.M12 * rhs.M22 + lhs.M13 * rhs.M32 + lhs.M14 * rhs.M42;
-            float m13 = lhs.M11 * rhs.M13 + lhs.M12 * rhs.M23 + lhs.M13 * rhs.M33 + lhs.M14 * rhs.M43;
-            float m14 = lhs.M11 * rhs.M14 + lhs.M12 * rhs.M24 + lhs.M13 * rhs.M34 + lhs.M14 * rhs.M44;
-            float m21 = lhs.M21 * rhs.M11 + lhs.M22 * rhs.M21 + lhs.M23 * rhs.M31 + lhs.M24 * rhs.M41;
-            float m22 = lhs.M21 * rhs.M12 + lhs.M22 * rhs.M22 + lhs.M23 * rhs.M32 + lhs.M24 * rhs.M42;
-            float m23 = lhs.M21 * rhs.M13 + lhs.M22 * rhs.M23 + lhs.M23 * rhs.M33 + lhs.M24 * rhs.M43;
-            float m24 = lhs.M21 * rhs.M14 + lhs.M22 * rhs.M24 + lhs.M23 * rhs.M34 + lhs.M24 * rhs.M44;
-            float m31 = lhs.M31 * rhs.M11 + lhs.M32 * rhs.M21 + lhs.M33 * rhs.M31 + lhs.M34 * rhs.M41;
-            float m32 = lhs.M31 * rhs.M12 + lhs.M32 * rhs.M22 + lhs.M33 * rhs.M32 + lhs.M34 * rhs.M42;
-            float m33 = lhs.M31 * rhs.M13 + lhs.M32 * rhs.M23 + lhs.M33 * rhs.M33 + lhs.M34 * rhs.M43;
-            float m34 = lhs.M31 * rhs.M14 + lhs.M32 * rhs.M24 + lhs.M33 * rhs.M34 + lhs.M34 * rhs.M44;
-            float m41 = lhs.M41 * rhs.M11 + lhs.M42 * rhs.M21 + lhs.M43 * rhs.M31 + lhs.M44 * rhs.M41;
-            float m42 = lhs.M41 * rhs.M12 + lhs.M42 * rhs.M22 + lhs.M43 * rhs.M32 + lhs.M44 * rhs.M42;
-            float m43 = lhs.M41 * rhs.M13 + lhs.M42 * rhs.M23 + lhs.M43 * rhs.M33 + lhs.M44 * rhs.M43;
-           	float m44 = lhs.M41 * rhs.M14 + lhs.M42 * rhs.M24 + lhs.M43 * rhs.M34 + lhs.M44 * rhs.M44;
-            lhs.M11 = m11;
-			lhs.M12 = m12;
-			lhs.M13 = m13;
-			lhs.M14 = m14;
-			lhs.M21 = m21;
-			lhs.M22 = m22;
-			lhs.M23 = m23;
-			lhs.M24 = m24;
-			lhs.M31 = m31;
-			lhs.M32 = m32;
-			lhs.M33 = m33;
-			lhs.M34 = m34;
-			lhs.M41 = m41;
-			lhs.M42 = m42;
-			lhs.M43 = m43;
-			lhs.M44 = m44;
-			return lhs;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix4x4 operator *(Matrix4x4 matrix, float scalar)
-        {
-		    matrix.M11 *= scalar;
-		    matrix.M12 *= scalar;
-		    matrix.M13 *= scalar;
-		    matrix.M14 *= scalar;
-		    matrix.M21 *= scalar;
-		    matrix.M22 *= scalar;
-		    matrix.M23 *= scalar;
-		    matrix.M24 *= scalar;
-		    matrix.M31 *= scalar;
-		    matrix.M32 *= scalar;
-		    matrix.M33 *= scalar;
-		    matrix.M34 *= scalar;
-		    matrix.M41 *= scalar;
-		    matrix.M42 *= scalar;
-		    matrix.M43 *= scalar;
-		    matrix.M44 *= scalar;
-		    return matrix;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix4x4 operator /(Matrix4x4 lhs, Matrix4x4 rhs)
-        {
-		    lhs.M11 /= rhs.M11;
-		    lhs.M12 /= rhs.M12;
-		    lhs.M13 /= rhs.M13;
-		    lhs.M14 /= rhs.M14;
-		    lhs.M21 /= rhs.M21;
-		    lhs.M22 /= rhs.M22;
-		    lhs.M23 /= rhs.M23;
-		    lhs.M24 /= rhs.M24;
-		    lhs.M31 /= rhs.M31;
-		    lhs.M32 /= rhs.M32;
-		    lhs.M33 /= rhs.M33;
-		    lhs.M34 /= rhs.M34;
-		    lhs.M41 /= rhs.M41;
-		    lhs.M42 /= rhs.M42;
-		    lhs.M43 /= rhs.M43;
-		    lhs.M44 /= rhs.M44;
-		    return lhs;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Matrix4x4 operator /(Matrix4x4 matrix, float scalar)
-        {
-		    float num = 1f / scalar;
-		    matrix.M11 *= num;
-		    matrix.M12 *= num;
-		    matrix.M13 *= num;
-		    matrix.M14 *= num;
-		    matrix.M21 *= num;
-		    matrix.M22 *= num;
-		    matrix.M23 *= num;
-		    matrix.M24 *= num;
-		    matrix.M31 *= num;
-		    matrix.M32 *= num;
-		    matrix.M33 *= num;
-		    matrix.M34 *= num;
-		    matrix.M41 *= num;
-		    matrix.M42 *= num;
-		    matrix.M43 *= num;
-		    matrix.M44 *= num;
-		    return matrix;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Matrix4x4 lhs, Matrix4x4 rhs)
-        {
-	        return lhs.Equals(rhs);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Matrix4x4 lhs, Matrix4x4 rhs)
-        {
-	        return !lhs.Equals(rhs);
-        }
-
-        #endregion
-
-        #region Overrides
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-		public override bool Equals(object obj)
-		{
-			return obj is Matrix4x4 matrix && Equals(matrix);
-		}
-
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Matrix4x4 other)
-        {
-	        return M11.Equals(other.M11) &&
-	               M22.Equals(other.M22) &&
-	               M33.Equals(other.M33) &&
-	               M44.Equals(other.M44) &&
-	               M12.Equals(other.M12) &&
-	               M13.Equals(other.M13) &&
-	               M14.Equals(other.M14) &&
-	               M21.Equals(other.M21) &&
-	               M23.Equals(other.M23) &&
-	               M24.Equals(other.M24) &&
-	               M31.Equals(other.M31) &&
-	               M32.Equals(other.M32) &&
-	               M34.Equals(other.M34) &&
-	               M41.Equals(other.M41) &&
-	               M42.Equals(other.M42) &&
-	               M43.Equals(other.M43);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
-        {
-            return M11.GetHashCode() +
-                   M12.GetHashCode() +
-                   M13.GetHashCode() +
-                   M14.GetHashCode() +
-                   M21.GetHashCode() +
-                   M22.GetHashCode() +
-                   M23.GetHashCode() +
-                   M24.GetHashCode() +
-                   M31.GetHashCode() +
-                   M32.GetHashCode() +
-                   M33.GetHashCode() +
-                   M34.GetHashCode() +
-                   M41.GetHashCode() +
-                   M42.GetHashCode() +
-                   M43.GetHashCode() +
-                   M44.GetHashCode();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString()
-        {
-	        return $"[Matrix4x4] M11({M11}) M12({M12}) M13({M13}) M14({M14})" +
-	               $"M21({M21}) M22({M22}) M23({M23}) M24({M24})" +
-	               $"M31({M31}) M32({M32}) M33({M33}) M34({M34})" +
-	               $"M41({M41}) M42({M42}) M43({M43}) M44({M44})";
-        }
-
-        #endregion
-
-        #region Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Matrix4x4 CreateBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 cameraUpVector, Vector3? cameraForwardVector)
@@ -975,6 +717,244 @@ namespace Kinematics.Math
             return result;
         }
 
-        #endregion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator +(Matrix4x4 lhs, Matrix4x4 rhs)
+        {
+            lhs.M11 += rhs.M11;
+            lhs.M12 += rhs.M12;
+            lhs.M13 += rhs.M13;
+            lhs.M14 += rhs.M14;
+            lhs.M21 += rhs.M21;
+            lhs.M22 += rhs.M22;
+            lhs.M23 += rhs.M23;
+            lhs.M24 += rhs.M24;
+            lhs.M31 += rhs.M31;
+            lhs.M32 += rhs.M32;
+            lhs.M33 += rhs.M33;
+            lhs.M34 += rhs.M34;
+            lhs.M41 += rhs.M41;
+            lhs.M42 += rhs.M42;
+            lhs.M43 += rhs.M43;
+            lhs.M44 += rhs.M44;
+            return lhs;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator -(Matrix4x4 lhs, Matrix4x4 rhs)
+        {
+	        lhs.M11 -= rhs.M11;
+	        lhs.M12 -= rhs.M12;
+	        lhs.M13 -= rhs.M13;
+	        lhs.M14 -= rhs.M14;
+	        lhs.M21 -= rhs.M21;
+	        lhs.M22 -= rhs.M22;
+	        lhs.M23 -= rhs.M23;
+	        lhs.M24 -= rhs.M24;
+	        lhs.M31 -= rhs.M31;
+	        lhs.M32 -= rhs.M32;
+	        lhs.M33 -= rhs.M33;
+	        lhs.M34 -= rhs.M34;
+	        lhs.M41 -= rhs.M41;
+	        lhs.M42 -= rhs.M42;
+	        lhs.M43 -= rhs.M43;
+	        lhs.M44 -= rhs.M44;
+	        return lhs;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator -(Matrix4x4 value)
+        {
+	        value.M11 = -value.M11;
+	        value.M12 = -value.M12;
+	        value.M13 = -value.M13;
+	        value.M14 = -value.M14;
+	        value.M21 = -value.M21;
+	        value.M22 = -value.M22;
+	        value.M23 = -value.M23;
+	        value.M24 = -value.M24;
+	        value.M31 = -value.M31;
+	        value.M32 = -value.M32;
+	        value.M33 = -value.M33;
+	        value.M34 = -value.M34;
+	        value.M41 = -value.M41;
+	        value.M42 = -value.M42;
+	        value.M43 = -value.M43;
+	        value.M44 = -value.M44;
+	        return value;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator *(Matrix4x4 lhs, Matrix4x4 rhs)
+        {
+            float m11 = lhs.M11 * rhs.M11 + lhs.M12 * rhs.M21 + lhs.M13 * rhs.M31 + lhs.M14 * rhs.M41;
+            float m12 = lhs.M11 * rhs.M12 + lhs.M12 * rhs.M22 + lhs.M13 * rhs.M32 + lhs.M14 * rhs.M42;
+            float m13 = lhs.M11 * rhs.M13 + lhs.M12 * rhs.M23 + lhs.M13 * rhs.M33 + lhs.M14 * rhs.M43;
+            float m14 = lhs.M11 * rhs.M14 + lhs.M12 * rhs.M24 + lhs.M13 * rhs.M34 + lhs.M14 * rhs.M44;
+            float m21 = lhs.M21 * rhs.M11 + lhs.M22 * rhs.M21 + lhs.M23 * rhs.M31 + lhs.M24 * rhs.M41;
+            float m22 = lhs.M21 * rhs.M12 + lhs.M22 * rhs.M22 + lhs.M23 * rhs.M32 + lhs.M24 * rhs.M42;
+            float m23 = lhs.M21 * rhs.M13 + lhs.M22 * rhs.M23 + lhs.M23 * rhs.M33 + lhs.M24 * rhs.M43;
+            float m24 = lhs.M21 * rhs.M14 + lhs.M22 * rhs.M24 + lhs.M23 * rhs.M34 + lhs.M24 * rhs.M44;
+            float m31 = lhs.M31 * rhs.M11 + lhs.M32 * rhs.M21 + lhs.M33 * rhs.M31 + lhs.M34 * rhs.M41;
+            float m32 = lhs.M31 * rhs.M12 + lhs.M32 * rhs.M22 + lhs.M33 * rhs.M32 + lhs.M34 * rhs.M42;
+            float m33 = lhs.M31 * rhs.M13 + lhs.M32 * rhs.M23 + lhs.M33 * rhs.M33 + lhs.M34 * rhs.M43;
+            float m34 = lhs.M31 * rhs.M14 + lhs.M32 * rhs.M24 + lhs.M33 * rhs.M34 + lhs.M34 * rhs.M44;
+            float m41 = lhs.M41 * rhs.M11 + lhs.M42 * rhs.M21 + lhs.M43 * rhs.M31 + lhs.M44 * rhs.M41;
+            float m42 = lhs.M41 * rhs.M12 + lhs.M42 * rhs.M22 + lhs.M43 * rhs.M32 + lhs.M44 * rhs.M42;
+            float m43 = lhs.M41 * rhs.M13 + lhs.M42 * rhs.M23 + lhs.M43 * rhs.M33 + lhs.M44 * rhs.M43;
+           	float m44 = lhs.M41 * rhs.M14 + lhs.M42 * rhs.M24 + lhs.M43 * rhs.M34 + lhs.M44 * rhs.M44;
+            lhs.M11 = m11;
+			lhs.M12 = m12;
+			lhs.M13 = m13;
+			lhs.M14 = m14;
+			lhs.M21 = m21;
+			lhs.M22 = m22;
+			lhs.M23 = m23;
+			lhs.M24 = m24;
+			lhs.M31 = m31;
+			lhs.M32 = m32;
+			lhs.M33 = m33;
+			lhs.M34 = m34;
+			lhs.M41 = m41;
+			lhs.M42 = m42;
+			lhs.M43 = m43;
+			lhs.M44 = m44;
+			return lhs;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator *(Matrix4x4 matrix, float scalar)
+        {
+		    matrix.M11 *= scalar;
+		    matrix.M12 *= scalar;
+		    matrix.M13 *= scalar;
+		    matrix.M14 *= scalar;
+		    matrix.M21 *= scalar;
+		    matrix.M22 *= scalar;
+		    matrix.M23 *= scalar;
+		    matrix.M24 *= scalar;
+		    matrix.M31 *= scalar;
+		    matrix.M32 *= scalar;
+		    matrix.M33 *= scalar;
+		    matrix.M34 *= scalar;
+		    matrix.M41 *= scalar;
+		    matrix.M42 *= scalar;
+		    matrix.M43 *= scalar;
+		    matrix.M44 *= scalar;
+		    return matrix;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator /(Matrix4x4 lhs, Matrix4x4 rhs)
+        {
+		    lhs.M11 /= rhs.M11;
+		    lhs.M12 /= rhs.M12;
+		    lhs.M13 /= rhs.M13;
+		    lhs.M14 /= rhs.M14;
+		    lhs.M21 /= rhs.M21;
+		    lhs.M22 /= rhs.M22;
+		    lhs.M23 /= rhs.M23;
+		    lhs.M24 /= rhs.M24;
+		    lhs.M31 /= rhs.M31;
+		    lhs.M32 /= rhs.M32;
+		    lhs.M33 /= rhs.M33;
+		    lhs.M34 /= rhs.M34;
+		    lhs.M41 /= rhs.M41;
+		    lhs.M42 /= rhs.M42;
+		    lhs.M43 /= rhs.M43;
+		    lhs.M44 /= rhs.M44;
+		    return lhs;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 operator /(Matrix4x4 matrix, float scalar)
+        {
+		    float num = 1f / scalar;
+		    matrix.M11 *= num;
+		    matrix.M12 *= num;
+		    matrix.M13 *= num;
+		    matrix.M14 *= num;
+		    matrix.M21 *= num;
+		    matrix.M22 *= num;
+		    matrix.M23 *= num;
+		    matrix.M24 *= num;
+		    matrix.M31 *= num;
+		    matrix.M32 *= num;
+		    matrix.M33 *= num;
+		    matrix.M34 *= num;
+		    matrix.M41 *= num;
+		    matrix.M42 *= num;
+		    matrix.M43 *= num;
+		    matrix.M44 *= num;
+		    return matrix;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Matrix4x4 lhs, Matrix4x4 rhs)
+        {
+	        return lhs.Equals(rhs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Matrix4x4 lhs, Matrix4x4 rhs)
+        {
+	        return !lhs.Equals(rhs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+		public override bool Equals(object obj)
+		{
+			return obj is Matrix4x4 matrix && Equals(matrix);
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(Matrix4x4 other)
+        {
+	        return M11.Equals(other.M11) &&
+	               M22.Equals(other.M22) &&
+	               M33.Equals(other.M33) &&
+	               M44.Equals(other.M44) &&
+	               M12.Equals(other.M12) &&
+	               M13.Equals(other.M13) &&
+	               M14.Equals(other.M14) &&
+	               M21.Equals(other.M21) &&
+	               M23.Equals(other.M23) &&
+	               M24.Equals(other.M24) &&
+	               M31.Equals(other.M31) &&
+	               M32.Equals(other.M32) &&
+	               M34.Equals(other.M34) &&
+	               M41.Equals(other.M41) &&
+	               M42.Equals(other.M42) &&
+	               M43.Equals(other.M43);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode()
+        {
+            return M11.GetHashCode() +
+                   M12.GetHashCode() +
+                   M13.GetHashCode() +
+                   M14.GetHashCode() +
+                   M21.GetHashCode() +
+                   M22.GetHashCode() +
+                   M23.GetHashCode() +
+                   M24.GetHashCode() +
+                   M31.GetHashCode() +
+                   M32.GetHashCode() +
+                   M33.GetHashCode() +
+                   M34.GetHashCode() +
+                   M41.GetHashCode() +
+                   M42.GetHashCode() +
+                   M43.GetHashCode() +
+                   M44.GetHashCode();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override string ToString()
+        {
+	        return $"[Matrix4x4] M11({M11}) M12({M12}) M13({M13}) M14({M14})" +
+	               $"M21({M21}) M22({M22}) M23({M23}) M24({M24})" +
+	               $"M31({M31}) M32({M32}) M33({M33}) M34({M34})" +
+	               $"M41({M41}) M42({M42}) M43({M43}) M44({M44})";
+        }
     }
 }
