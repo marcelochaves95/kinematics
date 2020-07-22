@@ -90,7 +90,7 @@ namespace Kinematics.Dynamics
             position = default;
             velocity = default;
             force = default;
-            float inverse_count = 1.0f / Count;
+            float inverse_count = 1f / Count;
 
             position.X = 0;
             position.Y = 0;
@@ -141,14 +141,14 @@ namespace Kinematics.Dynamics
                 Vector2.Normalize(currentNormal);
 
                 float dot = Vector2.Dot(baseNormal, currentNormal);
-                if (dot > 1.0f)
+                if (dot > 1f)
                 {
-                    dot = 1.0f;
+                    dot = 1f;
                 }
 
-                if (dot < -1.0f)
+                if (dot < -1f)
                 {
-                    dot = -1.0f;
+                    dot = -1f;
                 }
 
                 float thisAngle = Mathf.Acos(dot);
@@ -159,13 +159,13 @@ namespace Kinematics.Dynamics
 
                 if (i == 0)
                 {
-                    originalSign = thisAngle >= 0.0f ? 1 : -1;
+                    originalSign = thisAngle >= 0f ? 1 : -1;
                     originalAngle = thisAngle;
                 }
                 else
                 {
                     float diff = thisAngle - originalAngle;
-                    int thisSign = thisAngle >= 0.0f ? 1 : -1;
+                    int thisSign = thisAngle >= 0f ? 1 : -1;
 
                     if (Mathf.Abs(diff) > Mathf.PI && thisSign != originalSign)
                     {
@@ -278,7 +278,7 @@ namespace Kinematics.Dynamics
             edgeD = 0f;
             normal = Vector2.Zero;
 
-            float closestD = 1000.0f;
+            float closestD = 1000f;
 
             for (int i = 0; i < Count; i++)
             {
@@ -342,7 +342,7 @@ namespace Kinematics.Dynamics
 
             Vector2 n = Vector2.Perpendicular(e);
             float x = Vector2.Dot(toP, e);
-            if (x <= 0.0f)
+            if (x <= 0f)
             {
                 distance = Vector2.Distance(point, ptA);
                 hitPt = ptA;
@@ -420,7 +420,7 @@ namespace Kinematics.Dynamics
 
             Vector2 n = Vector2.Perpendicular(e);
             float x = Vector2.Dot(toP, e);
-            if (x <= 0.0f)
+            if (x <= 0f)
             {
                 dist = Vector2.DistanceSquared(point, ptA);
                 hitPt = ptA;
@@ -461,7 +461,7 @@ namespace Kinematics.Dynamics
 
         public PointMass GetClosestPointMass(Vector2 point, out float dist)
         {
-            float closestSQD = 100000.0f;
+            float closestSQD = 100000f;
             int closest = -1;
 
             for (int i = 0; i < Count; i++)

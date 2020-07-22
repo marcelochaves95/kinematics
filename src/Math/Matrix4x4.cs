@@ -546,22 +546,22 @@ namespace Kinematics.Math
         public static Matrix4x4 CreateOrthographicOffCenter(float left, float right, float bottom, float top, float zNearPlane, float zFarPlane)
         {
 			Matrix4x4 result;
-			result.M11 = 2.0f / (right - left);
-			result.M12 = 0.0f;
-			result.M13 = 0.0f;
-			result.M14 = 0.0f;
-			result.M21 = 0.0f;
-			result.M22 = 2.0f / (top - bottom);
-			result.M23 = 0.0f;
-			result.M24 = 0.0f;
-			result.M31 = 0.0f;
-			result.M32 = 0.0f;
-			result.M33 = 1.0f / (zNearPlane - zFarPlane);
-			result.M34 = 0.0f;
+			result.M11 = 2f / (right - left);
+			result.M12 = 0f;
+			result.M13 = 0f;
+			result.M14 = 0f;
+			result.M21 = 0f;
+			result.M22 = 2f / (top - bottom);
+			result.M23 = 0f;
+			result.M24 = 0f;
+			result.M31 = 0f;
+			result.M32 = 0f;
+			result.M33 = 1f / (zNearPlane - zFarPlane);
+			result.M34 = 0f;
 			result.M41 = (left + right) / (left - right);
 			result.M42 = (top + bottom) / (bottom - top);
 			result.M43 = zNearPlane / (zNearPlane - zFarPlane);
-			result.M44 = 1.0f;
+			result.M44 = 1f;
 			return result;
         }
 
@@ -859,7 +859,7 @@ namespace Kinematics.Math
 			float num24 = -(num5 * num17 - num7 * num20 + num8 * num21);
 			float num25 = num5 * num18 - num6 * num20 + num8 *  num22;
 			float num26 = -(num5 * num19 - num6 * num21 + num7 * num22);
-			float num27 = 1.0f / (num1 * num23 + num2 * num24 + num3 * num25 + num4 * num26);
+			float num27 = 1f / (num1 * num23 + num2 * num24 + num3 * num25 + num4 * num26);
 
 			Matrix4x4 result;
 			result.M11 = num23 * num27;

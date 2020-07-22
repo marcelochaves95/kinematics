@@ -55,8 +55,8 @@ namespace Kinematics.Collision
 
                 ptNorm = Vector2.Perpendicular(ptNorm);
 
-                float closestAway = 100000.0f;
-                float closestSame = 100000.0f;
+                float closestAway = 100000f;
+                float closestSame = 100000f;
 
                 infoAway.Clear();
                 infoAway.BodyA = bodyA;

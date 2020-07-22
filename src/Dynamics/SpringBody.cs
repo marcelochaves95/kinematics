@@ -71,7 +71,7 @@ namespace Kinematics.Dynamics
                     if (_shapeK > 0)
                     {
                         Spring.SpringForce(ref PointMassList[i].Position, ref PointMassList[i].Velocity, ref CurrentShape.Points[i],
-                                                        ref PointMassList[i].Velocity, 0.0f, _shapeK, _shapeDamping, out force);
+                                                        ref PointMassList[i].Velocity, 0f, _shapeK, _shapeDamping, out force);
 
                         PointMassList[i].Force.X += force.X;
                         PointMassList[i].Force.Y += force.Y;

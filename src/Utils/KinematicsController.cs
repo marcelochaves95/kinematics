@@ -302,7 +302,7 @@ namespace Kinematics.Utils
                     continue;
                 }
 
-                float b1inf = 1.0f - info.EdgeDistance;
+                float b1inf = 1f - info.EdgeDistance;
                 float b2inf = info.EdgeDistance;
 
                 float b2MassSum = float.IsPositiveInfinity(B1.Mass) || float.IsPositiveInfinity(B2.Mass) ? float.PositiveInfinity : (B1.Mass + B2.Mass);

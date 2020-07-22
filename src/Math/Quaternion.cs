@@ -40,7 +40,7 @@ namespace Kinematics.Math
             X = value.X;
             Y = value.Y;
             Z = value.Z;
-            W = 0.0f;
+            W = 0f;
         }
 
         public Quaternion(Vector4 value)
@@ -197,9 +197,9 @@ namespace Kinematics.Math
             float half;
             float scale = matrix4X4.M11 + matrix4X4.M22 + matrix4X4.M33;
 
-		    if (scale > 0.0f)
+		    if (scale > 0f)
 		    {
-                sqrt = Mathf.Sqrt(scale + 1.0f);
+                sqrt = Mathf.Sqrt(scale + 1f);
 		        quaternion.W = sqrt * 0.5f;
                 sqrt = 0.5f / sqrt;
 
@@ -211,7 +211,7 @@ namespace Kinematics.Math
 
 		    if (matrix4X4.M11 >= matrix4X4.M22 && matrix4X4.M11 >= matrix4X4.M33)
 		    {
-                sqrt = Mathf.Sqrt(1.0f + matrix4X4.M11 - matrix4X4.M22 - matrix4X4.M33);
+                sqrt = Mathf.Sqrt(1f + matrix4X4.M11 - matrix4X4.M22 - matrix4X4.M33);
                 half = 0.5f / sqrt;
 
 		        quaternion.X = 0.5f * sqrt;
@@ -223,7 +223,7 @@ namespace Kinematics.Math
 
 		    if (matrix4X4.M22 > matrix4X4.M33)
 		    {
-                sqrt = Mathf.Sqrt(1.0f + matrix4X4.M22 - matrix4X4.M11 - matrix4X4.M33);
+                sqrt = Mathf.Sqrt(1f + matrix4X4.M22 - matrix4X4.M11 - matrix4X4.M33);
                 half = 0.5f / sqrt;
 
 		        quaternion.X = (matrix4X4.M21 + matrix4X4.M12) * half;
@@ -234,7 +234,7 @@ namespace Kinematics.Math
 		        return quaternion;
 		    }
 
-            sqrt = Mathf.Sqrt(1.0f + matrix4X4.M33 - matrix4X4.M11 - matrix4X4.M22);
+            sqrt = Mathf.Sqrt(1f + matrix4X4.M33 - matrix4X4.M11 - matrix4X4.M22);
 		    half = 0.5f / sqrt;
 
 		    quaternion.X = (matrix4X4.M31 + matrix4X4.M13) * half;
@@ -272,7 +272,7 @@ namespace Kinematics.Math
         public static Quaternion Inverse(Quaternion value)
         {
 		    float num2 = LengthSquared(value);
-		    float num = 1.0f / num2;
+		    float num = 1f / num2;
 		    float x = -value.X * num;
 		    float y = -value.Y * num;
 		    float z = -value.Z * num;
@@ -304,10 +304,10 @@ namespace Kinematics.Math
         public static Quaternion Lerp(Quaternion lhs, Quaternion rhs, float amount)
         {
             float num = amount;
-		    float num2 = 1.0f - num;
+		    float num2 = 1f - num;
 		    Quaternion quaternion;
 		    float dot = Dot(lhs, rhs);
-		    if (dot >= 0.0f)
+		    if (dot >= 0f)
 		    {
 		        quaternion.X = num2 * lhs.X + num * rhs.X;
 		        quaternion.Y = num2 * lhs.Y + num * rhs.Y;
@@ -332,7 +332,7 @@ namespace Kinematics.Math
 		    float num3;
 		    float dot = Dot(lhs, rhs);
 		    bool flag = false;
-		    if (dot < 0.0f)
+		    if (dot < 0f)
 		    {
 		        flag = true;
 		        dot = -dot;
@@ -340,14 +340,14 @@ namespace Kinematics.Math
 
 		    if (dot > 0.999999f)
 		    {
-		        num3 = 1.0f - num;
+		        num3 = 1f - num;
 		        num2 = flag ? -num : num;
 		    }
 		    else
 		    {
 		        float num5 = Mathf.Acos(dot);
-		        float num6 = 1.0f / Mathf.Sin(num5);
-		        num3 = Mathf.Sin((1.0f - num) * num5) * num6;
+		        float num6 = 1f / Mathf.Sin(num5);
+		        num3 = Mathf.Sin((1f - num) * num5) * num6;
 		        num2 = Mathf.Sin(num * num5) * num6;
 		    }
 
@@ -365,7 +365,7 @@ namespace Kinematics.Math
 
         public static Quaternion Normalize(Quaternion value)
         {
-	        float length = 1.0f / Length(value);
+	        float length = 1f / Length(value);
 		    value.X *= length;
 		    value.Y *= length;
 		    value.Z *= length;
