@@ -316,7 +316,7 @@ namespace Kinematics.Math
 
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         public static Matrix4x4 CreateBillboard(Vector3 objectPosition, Vector3 cameraPosition, Vector3 cameraUpVector, Vector3? cameraForwardVector)
         {

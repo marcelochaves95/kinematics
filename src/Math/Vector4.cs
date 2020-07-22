@@ -146,7 +146,7 @@ namespace Kinematics.Math
 
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         public static Vector4 Barycentric(Vector4 value1, Vector4 value2, Vector4 value3, float amount1, float amount2)
         {
