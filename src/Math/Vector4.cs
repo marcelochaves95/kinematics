@@ -7,8 +7,6 @@ namespace Kinematics.Math
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector4 : IEquatable<Vector4>
     {
-        #region Properties
-
         public float X;
         public float Y;
         public float Z;
@@ -20,10 +18,6 @@ namespace Kinematics.Math
         public static readonly Vector4 UnitW = new Vector4(0f, 0f, 0f, 1f);
         public static readonly Vector4 One = new Vector4(1f, 1f, 1f, 1f);
         public static readonly Vector4 Zero = new Vector4(0f, 0f, 0f, 0f);
-
-        #endregion
-
-        #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector4(float x, float y, float z, float w)
@@ -60,114 +54,6 @@ namespace Kinematics.Math
             Z = value.Z;
             W = value.W;
         }
-
-        #endregion
-
-        #region Operators
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
-        {
-            return new Vector4(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z, lhs.W + rhs.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 operator -(Vector4 lhs, Vector4 rhs)
-        {
-            return new Vector4(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z, lhs.W - rhs.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 operator -(Vector4 value)
-        {
-            return new Vector4(-value.X, -value.Y, -value.Z, -value.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 operator *(Vector4 lhs, Vector4 rhs)
-        {
-            return new Vector4(lhs.X * rhs.X, lhs.Y * rhs.Y, lhs.Z * rhs.Z, lhs.W * rhs.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 operator *(Vector4 vector, float scalar)
-        {
-            return new Vector4(vector.X * scalar, vector.Y * scalar, vector.Z * scalar, vector.W * scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 operator *(float scalar, Vector4 vector)
-        {
-            return new Vector4(vector.X * scalar, vector.Y * scalar, vector.Z * scalar, vector.W * scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 operator /(Vector4 lhs, Vector4 rhs)
-        {
-            return new Vector4(lhs.X / rhs.X, lhs.Y / rhs.Y, lhs.Z / rhs.Z, lhs.W / rhs.W);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector4 operator /(Vector4 vector, float scalar)
-        {
-            return new Vector4(vector.X / scalar, vector.Y / scalar, vector.Z / scalar, vector.W / scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector4 lhs, Vector4 rhs)
-        {
-            return lhs.Equals(rhs);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector4 lhs, Vector4 rhs)
-        {
-            return !lhs.Equals(rhs);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Vector3(Vector4 value)
-        {
-            return new Vector3(value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Quaternion(Vector4 value)
-        {
-            return new Quaternion(value);
-        }
-
-        #endregion
-
-        #region Overrides
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override bool Equals(object obj)
-        {
-            return obj is Vector4 vector && Equals(vector);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Vector4 other)
-        {
-            return W.Equals(other.W) && X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
-        {
-            return X.GetHashCode() + Y.GetHashCode() + Z.GetHashCode() + W.GetHashCode();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString()
-        {
-            return $"[Vector4] X({X}) Y({Y}) Z({Z}) W({W})";
-        }
-
-        #endregion
-
-        #region Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector4 Barycentric(Vector4 value1, Vector4 value2, Vector4 value3, float amount1, float amount2)
@@ -408,6 +294,100 @@ namespace Kinematics.Math
             return new Vector4(x, y, z, w);
         }
 
-        #endregion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator +(Vector4 lhs, Vector4 rhs)
+        {
+            return new Vector4(lhs.X + rhs.X, lhs.Y + rhs.Y, lhs.Z + rhs.Z, lhs.W + rhs.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator -(Vector4 lhs, Vector4 rhs)
+        {
+            return new Vector4(lhs.X - rhs.X, lhs.Y - rhs.Y, lhs.Z - rhs.Z, lhs.W - rhs.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator -(Vector4 value)
+        {
+            return new Vector4(-value.X, -value.Y, -value.Z, -value.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator *(Vector4 lhs, Vector4 rhs)
+        {
+            return new Vector4(lhs.X * rhs.X, lhs.Y * rhs.Y, lhs.Z * rhs.Z, lhs.W * rhs.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator *(Vector4 vector, float scalar)
+        {
+            return new Vector4(vector.X * scalar, vector.Y * scalar, vector.Z * scalar, vector.W * scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator *(float scalar, Vector4 vector)
+        {
+            return new Vector4(vector.X * scalar, vector.Y * scalar, vector.Z * scalar, vector.W * scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator /(Vector4 lhs, Vector4 rhs)
+        {
+            return new Vector4(lhs.X / rhs.X, lhs.Y / rhs.Y, lhs.Z / rhs.Z, lhs.W / rhs.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector4 operator /(Vector4 vector, float scalar)
+        {
+            return new Vector4(vector.X / scalar, vector.Y / scalar, vector.Z / scalar, vector.W / scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Vector4 lhs, Vector4 rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Vector4 lhs, Vector4 rhs)
+        {
+            return !lhs.Equals(rhs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Vector3(Vector4 value)
+        {
+            return new Vector3(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Quaternion(Vector4 value)
+        {
+            return new Quaternion(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override bool Equals(object obj)
+        {
+            return obj is Vector4 vector && Equals(vector);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(Vector4 other)
+        {
+            return W.Equals(other.W) && X.Equals(other.X) && Y.Equals(other.Y) && Z.Equals(other.Z);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() + Y.GetHashCode() + Z.GetHashCode() + W.GetHashCode();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override string ToString()
+        {
+            return $"[Vector4] X({X}) Y({Y}) Z({Z}) W({W})";
+        }
     }
 }
