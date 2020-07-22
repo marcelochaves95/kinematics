@@ -4,16 +4,10 @@ namespace Kinematics.Math
 {
     public static class Mathf
     {
-        #region Properties
-
         public const float PI = (float) System.Math.PI;
         public const float Epsilon = 0.000001f;
         public const float DegToRad = PI * 2f / 360f;
         public const float RadToDeg = 1f / DegToRad;
-
-        #endregion
-
-        #region Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static float Sin(float value)
@@ -213,7 +207,5 @@ namespace Kinematics.Math
             result = Hermite(value1, 0f, value2, 0f, result);
             return result;
         }
-
-        #endregion
     }
 }
