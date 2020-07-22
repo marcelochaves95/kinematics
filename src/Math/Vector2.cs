@@ -44,14 +44,14 @@ namespace Kinematics.Math
 
         #region Operators
 
-        public static Vector2 operator +(Vector2 value1, Vector2 value2)
+        public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
         {
-            return new Vector2(value1.X + value2.X, value1.Y + value2.Y);
+            return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y);
         }
 
-        public static Vector2 operator -(Vector2 value1, Vector2 value2)
+        public static Vector2 operator -(Vector2 lhs, Vector2 rhs)
         {
-            return new Vector2(value1.X - value2.X, value1.Y - value2.Y);
+            return new Vector2(lhs.X - rhs.X, lhs.Y - rhs.Y);
         }
 
         public static Vector2 operator -(Vector2 value)
@@ -59,14 +59,14 @@ namespace Kinematics.Math
             return new Vector2(-value.X, -value.Y);
         }
 
-        public static Vector2 operator *(Vector2 value1, Vector2 value2)
+        public static Vector2 operator *(Vector2 lhs, Vector2 rhs)
         {
-            return new Vector2(value1.X * value2.X, value1.Y * value2.Y);
+            return new Vector2(lhs.X * rhs.X, lhs.Y * rhs.Y);
         }
 
-        public static Vector2 operator *(Vector2 value1, float scalar)
+        public static Vector2 operator *(Vector2 vector, float scalar)
         {
-            return new Vector2(value1.X * scalar, value1.Y * scalar);
+            return new Vector2(vector.X * scalar, vector.Y * scalar);
         }
 
         public static Vector2 operator *(float scalar, Vector2 vector)
@@ -74,9 +74,9 @@ namespace Kinematics.Math
             return new Vector2(vector.X * scalar, vector.Y * scalar);
         }
 
-        public static Vector2 operator /(Vector2 value1, Vector2 value2)
+        public static Vector2 operator /(Vector2 lhs, Vector2 rhs)
         {
-            return new Vector2(value1.X / value2.X, value1.Y / value2.Y);
+            return new Vector2(lhs.X / rhs.X, lhs.Y / rhs.Y);
         }
 
         public static Vector2 operator /(Vector2 vector, float scalar)
@@ -84,14 +84,14 @@ namespace Kinematics.Math
             return new Vector2(vector.X / scalar, vector.Y / scalar);
         }
 
-        public static bool operator ==(Vector2 value1, Vector2 value2)
+        public static bool operator ==(Vector2 lhs, Vector2 rhs)
         {
-            return value1.Equals(value2);
+            return lhs.Equals(rhs);
         }
 
-        public static bool operator !=(Vector2 value1, Vector2 value2)
+        public static bool operator !=(Vector2 lhs, Vector2 rhs)
         {
-            return !value1.Equals(value2);
+            return !lhs.Equals(rhs);
         }
 
         public static explicit operator Vector3(Vector2 value)
@@ -125,7 +125,7 @@ namespace Kinematics.Math
 
         #endregion
 
-        #region Public Methods
+        #region Methods
 
         public static Vector2 Barycentric(Vector2 value1, Vector2 value2, Vector2 value3, float amount1, float amount2)
         {
@@ -161,25 +161,25 @@ namespace Kinematics.Math
             return new Vector2(x, y);
         }
 
-        public static float Distance(Vector2 value1, Vector2 value2)
+        public static float Distance(Vector2 lhs, Vector2 rhs)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
+            float x = lhs.X - rhs.X;
+            float y = lhs.Y - rhs.Y;
             Vector2 result = new Vector2(x, y);
             return Length(result);
         }
 
-        public static float DistanceSquared(Vector2 value1, Vector2 value2)
+        public static float DistanceSquared(Vector2 lhs, Vector2 rhs)
         {
-            float x = value1.X - value2.X;
-            float y = value1.Y - value2.Y;
+            float x = lhs.X - rhs.X;
+            float y = lhs.Y - rhs.Y;
             Vector2 result = new Vector2(x, y);
             return LengthSquared(result);
         }
 
-        public static float Dot(Vector2 value1, Vector2 value2)
+        public static float Dot(Vector2 lhs, Vector2 rhs)
         {
-            return value1.X * value2.X + value1.Y * value2.Y;
+            return lhs.X * rhs.X + lhs.Y * rhs.Y;
         }
 
         public void Floor()
@@ -223,31 +223,31 @@ namespace Kinematics.Math
             return Mathf.Pow(value.X, 2) + Mathf.Pow(value.Y, 2);
         }
 
-        public static Vector2 Lerp(Vector2 value1, Vector2 value2, float amount)
+        public static Vector2 Lerp(Vector2 lhs, Vector2 rhs, float amount)
         {
-            float x = Mathf.Lerp(value1.X, value2.X, amount);
-            float y = Mathf.Lerp(value1.Y, value2.Y, amount);
+            float x = Mathf.Lerp(lhs.X, rhs.X, amount);
+            float y = Mathf.Lerp(lhs.Y, rhs.Y, amount);
             return new Vector2(x, y);
         }
 
-        public static Vector2 LerpPrecise(Vector2 value1, Vector2 value2, float amount)
+        public static Vector2 LerpPrecise(Vector2 lhs, Vector2 rhs, float amount)
         {
-            float x = Mathf.LerpPrecise(value1.X, value2.X, amount);
-            float y = Mathf.LerpPrecise(value1.Y, value2.Y, amount);
+            float x = Mathf.LerpPrecise(lhs.X, rhs.X, amount);
+            float y = Mathf.LerpPrecise(lhs.Y, rhs.Y, amount);
             return new Vector2(x, y);
         }
 
-        public static Vector2 Max(Vector2 value1, Vector2 value2)
+        public static Vector2 Max(Vector2 lhs, Vector2 rhs)
         {
-            float x = Mathf.Max(value1.X, value2.X);
-            float y = Mathf.Max(value1.Y, value2.Y);
+            float x = Mathf.Max(lhs.X, rhs.X);
+            float y = Mathf.Max(lhs.Y, rhs.Y);
             return new Vector2(x, y);
         }
 
-        public static Vector2 Min(Vector2 value1, Vector2 value2)
+        public static Vector2 Min(Vector2 lhs, Vector2 rhs)
         {
-            float x = Mathf.Min(value1.X, value2.X);
-            float y = Mathf.Min(value1.Y, value2.Y);
+            float x = Mathf.Min(lhs.X, rhs.X);
+            float y = Mathf.Min(lhs.Y, rhs.Y);
             return new Vector2(x, y);
         }
 
@@ -258,7 +258,7 @@ namespace Kinematics.Math
 
         public static Vector2 Normalize(Vector2 value)
         {
-            float length = 1.0f / Length(value);
+            float length = 1f / Length(value);
             value.X *= length;
             value.Y *= length;
             return value;
@@ -267,8 +267,8 @@ namespace Kinematics.Math
         public static Vector2 Reflect(Vector2 vector, Vector2 normal)
         {
             float dot = Dot(vector, normal);
-            float x = vector.X - 2.0f * dot * normal.X;
-            float y = vector.Y - 2.0f * dot * normal.Y;
+            float x = vector.X - 2f * dot * normal.X;
+            float y = vector.Y - 2f * dot * normal.Y;
             return new Vector2(x, y);
         }
 
@@ -285,10 +285,10 @@ namespace Kinematics.Math
             return value;
         }
 
-        public static Vector2 SmoothStep(Vector2 value1, Vector2 value2, float amount)
+        public static Vector2 SmoothStep(Vector2 lhs, Vector2 rhs, float amount)
         {
-            float x = Mathf.SmoothStep(value1.X, value2.X, amount);
-            float y = Mathf.SmoothStep(value1.Y, value2.Y, amount);
+            float x = Mathf.SmoothStep(lhs.X, rhs.X, amount);
+            float y = Mathf.SmoothStep(lhs.Y, rhs.Y, amount);
             return new Vector2(x, y);
         }
 
@@ -306,12 +306,12 @@ namespace Kinematics.Math
             return new Vector2(-value.Y, value.X);
         }
 
-        public static bool IsCCW(Vector2 value1, Vector2 value2)
+        public static bool IsCCW(Vector2 lhs, Vector2 rhs)
         {
-            Vector2 perpendicular = Perpendicular(value1);
-            float dot = Dot(value2, perpendicular);
+            Vector2 perpendicular = Perpendicular(lhs);
+            float dot = Dot(rhs, perpendicular);
 
-            return dot >= 0.0f;
+            return dot >= 0f;
         }
 
         #endregion
