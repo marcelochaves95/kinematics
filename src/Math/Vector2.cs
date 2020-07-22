@@ -7,8 +7,6 @@ namespace Kinematics.Math
     [StructLayout(LayoutKind.Sequential)]
     public struct Vector2 : IEquatable<Vector2>
     {
-        #region Properties
-
         public float X;
         public float Y;
 
@@ -18,10 +16,6 @@ namespace Kinematics.Math
         public static readonly Vector2 Right = new Vector2(1f, 0f);
         public static readonly Vector2 One = new Vector2(1f, 1f);
         public static readonly Vector2 Zero = new Vector2(0f, 0f);
-
-        #endregion
-
-        #region Constructors
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public Vector2(float x, float y)
@@ -43,108 +37,6 @@ namespace Kinematics.Math
             X = value.X;
             Y = value.Y;
         }
-
-        #endregion
-
-        #region Operators
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
-        {
-            return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 operator -(Vector2 lhs, Vector2 rhs)
-        {
-            return new Vector2(lhs.X - rhs.X, lhs.Y - rhs.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 operator -(Vector2 value)
-        {
-            return new Vector2(-value.X, -value.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 operator *(Vector2 lhs, Vector2 rhs)
-        {
-            return new Vector2(lhs.X * rhs.X, lhs.Y * rhs.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 operator *(Vector2 vector, float scalar)
-        {
-            return new Vector2(vector.X * scalar, vector.Y * scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 operator *(float scalar, Vector2 vector)
-        {
-            return new Vector2(vector.X * scalar, vector.Y * scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 operator /(Vector2 lhs, Vector2 rhs)
-        {
-            return new Vector2(lhs.X / rhs.X, lhs.Y / rhs.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Vector2 operator /(Vector2 vector, float scalar)
-        {
-            return new Vector2(vector.X / scalar, vector.Y / scalar);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator ==(Vector2 lhs, Vector2 rhs)
-        {
-            return lhs.Equals(rhs);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool operator !=(Vector2 lhs, Vector2 rhs)
-        {
-            return !lhs.Equals(rhs);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Vector3(Vector2 value)
-        {
-            return new Vector3(value);
-        }
-
-        #endregion
-
-        #region Overrides
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override bool Equals(object obj)
-        {
-            return obj is Vector2 vector && Equals(vector);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool Equals(Vector2 other)
-        {
-            return X.Equals(other.X) && Y.Equals(other.Y);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override int GetHashCode()
-        {
-            return X.GetHashCode() ^ Y.GetHashCode();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString()
-        {
-            return $"[Vector2] X({X}) Y({Y})";
-        }
-
-        #endregion
-
-        #region Methods
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Vector2 Barycentric(Vector2 value1, Vector2 value2, Vector2 value3, float amount1, float amount2)
@@ -357,10 +249,97 @@ namespace Kinematics.Math
         {
             Vector2 perpendicular = Perpendicular(lhs);
             float dot = Dot(rhs, perpendicular);
-
             return dot >= 0f;
         }
 
-        #endregion
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator +(Vector2 lhs, Vector2 rhs)
+        {
+            return new Vector2(lhs.X + rhs.X, lhs.Y + rhs.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator -(Vector2 lhs, Vector2 rhs)
+        {
+            return new Vector2(lhs.X - rhs.X, lhs.Y - rhs.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator -(Vector2 value)
+        {
+            return new Vector2(-value.X, -value.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator *(Vector2 lhs, Vector2 rhs)
+        {
+            return new Vector2(lhs.X * rhs.X, lhs.Y * rhs.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator *(Vector2 vector, float scalar)
+        {
+            return new Vector2(vector.X * scalar, vector.Y * scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator *(float scalar, Vector2 vector)
+        {
+            return new Vector2(vector.X * scalar, vector.Y * scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator /(Vector2 lhs, Vector2 rhs)
+        {
+            return new Vector2(lhs.X / rhs.X, lhs.Y / rhs.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 operator /(Vector2 vector, float scalar)
+        {
+            return new Vector2(vector.X / scalar, vector.Y / scalar);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator ==(Vector2 lhs, Vector2 rhs)
+        {
+            return lhs.Equals(rhs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool operator !=(Vector2 lhs, Vector2 rhs)
+        {
+            return !lhs.Equals(rhs);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Vector3(Vector2 value)
+        {
+            return new Vector3(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override bool Equals(object obj)
+        {
+            return obj is Vector2 vector && Equals(vector);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public bool Equals(Vector2 other)
+        {
+            return X.Equals(other.X) && Y.Equals(other.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() ^ Y.GetHashCode();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public override string ToString()
+        {
+            return $"[Vector2] X({X}) Y({Y})";
+        }
     }
 }
