@@ -9,7 +9,10 @@ namespace Kinematics.Collision
         public Vector2 Velocity;
         public Vector2 Force;
 
-        public PointMass() { }
+        public PointMass()
+        {
+            //
+        }
 
         public PointMass(Vector2 position, float mass)
         {
@@ -20,19 +23,16 @@ namespace Kinematics.Collision
 
         public override string ToString()
         {
-            return $"{{position:[{Position}] velocity:[{Velocity}] force:[{Force}]}}";
+            return $"{{Position: [{Position}] Velocity: [{Velocity}] Force: [{Force}]}}";
         }
 
         public void Update(double elapsed)
         {
             float k = (float) elapsed / Mass;
-
             Velocity.X += Force.X * k;
             Velocity.Y += Force.Y * k;
-
             Position.X += Velocity.X * k;
             Position.Y += Velocity.Y * k;
-
             Force.X = 0f;
             Force.Y = 0f;
         }

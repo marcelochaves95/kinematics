@@ -6,15 +6,15 @@ namespace Kinematics.Collision
 {
     internal struct CollisionInfo : IDisposable
     {
+        public float EdgeDistance;
+        public float Penetration;
+        public Vector2 Normal;
+        public Vector2 Point;
         public Body BodyA;
         public Body BodyB;
         public PointMass PointMassA;
         public PointMass PointMassB;
         public PointMass PointMassC;
-        public float EdgeDistance;
-        public Vector2 Normal;
-        public Vector2 Point;
-        public float Penetration;
 
         public void Clear()
         {

@@ -6,11 +6,12 @@ namespace Kinematics.Collision
 {
     public class Shape
     {
-        public Vector2[] Points;
         public int Count;
+        public Vector2[] Points;
+
         private bool _hasBegun;
-        private readonly List<Vector2> _pointList;
         private bool _center;
+        private readonly List<Vector2> _pointList;
 
         public Shape()
         {
@@ -70,9 +71,8 @@ namespace Kinematics.Collision
 
         public Vector2 GetCenter()
         {
-            float x = 0;
-            float y = 0;
-
+            float x = 0f;
+            float y = 0f;
             for (int i = 0; i < Count; i++)
             {
                 x += Points[i].X;
@@ -81,15 +81,13 @@ namespace Kinematics.Collision
 
             x /= Count;
             y /= Count;
-
             return new Vector2(x, y);
         }
 
         public void CenterAtZero()
         {
-            float x = 0;
-            float y = 0;
-
+            float x = 0f;
+            float y = 0f;
             for (int i = 0; i < Count; i++)
             {
                 x += Points[i].X;
@@ -110,7 +108,6 @@ namespace Kinematics.Collision
         {
             int count = points.Length;
             Vector2[] array = new Vector2[count];
-
             for (int i = 0; i < count; i++)
             {
                 float x = points[i].X * scale.X;

@@ -5,16 +5,9 @@ namespace Kinematics.Collision
 {
     public struct AABB : IDisposable
     {
+        public bool IsValid;
         public Vector2 Min;
         public Vector2 Max;
-        public bool IsValid;
-
-        public AABB(ref Vector2 min, ref Vector2 max)
-        {
-            Min = min;
-            Max = max;
-            IsValid = true;
-        }
 
         public AABB(Vector2 min, Vector2 max)
         {
@@ -97,10 +90,10 @@ namespace Kinematics.Collision
 
         public void Dispose()
         {
-            Min.X = 0;
-            Max.X = 0;
-            Min.Y = 0;
-            Max.Y = 0;
+            Min.X = 0f;
+            Max.X = 0f;
+            Min.Y = 0f;
+            Max.Y = 0f;
             IsValid = false;
         }
     }

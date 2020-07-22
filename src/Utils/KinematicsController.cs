@@ -8,29 +8,27 @@ namespace Kinematics.Utils
 {
     public class KinematicsController
     {
-        private static Random _random = new Random();
+        private static readonly Random _random = new Random();
         public List<Chain> ChainList;
         public List<Body> BodyList;
-        private List<CollisionInfo> _collisionList;
+        private readonly List<CollisionInfo> _collisions;
         public int PenetrationCount;
         public float PenetrationThreshold = 0.015f;
         public float Friction = 1.9f;
         public float Elasticity = 1.5f;
-
         public AABB AABB;
         public Vector2 Size;
         public Vector2 Cell;
         private readonly bool _initialized;
-
-        private Action<Body, Body> _onAABBCollision;
-        private Action<Body, Body, CollisionInfo> _onCollision;
-        private Action<float, Body, Body> _onPenetration;
+        private readonly Action<Body, Body> _onAABBCollision;
+        private readonly Action<Body, Body, CollisionInfo> _onCollision;
+        private readonly Action<float, Body, Body> _onPenetration;
 
         public KinematicsController()
         {
             ChainList = new List<Chain>();
             BodyList = new List<Body>();
-            _collisionList = new List<CollisionInfo>();
+            _collisions = new List<CollisionInfo>();
             _initialized = false;
         }
 
@@ -68,7 +66,7 @@ namespace Kinematics.Utils
 
         public void SetWorldLimits(Vector2 min, Vector2 max)
         {
-            AABB = new AABB(ref min, ref max);
+            AABB = new AABB(min, max);
             Size = max - min;
             Cell = Size / 32;
         }
@@ -231,7 +229,7 @@ namespace Kinematics.Utils
             }
 
             PenetrationCount = 0;
-            _collisionList.Clear();
+            _collisions.Clear();
 
             for (int i = 0; i < BodyList.Count; i++)
             {
@@ -253,7 +251,7 @@ namespace Kinematics.Utils
                         continue;
                     }
 
-                    if ((BodyList[i].BitmaskX.Mask & BodyList[j].BitmaskX.Mask) == 0 && ((BodyList[i].BitmaskY.Mask & BodyList[j].BitmaskY.Mask) == 0))
+                    if ((BodyList[i].BitmaskX.Mask & BodyList[j].BitmaskX.Mask) == 0 && (BodyList[i].BitmaskY.Mask & BodyList[j].BitmaskY.Mask) == 0)
                     {
                         continue;
                     }
@@ -264,20 +262,17 @@ namespace Kinematics.Utils
                     }
 
                     _onAABBCollision?.Invoke(BodyList[i], BodyList[j]);
-
-                    _collisionList.AddRange(Collision.Collision.Intersects(BodyList[j], BodyList[i]));
-                    _collisionList.AddRange(Collision.Collision.Intersects(BodyList[i], BodyList[j]));
+                    _collisions.AddRange(Collision.Collision.Intersects(BodyList[j], BodyList[i]));
+                    _collisions.AddRange(Collision.Collision.Intersects(BodyList[i], BodyList[j]));
                 }
             }
 
-            for (int i = 0; i < _collisionList.Count; i++)
+            for (int i = 0; i < _collisions.Count; i++)
             {
-                CollisionInfo info = _collisionList[i];
-
+                CollisionInfo info = _collisions[i];
                 PointMass A = info.PointMassA;
                 PointMass B1 = info.PointMassB;
                 PointMass B2 = info.PointMassC;
-
                 _onCollision?.Invoke(info.BodyA, info.BodyB, info);
 
                 Vector2 bVel = new Vector2
@@ -304,11 +299,8 @@ namespace Kinematics.Utils
 
                 float b1inf = 1f - info.EdgeDistance;
                 float b2inf = info.EdgeDistance;
-
                 float b2MassSum = float.IsPositiveInfinity(B1.Mass) || float.IsPositiveInfinity(B2.Mass) ? float.PositiveInfinity : (B1.Mass + B2.Mass);
-
                 float massSum = A.Mass + b2MassSum;
-
                 float moveA;
                 float moveB;
                 if (float.IsPositiveInfinity(A.Mass))
@@ -329,21 +321,16 @@ namespace Kinematics.Utils
 
                 float B1move = moveB * b1inf;
                 float B2move = moveB * b2inf;
-
                 float invMassA = float.IsPositiveInfinity(A.Mass) ? 0f : 1f / A.Mass;
                 float invMassB = float.IsPositiveInfinity(b2MassSum) ? 0f : 1f / b2MassSum;
-
                 float jDenom = invMassA + invMassB;
                 Vector2 numV = new Vector2();
                 float elasticity = Elasticity;
                 numV.X = relVel.X * elasticity;
                 numV.Y = relVel.Y * elasticity;
-
                 float jNumerator = Vector2.Dot(numV, info.Normal);
                 jNumerator = -jNumerator;
-
                 float j = jNumerator / jDenom;
-
                 if (!float.IsPositiveInfinity(A.Mass))
                 {
                     A.Position.X += info.Normal.X * moveA;
@@ -366,7 +353,6 @@ namespace Kinematics.Utils
                 float fNumerator = Vector2.Dot(relVel, tangent);
                 fNumerator *= Friction;
                 float f = fNumerator / jDenom;
-
                 if (relDot <= 0.0001f)
                 {
                     if (!float.IsPositiveInfinity(A.Mass))

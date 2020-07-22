@@ -7,29 +7,31 @@ namespace Kinematics.Dynamics
 {
     public class Body
     {
-        private readonly Shape _baseShape;
-        public Shape CurrentShape;
-        public List<PointMass> PointMassList;
-        internal AABB AABB;
-        private Vector2 _scale = Vector2.One;
+        public int Count;
+        public bool IsStatic = false;
         public Vector2 Position;
         public Vector2 Velocity;
-        private Vector2 _force;
-        public int Count;
-        private float _previousAngle;
-        protected float Damping = 0.999f;
-        public bool IsStatic = false;
-        private bool _isDirty = true;
-        private readonly bool _isMerging = false;
+        public List<PointMass> PointMassList;
+        public Shape CurrentShape;
+
+        internal AABB AABB;
         internal readonly Bitmask BitmaskX;
         internal readonly Bitmask BitmaskY;
+
+        protected float Damping = 0.999f;
+
+        private float _previousAngle;
+        private bool _isDirty = true;
+        private readonly bool _isMerging = false;
+        private Vector2 _force;
+        private readonly Vector2 _scale = Vector2.One;
+        private readonly Shape _baseShape;
 
         public Body(Shape shape, float mass)
         {
             _baseShape = shape;
             CurrentShape = shape.Clone();
             Count = shape.Count;
-
             PointMassList = new List<PointMass>(shape.Count);
             for (int i = 0; i < shape.Count; i++)
             {
@@ -53,7 +55,6 @@ namespace Kinematics.Dynamics
         private void UpdataAABB(double elapsed)
         {
             AABB.Clear();
-
             for (int i = 0; i < Count; i++)
             {
                 float x = PointMassList[i].Position.X;
@@ -71,15 +72,12 @@ namespace Kinematics.Dynamics
         private void SetBodyPositionVelocityForce(Vector2 position, Vector2 velocity, Vector2 force)
         {
             GetBodyPositionVelocityForce(out Vector2 currentPosition, out Vector2 currentVelocity, out Vector2 currentForce);
-
             for (int i = 0; i < Count; i++)
             {
                 PointMassList[i].Position -= currentPosition;
                 PointMassList[i].Position += position;
-
                 PointMassList[i].Velocity -= currentVelocity;
                 PointMassList[i].Velocity += velocity;
-
                 PointMassList[i].Force -= currentForce;
                 PointMassList[i].Force += force;
             }
@@ -87,28 +85,19 @@ namespace Kinematics.Dynamics
 
         private void GetBodyPositionVelocityForce(out Vector2 position, out Vector2 velocity, out Vector2 force)
         {
-            position = default;
-            velocity = default;
-            force = default;
             float inverse_count = 1f / Count;
-
-            position.X = 0;
-            position.Y = 0;
-
-            velocity.X = 0;
-            velocity.Y = 0;
-
-            force.X = 0;
-            force.Y = 0;
-
+            position.X = 0f;
+            position.Y = 0f;
+            velocity.X = 0f;
+            velocity.Y = 0f;
+            force.X = 0f;
+            force.Y = 0f;
             for (int i = 0; i < Count; i++)
             {
                 position.X += PointMassList[i].Position.X * inverse_count;
                 position.Y += PointMassList[i].Position.Y * inverse_count;
-
                 velocity.X += PointMassList[i].Velocity.X * inverse_count;
                 velocity.Y += PointMassList[i].Velocity.Y * inverse_count;
-
                 force.X += PointMassList[i].Force.X * inverse_count;
                 force.Y += PointMassList[i].Force.Y * inverse_count;
             }
@@ -166,7 +155,6 @@ namespace Kinematics.Dynamics
                 {
                     float diff = thisAngle - originalAngle;
                     int thisSign = thisAngle >= 0f ? 1 : -1;
-
                     if (Mathf.Abs(diff) > Mathf.PI && thisSign != originalSign)
                     {
                         thisAngle = thisSign == -1 ? Mathf.PI + (Mathf.PI + thisAngle) : Mathf.PI - thisAngle - Mathf.PI;
@@ -192,19 +180,21 @@ namespace Kinematics.Dynamics
             }
 
             _previousAngle = angle;
-
             for (int i = 0; i < Count; i++)
             {
                 float x = _baseShape.Points[i].X * _scale.X;
                 float y = _baseShape.Points[i].Y * _scale.Y;
                 float cos = Mathf.Cos(angle);
                 float sin = Mathf.Sin(angle);
-                CurrentShape.Points[i].X = (cos * x) - (sin * y) + Position.X;
-                CurrentShape.Points[i].Y = (cos * y) + (sin * x) + Position.Y;
+                CurrentShape.Points[i].X = cos * x - sin * y + Position.X;
+                CurrentShape.Points[i].Y = cos * y + sin * x + Position.Y;
             }
         }
 
-        public virtual void ApplyInternalForces(double elapsed) { }
+        public virtual void ApplyInternalForces(double elapsed)
+        {
+            //
+        }
 
         public void Update(double elapsed)
         {
@@ -219,16 +209,11 @@ namespace Kinematics.Dynamics
             }
 
             SetBodyPositionVelocityForce(Position, Velocity, _force);
-
             RotateShape(elapsed);
-            
             ApplyInternalForces(elapsed);
-
             UpdatePointMasses(elapsed);
             UpdataAABB(elapsed);
-
             UpdateBodyPositionVelocityForce();
-
             if (IsStatic)
             {
                 _isDirty = false;
@@ -237,7 +222,7 @@ namespace Kinematics.Dynamics
 
         public override string ToString()
         {
-            return $"{{position:[{Position}] velocity:[{Velocity}] force[{_force}]}}";
+            return $"{{Position: [{Position}] Velocity: [{Velocity}] Force: [{_force}]}}";
         }
 
         public bool Contains(ref Vector2 point)
@@ -257,12 +242,12 @@ namespace Kinematics.Dynamics
                 {
                     float slope = (edgeEnd.X - edgeSt.X) / (edgeEnd.Y - edgeSt.Y);
                     float hitX = edgeSt.X + ((point.Y - edgeSt.Y) * slope);
-
                     if (hitX >= point.X && hitX <= endPt.X)
                     {
                         inside = !inside;
                     }
                 }
+
                 edgeSt = edgeEnd;
             }
 
@@ -277,9 +262,7 @@ namespace Kinematics.Dynamics
             pointB = -1;
             edgeD = 0f;
             normal = Vector2.Zero;
-
             float closestD = 1000f;
-
             for (int i = 0; i < Count; i++)
             {
                 float dist = GetClosestPointOnEdge(point, i, out Vector2 tempHit, out Vector2 tempNorm, out float tempEdgeD);
@@ -309,52 +292,54 @@ namespace Kinematics.Dynamics
         {
             hitPt = new Vector2
             {
-                X = 0f, Y = 0f
+                X = 0f,
+                Y = 0f
             };
 
             normal = new Vector2
             {
-                X = 0f, Y = 0f
+                X = 0f,
+                Y = 0f
             };
 
             edgeD = 0f;
             float distance;
-
             Vector2 ptA = PointMassList[edgeNum].Position;
             Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1].Position : PointMassList[0].Position;
-
             Vector2 toP = new Vector2
             {
-                X = point.X - ptA.X, Y = point.Y - ptA.Y
+                X = point.X - ptA.X,
+                Y = point.Y - ptA.Y
             };
 
             Vector2 e = new Vector2
             {
-                X = ptB.X - ptA.X, Y = ptB.Y - ptA.Y
+                X = ptB.X - ptA.X,
+                Y = ptB.Y - ptA.Y
             };
 
-            float edgeLength = Mathf.Sqrt(e.X * e.X + e.Y * e.Y);
+            float edgeLength = Vector2.Length(e);
             if (edgeLength > Mathf.Epsilon)
             {
                 e.X /= edgeLength;
                 e.Y /= edgeLength;
             }
 
-            Vector2 n = Vector2.Perpendicular(e);
-            float x = Vector2.Dot(toP, e);
-            if (x <= 0f)
+            Vector2 perpendicular = Vector2.Perpendicular(e);
+            float dot = Vector2.Dot(toP, e);
+            if (dot <= 0f)
             {
                 distance = Vector2.Distance(point, ptA);
                 hitPt = ptA;
                 edgeD = 0f;
-                normal = n;
+                normal = perpendicular;
             }
-            else if (x >= edgeLength)
+            else if (dot >= edgeLength)
             {
                 distance = Vector2.Distance(point, ptB);
                 hitPt = ptB;
                 edgeD = 1f;
-                normal = n;
+                normal = perpendicular;
             }
             else
             {
@@ -370,10 +355,10 @@ namespace Kinematics.Dynamics
 
                 e3 = Vector3.Cross(toP3, e3);
                 distance = Mathf.Abs(e3.Z);
-                hitPt.X = ptA.X + e.X * x;
-                hitPt.Y = ptA.Y + e.Y * x;
-                edgeD = x / edgeLength;
-                normal = n;
+                hitPt.X = ptA.X + e.X * dot;
+                hitPt.Y = ptA.Y + e.Y * dot;
+                edgeD = dot / edgeLength;
+                normal = perpendicular;
             }
 
             return distance;
@@ -394,45 +379,43 @@ namespace Kinematics.Dynamics
             };
 
             edgeD = 0f;
-            float dist;
-
+            float distanceSquared;
             Vector2 ptA = PointMassList[edgeNum].Position;
             Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1].Position : PointMassList[0].Position;
-
             Vector2 toP = new Vector2
             {
                 X = point.X - ptA.X,
                 Y = point.Y - ptA.Y
             };
 
-            Vector2 e = new Vector2
+            Vector2 edge = new Vector2
             {
                 X = ptB.X - ptA.X,
                 Y = ptB.Y - ptA.Y
             };
 
-            float edgeLength = Mathf.Sqrt(e.X * e.X + e.Y * e.Y);
+            float edgeLength = Vector2.Length(edge);
             if (edgeLength > Mathf.Epsilon)
             {
-                e.X /= edgeLength;
-                e.Y /= edgeLength;
+                edge.X /= edgeLength;
+                edge.Y /= edgeLength;
             }
 
-            Vector2 n = Vector2.Perpendicular(e);
-            float x = Vector2.Dot(toP, e);
-            if (x <= 0f)
+            Vector2 perpendicular = Vector2.Perpendicular(edge);
+            float dot = Vector2.Dot(toP, edge);
+            if (dot <= 0f)
             {
-                dist = Vector2.DistanceSquared(point, ptA);
+                distanceSquared = Vector2.DistanceSquared(point, ptA);
                 hitPt = ptA;
                 edgeD = 0f;
-                normal = n;
+                normal = perpendicular;
             }
-            else if (x >= edgeLength)
+            else if (dot >= edgeLength)
             {
-                dist = Vector2.DistanceSquared(point, ptB);
+                distanceSquared = Vector2.DistanceSquared(point, ptB);
                 hitPt = ptB;
                 edgeD = 1f;
-                normal = n;
+                normal = perpendicular;
             }
             else
             {
@@ -444,26 +427,25 @@ namespace Kinematics.Dynamics
 
                 Vector3 e3 = new Vector3
                 {
-                    X = e.X,
-                    Y = e.Y
+                    X = edge.X,
+                    Y = edge.Y
                 };
 
                 e3 = Vector3.Cross(toP3, e3);
-                dist = Mathf.Abs(e3.Z * e3.Z);
-                hitPt.X = ptA.X + e.X * x;
-                hitPt.Y = ptA.Y + e.Y * x;
-                edgeD = x / edgeLength;
-                normal = n;
+                distanceSquared = Mathf.Abs(e3.Z * e3.Z);
+                hitPt.X = ptA.X + edge.X * dot;
+                hitPt.Y = ptA.Y + edge.Y * dot;
+                edgeD = dot / edgeLength;
+                normal = perpendicular;
             }
 
-            return dist;
+            return distanceSquared;
         }
 
         public PointMass GetClosestPointMass(Vector2 point, out float dist)
         {
             float closestSQD = 100000f;
             int closest = -1;
-
             for (int i = 0; i < Count; i++)
             {
                 float thisD = (point - PointMassList[i].Position).LengthSquared();
@@ -481,14 +463,11 @@ namespace Kinematics.Dynamics
         public void ApplyForce(ref Vector2 point, ref Vector2 force)
         {
             Vector2 r = Position - point;
-
             float torqueF = Vector3.Cross(new Vector3(r), new Vector3(force)).Z;
-
             for (int i = 0; i < Count; i++)
             {
-                Vector2 toPt = (PointMassList[i].Position - Position);
+                Vector2 toPt = PointMassList[i].Position - Position;
                 Vector2 torque = Vector2.Rotate(toPt, -Mathf.PI / 2f);
-
                 PointMassList[i].Force += torque * torqueF;
                 PointMassList[i].Force += force;
             }

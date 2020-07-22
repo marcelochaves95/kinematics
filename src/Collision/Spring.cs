@@ -26,7 +26,7 @@ namespace Kinematics.Collision
 
         public override string ToString()
         {
-            return $"{{a:[{PointMassA}] b:[{PointMassB}] length:{D}}}";
+            return $"{{A: [{PointMassA}] B: [{PointMassB}] Length: {D}}}";
         }
 
         public void Reset()
@@ -42,11 +42,9 @@ namespace Kinematics.Collision
 
         public static void SpringForce(ref Vector2 posA, ref Vector2 velA, ref Vector2 posB, ref Vector2 velB, float springD, float springK, float damping, out Vector2 forceOut)
         {
-            forceOut = default;
             float BtoAX = posA.X - posB.X;
             float BtoAY = posA.Y - posB.Y;
-
-            float distance = Mathf.Sqrt((BtoAX * BtoAX) + (BtoAY * BtoAY));
+            float distance = Mathf.Sqrt(Mathf.Pow(BtoAX, 2) + Mathf.Pow(BtoAY, 2));
             if (distance > Mathf.Epsilon)
             {
                 BtoAX /= distance;
@@ -60,12 +58,9 @@ namespace Kinematics.Collision
             }
 
             distance = springD - distance;
-
             float relVelX = velA.X - velB.X;
             float relVelY = velA.Y - velB.Y;
-
             float totalRelVel = relVelX * BtoAX + relVelY * BtoAY;
-
             forceOut.X = BtoAX * (distance * springK - totalRelVel * damping);
             forceOut.Y = BtoAY * (distance * springK - totalRelVel * damping);
         }

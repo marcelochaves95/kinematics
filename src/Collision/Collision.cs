@@ -9,10 +9,8 @@ namespace Kinematics.Collision
         public static List<CollisionInfo> Intersects(Body bodyA, Body bodyB)
         {
             List<CollisionInfo> data = new List<CollisionInfo>();
-
             int bApmCount = bodyA.Count;
             int bBpmCount = bodyB.Count;
-
             AABB boxB = bodyB.AABB;
             CollisionInfo infoAway = new CollisionInfo();
             CollisionInfo infoSame = new CollisionInfo();
@@ -31,10 +29,8 @@ namespace Kinematics.Collision
 
                 int prevPt = i > 0 ? i - 1 : bApmCount - 1;
                 int nextPt = i < bApmCount - 1 ? i + 1 : 0;
-
                 Vector2 prev = bodyA.PointMassList[prevPt].Position;
                 Vector2 next = bodyA.PointMassList[nextPt].Position;
-
                 Vector2 fromPrev = new Vector2
                 {
                     X = pt.X - prev.X,
@@ -54,27 +50,21 @@ namespace Kinematics.Collision
                 };
 
                 ptNorm = Vector2.Perpendicular(ptNorm);
-
                 float closestAway = 100000f;
                 float closestSame = 100000f;
-
                 infoAway.Clear();
                 infoAway.BodyA = bodyA;
                 infoAway.PointMassA = bodyA.PointMassList[i];
                 infoAway.BodyB = bodyB;
-
                 infoSame.Clear();
                 infoSame.BodyA = bodyA;
                 infoSame.PointMassA = bodyA.PointMassList[i];
                 infoSame.BodyB = bodyB;
-
                 bool found = false;
-
                 for (int j = 0; j < bBpmCount; j++)
                 {
                     int b1 = j;
-                    int b2 = 1;
-
+                    int b2;
                     if (j < bBpmCount - 1)
                     {
                         b2 = j + 1;
@@ -86,10 +76,8 @@ namespace Kinematics.Collision
 
                     Vector2 pt1 = bodyB.PointMassList[b1].Position;
                     Vector2 pt2 = bodyB.PointMassList[b2].Position;
-
                     float distToA = (pt1.X - pt.X) * (pt1.X - pt.X) + (pt1.Y - pt.Y) * (pt1.Y - pt.Y);
                     float distToB = (pt2.X - pt.X) * (pt2.X - pt.X) + (pt2.Y - pt.Y) * (pt2.Y - pt.Y);
-
                     if (distToA > closestAway && distToA > closestSame && distToB > closestAway && distToB > closestSame)
                     {
                         continue;
