@@ -83,14 +83,14 @@ namespace Kinematics.Math
             vector.X = objectPosition.X - cameraPosition.X;
             vector.Y = objectPosition.Y - cameraPosition.Y;
             vector.Z = objectPosition.Z - cameraPosition.Z;
-            float lengthSquared = vector.LengthSquared();
-            if (lengthSquared < Mathf.Epsilon)
+            float magnitudeSquared = vector.MagnitudeSquared();
+            if (magnitudeSquared < Mathf.Epsilon)
             {
 	            vector = cameraForwardVector.HasValue ? -cameraForwardVector.Value : Vector3.Forward;
             }
             else
             {
-	            vector *= 1f / Mathf.Sqrt(lengthSquared);
+	            vector *= 1f / Mathf.Sqrt(magnitudeSquared);
             }
 
             Vector3 vector3 = Vector3.Cross(cameraUpVector, vector);
@@ -126,14 +126,14 @@ namespace Kinematics.Math
 		    vector2.X = objectPosition.X - cameraPosition.X;
 		    vector2.Y = objectPosition.Y - cameraPosition.Y;
 		    vector2.Z = objectPosition.Z - cameraPosition.Z;
-		    float lengthSquared = vector2.LengthSquared();
-		    if (lengthSquared < Mathf.Epsilon)
+		    float magnitudeSquared = vector2.MagnitudeSquared();
+		    if (magnitudeSquared < Mathf.Epsilon)
 		    {
 		        vector2 = cameraForwardVector.HasValue ? -cameraForwardVector.Value : Vector3.Forward;
 		    }
 		    else
 		    {
-			    vector2 *= 1f / Mathf.Sqrt(lengthSquared);
+			    vector2 *= 1f / Mathf.Sqrt(magnitudeSquared);
 		    }
 
 		    Vector3 vector4 = rotateAxis;

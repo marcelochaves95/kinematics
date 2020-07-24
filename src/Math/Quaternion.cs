@@ -172,7 +172,7 @@ namespace Kinematics.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Quaternion Inverse(Quaternion value)
         {
-		    float lengthSquared = 1f / LengthSquared(value);
+		    float lengthSquared = 1f / MagnitudeSquared(value);
 		    float x = -value.X * lengthSquared;
 		    float y = -value.Y * lengthSquared;
 		    float z = -value.Z * lengthSquared;
@@ -181,26 +181,26 @@ namespace Kinematics.Math
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public float Length()
+        public float Magnitude()
         {
-	        return Length(this);
+	        return Magnitude(this);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float Length(Quaternion value)
+        public static float Magnitude(Quaternion value)
         {
-	        float lengthSquared = LengthSquared(value);
+	        float lengthSquared = MagnitudeSquared(value);
 	        return Mathf.Sqrt(lengthSquared);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public float LengthSquared()
+        public float MagnitudeSquared()
         {
-            return LengthSquared(this);
+            return MagnitudeSquared(this);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static float LengthSquared(Quaternion value)
+        public static float MagnitudeSquared(Quaternion value)
         {
 	        return Mathf.Pow(value.X, 2) + Mathf.Pow(value.Y, 2) + Mathf.Pow(value.Z, 2) + Mathf.Pow(value.W, 2);
         }
@@ -267,18 +267,19 @@ namespace Kinematics.Math
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Normalize()
         {
-	        Normalize(this);
+	        this = Normalize(this);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Quaternion Normalize(Quaternion value)
         {
-	        float length = 1f / Length(value);
-		    value.X *= length;
-		    value.Y *= length;
-		    value.Z *= length;
-		    value.W *= length;
-		    return value;
+	        float magnitude = Magnitude(value);
+	        if (magnitude > Mathf.Epsilon)
+	        {
+		        return value / magnitude;
+	        }
+
+	        return Identity;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

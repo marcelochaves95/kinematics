@@ -194,7 +194,7 @@ namespace Kinematics.Utils
                     continue;
                 }
 
-                float distance = (body.Position - position).Length();
+                float distance = (body.Position - position).Magnitude();
                 Vector2 point = new Vector2();
                 if (distance > far)
                 {

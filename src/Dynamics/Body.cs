@@ -318,7 +318,7 @@ namespace Kinematics.Dynamics
                 Y = ptB.Y - ptA.Y
             };
 
-            float edgeLength = Vector2.Length(e);
+            float edgeLength = Vector2.Magnitude(e);
             if (edgeLength > Mathf.Epsilon)
             {
                 e.X /= edgeLength;
@@ -394,7 +394,7 @@ namespace Kinematics.Dynamics
                 Y = ptB.Y - ptA.Y
             };
 
-            float edgeLength = Vector2.Length(edge);
+            float edgeLength = Vector2.Magnitude(edge);
             if (edgeLength > Mathf.Epsilon)
             {
                 edge.X /= edgeLength;
@@ -448,7 +448,7 @@ namespace Kinematics.Dynamics
             int closest = -1;
             for (int i = 0; i < Count; i++)
             {
-                float thisD = (point - PointMassList[i].Position).LengthSquared();
+                float thisD = (point - PointMassList[i].Position).MagnitudeSquared();
                 if (thisD < closestSQD)
                 {
                     closestSQD = thisD;

@@ -31,7 +31,7 @@ namespace Kinematics.Collision
 
         public void Reset()
         {
-            D = (PointMassA.Position - PointMassB.Position).Length();
+            D = (PointMassA.Position - PointMassB.Position).Magnitude();
         }
 
         public static void SpringForce(ref Spring spring, out Vector2 forceOut)
