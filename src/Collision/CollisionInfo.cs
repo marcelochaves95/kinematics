@@ -23,11 +23,14 @@ namespace Kinematics.Collision
 
         public void Dispose()
         {
-            BodyA = BodyB = null;
-            PointMassA = PointMassB = PointMassC = new PointMass();
-            EdgeDistance = 0f;
+            BodyA = null;
+            BodyB = null;
+            PointMassA = new PointMass();
+            PointMassB = new PointMass();
+            PointMassC = new PointMass();
             Point = Vector2.Zero;
             Normal = Vector2.Zero;
+            EdgeDistance = 0f;
             Penetration = 0f;
         }
     }
