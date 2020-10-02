@@ -40,8 +40,10 @@ namespace Kinematics.Collision
             }
             else
             {
-                Min.X = Max.X = x;
-                Min.Y = Max.Y = y;
+                Min.X = x;
+                Max.X = x;
+                Min.Y = y;
+                Max.Y = y;
                 IsValid = true;
             }
         }
