@@ -276,6 +276,20 @@ namespace Kinematics.Math
             return new Vector2(value);
         }
 
+#if UNITY_STANDALONE
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator UnityEngine.Vector3(Vector3 value)
+        {
+            return new UnityEngine.Vector3(value.X, value.Y, value.Z);
+        }
+#elif MONOGAME
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Microsoft.Xna.Framework.Vector3(Vector3 value)
+        {
+            return new Microsoft.Xna.Framework.Vector3(value.X, value.Y, value.Z);
+        }
+#endif
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector4(Vector3 value)
         {
