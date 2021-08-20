@@ -315,20 +315,6 @@ namespace Kinematics.Math
             return !lhs.Equals(rhs);
         }
 
-#if UNITY_STANDALONE
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator UnityEngine.Vector2(Vector2 value)
-        {
-            return new UnityEngine.Vector2(value.X, value.Y);
-        }
-#elif MONOGAME
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Microsoft.Xna.Framework.Vector2(Vector2 value)
-        {
-            return new Microsoft.Xna.Framework.Vector2(value.X, value.Y);
-        }
-#endif
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector3(Vector2 value)
         {
@@ -358,5 +344,19 @@ namespace Kinematics.Math
         {
             return $"[Vector2] X({X}) Y({Y})";
         }
+
+#if XNA || MONOGAME
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Vector2 FromXna(Microsoft.Xna.Framework.Vector2 value)
+        {
+            return new Vector2(value.X, value.Y);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Microsoft.Xna.Framework.Vector2 ToXna()
+        {
+            return new Microsoft.Xna.Framework.Vector2(X, Y);
+        }
+#endif
     }
 }

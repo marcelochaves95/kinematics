@@ -37,7 +37,7 @@ namespace Kinematics.Math
         public Matrix4x4(float m11, float m12, float m13, float m14, float m21, float m22, float m23, float m24, float m31,
                       float m32, float m33, float m34, float m41, float m42, float m43, float m44)
         {
-            M11 = m11;
+	        M11 = m11;
             M12 = m12;
             M13 = m13;
             M14 = m14;
@@ -884,26 +884,6 @@ namespace Kinematics.Math
 	        return !lhs.Equals(rhs);
         }
 
-#if UNITY_STANDALONE
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator UnityEngine.Matrix4x4(Matrix4x4 value)
-        {
-	        return new UnityEngine.Matrix4x4(new UnityEngine.Vector4(value.M11, value.M12, value.M13, value.M14),
-		        new UnityEngine.Vector4(value.M21, value.M22, value.M23, value.M24),
-		        new UnityEngine.Vector4(value.M31, value.M32, value.M33, value.M34),
-		        new UnityEngine.Vector4(value.M41, value.M42, value.M43, value.M44));
-        }
-#elif MONOGAME
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Microsoft.Xna.Framework.Matrix(Matrix4x4 value)
-        {
-            return new Microsoft.Xna.Framework.Matrix(new Microsoft.Xna.Framework.Vector4(value.M11, value.M12, value.M13, value.M14),
-		        new Microsoft.Xna.Framework.Vector4(value.M21, value.M22, value.M23, value.M24),
-		        new Microsoft.Xna.Framework.Vector4(value.M31, value.M32, value.M33, value.M34),
-		        new Microsoft.Xna.Framework.Vector4(value.M41, value.M42, value.M43, value.M44));
-        }
-#endif
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override bool Equals(object obj)
 		{
@@ -913,43 +893,43 @@ namespace Kinematics.Math
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Equals(Matrix4x4 other)
         {
-	        return M11.Equals(other.M11) &&
-	               M22.Equals(other.M22) &&
-	               M33.Equals(other.M33) &&
-	               M44.Equals(other.M44) &&
-	               M12.Equals(other.M12) &&
-	               M13.Equals(other.M13) &&
-	               M14.Equals(other.M14) &&
-	               M21.Equals(other.M21) &&
-	               M23.Equals(other.M23) &&
-	               M24.Equals(other.M24) &&
-	               M31.Equals(other.M31) &&
-	               M32.Equals(other.M32) &&
-	               M34.Equals(other.M34) &&
-	               M41.Equals(other.M41) &&
-	               M42.Equals(other.M42) &&
-	               M43.Equals(other.M43);
+	        return M11.Equals(other.M11)
+	               && M22.Equals(other.M22)
+	               && M33.Equals(other.M33)
+	               && M44.Equals(other.M44)
+	               && M12.Equals(other.M12)
+	               && M13.Equals(other.M13)
+	               && M14.Equals(other.M14)
+	               && M21.Equals(other.M21)
+	               && M23.Equals(other.M23)
+	               && M24.Equals(other.M24)
+	               && M31.Equals(other.M31)
+	               && M32.Equals(other.M32)
+	               && M34.Equals(other.M34)
+	               && M41.Equals(other.M41)
+	               && M42.Equals(other.M42)
+	               && M43.Equals(other.M43);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override int GetHashCode()
         {
-            return M11.GetHashCode() +
-                   M12.GetHashCode() +
-                   M13.GetHashCode() +
-                   M14.GetHashCode() +
-                   M21.GetHashCode() +
-                   M22.GetHashCode() +
-                   M23.GetHashCode() +
-                   M24.GetHashCode() +
-                   M31.GetHashCode() +
-                   M32.GetHashCode() +
-                   M33.GetHashCode() +
-                   M34.GetHashCode() +
-                   M41.GetHashCode() +
-                   M42.GetHashCode() +
-                   M43.GetHashCode() +
-                   M44.GetHashCode();
+            return M11.GetHashCode()
+                   + M12.GetHashCode()
+                   + M13.GetHashCode()
+                   + M14.GetHashCode()
+                   + M21.GetHashCode()
+                   + M22.GetHashCode()
+                   + M23.GetHashCode()
+                   + M24.GetHashCode()
+                   + M31.GetHashCode()
+                   + M32.GetHashCode()
+                   + M33.GetHashCode()
+                   + M34.GetHashCode()
+                   + M41.GetHashCode()
+                   + M42.GetHashCode()
+                   + M43.GetHashCode()
+                   + M44.GetHashCode();
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -960,5 +940,25 @@ namespace Kinematics.Math
 	               $"M31({M31}) M32({M32}) M33({M33}) M34({M34})" +
 	               $"M41({M41}) M42({M42}) M43({M43}) M44({M44})";
         }
+
+#if XNA || MONOGAME
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Matrix4x4 FromXna(Microsoft.Xna.Framework.Matrix value)
+        {
+	        return new Matrix4x4(new Vector4(value.M11, value.M12, value.M13, value.M14),
+		        new Vector4(value.M21, value.M22, value.M23, value.M24),
+		        new Vector4(value.M31, value.M32, value.M33, value.M34),
+		        new Vector4(value.M41, value.M42, value.M43, value.M44));
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Microsoft.Xna.Framework.Matrix ToXna()
+        {
+	        return new Microsoft.Xna.Framework.Matrix(new Microsoft.Xna.Framework.Vector4(M11, M12, M13, M14),
+		        new Microsoft.Xna.Framework.Vector4(M21, M22, M23, M24),
+		        new Microsoft.Xna.Framework.Vector4(M31, M32, M33, M34),
+		        new Microsoft.Xna.Framework.Vector4(M41, M42, M43, M44));
+        }
+#endif
     }
 }

@@ -350,20 +350,6 @@ namespace Kinematics.Math
 	        return !lhs.Equals(rhs);
         }
 
-#if UNITY_STANDALONE
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator UnityEngine.Quaternion(Quaternion value)
-        {
-	        return new UnityEngine.Quaternion(value.X, value.Y, value.Z, value.W);
-        }
-#elif MONOGAME
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static explicit operator Microsoft.Xna.Framework.Quaternion(Quaternion value)
-        {
-            return new Microsoft.Xna.Framework.Quaternion(value.X, value.Y, value.Z, value.W);
-        }
-#endif
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector3(Quaternion value)
         {
@@ -399,5 +385,19 @@ namespace Kinematics.Math
         {
 	        return $"[Quaternion] X({X}) Y({Y}) Z({Z}) W({W})";
         }
+
+#if XNA || MONOGAME
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Quaternion FromXna(Microsoft.Xna.Framework.Quaternion value)
+        {
+            return new Quaternion(value.X, value.Y, value.Z, value.W);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Microsoft.Xna.Framework.Quaternion ToXna()
+        {
+            return new Microsoft.Xna.Framework.Quaternion(X, Y, Z, W);
+        }
+#endif
     }
 }
