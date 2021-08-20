@@ -355,6 +355,20 @@ namespace Kinematics.Math
             return !lhs.Equals(rhs);
         }
 
+#if UNITY_STANDALONE
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator UnityEngine.Vector4(Vector4 value)
+        {
+            return new UnityEngine.Vector4(value.X, value.Y, value.Z, value.W);
+        }
+#elif MONOGAME
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Microsoft.Xna.Framework.Vector4(Vector4 value)
+        {
+            return new Microsoft.Xna.Framework.Vector4(value.X, value.Y, value.Z, value.W);
+        }
+#endif
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static explicit operator Vector3(Vector4 value)
         {
