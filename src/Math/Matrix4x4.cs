@@ -884,6 +884,26 @@ namespace Kinematics.Math
 	        return !lhs.Equals(rhs);
         }
 
+#if UNITY_STANDALONE
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator UnityEngine.Matrix4x4(Matrix4x4 value)
+        {
+	        return new UnityEngine.Matrix4x4(new UnityEngine.Vector4(value.M11, value.M12, value.M13, value.M14),
+		        new UnityEngine.Vector4(value.M21, value.M22, value.M23, value.M24),
+		        new UnityEngine.Vector4(value.M31, value.M32, value.M33, value.M34),
+		        new UnityEngine.Vector4(value.M41, value.M42, value.M43, value.M44));
+        }
+#elif MONOGAME
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static explicit operator Microsoft.Xna.Framework.Matrix(Matrix4x4 value)
+        {
+            return new Microsoft.Xna.Framework.Matrix(new Microsoft.Xna.Framework.Vector4(value.M11, value.M12, value.M13, value.M14),
+		        new Microsoft.Xna.Framework.Vector4(value.M21, value.M22, value.M23, value.M24),
+		        new Microsoft.Xna.Framework.Vector4(value.M31, value.M32, value.M33, value.M34),
+		        new Microsoft.Xna.Framework.Vector4(value.M41, value.M42, value.M43, value.M44));
+        }
+#endif
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
 		public override bool Equals(object obj)
 		{
