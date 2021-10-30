@@ -1,5 +1,6 @@
 using Kinematics.Collision;
 using Kinematics.Math;
+using Microsoft.Xna.Framework;
 
 namespace Kinematics.Dynamics
 {
@@ -34,14 +35,14 @@ namespace Kinematics.Dynamics
                     X = PointMassList[i].Position.X - PointMassList[prev].Position.X,
                     Y = PointMassList[i].Position.Y - PointMassList[prev].Position.Y
                 };
-                edge1N = Vector2.Perpendicular(edge1N);
+                edge1N = edge1N.Perpendicular();
 
                 Vector2 edge2N = new Vector2
                 {
                     X = PointMassList[next].Position.X - PointMassList[i].Position.X,
                     Y = PointMassList[next].Position.Y - PointMassList[i].Position.Y
                 };
-                edge2N = Vector2.Perpendicular(edge2N);
+                edge2N = edge2N.Perpendicular();
 
                 Vector2 norm = new Vector2
                 {

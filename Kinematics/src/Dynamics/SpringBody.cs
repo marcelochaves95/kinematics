@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Kinematics.Collision;
-using Kinematics.Math;
+using Microsoft.Xna.Framework;
 
 namespace Kinematics.Dynamics
 {
@@ -71,8 +71,8 @@ namespace Kinematics.Dynamics
 
             for (int i = 0; i < _PointsMass.Count; i++)
             {
-                _PointsMass[i].Velocity.X *= Damping;
-                _PointsMass[i].Velocity.Y *= Damping;
+                _PointsMass[i].Velocity.X *= DAMPING;
+                _PointsMass[i].Velocity.Y *= DAMPING;
                 _PointsMass[i].Update(elapsed);
             }
         }

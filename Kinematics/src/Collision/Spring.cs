@@ -1,4 +1,5 @@
 using Kinematics.Math;
+using Microsoft.Xna.Framework;
 
 namespace Kinematics.Collision
 {
@@ -31,7 +32,7 @@ namespace Kinematics.Collision
 
         public void Reset()
         {
-            D = (PointMassA.Position - PointMassB.Position).Magnitude();
+            D = (PointMassA.Position - PointMassB.Position).Length();
         }
 
         public static void SpringForce(ref Spring spring, out Vector2 forceOut)
@@ -52,8 +53,8 @@ namespace Kinematics.Collision
             }
             else
             {
-                forceOut.X = 0;
-                forceOut.Y = 0;
+                forceOut.X = 0f;
+                forceOut.Y = 0f;
                 return;
             }
 

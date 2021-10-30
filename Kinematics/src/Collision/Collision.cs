@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Kinematics.Math;
 using Kinematics.Dynamics;
+using Microsoft.Xna.Framework;
 
 namespace Kinematics.Collision
 {
@@ -49,7 +50,7 @@ namespace Kinematics.Collision
                     Y = fromPrev.Y + toNext.Y
                 };
 
-                ptNorm = Vector2.Perpendicular(ptNorm);
+                ptNorm = ptNorm.Perpendicular();
                 float closestAway = 100000f;
                 float closestSame = 100000f;
                 infoAway.Clear();

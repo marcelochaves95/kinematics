@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Kinematics.Collision;
 using Kinematics.Math;
 using Kinematics.Utils;
+using Microsoft.Xna.Framework;
 
 namespace Kinematics.Dynamics
 {
@@ -18,7 +19,7 @@ namespace Kinematics.Dynamics
         internal readonly Bitmask BitmaskX;
         internal readonly Bitmask BitmaskY;
 
-        protected float Damping = 0.999f;
+        protected const float DAMPING = 0.999f;
 
         private float _previousAngle;
         private bool _isDirty = true;
@@ -46,8 +47,8 @@ namespace Kinematics.Dynamics
         {
             for (int i = 0; i < Count; i++)
             {
-                PointMassList[i].Velocity.X *= Damping;
-                PointMassList[i].Velocity.Y *= Damping;
+                PointMassList[i].Velocity.X *= DAMPING;
+                PointMassList[i].Velocity.Y *= DAMPING;
                 PointMassList[i].Update(elapsed);
             }
         }
@@ -141,7 +142,7 @@ namespace Kinematics.Dynamics
                 }
 
                 float thisAngle = Mathf.Acos(dot);
-                if (!Vector2.IsCCW(baseNormal, currentNormal))
+                if (!baseNormal.IsCounterClockwise(currentNormal))
                 {
                     thisAngle = -thisAngle;
                 }
@@ -318,14 +319,14 @@ namespace Kinematics.Dynamics
                 Y = ptB.Y - ptA.Y
             };
 
-            float edgeLength = Vector2.Magnitude(e);
+            float edgeLength = Mathf.Sqrt(e.X * e.X + e.Y * e.Y);
             if (edgeLength > Mathf.Epsilon)
             {
                 e.X /= edgeLength;
                 e.Y /= edgeLength;
             }
 
-            Vector2 perpendicular = Vector2.Perpendicular(e);
+            Vector2 perpendicular = e.Perpendicular();
             float dot = Vector2.Dot(toP, e);
             if (dot <= 0f)
             {
@@ -394,16 +395,16 @@ namespace Kinematics.Dynamics
                 Y = ptB.Y - ptA.Y
             };
 
-            float edgeLength = Vector2.Magnitude(edge);
+            float edgeLength = Mathf.Sqrt(edge.X * edge.X + edge.Y * edge.Y);
             if (edgeLength > Mathf.Epsilon)
             {
                 edge.X /= edgeLength;
                 edge.Y /= edgeLength;
             }
 
-            Vector2 perpendicular = Vector2.Perpendicular(edge);
+            Vector2 perpendicular = edge.Perpendicular();
             float dot = Vector2.Dot(toP, edge);
-            if (dot <= 0f)
+            if (dot <= Mathf.Epsilon)
             {
                 distanceSquared = Vector2.DistanceSquared(point, ptA);
                 hitPt = ptA;
@@ -448,7 +449,7 @@ namespace Kinematics.Dynamics
             int closest = -1;
             for (int i = 0; i < Count; i++)
             {
-                float thisD = (point - PointMassList[i].Position).MagnitudeSquared();
+                float thisD = (point - PointMassList[i].Position).LengthSquared();
                 if (thisD < closestSQD)
                 {
                     closestSQD = thisD;
@@ -463,12 +464,12 @@ namespace Kinematics.Dynamics
         public void ApplyForce(ref Vector2 point, ref Vector2 force)
         {
             Vector2 r = Position - point;
-            float torqueF = Vector3.Cross(new Vector3(r), new Vector3(force)).Z;
+            float torqueForce = Vector3.Cross(r.Vector3FromVector2(), force.Vector3FromVector2()).Z;
             for (int i = 0; i < Count; i++)
             {
                 Vector2 toPt = PointMassList[i].Position - Position;
-                Vector2 torque = Vector2.Rotate(toPt, -Mathf.PI / 2f);
-                PointMassList[i].Force += torque * torqueF;
+                Vector2 torque = toPt.Rotate(-Mathf.PI / 2f);
+                PointMassList[i].Force += torque * torqueForce;
                 PointMassList[i].Force += force;
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Kinematics.Collision;
 using Kinematics.Math;
 using Kinematics.Dynamics;
+using Microsoft.Xna.Framework;
 
 namespace Kinematics.Utils
 {
@@ -194,7 +195,7 @@ namespace Kinematics.Utils
                     continue;
                 }
 
-                float distance = (body.Position - position).Magnitude();
+                float distance = (body.Position - position).Length();
                 Vector2 point = new Vector2();
                 if (distance > far)
                 {
@@ -349,11 +350,11 @@ namespace Kinematics.Utils
                     B2.Position.Y -= info.Normal.Y * B2move;
                 }
 
-                Vector2 tangent = Vector2.Perpendicular(info.Normal);
+                Vector2 tangent = info.Normal.Perpendicular();
                 float fNumerator = Vector2.Dot(relVel, tangent);
                 fNumerator *= Friction;
                 float f = fNumerator / jDenom;
-                if (relDot <= 0.0001f)
+                if (relDot <= Mathf.Epsilon)
                 {
                     if (!float.IsPositiveInfinity(A.Mass))
                     {
