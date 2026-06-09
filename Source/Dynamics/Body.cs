@@ -179,12 +179,12 @@ namespace Kinematics.Dynamics
             }
 
             _previousAngle = angle;
+            float cos = Mathf.Cos(angle);
+            float sin = Mathf.Sin(angle);
             for (int i = 0; i < Count; i++)
             {
                 float x = _baseShape.Points[i].X * _scale.X;
                 float y = _baseShape.Points[i].Y * _scale.Y;
-                float cos = Mathf.Cos(angle);
-                float sin = Mathf.Sin(angle);
                 CurrentShape.Points[i].X = cos * x - sin * y + Position.X;
                 CurrentShape.Points[i].Y = cos * y + sin * x + Position.Y;
             }
