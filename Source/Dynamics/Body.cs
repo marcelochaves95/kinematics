@@ -116,19 +116,17 @@ namespace Kinematics.Dynamics
             float originalAngle = 0;
             for (int i = 0; i < Count; i++)
             {
-                Vector2 baseNormal = new Vector2
+                Vector2 baseNormal = Vector2.Normalize(new Vector2
                 {
                     X = _baseShape.Points[i].X,
                     Y = _baseShape.Points[i].Y
-                };
-                Vector2.Normalize(baseNormal);
+                });
 
-                Vector2 currentNormal = new Vector2
+                Vector2 currentNormal = Vector2.Normalize(new Vector2
                 {
                     X = PointMassList[i].Position.X - Position.X,
                     Y = PointMassList[i].Position.Y - Position.Y
-                };
-                Vector2.Normalize(currentNormal);
+                });
 
                 float dot = Vector2.Dot(baseNormal, currentNormal);
                 if (dot > 1f)
