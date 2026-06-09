@@ -36,7 +36,7 @@ namespace Kinematics.Dynamics
             PointMassList = new List<PointMass>(shape.Count);
             for (int i = 0; i < shape.Count; i++)
             {
-                PointMassList[i] = new PointMass(shape.Points[i], mass);
+                PointMassList.Add(new PointMass(shape.Points[i], mass));
             }
 
             BitmaskX = new Bitmask();
