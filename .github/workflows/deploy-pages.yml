@@ -1,0 +1,56 @@
+name: Deploy demo to GitHub Pages
+
+on:
+  push:
+    branches: [ development ]   # change to the branch you want to deploy from
+  workflow_dispatch:            # allows manual runs from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Only one deploy at a time; newer pushes cancel in-flight runs.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Publish Blazor WASM
+        run: dotnet publish demo/demo.csproj -c Release -o build
+
+      # Project sites are served from /<repo>/, so the SPA base path must match.
+      - name: Rewrite base href for the project page
+        run: sed -i 's|<base href="/" />|<base href="/kinematics/" />|g' build/wwwroot/index.html
+
+      # 404.html → SPA routing fallback; .nojekyll → stop Jekyll hiding _framework.
+      - name: SPA fallback + disable Jekyll
+        run: |
+          cp build/wwwroot/index.html build/wwwroot/404.html
+          touch build/wwwroot/.nojekyll
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: build/wwwroot
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
