@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Math/Mathf.hpp"
 #include "Math/Vector2.hpp"
 
@@ -48,5 +50,11 @@ struct PointMass {
         Force.Y = 0.0f;
     }
 };
+
+// C# PointMass is a reference type: springs, chains, bodies and collision info
+// all share the SAME instances and mutate them in place. shared_ptr reproduces
+// that shared-identity semantics exactly. (Post-parity optimization: replace
+// with stable indices/handles into an SoA pool — see MIGRATION_CPP.md.)
+using PointMassPtr = std::shared_ptr<PointMass>;
 
 } // namespace kinematics
