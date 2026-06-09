@@ -468,7 +468,7 @@ namespace Kinematics.Dynamics
             for (int i = 0; i < Count; i++)
             {
                 Vector2 toPt = PointMassList[i].Position - Position;
-                Vector2 torque = toPt.Rotate(-Mathf.PI / 2f);
+                Vector2 torque = new Vector2(toPt.Y, -toPt.X);
                 PointMassList[i].Force += torque * torqueForce;
                 PointMassList[i].Force += force;
             }
