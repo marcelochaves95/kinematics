@@ -251,7 +251,7 @@ namespace Kinematics.Utils
                         continue;
                     }
 
-                    if ((BodyList[i].BitmaskX.Mask & BodyList[j].BitmaskX.Mask) == 0 && (BodyList[i].BitmaskY.Mask & BodyList[j].BitmaskY.Mask) == 0)
+                    if ((BodyList[i].BitmaskX.Mask & BodyList[j].BitmaskX.Mask) == 0 || (BodyList[i].BitmaskY.Mask & BodyList[j].BitmaskY.Mask) == 0)
                     {
                         continue;
                     }
