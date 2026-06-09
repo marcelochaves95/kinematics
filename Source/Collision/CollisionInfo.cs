@@ -1,6 +1,6 @@
 using System;
 using Kinematics.Dynamics;
-using Microsoft.Xna.Framework;
+using Kinematics.Math;
 
 namespace Kinematics.Collision
 {

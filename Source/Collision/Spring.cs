@@ -1,5 +1,4 @@
 using Kinematics.Math;
-using Microsoft.Xna.Framework;
 
 namespace Kinematics.Collision
 {

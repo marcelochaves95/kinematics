@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+using Kinematics.Math;
 
 namespace Kinematics.Collision
 {

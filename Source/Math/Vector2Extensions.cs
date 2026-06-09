@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-
 namespace Kinematics.Math
 {
     public static class Vector2Extensions
