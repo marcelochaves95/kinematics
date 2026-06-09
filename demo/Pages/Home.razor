@@ -66,6 +66,7 @@
     const int   CanvasW = 800;
     const int   CanvasH = 560;
     const float Scale   = CanvasW / WorldW;   // 40 px/m
+    const int   Substeps = 4;                  // physics sub-steps per rendered frame
 
     // ── Scenes ────────────────────────────────────────
     private readonly List<IDemoScene> _scenes = new()
@@ -251,8 +252,17 @@
     {
         const double dt = 1.0 / 60.0;
 
-        _active?.PreUpdate(_ctrl, dt);
-        _ctrl.Update(dt);
+        // Substep the physics: smaller per-step motion prevents fast bodies from
+        // tunneling through thin walls and keeps penetration shallow (so it stays
+        // under the resolver's bail-out and gets corrected). PreUpdate forces
+        // (gravity, drag) are re-applied each substep so the net impulse over the
+        // frame is unchanged.
+        double sub = dt / Substeps;
+        for (int s = 0; s < Substeps; s++)
+        {
+            _active?.PreUpdate(_ctrl, sub);
+            _ctrl.Update(sub);
+        }
         _frame++;
 
         // FPS
