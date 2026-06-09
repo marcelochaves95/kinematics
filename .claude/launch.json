@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "kinematics-cpp-demo",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["demo-cpp/serve.mjs"],
+      "port": 8100
+    }
+  ]
+}

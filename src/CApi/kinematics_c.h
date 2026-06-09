@@ -40,6 +40,14 @@ KN_API void kn_world_set_limits(KnWorld* world, float minX, float minY, float ma
 KN_API void kn_world_set_friction(KnWorld* world, float friction);
 KN_API void kn_world_set_elasticity(KnWorld* world, float elasticity);
 KN_API void kn_set_max_step(float maxStep); /* global anti-tunneling cap */
+/* Linear drag applied to all non-static body point masses each (sub)step. */
+KN_API void kn_world_set_drag(KnWorld* world, float drag);
+
+/* Radial velocity impulse (the demo's click-to-push): every non-static body
+ * within `radius` of (wx,wy) is pushed away from it (falling off to 0 at the
+ * radius); chain interior masses get the same per-point push. */
+KN_API void kn_world_apply_impulse(KnWorld* world, float wx, float wy,
+                                   float radius, float strength);
 
 /* ── Bodies (handle >= 0 on success, -1 on failure) ───────────────
  * `xy` is a flat array of `count` (x,y) pairs describing the local polygon
@@ -76,6 +84,11 @@ KN_API void kn_world_set_chain_gravity(KnWorld* world, float gx, float gy);
 KN_API void kn_world_step(KnWorld* world, double dt, int substeps);
 
 KN_API int kn_world_penetration_count(KnWorld* world);
+
+/* ── Enumeration (for generic rendering) ──────────────────────── */
+KN_API int kn_world_body_count(KnWorld* world);
+KN_API int kn_world_chain_count(KnWorld* world);
+KN_API int kn_body_is_static(KnWorld* world, int body); /* 1 if static, else 0 */
 
 /* ── Read-back (batch) ────────────────────────────────────────── */
 KN_API int  kn_body_point_count(KnWorld* world, int body);

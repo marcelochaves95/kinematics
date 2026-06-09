@@ -1,0 +1,4 @@
+# Emscripten build artifacts (regenerate with build.sh).
+# If you want zero-build static hosting (e.g. GitHub Pages), commit these instead.
+kinematics.js
+kinematics.wasm

@@ -12,6 +12,7 @@
 #include <memory>
 #include <vector>
 
+#include "CApi/kn_internal.hpp"
 #include "Collision/Chain.hpp"
 #include "Collision/PointMass.hpp"
 #include "Collision/Shape.hpp"
@@ -22,11 +23,6 @@
 #include "Utils/KinematicsController.hpp"
 
 using namespace kinematics;
-
-struct KnWorld {
-    KinematicsController ctrl;
-    Vector2 chainGravity; // applied to chain interior masses each step
-};
 
 namespace {
 
@@ -84,6 +80,41 @@ void kn_world_set_elasticity(KnWorld* world, float elasticity) {
     if (world) world->ctrl.Elasticity = elasticity;
 }
 void kn_set_max_step(float maxStep) { PointMass::MaxStep = maxStep; }
+void kn_world_set_drag(KnWorld* world, float drag) {
+    if (world) world->drag = drag;
+}
+
+void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, float strength) {
+    if (!world) return;
+    for (auto& body : world->ctrl.BodyList) {
+        if (body->IsStatic) continue;
+        float dx = body->Position.X - wx;
+        float dy = body->Position.Y - wy;
+        float dist = std::sqrt(dx * dx + dy * dy);
+        if (dist < 0.01f || dist > radius) continue;
+        float s = strength * (1.0f - dist / radius);
+        float vx = dx / dist * s;
+        float vy = dy / dist * s;
+        for (auto& pm : body->PointMassList) {
+            pm->Velocity.X += vx;
+            pm->Velocity.Y += vy;
+        }
+        // Sync body.Velocity so Body::Update's recenter step does not strip the impulse.
+        body->UpdateBodyPositionVelocityForce();
+    }
+    for (auto& chain : world->ctrl.ChainList) {
+        for (size_t i = 1; i + 1 < chain->PointMassList.size(); i++) {
+            auto& pm = chain->PointMassList[i];
+            float dx = pm->Position.X - wx;
+            float dy = pm->Position.Y - wy;
+            float dist = std::sqrt(dx * dx + dy * dy);
+            if (dist < 0.01f || dist > radius) continue;
+            float s = strength * (1.0f - dist / radius);
+            pm->Velocity.X += dx / dist * s;
+            pm->Velocity.Y += dy / dist * s;
+        }
+    }
+}
 
 // ── Bodies ───────────────────────────────────────────────────────
 int kn_world_add_rigid_body(KnWorld* world, const float* xy, int count, float mass,
@@ -133,6 +164,8 @@ void kn_world_step(KnWorld* world, double dt, int substeps) {
     if (substeps < 1) substeps = 1;
     double sub = dt / substeps;
     for (int s = 0; s < substeps; s++) {
+        // PreUpdate forces, re-applied each substep (mirrors the demo's scenes):
+        // chain gravity + linear drag on non-static body point masses.
         for (auto& chain : world->ctrl.ChainList) {
             for (size_t i = 1; i + 1 < chain->PointMassList.size(); i++) {
                 float m = chain->PointMassList[i]->Mass;
@@ -142,8 +175,30 @@ void kn_world_step(KnWorld* world, double dt, int substeps) {
                 }
             }
         }
+        if (world->drag != 0.0f) {
+            for (auto& body : world->ctrl.BodyList) {
+                if (body->IsStatic) continue;
+                for (auto& pm : body->PointMassList) {
+                    pm->Force.X -= world->drag * pm->Velocity.X;
+                    pm->Force.Y -= world->drag * pm->Velocity.Y;
+                }
+            }
+        }
         world->ctrl.Update(sub);
     }
+}
+
+int kn_world_body_count(KnWorld* world) {
+    return world ? static_cast<int>(world->ctrl.BodyList.size()) : 0;
+}
+
+int kn_world_chain_count(KnWorld* world) {
+    return world ? static_cast<int>(world->ctrl.ChainList.size()) : 0;
+}
+
+int kn_body_is_static(KnWorld* world, int body) {
+    if (!validBody(world, body)) return 0;
+    return world->ctrl.BodyList[body]->IsStatic ? 1 : 0;
 }
 
 int kn_world_penetration_count(KnWorld* world) {
