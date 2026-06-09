@@ -5,14 +5,14 @@
 // library that other languages link against.
 
 #define KN_BUILD
-#include "CApi/kinematics_c.h"
+#include "kinematics_c.h"
 
 #include <cmath>
 #include <limits>
 #include <memory>
 #include <vector>
 
-#include "CApi/kn_internal.hpp"
+#include "kn_internal.hpp"
 #include "Collision/Chain.hpp"
 #include "Collision/PointMass.hpp"
 #include "Collision/Shape.hpp"

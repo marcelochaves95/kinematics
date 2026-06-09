@@ -31,5 +31,5 @@ node serve.mjs    # http://localhost:8100
 - `kn_world_apply_impulse(...)` is the click-to-push interaction.
 - Geometry is read back in batch via `kn_body_get_points` / `kn_chain_get_points`.
 
-Everything goes through the C ABI in `src/CApi/kinematics_c.h` — the exact same
+Everything goes through the C ABI in `src/kinematics_c.h` — the exact same
 surface any other language (Python, Lua, Godot, Rust, …) would use.

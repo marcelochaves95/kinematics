@@ -25,7 +25,7 @@ Screen-space: **Y increases downward**. Gravity points in the `+Y` direction.
 
 ```
 src/            header-only engine (Math/, Collision/, Dynamics/, Utils/)
-                + the C ABI (CApi/kinematics_c.h / .cpp)
+                + the C ABI (kinematics_c.h / .cpp)
 tests/          unit tests (zero-dependency harness)
 demo/           WebAssembly demo (Emscripten) — see demo/README.md
 CMakeLists.txt  build for the C ABI shared library + tests
@@ -62,7 +62,7 @@ controller.Update(elapsed);
 
 ## Using from other languages
 
-The engine ships a stable **C ABI** (`src/CApi/kinematics_c.h`) built into a shared
+The engine ships a stable **C ABI** (`src/kinematics_c.h`) built into a shared
 library, so any host that can call C functions (Python `ctypes`, Lua FFI, JNI,
 Godot GDExtension, Rust, WebAssembly, …) can drive it through integer handles and
 batch read-back. See `demo/` for a WebAssembly example.
@@ -71,7 +71,7 @@ batch read-back. See `demo/` for a WebAssembly example.
 
 ```bash
 # tests (needs a C++17 compiler)
-c++ -std=c++17 -Isrc -Itests tests/*.cpp src/CApi/kinematics_c.cpp -o /tmp/kn_tests && /tmp/kn_tests
+c++ -std=c++17 -Isrc -Itests tests/*.cpp src/kinematics_c.cpp -o /tmp/kn_tests && /tmp/kn_tests
 
 # or via CMake (builds the C ABI shared library + tests)
 cmake -S . -B build && cmake --build build && ctest --test-dir build

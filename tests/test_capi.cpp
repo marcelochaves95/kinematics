@@ -3,7 +3,7 @@
 #include <cmath>
 #include <vector>
 
-#include "CApi/kinematics_c.h"
+#include "kinematics_c.h"
 
 // Exercises the extern "C" surface (here compiled as C++, but a real C program
 // links the shared library the same way — validated separately in the build).

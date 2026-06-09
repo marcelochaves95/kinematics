@@ -4,8 +4,8 @@
 // physics AND scene construction live in C++.
 
 #define KN_BUILD
-#include "CApi/kinematics_c.h"
-#include "CApi/kn_internal.hpp"
+#include "kinematics_c.h"
+#include "kn_internal.hpp"
 
 #include <cmath>
 #include <limits>

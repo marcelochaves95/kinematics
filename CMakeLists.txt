@@ -25,7 +25,7 @@ target_compile_features(kinematics INTERFACE cxx_std_17)
 
 # ── C ABI shared library (the language-agnostic surface) ────────
 # Other languages (C#, Python, Lua, Godot, Rust, WASM) link against this.
-add_library(kinematics_c SHARED src/CApi/kinematics_c.cpp)
+add_library(kinematics_c SHARED src/kinematics_c.cpp)
 target_link_libraries(kinematics_c PRIVATE kinematics)
 set_target_properties(kinematics_c PROPERTIES
     CXX_VISIBILITY_PRESET hidden
@@ -41,7 +41,7 @@ add_executable(kinematics_tests
     tests/test_dynamics.cpp
     tests/test_controller.cpp
     tests/test_capi.cpp
-    src/CApi/kinematics_c.cpp)
+    src/kinematics_c.cpp)
 target_link_libraries(kinematics_tests PRIVATE kinematics)
 target_include_directories(kinematics_tests PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/tests")
