@@ -30,7 +30,8 @@ add_executable(kinematics_tests
     tests/test_math.cpp
     tests/test_collision.cpp
     tests/test_chain.cpp
-    tests/test_dynamics.cpp)
+    tests/test_dynamics.cpp
+    tests/test_controller.cpp)
 target_link_libraries(kinematics_tests PRIVATE kinematics)
 target_include_directories(kinematics_tests PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/tests")
