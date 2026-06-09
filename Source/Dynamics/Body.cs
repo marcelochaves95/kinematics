@@ -195,7 +195,7 @@ namespace Kinematics.Dynamics
             for (int i = 0; i < Count; i++)
             {
                 float mass = PointMassList[i].Mass;
-                if (!float.IsPositiveInfinity(mass))
+                if (!float.IsInfinity(mass))
                 {
                     PointMassList[i].Force += Gravity * mass;
                 }
