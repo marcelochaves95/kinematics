@@ -4,14 +4,14 @@ using Kinematics.Math;
 
 namespace Kinematics.Collision
 {
-    internal struct CollisionInfo : IDisposable
+    public struct CollisionInfo : IDisposable
     {
         public float EdgeDistance;
         public float Penetration;
         public Vector2 Normal;
         public Vector2 Point;
-        public Body BodyA;
-        public Body BodyB;
+        public Body? BodyA;
+        public Body? BodyB;
         public PointMass PointMassA;
         public PointMass PointMassB;
         public PointMass PointMassC;

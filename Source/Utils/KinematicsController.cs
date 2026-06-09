@@ -20,9 +20,9 @@ namespace Kinematics.Utils
         public Vector2 Size;
         public Vector2 Cell;
         private bool _initialized;
-        private readonly Action<Body, Body> _onAABBCollision;
-        private readonly Action<Body, Body, CollisionInfo> _onCollision;
-        private readonly Action<float, Body, Body> _onPenetration;
+        public Action<Body, Body>? OnAABBCollision;
+        public Action<Body, Body, CollisionInfo>? OnCollision;
+        public Action<float, Body, Body>? OnPenetration;
 
         public KinematicsController()
         {
@@ -262,7 +262,7 @@ namespace Kinematics.Utils
                         continue;
                     }
 
-                    _onAABBCollision?.Invoke(BodyList[i], BodyList[j]);
+                    OnAABBCollision?.Invoke(BodyList[i], BodyList[j]);
                     _collisions.AddRange(Collision.Collision.Intersects(BodyList[j], BodyList[i]));
                     _collisions.AddRange(Collision.Collision.Intersects(BodyList[i], BodyList[j]));
                 }
@@ -274,7 +274,7 @@ namespace Kinematics.Utils
                 PointMass A = info.PointMassA;
                 PointMass B1 = info.PointMassB;
                 PointMass B2 = info.PointMassC;
-                _onCollision?.Invoke(info.BodyA, info.BodyB, info);
+                OnCollision?.Invoke(info.BodyA!, info.BodyB!, info);
 
                 Vector2 bVel = new Vector2
                 {
@@ -290,7 +290,7 @@ namespace Kinematics.Utils
 
                 float relDot = Vector2.Dot(relVel, info.Normal);
 
-                _onPenetration?.Invoke(info.Penetration, info.BodyA, info.BodyB);
+                OnPenetration?.Invoke(info.Penetration, info.BodyA!, info.BodyB!);
 
                 if (info.Penetration > 0.3f)
                 {

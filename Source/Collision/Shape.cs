@@ -7,7 +7,7 @@ namespace Kinematics.Collision
     public class Shape
     {
         public int Count;
-        public Vector2[] Points;
+        public Vector2[] Points = Array.Empty<Vector2>();
 
         private bool _hasBegun;
         private bool _center;
