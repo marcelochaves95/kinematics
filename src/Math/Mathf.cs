@@ -48,5 +48,17 @@ namespace Kinematics.Math
         {
             return (float) System.Math.Floor(value);
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static float Min(float a, float b)
+        {
+            return System.Math.Min(a, b);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static float Max(float a, float b)
+        {
+            return System.Math.Max(a, b);
+        }
     }
 }

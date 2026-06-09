@@ -292,7 +292,7 @@ namespace Kinematics.Utils
 
                 OnPenetration?.Invoke(info.Penetration, info.BodyA!, info.BodyB!);
 
-                if (info.Penetration > 0.3f)
+                if (info.Penetration > 1.0f)
                 {
                     PenetrationCount++;
                     continue;
@@ -304,14 +304,22 @@ namespace Kinematics.Utils
                 float massSum = A.Mass + b2MassSum;
                 float moveA;
                 float moveB;
+                // Cap single-frame position correction to 0.1 m.  Without the cap,
+                // deep penetrations (e.g. 0.5–1 m from a high-velocity impact) move
+                // one PM the full depth in one frame, producing a force the shape
+                // springs cannot overcome and permanently distorting soft bodies.
+                // 0.1 m is small relative to the 2 m body — the shape spring restores
+                // the tiny per-frame deformation every tick, and deep penetrations
+                // resolve gradually (10 × 0.1 m = 1 m in ~10 frames).
+                const float MaxCorrection = 0.1f;
                 if (float.IsPositiveInfinity(A.Mass))
                 {
                     moveA = 0f;
-                    moveB = info.Penetration + 0.001f;
+                    moveB = Mathf.Min(info.Penetration, MaxCorrection) + 0.001f;
                 }
                 else if (float.IsPositiveInfinity(b2MassSum))
                 {
-                    moveA = info.Penetration + 0.001f;
+                    moveA = Mathf.Min(info.Penetration, MaxCorrection) + 0.001f;
                     moveB = 0f;
                 }
                 else
