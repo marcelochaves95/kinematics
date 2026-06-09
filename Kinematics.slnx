@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/demo/">
+    <Project Path="demo/KinematicsWeb/KinematicsWeb.csproj" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Kinematics.csproj" />
+  </Folder>
+</Solution>
