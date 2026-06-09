@@ -1,8 +1,13 @@
 name: Deploy demo to GitHub Pages
 
+# Builds the C++ engine to WebAssembly with Emscripten and publishes the
+# static demo (demo/) to GitHub Pages.
+#
+# Requires: repo Settings → Pages → "Build and deployment" → Source = GitHub Actions.
+
 on:
   push:
-    branches: [ development ]   # change to the branch you want to deploy from
+    branches: [main]
   workflow_dispatch:            # allows manual runs from the Actions tab
 
 permissions:
@@ -21,28 +26,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
+      - name: Set up Emscripten
+        uses: mymindstorm/setup-emsdk@v14
         with:
-          dotnet-version: 10.0.x
+          version: latest
 
-      - name: Publish Blazor WASM
-        run: dotnet publish demo/demo.csproj -c Release -o build
-
-      # Project sites are served from /<repo>/, so the SPA base path must match.
-      - name: Rewrite base href for the project page
-        run: sed -i 's|<base href="/" />|<base href="/kinematics/" />|g' build/wwwroot/index.html
-
-      # 404.html → SPA routing fallback; .nojekyll → stop Jekyll hiding _framework.
-      - name: SPA fallback + disable Jekyll
-        run: |
-          cp build/wwwroot/index.html build/wwwroot/404.html
-          touch build/wwwroot/.nojekyll
+      - name: Build WASM
+        run: bash demo/build.sh
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: build/wwwroot
+          path: demo
 
   deploy:
     needs: build

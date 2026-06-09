@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Build the Kinematics C++ engine + demo scenes to WebAssembly via Emscripten.
-# Output: demo-cpp/kinematics.js + kinematics.wasm (loaded by index.html).
+# Output: demo/kinematics.js + kinematics.wasm (loaded by index.html).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-OUT="$ROOT/demo-cpp/kinematics.js"
+OUT="$ROOT/demo/kinematics.js"
 
 # emcc must be on PATH (brew install emscripten, or source emsdk_env.sh).
 command -v emcc >/dev/null 2>&1 || { echo "error: emcc not found on PATH"; exit 1; }
@@ -13,7 +13,7 @@ EXPORTS='_kn_world_create,_kn_world_destroy,_kn_world_set_limits,_kn_world_set_f
 
 emcc \
     "$ROOT/src/CApi/kinematics_c.cpp" \
-    "$ROOT/demo-cpp/demo_scenes.cpp" \
+    "$ROOT/demo/demo_scenes.cpp" \
     -std=c++17 -O3 \
     -I"$ROOT/src" \
     -sMODULARIZE=1 \

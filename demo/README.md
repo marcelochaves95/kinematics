@@ -1,9 +1,9 @@
 # Kinematics — C++ / WebAssembly demo
 
-The same 2D physics lab as `demo/` (Blazor), but running entirely on the **C++**
-engine compiled to WebAssembly. All physics *and* scene construction live in C++
-(`src/` + `demo_scenes.cpp`); `app.js` is just a thin shell that renders to canvas
-and forwards click/tap input as a radial impulse.
+A 2D physics lab running entirely on the **C++** engine compiled to WebAssembly.
+All physics *and* scene construction live in C++ (`src/` + `demo_scenes.cpp`);
+`app.js` is just a thin shell that renders to canvas and forwards click/tap input
+as a radial impulse.
 
 ## Build
 
@@ -25,10 +25,9 @@ node serve.mjs    # http://localhost:8100
 ## How it maps to the C++ engine
 
 - `kn_demo_softbody/pressure/chain(world)` (in `demo_scenes.cpp`) build each scene
-  — arena walls, body/chain, tuning, and the chain's 300-frame pre-simulation —
-  a faithful C++ port of `demo/Scenes/*.cs`.
+  — arena walls, body/chain, tuning, and the chain's 300-frame pre-simulation.
 - `kn_world_step(world, dt, substeps)` runs the engine with 4× substepping and
-  applies per-frame chain gravity / drag (the C# scenes' `PreUpdate`).
+  applies per-frame chain gravity / drag.
 - `kn_world_apply_impulse(...)` is the click-to-push interaction.
 - Geometry is read back in batch via `kn_body_get_points` / `kn_chain_get_points`.
 
