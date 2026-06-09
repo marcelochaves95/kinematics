@@ -333,7 +333,7 @@ namespace Kinematics.Dynamics
 
             Vector2 perpendicular = e.Perpendicular();
             float dot = Vector2.Dot(toP, e);
-            if (dot <= 0f)
+            if (dot <= Mathf.Epsilon)
             {
                 distance = Vector2.Distance(point, ptA);
                 hitPt = ptA;
