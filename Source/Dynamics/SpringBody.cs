@@ -72,6 +72,12 @@ namespace Kinematics.Dynamics
 
             for (int i = 0; i < _PointsMass.Count; i++)
             {
+                float mass = _PointsMass[i].Mass;
+                if (!float.IsInfinity(mass))
+                {
+                    _PointsMass[i].Force += Gravity * mass;
+                }
+
                 _PointsMass[i].Velocity.X *= DAMPING;
                 _PointsMass[i].Velocity.Y *= DAMPING;
                 _PointsMass[i].Update(elapsed);
