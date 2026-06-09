@@ -27,7 +27,8 @@ target_compile_features(kinematics INTERFACE cxx_std_17)
 enable_testing()
 add_executable(kinematics_tests
     tests/test_main.cpp
-    tests/test_math.cpp)
+    tests/test_math.cpp
+    tests/test_collision.cpp)
 target_link_libraries(kinematics_tests PRIVATE kinematics)
 target_include_directories(kinematics_tests PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/tests")
