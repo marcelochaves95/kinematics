@@ -19,7 +19,7 @@ namespace Kinematics.Utils
         public AABB AABB;
         public Vector2 Size;
         public Vector2 Cell;
-        private readonly bool _initialized;
+        private bool _initialized;
         private readonly Action<Body, Body> _onAABBCollision;
         private readonly Action<Body, Body, CollisionInfo> _onCollision;
         private readonly Action<float, Body, Body> _onPenetration;
@@ -182,6 +182,7 @@ namespace Kinematics.Utils
             }
 
             SetWorldLimits(min, max);
+            _initialized = true;
         }
 
         public void MoveDistantBodies(Vector2 position, float near, float far)
