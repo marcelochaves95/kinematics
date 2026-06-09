@@ -268,7 +268,7 @@ namespace Kinematics.Dynamics
             pointB = -1;
             edgeD = 0f;
             normal = Vector2.Zero;
-            float closestD = 1000f;
+            float closestD = float.MaxValue;
             for (int i = 0; i < Count; i++)
             {
                 float dist = GetClosestPointOnEdge(point, i, out Vector2 tempHit, out Vector2 tempNorm, out float tempEdgeD);
