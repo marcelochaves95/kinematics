@@ -1,0 +1,108 @@
+name: Release binaries
+
+# Manual-only: run it from the Actions tab when you want to cut a release.
+# Builds the C ABI shared library for Linux / macOS / Windows + the WASM bundle,
+# and attaches everything to a GitHub Release under the tag you provide.
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag (e.g. v0.1.0)"
+        required: true
+
+permissions:
+  contents: write   # required to create the release
+
+jobs:
+  # ── Native shared libs (one per OS) ──────────────────────────────
+  native:
+    name: Build ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            name: linux-x64
+            lib: build/libkinematics_c.so
+            cmake_args: ""
+          - os: macos-latest
+            name: macos-universal
+            lib: build/libkinematics_c.dylib
+            cmake_args: '-DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"'
+          - os: windows-latest
+            name: windows-x64
+            lib: build/Release/kinematics_c.dll
+            cmake_args: ""
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure
+        shell: bash
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release ${{ matrix.cmake_args }}
+
+      - name: Build
+        run: cmake --build build --config Release --target kinematics_c
+
+      - name: Stage artifact
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp "${{ matrix.lib }}" dist/
+          cp src/kinematics_c.h dist/
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.name }}
+          path: dist/
+
+  # ── WebAssembly bundle ───────────────────────────────────────────
+  wasm:
+    name: Build wasm
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: mymindstorm/setup-emsdk@v14
+        with:
+          version: latest
+      - name: Build WASM
+        run: bash demo/build.sh
+      - name: Stage artifact
+        run: |
+          mkdir -p dist
+          cp demo/kinematics.js demo/kinematics.wasm src/kinematics_c.h dist/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: wasm
+          path: dist/
+
+  # ── Collect everything and publish the release ───────────────────
+  release:
+    needs: [native, wasm]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Package release assets
+        run: |
+          mkdir -p release
+          (cd artifacts/linux-x64       && zip -r - .) > release/kinematics-linux-x64.zip
+          (cd artifacts/macos-universal && zip -r - .) > release/kinematics-macos-universal.zip
+          (cd artifacts/windows-x64     && zip -r - .) > release/kinematics-windows-x64.zip
+          (cd artifacts/wasm            && zip -r - .) > release/kinematics-wasm.zip
+          # header-only engine source (for C++ users who compile from source)
+          zip -r release/kinematics-headers.zip src
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag }}
+          name: ${{ inputs.tag }}
+          generate_release_notes: true
+          files: release/*
