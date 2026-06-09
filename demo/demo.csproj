@@ -5,6 +5,8 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <OverrideHtmlAssetPlaceholders>true</OverrideHtmlAssetPlaceholders>
+    <RootNamespace>KinematicsWeb</RootNamespace>
+    <AssemblyName>KinematicsWeb</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Kinematics.csproj" />
+    <ProjectReference Include="..\src\Kinematics.csproj" />
   </ItemGroup>
 
 </Project>
