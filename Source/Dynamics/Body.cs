@@ -156,7 +156,7 @@ namespace Kinematics.Dynamics
                     int thisSign = thisAngle >= 0f ? 1 : -1;
                     if (Mathf.Abs(diff) > Mathf.PI && thisSign != originalSign)
                     {
-                        thisAngle = thisSign == -1 ? Mathf.PI + (Mathf.PI + thisAngle) : Mathf.PI - thisAngle - Mathf.PI;
+                        thisAngle = thisSign == -1 ? thisAngle + Mathf.PI * 2 : thisAngle - Mathf.PI * 2;
                     }
                 }
 
