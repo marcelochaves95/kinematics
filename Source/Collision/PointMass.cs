@@ -28,11 +28,12 @@ namespace Kinematics.Collision
 
         public void Update(double elapsed)
         {
-            float k = (float) elapsed / Mass;
+            float dt = (float) elapsed;
+            float k = dt / Mass;
             Velocity.X += Force.X * k;
             Velocity.Y += Force.Y * k;
-            Position.X += Velocity.X * k;
-            Position.Y += Velocity.Y * k;
+            Position.X += Velocity.X * dt;
+            Position.Y += Velocity.Y * dt;
             Force.X = 0f;
             Force.Y = 0f;
         }
