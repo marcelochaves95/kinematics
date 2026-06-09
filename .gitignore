@@ -67,3 +67,5 @@ BenchmarkDotNet.Artifacts/
 *.pdb
 .DS_Store
 Thumbs.db
+build/
+build_*
