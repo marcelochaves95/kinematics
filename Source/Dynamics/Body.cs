@@ -12,6 +12,7 @@ namespace Kinematics.Dynamics
         public bool IsStatic = false;
         public Vector2 Position;
         public Vector2 Velocity;
+        public Vector2 Gravity = Vector2.Zero;
         public List<PointMass> PointMassList;
         public Shape CurrentShape;
 
@@ -194,7 +195,14 @@ namespace Kinematics.Dynamics
 
         public virtual void ApplyInternalForces(double elapsed)
         {
-            //
+            for (int i = 0; i < Count; i++)
+            {
+                float mass = PointMassList[i].Mass;
+                if (!float.IsPositiveInfinity(mass))
+                {
+                    PointMassList[i].Force += Gravity * mass;
+                }
+            }
         }
 
         public void Update(double elapsed)

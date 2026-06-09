@@ -45,6 +45,7 @@ namespace Kinematics.Dynamics
 
         public override void ApplyInternalForces(double elapsed)
         {
+            base.ApplyInternalForces(elapsed);
             Vector2 force;
             for (int i = 0; i < _springs.Count; i++)
             {
