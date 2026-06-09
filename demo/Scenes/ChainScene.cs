@@ -56,7 +56,10 @@ public class ChainScene : IDemoScene
                 chain.PointMassList[i].Force.Y += GravityY * chain.PointMassList[i].Mass;
             chain.Update(dt);
         }
-        chain.Damping = 0.90f;   // runtime: settles in ~1 s after a flick
+        // Runtime damping is applied once per chain.Update, and OnFrame now runs
+        // 4 substeps per frame, so use 0.90^(1/4) ≈ 0.974 to keep the net per-frame
+        // damping at the original ~0.90 (settles a flick in ~1 s).
+        chain.Damping = 0.974f;
 
         ctrl.Add(chain);
     }
