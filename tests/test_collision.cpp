@@ -1,8 +1,9 @@
-#include "test_framework.hpp"
+#include <test_framework.h>
 
-#include "Collision/AABB.hpp"
-#include "Collision/PointMass.hpp"
-#include "Collision/Shape.hpp"
+#include <Collision/AABB.h>
+#include <Collision/PointMass.h>
+#include <Collision/Shape.h>
+#include <Math/Mathf.h>
 
 using namespace kinematics;
 

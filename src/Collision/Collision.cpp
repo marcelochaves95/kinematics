@@ -1,36 +1,28 @@
-#pragma once
+#include <Collision/Collision.h>
+#include <Collision/AABB.h>
+#include <Dynamics/Body.h>
+#include <Math/Mathf.h>
+#include <Math/Vector2.h>
 
-#include <vector>
-
-#include "Collision/AABB.hpp"
-#include "Collision/CollisionInfo.hpp"
-#include "Dynamics/Body.hpp"
-#include "Math/Mathf.hpp"
-#include "Math/Vector2.hpp"
-
-// Port of src/Collision/Collision.cs
-//
-// Narrowphase: for each vertex of bodyA that lies inside bodyB, find the closest
-// edge of bodyB and emit a CollisionInfo. The "away/same" pair disambiguates
-// which side of the edge the penetrating vertex should be pushed toward.
-
-namespace kinematics {
-
-class Collision {
-public:
-    static std::vector<CollisionInfo> Intersects(Body& bodyA, Body& bodyB) {
+namespace kinematics
+{
+    std::vector<CollisionInfo> Collision::Intersects(Body& bodyA, Body& bodyB)
+    {
         std::vector<CollisionInfo> data;
         int bApmCount = bodyA.Count;
         int bBpmCount = bodyB.Count;
         AABB boxB = bodyB.AABB;
         CollisionInfo infoAway;
         CollisionInfo infoSame;
-        for (int i = 0; i < bApmCount; i++) {
+        for (int i = 0; i < bApmCount; i++)
+        {
             Vector2 pt = bodyA.PointMassList[i]->Position;
-            if (!boxB.Contains(pt.X, pt.Y)) {
+            if (!boxB.Contains(pt.X, pt.Y))
+            {
                 continue;
             }
-            if (!bodyB.Contains(pt)) {
+            if (!bodyB.Contains(pt))
+            {
                 continue;
             }
 
@@ -54,7 +46,8 @@ public:
             infoSame.PointMassA = bodyA.PointMassList[i];
             infoSame.BodyB = &bodyB;
             bool found = false;
-            for (int j = 0; j < bBpmCount; j++) {
+            for (int j = 0; j < bBpmCount; j++)
+            {
                 int b1 = j;
                 int b2 = j < bBpmCount - 1 ? j + 1 : 0;
 
@@ -63,7 +56,8 @@ public:
                 float distToA = (pt1.X - pt.X) * (pt1.X - pt.X) + (pt1.Y - pt.Y) * (pt1.Y - pt.Y);
                 float distToB = (pt2.X - pt.X) * (pt2.X - pt.X) + (pt2.Y - pt.Y) * (pt2.Y - pt.Y);
                 if (distToA > closestAway && distToA > closestSame &&
-                    distToB > closestAway && distToB > closestSame) {
+                    distToB > closestAway && distToB > closestSame)
+                {
                     continue;
                 }
 
@@ -71,8 +65,10 @@ public:
                 float edgeD;
                 float dist = bodyB.GetClosestPointOnEdgeSquared(pt, j, hitPt, normal, edgeD);
                 float dot = Vector2::Dot(ptNorm, normal);
-                if (dot <= 0.0f) {
-                    if (dist < closestAway) {
+                if (dot <= 0.0f)
+                {
+                    if (dist < closestAway)
+                    {
                         closestAway = dist;
                         infoAway.PointMassB = bodyB.PointMassList[b1];
                         infoAway.PointMassC = bodyB.PointMassList[b2];
@@ -82,8 +78,11 @@ public:
                         infoAway.Penetration = dist;
                         found = true;
                     }
-                } else {
-                    if (dist < closestSame) {
+                }
+                else
+                {
+                    if (dist < closestSame)
+                    {
                         closestSame = dist;
                         infoSame.PointMassB = bodyB.PointMassList[b1];
                         infoSame.PointMassC = bodyB.PointMassList[b2];
@@ -95,10 +94,13 @@ public:
                 }
             }
 
-            if (found && closestAway > 0.3f && closestSame < closestAway) {
+            if (found && closestAway > 0.3f && closestSame < closestAway)
+            {
                 infoSame.Penetration = mathf::Sqrt(infoSame.Penetration);
                 data.push_back(infoSame);
-            } else {
+            }
+            else
+            {
                 infoAway.Penetration = mathf::Sqrt(infoAway.Penetration);
                 data.push_back(infoAway);
             }
@@ -106,6 +108,4 @@ public:
 
         return data;
     }
-};
-
-} // namespace kinematics
+}

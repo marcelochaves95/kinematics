@@ -1,36 +1,22 @@
-#pragma once
+#include <Collision/Chain.h>
+#include <Math/Vector2.h>
+#include <memory>
 
-#include <vector>
-
-#include "Collision/PointMass.hpp"
-#include "Collision/Spring.hpp"
-#include "Math/Vector2.hpp"
-
-// Port of src/Collision/Chain.cs
-//
-// NOTE: the ctor's `damping` arg is the SPRING damping coefficient (passed to
-// every Spring). The per-frame velocity multiplier is the separate `Damping`
-// field, which the ctor hardcodes to 0.99 (overriding the arg), matching the C#.
-
-namespace kinematics {
-
-class Chain {
-public:
-    float Damping;
-    std::vector<PointMassPtr> PointMassList;
-    std::vector<Spring> SpringList;
-
-    Chain(PointMassPtr from, PointMassPtr to, int count, float k, float damping, float mass) {
+namespace kinematics
+{
+    Chain::Chain(PointMassPtr from, PointMassPtr to, int count, float k, float damping, float mass)
+    {
         Damping = 0.99f;
         float length = Vector2::Distance(from->Position, to->Position) / static_cast<float>(count);
         Vector2 direction = to->Position - from->Position;
         direction.Normalize();
 
         PointMassList.reserve(static_cast<size_t>(count) + 1);
-        for (int i = 0; i < count + 1; i++) {
+        for (int i = 0; i < count + 1; i++)
+        {
             PointMassList.push_back(std::make_shared<PointMass>(
                 Vector2(from->Position.X + direction.X * length * i,
-                        from->Position.Y + direction.Y * length * i),
+                    from->Position.Y + direction.Y * length * i),
                 mass));
         }
 
@@ -39,13 +25,16 @@ public:
         PointMassList[count] = to;
 
         SpringList.reserve(static_cast<size_t>(count));
-        for (int i = 1; i < count + 1; i++) {
+        for (int i = 1; i < count + 1; i++)
+        {
             SpringList.emplace_back(PointMassList[i - 1], PointMassList[i], k, damping);
         }
     }
 
-    void Update(double elapsed) {
-        for (size_t i = 0; i < SpringList.size(); i++) {
+    void Chain::Update(double elapsed)
+    {
+        for (size_t i = 0; i < SpringList.size(); i++)
+        {
             Spring& spring = SpringList[i];
             Vector2 force = Spring::SpringForce(spring);
             spring.PointMassA->Force.X += force.X;
@@ -55,12 +44,11 @@ public:
         }
 
         // Integrate interior masses only (endpoints 0 and N are fixed anchors).
-        for (size_t i = 1; i + 1 < PointMassList.size(); i++) {
+        for (size_t i = 1; i + 1 < PointMassList.size(); i++)
+        {
             PointMassList[i]->Velocity.X *= Damping;
             PointMassList[i]->Velocity.Y *= Damping;
             PointMassList[i]->Update(elapsed);
         }
     }
-};
-
-} // namespace kinematics
+}

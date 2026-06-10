@@ -1,11 +1,11 @@
-#include "test_framework.hpp"
+#include <test_framework.h>
 
 #include <limits>
 #include <memory>
 
-#include "Collision/Chain.hpp"
-#include "Collision/PointMass.hpp"
-#include "Collision/Spring.hpp"
+#include <Collision/Chain.h>
+#include <Collision/PointMass.h>
+#include <Collision/Spring.h>
 
 using namespace kinematics;
 

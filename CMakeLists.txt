@@ -9,19 +9,30 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-# ── Engine library ──────────────────────────────────────────────
-# C++ sources live in src/ alongside the C# files, in the same folders
-# (e.g. src/Math/Vector2.hpp next to src/Math/Vector2.cs). The include root is
-# src/, so headers are included as "Math/Vector2.hpp". The two toolchains ignore
-# each other's files (.cs vs .hpp/.cpp) during the migration.
-#
-# Phase 1 (Math) is header-only, so this is an INTERFACE target for now.
-# It becomes a STATIC library once Phase 2+ adds .cpp translation units
-# (change INTERFACE -> STATIC and list the sources).
-add_library(kinematics INTERFACE)
-target_include_directories(kinematics INTERFACE
+# Recover cross-TU inlining lost by the .h/.cpp split (the engine is split, not
+# header-only). IPO/LTO is enabled for Release only.
+set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
+
+# ── Engine library (static; headers in src/, included as <Math/Vector2.h>) ──
+add_library(kinematics STATIC
+    src/Math/Mathf.cpp
+    src/Math/Vector2.cpp
+    src/Math/Vector3.cpp
+    src/Collision/AABB.cpp
+    src/Collision/PointMass.cpp
+    src/Collision/Shape.cpp
+    src/Collision/Spring.cpp
+    src/Collision/Chain.cpp
+    src/Collision/CollisionInfo.cpp
+    src/Collision/Collision.cpp
+    src/Dynamics/Body.cpp
+    src/Dynamics/SpringBody.cpp
+    src/Dynamics/PressureBody.cpp
+    src/Utils/Bitmask.cpp
+    src/Utils/KinematicsController.cpp)
+target_include_directories(kinematics PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/src")
-target_compile_features(kinematics INTERFACE cxx_std_17)
+target_compile_features(kinematics PUBLIC cxx_std_17)
 
 # ── C ABI shared library (the language-agnostic surface) ────────
 # Other languages (C#, Python, Lua, Godot, Rust, WASM) link against this.
@@ -53,4 +64,4 @@ else()
     target_compile_options(kinematics_tests PRIVATE -Wall -Wextra -Werror)
 endif()
 
-add_test(NAME math COMMAND kinematics_tests)
+add_test(NAME unit COMMAND kinematics_tests)

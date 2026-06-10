@@ -1,8 +1,8 @@
-#include "test_framework.hpp"
+#include <test_framework.h>
 
-#include "Math/Mathf.hpp"
-#include "Math/Vector2.hpp"
-#include "Math/Vector3.hpp"
+#include <Math/Mathf.h>
+#include <Math/Vector2.h>
+#include <Math/Vector3.h>
 
 using namespace kinematics;
 

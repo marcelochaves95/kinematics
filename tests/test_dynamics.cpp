@@ -1,12 +1,12 @@
-#include "test_framework.hpp"
+#include <test_framework.h>
 
 #include <cmath>
 
-#include "Collision/Shape.hpp"
-#include "Dynamics/Body.hpp"
-#include "Dynamics/PressureBody.hpp"
-#include "Dynamics/SpringBody.hpp"
-#include "Math/Vector2.hpp"
+#include <Collision/Shape.h>
+#include <Dynamics/Body.h>
+#include <Dynamics/PressureBody.h>
+#include <Dynamics/SpringBody.h>
+#include <Math/Vector2.h>
 
 using namespace kinematics;
 

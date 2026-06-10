@@ -24,19 +24,18 @@ Screen-space: **Y increases downward**. Gravity points in the `+Y` direction.
 ## Layout
 
 ```
-src/            header-only engine (Math/, Collision/, Dynamics/, Utils/)
-                + the C ABI (kinematics_c.h / .cpp)
+src/            engine — .h declarations + .cpp definitions
+                (Math/, Collision/, Dynamics/, Utils/) + the C ABI (kinematics_c.h / .cpp)
+                <kinematics.h> is an umbrella include for the whole public API
 tests/          unit tests (zero-dependency harness)
 demo/           WebAssembly demo (Emscripten) — see demo/README.md
-CMakeLists.txt  build for the C ABI shared library + tests
+CMakeLists.txt  builds the engine static lib, the C ABI shared lib, and tests
 ```
 
 ## Usage (C++)
 
 ```cpp
-#include "Collision/Shape.hpp"
-#include "Dynamics/SpringBody.hpp"
-#include "Utils/KinematicsController.hpp"
+#include <kinematics.h>
 using namespace kinematics;
 
 Shape shape;
@@ -71,7 +70,7 @@ batch read-back. See `demo/` for a WebAssembly example.
 
 ```bash
 # tests (needs a C++17 compiler)
-c++ -std=c++17 -Isrc -Itests tests/*.cpp src/kinematics_c.cpp -o /tmp/kn_tests && /tmp/kn_tests
+c++ -std=c++17 -Isrc -Itests $(find src -name '*.cpp') tests/*.cpp -o /tmp/kn_tests && /tmp/kn_tests
 
 # or via CMake (builds the C ABI shared library + tests)
 cmake -S . -B build && cmake --build build && ctest --test-dir build

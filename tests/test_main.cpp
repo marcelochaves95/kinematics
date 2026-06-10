@@ -1,4 +1,4 @@
-#include "test_framework.hpp"
+#include <test_framework.h>
 
 int main() {
     return kt::run_all();

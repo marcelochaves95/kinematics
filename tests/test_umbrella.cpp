@@ -1,10 +1,10 @@
-#include "test_framework.hpp"
+#include <test_framework.h>
 
 #include <memory>
 
 // The ONLY engine include — proves the umbrella header is self-sufficient and
 // exposes the whole public API on its own.
-#include "kinematics.hpp"
+#include <kinematics.h>
 
 using namespace kinematics;
 

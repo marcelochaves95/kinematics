@@ -12,7 +12,11 @@ command -v emcc >/dev/null 2>&1 || { echo "error: emcc not found on PATH"; exit 
 EXPORTS='_kn_world_create,_kn_world_destroy,_kn_world_set_limits,_kn_world_set_friction,_kn_world_set_elasticity,_kn_set_max_step,_kn_world_set_drag,_kn_world_apply_impulse,_kn_world_add_rigid_body,_kn_world_add_spring_body,_kn_world_add_pressure_body,_kn_world_add_chain,_kn_world_set_chain_gravity,_kn_world_step,_kn_world_penetration_count,_kn_world_body_count,_kn_world_chain_count,_kn_body_is_static,_kn_body_point_count,_kn_body_get_points,_kn_body_get_position,_kn_body_apply_force,_kn_chain_point_count,_kn_chain_get_points,_kn_demo_softbody,_kn_demo_pressure,_kn_demo_chain,_malloc,_free'
 
 emcc \
-    "$ROOT/src/kinematics_c.cpp" \
+    "$ROOT"/src/*.cpp \
+    "$ROOT"/src/Math/*.cpp \
+    "$ROOT"/src/Collision/*.cpp \
+    "$ROOT"/src/Dynamics/*.cpp \
+    "$ROOT"/src/Utils/*.cpp \
     "$ROOT/demo/demo_scenes.cpp" \
     -std=c++17 -O3 \
     -I"$ROOT/src" \
