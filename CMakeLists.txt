@@ -41,6 +41,7 @@ add_executable(kinematics_tests
     tests/test_dynamics.cpp
     tests/test_controller.cpp
     tests/test_capi.cpp
+    tests/test_umbrella.cpp
     src/kinematics_c.cpp)
 target_link_libraries(kinematics_tests PRIVATE kinematics)
 target_include_directories(kinematics_tests PRIVATE
