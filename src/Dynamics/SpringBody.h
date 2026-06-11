@@ -1,19 +1,18 @@
 #pragma once
 
-#include <Collision/PointMass.h>
 #include <Collision/Shape.h>
 #include <Collision/Spring.h>
 #include <Dynamics/Body.h>
 #include <vector>
 
-// Port of Dynamics/SpringBody.cs
+// Port of Dynamics/SpringBody.cs — a soft body with edge springs (between
+// consecutive vertices) plus shape-matching springs (each vertex pulled toward
+// its rotated rest position).
 //
-// FAITHFUL PORT OF A LATENT C# BUG: Add() checks PointMassList.Contains(...) but
-// pushes into _PointsMass. Because the springs are built from PointMassList
-// instances, the check is always true, so _PointsMass stays empty and the final
-// loop in ApplyInternalForces never runs (the masses are integrated by
-// Body::UpdatePointMasses instead). Reproduced as-is to preserve behavioral
-// parity — do NOT "fix" it here, that would change the simulation.
+// NOTE: the C# kept a `_PointsMass` list whose populate-check was inverted, so it
+// stayed empty and its per-frame update loop never ran (the point masses are
+// integrated by Body::UpdatePointMasses). That dead machinery is dropped here —
+// Add() simply registers the spring.
 
 namespace kinematics
 {
@@ -31,6 +30,5 @@ namespace kinematics
         float _shapeDamping;
         bool _isConstrained;
         std::vector<Spring> _springs;
-        std::vector<PointMassPtr> _PointsMass;
     };
 }

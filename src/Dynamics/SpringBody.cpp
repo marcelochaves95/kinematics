@@ -1,7 +1,5 @@
 #include <Dynamics/SpringBody.h>
 #include <Math/Vector2.h>
-#include <algorithm>
-#include <cmath>
 
 namespace kinematics
 {
@@ -21,16 +19,6 @@ namespace kinematics
 
     void SpringBody::Add(const Spring& spring)
     {
-        if (std::find(PointMassList.begin(), PointMassList.end(), spring.PointMassA)
-            == PointMassList.end())
-        {
-            _PointsMass.push_back(spring.PointMassA);
-        }
-        if (std::find(PointMassList.begin(), PointMassList.end(), spring.PointMassB)
-            == PointMassList.end())
-        {
-            _PointsMass.push_back(spring.PointMassB);
-        }
         _springs.push_back(spring);
     }
 
@@ -64,19 +52,6 @@ namespace kinematics
                     PointMassList[i]->Force.Y += force.Y;
                 }
             }
-        }
-
-        // Dead loop (_PointsMass is always empty — see header note).
-        for (size_t i = 0; i < _PointsMass.size(); i++)
-        {
-            float mass = _PointsMass[i]->Mass;
-            if (!std::isinf(mass))
-            {
-                _PointsMass[i]->Force += Gravity * mass;
-            }
-            _PointsMass[i]->Velocity.X *= DAMPING;
-            _PointsMass[i]->Velocity.Y *= DAMPING;
-            _PointsMass[i]->Update(elapsed);
         }
     }
 }

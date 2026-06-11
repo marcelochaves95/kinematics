@@ -86,27 +86,12 @@ namespace kinematics
 
         angle /= Count;
 
-        float angleChange = angle - _previousAngle;
-        if (mathf::Abs(angleChange) >= mathf::PI)
-        {
-            if (angleChange < 0.0f)
-            {
-                angleChange += mathf::PI * 2.0f;
-            }
-            else
-            {
-                angleChange -= mathf::PI * 2.0f;
-            }
-        }
-        (void) angleChange; // computed in the C# too, but its result is unused
-
-        _previousAngle = angle;
         float cos = mathf::Cos(angle);
         float sin = mathf::Sin(angle);
         for (int i = 0; i < Count; i++)
         {
-            float x = _baseShape.Points[i].X * _scale.X;
-            float y = _baseShape.Points[i].Y * _scale.Y;
+            float x = _baseShape.Points[i].X;
+            float y = _baseShape.Points[i].Y;
             CurrentShape.Points[i].X = cos * x - sin * y + Position.X;
             CurrentShape.Points[i].Y = cos * y + sin * x + Position.Y;
         }
@@ -115,10 +100,6 @@ namespace kinematics
     void Body::Update(double elapsed)
     {
         if (!_isDirty)
-        {
-            return;
-        }
-        if (_isMerging)
         {
             return;
         }

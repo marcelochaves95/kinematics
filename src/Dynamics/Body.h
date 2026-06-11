@@ -57,11 +57,8 @@ namespace kinematics
         void SetBodyPositionVelocityForce(Vector2 position, Vector2 velocity, Vector2 force);
         void GetBodyPositionVelocityForce(Vector2& position, Vector2& velocity, Vector2& force);
 
-        float _previousAngle = 0.0f;
         bool _isDirty = true;
-        bool _isMerging = false;
         Vector2 _force;
-        Vector2 _scale = Vector2::One;
         Shape _baseShape;
     };
 }
