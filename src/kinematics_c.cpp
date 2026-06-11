@@ -171,8 +171,18 @@ int kn_world_add_rigid_body(KnWorld* world, const float* xy, int count, float ma
     {
         return -1;
     }
-    auto body = std::make_shared<Body>(makeShape(xy, count), mass);
-    return addBody(world, body, posX, posY, gravX, gravY, isStatic);
+    // Never let a C++ exception (e.g. from Shape building) cross the C boundary —
+    // that is UB for FFI hosts. Report failure as -1 instead. (Native builds have
+    // exceptions enabled; the WASM build only feeds valid shapes, so none throw.)
+    try
+    {
+        auto body = std::make_shared<Body>(makeShape(xy, count), mass);
+        return addBody(world, body, posX, posY, gravX, gravY, isStatic);
+    }
+    catch (...)
+    {
+        return -1;
+    }
 }
 
 int kn_world_add_spring_body(KnWorld* world, const float* xy, int count, float mass,
@@ -183,9 +193,16 @@ int kn_world_add_spring_body(KnWorld* world, const float* xy, int count, float m
     {
         return -1;
     }
-    auto body = std::make_shared<SpringBody>(makeShape(xy, count), mass,
-        edgeK, edgeDamp, shapeK, shapeDamp);
-    return addBody(world, body, posX, posY, gravX, gravY, isStatic);
+    try
+    {
+        auto body = std::make_shared<SpringBody>(makeShape(xy, count), mass,
+            edgeK, edgeDamp, shapeK, shapeDamp);
+        return addBody(world, body, posX, posY, gravX, gravY, isStatic);
+    }
+    catch (...)
+    {
+        return -1;
+    }
 }
 
 int kn_world_add_pressure_body(KnWorld* world, const float* xy, int count, float mass,
@@ -196,9 +213,16 @@ int kn_world_add_pressure_body(KnWorld* world, const float* xy, int count, float
     {
         return -1;
     }
-    auto body = std::make_shared<PressureBody>(makeShape(xy, count), mass, gasPressure,
-        edgeK, edgeDamp, shapeK, shapeDamp);
-    return addBody(world, body, posX, posY, gravX, gravY, isStatic);
+    try
+    {
+        auto body = std::make_shared<PressureBody>(makeShape(xy, count), mass, gasPressure,
+            edgeK, edgeDamp, shapeK, shapeDamp);
+        return addBody(world, body, posX, posY, gravX, gravY, isStatic);
+    }
+    catch (...)
+    {
+        return -1;
+    }
 }
 
 int kn_world_add_chain(KnWorld* world, float ax, float ay, float bx, float by,
@@ -208,11 +232,18 @@ int kn_world_add_chain(KnWorld* world, float ax, float ay, float bx, float by,
     {
         return -1;
     }
-    auto from = std::make_shared<PointMass>(Vector2(ax, ay), std::numeric_limits<float>::infinity());
-    auto to = std::make_shared<PointMass>(Vector2(bx, by), std::numeric_limits<float>::infinity());
-    auto chain = std::make_shared<Chain>(from, to, count, k, damping, mass);
-    world->ctrl.Add(chain);
-    return static_cast<int>(world->ctrl.ChainList.size()) - 1;
+    try
+    {
+        auto from = std::make_shared<PointMass>(Vector2(ax, ay), std::numeric_limits<float>::infinity());
+        auto to = std::make_shared<PointMass>(Vector2(bx, by), std::numeric_limits<float>::infinity());
+        auto chain = std::make_shared<Chain>(from, to, count, k, damping, mass);
+        world->ctrl.Add(chain);
+        return static_cast<int>(world->ctrl.ChainList.size()) - 1;
+    }
+    catch (...)
+    {
+        return -1;
+    }
 }
 
 void kn_world_set_chain_gravity(KnWorld* world, float gx, float gy)
