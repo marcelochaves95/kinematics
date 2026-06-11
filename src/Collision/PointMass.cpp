@@ -14,7 +14,11 @@ namespace kinematics
     void PointMass::Update(double elapsed)
     {
         float dt = static_cast<float>(elapsed);
-        float k = dt / Mass;
+        // Guard against non-positive / non-finite mass: a zero or negative mass
+        // makes k = Inf and corrupts the point with NaN (which the MaxStep clamp
+        // below cannot rescue, since NaN comparisons are false). An infinite
+        // (static) mass already yields k = 0 here, so it keeps its behaviour.
+        float k = Mass > 0.0f ? dt / Mass : 0.0f;
         Velocity.X += Force.X * k;
         Velocity.Y += Force.Y * k;
 

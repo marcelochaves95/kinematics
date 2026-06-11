@@ -131,6 +131,26 @@ TEST_CASE(pressurebody_stable_without_gravity) {
     CHECK_NEAR(r, r0, 0.5); // stays close to its initial size
 }
 
+// ── Degenerate (collapsed) pressure body must not produce NaN ────
+TEST_CASE(pressurebody_degenerate_volume_is_safe) {
+    // Coincident vertices -> ~zero estimated volume; the 1/_volume pressure term
+    // must be skipped instead of spreading Inf/NaN through the body.
+    Shape s;
+    s.Begin(true);
+    s.Add(Vector2(0.0f, 0.0f));
+    s.Add(Vector2(0.0f, 0.0f));
+    s.Add(Vector2(0.0f, 0.0f));
+    s.End();
+    PressureBody b(s, 1.0f, 30.0f, 150.0f, 10.0f, 200.0f, 15.0f);
+    b.Gravity = Vector2(0.0f, 9.8f);
+
+    const double dt = 1.0 / 60.0;
+    for (int i = 0; i < 60; i++) {
+        b.Update(dt);
+    }
+    CHECK(allFinite(b));
+}
+
 // ── Virtual dispatch: PressureBody::ApplyInternalForces is reached ──
 TEST_CASE(virtual_dispatch_through_base_ref) {
     Shape s = unitSquare();

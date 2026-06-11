@@ -86,6 +86,17 @@ TEST_CASE(pointmass_maxstep_clamp) {
     PointMass::MaxStep = savedMax;
 }
 
+TEST_CASE(pointmass_zero_mass_is_safe) {
+    // A zero (or negative) mass must not produce Inf/NaN. It is treated as
+    // immovable-under-force: k = 0, so velocity/position stay finite.
+    PointMass pm(Vector2(0.0f, 0.0f), 0.0f);
+    pm.Force = Vector2(0.0f, 9.8f);
+    pm.Update(1.0 / 60.0);
+    CHECK(std::isfinite(pm.Velocity.Y));
+    CHECK(std::isfinite(pm.Position.Y));
+    CHECK_NEAR(pm.Velocity.Y, 0.0f, 1e-6); // force ignored (k = 0)
+}
+
 TEST_CASE(pointmass_below_cap_unclamped) {
     float savedMax = PointMass::MaxStep;
     PointMass::MaxStep = 0.4f;

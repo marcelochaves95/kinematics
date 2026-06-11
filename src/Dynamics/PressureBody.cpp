@@ -51,18 +51,25 @@ namespace kinematics
             _volume += 0.5f * volumeProduct;
         }
 
-        float invVolume = 1.0f / _volume;
-
-        for (int i = 0; i < Count; i++)
+        // Skip the pressure term if the body has collapsed to ~zero volume:
+        // 1/_volume would be Inf and spread NaN through every point mass,
+        // corrupting the body permanently. A valid body's volume is order 1,
+        // far above this threshold, so this never trips in normal use.
+        if (_volume > mathf::Epsilon)
         {
-            int j = i < Count - 1 ? i + 1 : 0;
+            float invVolume = 1.0f / _volume;
 
-            float pressureV = invVolume * _edgeLengthList[i] * _pressure;
-            PointMassList[i]->Force.X += _normalList[i].X * pressureV;
-            PointMassList[i]->Force.Y += _normalList[i].Y * pressureV;
+            for (int i = 0; i < Count; i++)
+            {
+                int j = i < Count - 1 ? i + 1 : 0;
 
-            PointMassList[j]->Force.X += _normalList[j].X * pressureV;
-            PointMassList[j]->Force.Y += _normalList[j].Y * pressureV;
+                float pressureV = invVolume * _edgeLengthList[i] * _pressure;
+                PointMassList[i]->Force.X += _normalList[i].X * pressureV;
+                PointMassList[i]->Force.Y += _normalList[i].Y * pressureV;
+
+                PointMassList[j]->Force.X += _normalList[j].X * pressureV;
+                PointMassList[j]->Force.Y += _normalList[j].Y * pressureV;
+            }
         }
     }
 }
