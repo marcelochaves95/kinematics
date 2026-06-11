@@ -99,11 +99,15 @@ namespace kinematics
                 infoSame.Penetration = mathf::Sqrt(infoSame.Penetration);
                 data.push_back(infoSame);
             }
-            else
+            else if (found)
             {
                 infoAway.Penetration = mathf::Sqrt(infoAway.Penetration);
                 data.push_back(infoAway);
             }
+            // If no "away" edge was found, infoAway is unpopulated (zero normal /
+            // zero penetration / null point masses): emitting it produced a phantom
+            // contact that did nothing in the resolver but fired a spurious callback
+            // and held dummy point masses. Skip it.
         }
 
         return data;

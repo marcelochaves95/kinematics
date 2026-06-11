@@ -60,7 +60,10 @@ TEST_CASE(collision_intersects_finds_contacts) {
     if (!contacts.empty()) {
         CHECK(contacts[0].BodyA == a.get());
         CHECK(contacts[0].BodyB == b.get());
+        // Emitted contacts are always fully populated (no null/dummy point masses).
         CHECK(contacts[0].PointMassA != nullptr);
+        CHECK(contacts[0].PointMassB != nullptr);
+        CHECK(contacts[0].PointMassC != nullptr);
     }
 }
 
