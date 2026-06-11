@@ -1,5 +1,8 @@
 #include <test_framework.h>
 
+#include <cmath>
+#include <stdexcept>
+
 #include <Collision/AABB.h>
 #include <Collision/PointMass.h>
 #include <Collision/Shape.h>
