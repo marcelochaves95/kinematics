@@ -7,6 +7,7 @@
 #include <Collision/Collision.h>
 #include <Dynamics/Body.h>
 #include <Dynamics/SpringBody.h>
+#include <Utils/Bitmask.h>
 #include <Utils/KinematicsController.h>
 
 using namespace kinematics;
@@ -34,6 +35,17 @@ std::shared_ptr<Body> makeFloor() {
 }
 } // namespace
 
+// ── Bitmask high bit must be well-defined (no signed-shift UB) ───
+TEST_CASE(bitmask_high_bit_is_defined) {
+    Bitmask m;
+    m.SetOn(32); // -> 1u << 31; would be UB if Mask were a signed int
+    CHECK(m.Mask != 0u);
+    m.SetOff(32);
+    CHECK(m.Mask == 0u);
+    m.Clear();
+    CHECK(m.Mask == 0u);
+}
+
 // ── Add/Remove dedup ─────────────────────────────────────────────
 TEST_CASE(controller_add_remove_dedup) {
     KinematicsController ctrl;
@@ -55,7 +67,8 @@ TEST_CASE(collision_intersects_finds_contacts) {
     a->Update(dt); // populate AABB / CurrentShape
     b->Update(dt);
 
-    auto contacts = Collision::Intersects(*a, *b);
+    std::vector<CollisionInfo> contacts;
+    Collision::Intersects(*a, *b, contacts);
     CHECK(contacts.size() >= 1);
     if (!contacts.empty()) {
         CHECK(contacts[0].BodyA == a.get());
@@ -120,6 +133,34 @@ TEST_CASE(body_misses_floor_keeps_falling) {
     }
     // No collider underneath -> free fall well past where the floor would catch it.
     CHECK(blob->Position.Y > 50.0f);
+}
+
+// ── Removing a body from inside a callback is safe (deferred) ─────
+TEST_CASE(remove_body_from_callback_is_safe) {
+    KinematicsController ctrl;
+    ctrl.Add(makeFloor());
+    auto blob = std::make_shared<SpringBody>(box(0.5f, 0.5f), 1.0f, 150.0f, 10.0f, 200.0f, 15.0f);
+    blob->Position = Vector2(0.0f, 2.0f);
+    blob->Gravity = Vector2(0.0f, 9.8f);
+    ctrl.Add(blob);
+
+    // On first contact, drop the controller's shared_ptr AND ask to remove it.
+    // Without deferral the raw Body* in queued CollisionInfos would dangle.
+    bool removed = false;
+    ctrl.OnCollision = [&](Body&, Body&, const CollisionInfo&) {
+        if (!removed) {
+            removed = true;
+            ctrl.Remove(blob);
+            blob.reset(); // release the test's own reference too
+        }
+    };
+
+    const double dt = 1.0 / 60.0;
+    for (int i = 0; i < 300; i++) {
+        ctrl.Update(dt); // must not use-after-free
+    }
+    CHECK(removed);
+    CHECK(ctrl.BodyList.size() == 1); // only the floor remains
 }
 
 // ── Callbacks fire during contact ────────────────────────────────

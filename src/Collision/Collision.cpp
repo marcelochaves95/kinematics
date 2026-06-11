@@ -6,9 +6,8 @@
 
 namespace kinematics
 {
-    std::vector<CollisionInfo> Collision::Intersects(Body& bodyA, Body& bodyB)
+    void Collision::Intersects(Body& bodyA, Body& bodyB, std::vector<CollisionInfo>& out)
     {
-        std::vector<CollisionInfo> data;
         int bApmCount = bodyA.Count;
         int bBpmCount = bodyB.Count;
         AABB boxB = bodyB.Aabb;
@@ -97,19 +96,17 @@ namespace kinematics
             if (found && closestAway > 0.3f && closestSame < closestAway)
             {
                 infoSame.Penetration = mathf::Sqrt(infoSame.Penetration);
-                data.push_back(infoSame);
+                out.push_back(infoSame);
             }
             else if (found)
             {
                 infoAway.Penetration = mathf::Sqrt(infoAway.Penetration);
-                data.push_back(infoAway);
+                out.push_back(infoAway);
             }
             // If no "away" edge was found, infoAway is unpopulated (zero normal /
             // zero penetration / null point masses): emitting it produced a phantom
             // contact that did nothing in the resolver but fired a spurious callback
             // and held dummy point masses. Skip it.
         }
-
-        return data;
     }
 }

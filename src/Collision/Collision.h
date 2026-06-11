@@ -13,6 +13,9 @@ namespace kinematics
     class Collision
     {
     public:
-        static std::vector<CollisionInfo> Intersects(Body& bodyA, Body& bodyB);
+        // Appends the contacts (vertices of bodyA inside bodyB) onto `out`,
+        // writing directly into the caller's buffer to avoid a per-pair heap
+        // allocation + copy each frame.
+        static void Intersects(Body& bodyA, Body& bodyB, std::vector<CollisionInfo>& out);
     };
 }

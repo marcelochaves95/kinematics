@@ -34,6 +34,12 @@ namespace kinematics
 
     void KinematicsController::Remove(const std::shared_ptr<Body>& body)
     {
+        if (_stepping)
+        {
+            // Defer: collision records still reference this body this frame.
+            _pendingRemove.push_back(body);
+            return;
+        }
         auto it = std::find(BodyList.begin(), BodyList.end(), body);
         if (it != BodyList.end())
         {
@@ -214,6 +220,7 @@ namespace kinematics
 
         PenetrationCount = 0;
         _collisions.clear();
+        _stepping = true;
 
         for (size_t i = 0; i < BodyList.size(); i++)
         {
@@ -250,19 +257,17 @@ namespace kinematics
                 {
                     OnAABBCollision(*BodyList[i], *BodyList[j]);
                 }
-                auto a = Collision::Intersects(*BodyList[j], *BodyList[i]);
-                _collisions.insert(_collisions.end(), a.begin(), a.end());
-                auto b = Collision::Intersects(*BodyList[i], *BodyList[j]);
-                _collisions.insert(_collisions.end(), b.begin(), b.end());
+                Collision::Intersects(*BodyList[j], *BodyList[i], _collisions);
+                Collision::Intersects(*BodyList[i], *BodyList[j], _collisions);
             }
         }
 
         for (size_t i = 0; i < _collisions.size(); i++)
         {
-            CollisionInfo info = _collisions[i];
-            PointMassPtr A = info.PointMassA;
-            PointMassPtr B1 = info.PointMassB;
-            PointMassPtr B2 = info.PointMassC;
+            const CollisionInfo& info = _collisions[i];
+            const PointMassPtr& A = info.PointMassA;
+            const PointMassPtr& B1 = info.PointMassB;
+            const PointMassPtr& B2 = info.PointMassC;
             if (OnCollision)
             {
                 OnCollision(*info.BodyA, *info.BodyB, info);
@@ -321,7 +326,12 @@ namespace kinematics
             numV.Y = relVel.Y * elasticity;
             float jNumerator = Vector2::Dot(numV, info.Normal);
             jNumerator = -jNumerator;
-            float j = jNumerator / jDenom;
+            // jDenom == 0 means both colliding sides are effectively immovable
+            // (infinite mass): there is no impulse to distribute. Guard the
+            // divides so j/f stay finite instead of Inf/NaN. (Today the velocity
+            // updates below are already mass-guarded, so these would be unused,
+            // but this keeps the math defined if those guards ever change.)
+            float j = jDenom > 0.0f ? jNumerator / jDenom : 0.0f;
             if (!std::isinf(A->Mass))
             {
                 A->Position.X += info.Normal.X * moveA;
@@ -343,7 +353,7 @@ namespace kinematics
             Vector2 tangent = info.Normal.Perpendicular();
             float fNumerator = Vector2::Dot(relVel, tangent);
             fNumerator *= Friction;
-            float f = fNumerator / jDenom;
+            float f = jDenom > 0.0f ? fNumerator / jDenom : 0.0f;
             if (relDot <= mathf::Epsilon)
             {
                 if (!std::isinf(A->Mass))
@@ -370,6 +380,18 @@ namespace kinematics
         {
             BodyList[i]->UpdateBodyPositionVelocityForce();
         }
+
+        // Step finished: apply any removals deferred from callbacks above.
+        _stepping = false;
+        for (const std::shared_ptr<Body>& body : _pendingRemove)
+        {
+            auto it = std::find(BodyList.begin(), BodyList.end(), body);
+            if (it != BodyList.end())
+            {
+                BodyList.erase(it);
+            }
+        }
+        _pendingRemove.clear();
     }
 
     float KinematicsController::nextFloat()

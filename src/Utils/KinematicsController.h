@@ -53,6 +53,13 @@ namespace kinematics
 
         std::vector<CollisionInfo> _collisions;
         bool _initialized = false;
+        // While a step is running, Remove(body) is deferred: an in-flight
+        // CollisionInfo holds a raw Body* into BodyList, so erasing the body's
+        // shared_ptr mid-step (e.g. from a collision callback) could free it and
+        // leave that pointer dangling. Deferred removals are applied once the
+        // step finishes (the body stays alive in BodyList until then).
+        bool _stepping = false;
+        std::vector<std::shared_ptr<Body>> _pendingRemove;
         std::mt19937 _random{0u};
     };
 }

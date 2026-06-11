@@ -9,11 +9,11 @@ namespace kinematics
 
     void Bitmask::SetOn(int bit)
     {
-        Mask |= 0x01 << (bit > 0 ? bit - 1 : 0);
+        Mask |= 0x01u << (bit > 0 ? bit - 1 : 0);
     }
 
     void Bitmask::SetOff(int bit)
     {
-        Mask &= ~(0x01 << (bit > 0 ? bit - 1 : 0));
+        Mask &= ~(0x01u << (bit > 0 ? bit - 1 : 0));
     }
 }
