@@ -137,7 +137,7 @@ namespace kinematics
 
     bool Body::Contains(const Vector2& point) const
     {
-        Vector2 endPt(AABB.Max.X + 0.1f, point.Y);
+        Vector2 endPt(Aabb.Max.X + 0.1f, point.Y);
         bool inside = false;
         Vector2 edgeSt = PointMassList[0]->Position;
         for (int i = 0; i < Count; i++)
@@ -331,15 +331,15 @@ namespace kinematics
 
     void Body::UpdateAABB(double elapsed)
     {
-        AABB.Clear();
+        Aabb.Clear();
         for (int i = 0; i < Count; i++)
         {
             float x = PointMassList[i]->Position.X;
             float y = PointMassList[i]->Position.Y;
-            AABB.Add(x, y);
+            Aabb.Add(x, y);
             x += static_cast<float>(PointMassList[i]->Velocity.X * elapsed);
             y += static_cast<float>(PointMassList[i]->Velocity.Y * elapsed);
-            AABB.Add(x, y);
+            Aabb.Add(x, y);
         }
     }
 

@@ -11,7 +11,7 @@ namespace kinematics
         std::vector<CollisionInfo> data;
         int bApmCount = bodyA.Count;
         int bBpmCount = bodyB.Count;
-        AABB boxB = bodyB.AABB;
+        AABB boxB = bodyB.Aabb;
         CollisionInfo infoAway;
         CollisionInfo infoSame;
         for (int i = 0; i < bApmCount; i++)

@@ -25,7 +25,7 @@ namespace kinematics
         std::vector<PointMassPtr> PointMassList;
         Shape CurrentShape;
 
-        AABB AABB;
+        AABB Aabb;
         Bitmask BitmaskX;
         Bitmask BitmaskY;
 

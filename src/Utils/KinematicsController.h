@@ -27,7 +27,7 @@ namespace kinematics
         float PenetrationThreshold = 0.015f;
         float Friction = 1.9f;
         float Elasticity = 1.5f;
-        AABB AABB;
+        AABB Aabb;
         Vector2 Size;
         Vector2 Cell;
         std::function<void(Body&, Body&)> OnAABBCollision;

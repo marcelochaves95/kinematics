@@ -43,17 +43,17 @@ namespace kinematics
 
     void KinematicsController::SetWorldLimits(Vector2 min, Vector2 max)
     {
-        AABB = kinematics::AABB(min, max);
+        Aabb = kinematics::AABB(min, max);
         Size = max - min;
         Cell = Size / 32.0f;
     }
 
     void KinematicsController::UpdateBitmask(Body& body)
     {
-        kinematics::AABB box = body.AABB;
+        kinematics::AABB box = body.Aabb;
 
-        int minX = static_cast<int>(mathf::Floor((box.Min.X - AABB.Min.X) / Cell.X));
-        int maxX = static_cast<int>(mathf::Floor((box.Max.X - AABB.Min.X) / Cell.X));
+        int minX = static_cast<int>(mathf::Floor((box.Min.X - Aabb.Min.X) / Cell.X));
+        int maxX = static_cast<int>(mathf::Floor((box.Max.X - Aabb.Min.X) / Cell.X));
         if (minX < 0)
         {
             minX = 0;
@@ -71,8 +71,8 @@ namespace kinematics
             maxX = 32;
         }
 
-        int minY = static_cast<int>(mathf::Floor((box.Min.Y - AABB.Min.Y) / Cell.Y));
-        int maxY = static_cast<int>(mathf::Floor((box.Max.Y - AABB.Min.Y) / Cell.Y));
+        int minY = static_cast<int>(mathf::Floor((box.Min.Y - Aabb.Min.Y) / Cell.Y));
+        int maxY = static_cast<int>(mathf::Floor((box.Max.Y - Aabb.Min.Y) / Cell.Y));
         if (minY < 0)
         {
             minY = 0;
@@ -108,7 +108,7 @@ namespace kinematics
         for (size_t i = 0; i < BodyList.size(); i++)
         {
             Body& body = *BodyList[i];
-            if (!body.AABB.Contains(point.X, point.Y))
+            if (!body.Aabb.Contains(point.X, point.Y))
             {
                 continue;
             }
@@ -135,21 +135,21 @@ namespace kinematics
             BodyList[i]->RotateShape(0);
             BodyList[i]->Update(0);
 
-            if (BodyList[i]->AABB.Min.X < min.X)
+            if (BodyList[i]->Aabb.Min.X < min.X)
             {
-                min.X = BodyList[i]->AABB.Min.X;
+                min.X = BodyList[i]->Aabb.Min.X;
             }
-            if (BodyList[i]->AABB.Min.Y < min.Y)
+            if (BodyList[i]->Aabb.Min.Y < min.Y)
             {
-                min.Y = BodyList[i]->AABB.Min.Y;
+                min.Y = BodyList[i]->Aabb.Min.Y;
             }
-            if (BodyList[i]->AABB.Max.X > max.X)
+            if (BodyList[i]->Aabb.Max.X > max.X)
             {
-                max.X = BodyList[i]->AABB.Max.X;
+                max.X = BodyList[i]->Aabb.Max.X;
             }
-            if (BodyList[i]->AABB.Max.Y > max.Y)
+            if (BodyList[i]->Aabb.Max.Y > max.Y)
             {
-                max.Y = BodyList[i]->AABB.Max.Y;
+                max.Y = BodyList[i]->Aabb.Max.Y;
             }
         }
 
@@ -228,7 +228,7 @@ namespace kinematics
                     continue;
                 }
 
-                if (!BodyList[i]->AABB.Intersects(BodyList[j]->AABB))
+                if (!BodyList[i]->Aabb.Intersects(BodyList[j]->Aabb))
                 {
                     continue;
                 }
