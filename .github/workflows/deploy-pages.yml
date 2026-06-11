@@ -29,7 +29,7 @@ jobs:
       - name: Set up Emscripten
         uses: mymindstorm/setup-emsdk@v14
         with:
-          version: latest
+          version: 6.0.0   # pinned for reproducible builds (don't use 'latest')
 
       - name: Build WASM
         run: bash demo/build.sh
