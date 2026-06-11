@@ -46,6 +46,19 @@ namespace kinematics
         Aabb = kinematics::AABB(min, max);
         Size = max - min;
         Cell = Size / 32.0f;
+
+        // Guard against a degenerate (zero-extent) world — e.g. no static bodies
+        // and no explicit limits, which leaves min == max == (0,0). Without this,
+        // UpdateBitmask divides by Cell.X/Cell.Y == 0 -> Inf/NaN -> UB on the int
+        // cast. A unit cell just maps every body into the same broadphase column.
+        if (Cell.X <= 0.0f)
+        {
+            Cell.X = 1.0f;
+        }
+        if (Cell.Y <= 0.0f)
+        {
+            Cell.Y = 1.0f;
+        }
     }
 
     void KinematicsController::UpdateBitmask(Body& body)

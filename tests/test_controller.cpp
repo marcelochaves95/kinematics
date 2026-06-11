@@ -67,6 +67,21 @@ TEST_CASE(collision_intersects_finds_contacts) {
     }
 }
 
+// ── Degenerate world (no static bodies) must not divide by zero ──
+TEST_CASE(controller_no_static_bodies_is_safe) {
+    KinematicsController ctrl;
+    auto blob = std::make_shared<SpringBody>(box(0.5f, 0.5f), 1.0f, 150.0f, 10.0f, 200.0f, 15.0f);
+    blob->Gravity = Vector2(0.0f, 9.8f);
+    ctrl.Add(blob); // no static bodies, no SetWorldLimits -> world would be zero-size
+
+    const double dt = 1.0 / 60.0;
+    for (int i = 0; i < 60; i++) {
+        ctrl.Update(dt); // must not divide by zero / produce NaN
+    }
+    CHECK(std::isfinite(blob->Position.Y));
+    CHECK(blob->Position.Y > 0.0f); // it fell (no floor to catch it)
+}
+
 // ── Integration: a falling body is caught by the floor ───────────
 TEST_CASE(body_caught_by_floor) {
     KinematicsController ctrl;
