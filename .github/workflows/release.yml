@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: mymindstorm/setup-emsdk@v14
+      - uses: mymindstorm/setup-emsdk@6ab9eb1bda2574c4ddb79809fc9247783eaf9021 # v14
         with:
           version: 6.0.0   # pinned for reproducible builds (don't use 'latest')
       - name: Build WASM
@@ -96,11 +96,11 @@ jobs:
           (cd artifacts/macos-universal && zip -r - .) > release/kinematics-macos-universal.zip
           (cd artifacts/windows-x64     && zip -r - .) > release/kinematics-windows-x64.zip
           (cd artifacts/wasm            && zip -r - .) > release/kinematics-wasm.zip
-          # header-only engine source (for C++ users who compile from source)
-          zip -r release/kinematics-headers.zip src
+          # full engine source (headers + .cpp + CMake) for C++ users who build it
+          zip -r release/kinematics-src.zip src CMakeLists.txt
 
       - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
         with:
           tag_name: ${{ inputs.tag }}
           name: ${{ inputs.tag }}
