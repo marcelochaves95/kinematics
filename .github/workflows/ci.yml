@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # Build (engine static lib + C ABI shared lib + tests) and run the test suite
+  # on both major compilers. The test target builds with -Werror, so this also
+  # gates warnings — and GCC catches issues AppleClang silently accepts.
+  test:
+    name: test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+      - name: Build
+        run: cmake --build build
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+  # Run the suite under UndefinedBehavior + Address sanitizers to catch NaN/UB,
+  # divide-by-zero, OOB and leaks that a normal build silently tolerates.
+  sanitizers:
+    name: sanitizers (ubsan + asan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build with sanitizers
+        run: >
+          c++ -std=c++17 -O1 -g -fsanitize=undefined,address
+          -fno-sanitize-recover=all -Wall -Wextra -Werror
+          -Isrc -Itests $(find src -name '*.cpp') tests/*.cpp -o tests_san
+      - name: Run
+        run: ./tests_san
