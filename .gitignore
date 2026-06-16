@@ -69,3 +69,8 @@ BenchmarkDotNet.Artifacts/
 Thumbs.db
 build/
 build_*
+
+# Emscripten build artifacts (regenerate with demo/build.sh).
+# If you want zero-build static hosting (e.g. GitHub Pages), commit these instead.
+demo/kinematics.js
+demo/kinematics.wasm
