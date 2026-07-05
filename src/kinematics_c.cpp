@@ -1,9 +1,9 @@
 #define KN_BUILD
 #include <kinematics_c.h>
 #include <kn_internal.h>
-#include <Collision/Chain.h>
-#include <Collision/PointMass.h>
-#include <Collision/Shape.h>
+#include <collision/chain.h>
+#include <collision/point_mass.h>
+#include <collision/shape.h>
 #include <Dynamics/Body.h>
 #include <Dynamics/PressureBody.h>
 #include <Dynamics/SpringBody.h>
@@ -24,12 +24,12 @@ namespace
     Shape makeShape(const float* xy, int count)
     {
         Shape s;
-        s.Begin(true); // center on centroid; the body is then placed via posX/posY
+        s.begin(true); // center on centroid; the body is then placed via posX/posY
         for (int i = 0; i < count; i++)
         {
-            s.Add(Vector2(xy[2 * i], xy[2 * i + 1]));
+            s.add(Vector2(xy[2 * i], xy[2 * i + 1]));
         }
-        s.End();
+        s.end();
         return s;
     }
 
@@ -62,8 +62,8 @@ namespace
         }
         for (int i = 0; i < n; i++)
         {
-            outXY[2 * i] = pml[i]->Position.X;
-            outXY[2 * i + 1] = pml[i]->Position.Y;
+            outXY[2 * i] = pml[i]->position.X;
+            outXY[2 * i + 1] = pml[i]->position.Y;
         }
         return n;
     }
@@ -105,7 +105,7 @@ void kn_world_set_elasticity(KnWorld* world, float elasticity)
 
 void kn_set_max_step(float maxStep)
 {
-    PointMass::MaxStep = maxStep;
+    PointMass::MAX_STEP = maxStep;
 }
 
 void kn_world_set_drag(KnWorld* world, float drag)
@@ -140,26 +140,26 @@ void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, fl
         float vy = dy / dist * s;
         for (auto& pm : body->PointMassList)
         {
-            pm->Velocity.X += vx;
-            pm->Velocity.Y += vy;
+            pm->velocity.X += vx;
+            pm->velocity.Y += vy;
         }
         body->UpdateBodyPositionVelocityForce();
     }
     for (auto& chain : world->ctrl.ChainList)
     {
-        for (size_t i = 1; i + 1 < chain->PointMassList.size(); i++)
+        for (size_t i = 1; i + 1 < chain->point_mass_list.size(); i++)
         {
-            auto& pm = chain->PointMassList[i];
-            float dx = pm->Position.X - wx;
-            float dy = pm->Position.Y - wy;
+            auto& pm = chain->point_mass_list[i];
+            float dx = pm->position.X - wx;
+            float dy = pm->position.Y - wy;
             float dist = std::sqrt(dx * dx + dy * dy);
             if (dist < 0.01f || dist > radius)
             {
                 continue;
             }
             float s = strength * (1.0f - dist / radius);
-            pm->Velocity.X += dx / dist * s;
-            pm->Velocity.Y += dy / dist * s;
+            pm->velocity.X += dx / dist * s;
+            pm->velocity.Y += dy / dist * s;
         }
     }
 }
@@ -271,13 +271,13 @@ void kn_world_step(KnWorld* world, double dt, int substeps)
         // chain gravity + linear drag on non-static body point masses.
         for (auto& chain : world->ctrl.ChainList)
         {
-            for (size_t i = 1; i + 1 < chain->PointMassList.size(); i++)
+            for (size_t i = 1; i + 1 < chain->point_mass_list.size(); i++)
             {
-                float m = chain->PointMassList[i]->Mass;
+                float m = chain->point_mass_list[i]->mass;
                 if (!std::isinf(m))
                 {
-                    chain->PointMassList[i]->Force.X += world->chainGravity.X * m;
-                    chain->PointMassList[i]->Force.Y += world->chainGravity.Y * m;
+                    chain->point_mass_list[i]->force.X += world->chainGravity.X * m;
+                    chain->point_mass_list[i]->force.Y += world->chainGravity.Y * m;
                 }
             }
         }
@@ -291,8 +291,8 @@ void kn_world_step(KnWorld* world, double dt, int substeps)
                 }
                 for (auto& pm : body->PointMassList)
                 {
-                    pm->Force.X -= world->drag * pm->Velocity.X;
-                    pm->Force.Y -= world->drag * pm->Velocity.Y;
+                    pm->force.X -= world->drag * pm->velocity.X;
+                    pm->force.Y -= world->drag * pm->velocity.Y;
                 }
             }
         }
@@ -373,7 +373,7 @@ int kn_chain_point_count(KnWorld* world, int chain)
     {
         return 0;
     }
-    return static_cast<int>(world->ctrl.ChainList[chain]->PointMassList.size());
+    return static_cast<int>(world->ctrl.ChainList[chain]->point_mass_list.size());
 }
 
 int kn_chain_get_points(KnWorld* world, int chain, float* outXY, int maxPoints)
@@ -382,5 +382,5 @@ int kn_chain_get_points(KnWorld* world, int chain, float* outXY, int maxPoints)
     {
         return 0;
     }
-    return copyPoints(world->ctrl.ChainList[chain]->PointMassList, outXY, maxPoints);
+    return copyPoints(world->ctrl.ChainList[chain]->point_mass_list, outXY, maxPoints);
 }

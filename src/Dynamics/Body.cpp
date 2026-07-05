@@ -10,12 +10,12 @@ namespace kinematics
     Body::Body(const Shape& shape, float mass)
     {
         _baseShape = shape;
-        CurrentShape = shape.Clone();
-        Count = shape.Count;
-        PointMassList.reserve(static_cast<size_t>(shape.Count));
-        for (int i = 0; i < shape.Count; i++)
+        CurrentShape = shape.clone();
+        Count = shape.count;
+        PointMassList.reserve(static_cast<size_t>(shape.count));
+        for (int i = 0; i < shape.count; i++)
         {
-            PointMassList.push_back(std::make_shared<PointMass>(shape.Points[i], mass));
+            PointMassList.push_back(std::make_shared<PointMass>(shape.points[i], mass));
         }
     }
 
@@ -23,10 +23,10 @@ namespace kinematics
     {
         for (int i = 0; i < Count; i++)
         {
-            float mass = PointMassList[i]->Mass;
+            float mass = PointMassList[i]->mass;
             if (!std::isinf(mass))
             {
-                PointMassList[i]->Force += Gravity * mass;
+                PointMassList[i]->force += Gravity * mass;
             }
         }
     }
@@ -44,10 +44,10 @@ namespace kinematics
         for (int i = 0; i < Count; i++)
         {
             Vector2 baseNormal = Vector2::Normalize(
-                Vector2(_baseShape.Points[i].X, _baseShape.Points[i].Y));
+                Vector2(_baseShape.points[i].X, _baseShape.points[i].Y));
             Vector2 currentNormal = Vector2::Normalize(
-                Vector2(PointMassList[i]->Position.X - Position.X,
-                    PointMassList[i]->Position.Y - Position.Y));
+                Vector2(PointMassList[i]->position.X - Position.X,
+                    PointMassList[i]->position.Y - Position.Y));
 
             float dot = Vector2::Dot(baseNormal, currentNormal);
             if (dot > 1.0f)
@@ -90,10 +90,10 @@ namespace kinematics
         float sin = mathf::Sin(angle);
         for (int i = 0; i < Count; i++)
         {
-            float x = _baseShape.Points[i].X;
-            float y = _baseShape.Points[i].Y;
-            CurrentShape.Points[i].X = cos * x - sin * y + Position.X;
-            CurrentShape.Points[i].Y = cos * y + sin * x + Position.Y;
+            float x = _baseShape.points[i].X;
+            float y = _baseShape.points[i].Y;
+            CurrentShape.points[i].X = cos * x - sin * y + Position.X;
+            CurrentShape.points[i].Y = cos * y + sin * x + Position.Y;
         }
     }
 
@@ -118,13 +118,13 @@ namespace kinematics
 
     bool Body::Contains(const Vector2& point) const
     {
-        Vector2 endPt(Aabb.Max.X + 0.1f, point.Y);
+        Vector2 endPt(Aabb.max.X + 0.1f, point.Y);
         bool inside = false;
-        Vector2 edgeSt = PointMassList[0]->Position;
+        Vector2 edgeSt = PointMassList[0]->position;
         for (int i = 0; i < Count; i++)
         {
-            Vector2 edgeEnd = i < Count - 1 ? PointMassList[i + 1]->Position
-                                            : PointMassList[0]->Position;
+            Vector2 edgeEnd = i < Count - 1 ? PointMassList[i + 1]->position
+                                            : PointMassList[0]->position;
             if ((edgeSt.Y <= point.Y && edgeEnd.Y > point.Y) ||
                 (edgeSt.Y > point.Y && edgeEnd.Y <= point.Y))
             {
@@ -174,9 +174,9 @@ namespace kinematics
         normal = Vector2(0.0f, 0.0f);
         edgeD = 0.0f;
         float distance;
-        Vector2 ptA = PointMassList[edgeNum]->Position;
-        Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1]->Position
-                                          : PointMassList[0]->Position;
+        Vector2 ptA = PointMassList[edgeNum]->position;
+        Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1]->position
+                                          : PointMassList[0]->position;
         Vector2 toP(point.X - ptA.X, point.Y - ptA.Y);
         Vector2 e(ptB.X - ptA.X, ptB.Y - ptA.Y);
 
@@ -225,9 +225,9 @@ namespace kinematics
         normal = Vector2(0.0f, 0.0f);
         edgeD = 0.0f;
         float distanceSquared;
-        Vector2 ptA = PointMassList[edgeNum]->Position;
-        Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1]->Position
-                                          : PointMassList[0]->Position;
+        Vector2 ptA = PointMassList[edgeNum]->position;
+        Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1]->position
+                                          : PointMassList[0]->position;
         Vector2 toP(point.X - ptA.X, point.Y - ptA.Y);
         Vector2 edge(ptB.X - ptA.X, ptB.Y - ptA.Y);
 
@@ -275,7 +275,7 @@ namespace kinematics
         int closest = -1;
         for (int i = 0; i < Count; i++)
         {
-            float thisD = (point - PointMassList[i]->Position).LengthSquared();
+            float thisD = (point - PointMassList[i]->position).LengthSquared();
             if (thisD < closestSQD)
             {
                 closestSQD = thisD;
@@ -293,10 +293,10 @@ namespace kinematics
             force.Vector3FromVector2()).Z;
         for (int i = 0; i < Count; i++)
         {
-            Vector2 toPt = PointMassList[i]->Position - Position;
+            Vector2 toPt = PointMassList[i]->position - Position;
             Vector2 torque(toPt.Y, -toPt.X);
-            PointMassList[i]->Force += torque * torqueForce;
-            PointMassList[i]->Force += force;
+            PointMassList[i]->force += torque * torqueForce;
+            PointMassList[i]->force += force;
         }
     }
 
@@ -304,23 +304,23 @@ namespace kinematics
     {
         for (int i = 0; i < Count; i++)
         {
-            PointMassList[i]->Velocity.X *= DAMPING;
-            PointMassList[i]->Velocity.Y *= DAMPING;
-            PointMassList[i]->Update(elapsed);
+            PointMassList[i]->velocity.X *= DAMPING;
+            PointMassList[i]->velocity.Y *= DAMPING;
+            PointMassList[i]->update(elapsed);
         }
     }
 
     void Body::UpdateAABB(double elapsed)
     {
-        Aabb.Clear();
+        Aabb.clear();
         for (int i = 0; i < Count; i++)
         {
-            float x = PointMassList[i]->Position.X;
-            float y = PointMassList[i]->Position.Y;
-            Aabb.Add(x, y);
-            x += static_cast<float>(PointMassList[i]->Velocity.X * elapsed);
-            y += static_cast<float>(PointMassList[i]->Velocity.Y * elapsed);
-            Aabb.Add(x, y);
+            float x = PointMassList[i]->position.X;
+            float y = PointMassList[i]->position.Y;
+            Aabb.add(x, y);
+            x += static_cast<float>(PointMassList[i]->velocity.X * elapsed);
+            y += static_cast<float>(PointMassList[i]->velocity.Y * elapsed);
+            Aabb.add(x, y);
         }
     }
 
@@ -330,12 +330,12 @@ namespace kinematics
         GetBodyPositionVelocityForce(currentPosition, currentVelocity, currentForce);
         for (int i = 0; i < Count; i++)
         {
-            PointMassList[i]->Position -= currentPosition;
-            PointMassList[i]->Position += position;
-            PointMassList[i]->Velocity -= currentVelocity;
-            PointMassList[i]->Velocity += velocity;
-            PointMassList[i]->Force -= currentForce;
-            PointMassList[i]->Force += force;
+            PointMassList[i]->position -= currentPosition;
+            PointMassList[i]->position += position;
+            PointMassList[i]->velocity -= currentVelocity;
+            PointMassList[i]->velocity += velocity;
+            PointMassList[i]->force -= currentForce;
+            PointMassList[i]->force += force;
         }
     }
 
@@ -350,12 +350,12 @@ namespace kinematics
         force.Y = 0.0f;
         for (int i = 0; i < Count; i++)
         {
-            position.X += PointMassList[i]->Position.X * inverse_count;
-            position.Y += PointMassList[i]->Position.Y * inverse_count;
-            velocity.X += PointMassList[i]->Velocity.X * inverse_count;
-            velocity.Y += PointMassList[i]->Velocity.Y * inverse_count;
-            force.X += PointMassList[i]->Force.X * inverse_count;
-            force.Y += PointMassList[i]->Force.Y * inverse_count;
+            position.X += PointMassList[i]->position.X * inverse_count;
+            position.Y += PointMassList[i]->position.Y * inverse_count;
+            velocity.X += PointMassList[i]->velocity.X * inverse_count;
+            velocity.Y += PointMassList[i]->velocity.Y * inverse_count;
+            force.X += PointMassList[i]->force.X * inverse_count;
+            force.Y += PointMassList[i]->force.Y * inverse_count;
         }
     }
 }

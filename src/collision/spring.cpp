@@ -1,35 +1,33 @@
-#include <Collision/Spring.h>
+#include <collision/spring.h>
 #include <Math/Mathf.h>
 #include <utility>
 
 namespace kinematics
 {
-    // 4-arg: rest length defaults to the current A-B distance (via Reset()).
     Spring::Spring(PointMassPtr a, PointMassPtr b, float k, float damping)
         : Spring(std::move(a), std::move(b), k, damping, 0.0f)
     {
-        Reset();
+        reset();
     }
 
-    // 5-arg: rest length given explicitly.
     Spring::Spring(PointMassPtr a, PointMassPtr b, float k, float damping, float length)
-        : Damping(damping), K(k), D(length), PointMassA(std::move(a)), PointMassB(std::move(b))
+        : damping(damping), k(k), d(length), point_mass_a(std::move(a)), point_mass_b(std::move(b))
     {
     }
 
-    void Spring::Reset()
+    void Spring::reset()
     {
-        D = (PointMassA->Position - PointMassB->Position).Length();
+        d = (point_mass_a->position - point_mass_b->position).Length();
     }
 
-    Vector2 Spring::SpringForce(const Spring& spring)
+    Vector2 Spring::spring_force(const Spring& spring)
     {
-        return SpringForce(spring.PointMassA->Position, spring.PointMassA->Velocity,
-            spring.PointMassB->Position, spring.PointMassB->Velocity,
-            spring.D, spring.K, spring.Damping);
+        return spring_force(spring.point_mass_a->position, spring.point_mass_a->velocity,
+            spring.point_mass_b->position, spring.point_mass_b->velocity,
+            spring.d, spring.k, spring.damping);
     }
 
-    Vector2 Spring::SpringForce(const Vector2& posA, const Vector2& velA,
+    Vector2 Spring::spring_force(const Vector2& posA, const Vector2& velA,
         const Vector2& posB, const Vector2& velB,
         float springD, float springK, float damping)
     {

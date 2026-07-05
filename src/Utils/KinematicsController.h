@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Collision/AABB.h>
-#include <Collision/Chain.h>
-#include <Collision/CollisionInfo.h>
+#include <collision/aabb.h>
+#include <collision/chain.h>
+#include <collision/collision_info.h>
 #include <Dynamics/Body.h>
 #include <Math/Vector2.h>
 #include <functional>

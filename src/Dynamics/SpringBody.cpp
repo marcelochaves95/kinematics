@@ -29,11 +29,11 @@ namespace kinematics
         for (size_t i = 0; i < _springs.size(); i++)
         {
             Spring& spring = _springs[i];
-            force = Spring::SpringForce(spring);
-            spring.PointMassA->Force.X += force.X;
-            spring.PointMassA->Force.Y += force.Y;
-            spring.PointMassB->Force.X -= force.X;
-            spring.PointMassB->Force.Y -= force.Y;
+            force = Spring::spring_force(spring);
+            spring.point_mass_a->force.X += force.X;
+            spring.point_mass_a->force.Y += force.Y;
+            spring.point_mass_b->force.X -= force.X;
+            spring.point_mass_b->force.Y -= force.Y;
         }
 
         if (_isConstrained)
@@ -44,12 +44,12 @@ namespace kinematics
                 {
                     // shape-matching spring: pull each PM toward its target shape
                     // point with rest length 0 (velA == velB, so no damping term).
-                    force = Spring::SpringForce(
-                        PointMassList[i]->Position, PointMassList[i]->Velocity,
-                        CurrentShape.Points[i], PointMassList[i]->Velocity,
+                    force = Spring::spring_force(
+                        PointMassList[i]->position, PointMassList[i]->velocity,
+                        CurrentShape.points[i], PointMassList[i]->velocity,
                         0.0f, _shapeK, _shapeDamping);
-                    PointMassList[i]->Force.X += force.X;
-                    PointMassList[i]->Force.Y += force.Y;
+                    PointMassList[i]->force.X += force.X;
+                    PointMassList[i]->force.Y += force.Y;
                 }
             }
         }

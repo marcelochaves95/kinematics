@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Collision/Shape.h>
-#include <Collision/Spring.h>
+#include <collision/shape.h>
+#include <collision/spring.h>
 #include <Dynamics/Body.h>
 #include <vector>
 

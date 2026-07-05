@@ -18,13 +18,13 @@ add_library(kinematics STATIC
     src/Math/Mathf.cpp
     src/Math/Vector2.cpp
     src/Math/Vector3.cpp
-    src/Collision/AABB.cpp
-    src/Collision/PointMass.cpp
-    src/Collision/Shape.cpp
-    src/Collision/Spring.cpp
-    src/Collision/Chain.cpp
-    src/Collision/CollisionInfo.cpp
-    src/Collision/Collision.cpp
+    src/collision/aabb.cpp
+    src/collision/point_mass.cpp
+    src/collision/shape.cpp
+    src/collision/spring.cpp
+    src/collision/chain.cpp
+    src/collision/collision_info.cpp
+    src/collision/collision.cpp
     src/Dynamics/Body.cpp
     src/Dynamics/SpringBody.cpp
     src/Dynamics/PressureBody.cpp

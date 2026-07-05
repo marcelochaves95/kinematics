@@ -23,12 +23,12 @@ namespace kinematics
             int prev = i > 0 ? i - 1 : Count - 1;
             int next = i < Count - 1 ? i + 1 : 0;
 
-            Vector2 edge1N(PointMassList[i]->Position.X - PointMassList[prev]->Position.X,
-                PointMassList[i]->Position.Y - PointMassList[prev]->Position.Y);
+            Vector2 edge1N(PointMassList[i]->position.X - PointMassList[prev]->position.X,
+                PointMassList[i]->position.Y - PointMassList[prev]->position.Y);
             edge1N = edge1N.Perpendicular();
 
-            Vector2 edge2N(PointMassList[next]->Position.X - PointMassList[i]->Position.X,
-                PointMassList[next]->Position.Y - PointMassList[i]->Position.Y);
+            Vector2 edge2N(PointMassList[next]->position.X - PointMassList[i]->position.X,
+                PointMassList[next]->position.Y - PointMassList[i]->position.Y);
             edge2N = edge2N.Perpendicular();
 
             Vector2 norm(edge1N.X + edge2N.X, edge1N.Y + edge2N.Y);
@@ -45,8 +45,8 @@ namespace kinematics
             _normalList[i] = norm;
             _edgeLengthList[i] = edgeL;
 
-            float xDistance = mathf::Abs(PointMassList[i]->Position.X -
-                PointMassList[next]->Position.X);
+            float xDistance = mathf::Abs(PointMassList[i]->position.X -
+                PointMassList[next]->position.X);
             float volumeProduct = xDistance * mathf::Abs(norm.X) * edgeL;
             _volume += 0.5f * volumeProduct;
         }
@@ -64,11 +64,11 @@ namespace kinematics
                 int j = i < Count - 1 ? i + 1 : 0;
 
                 float pressureV = invVolume * _edgeLengthList[i] * _pressure;
-                PointMassList[i]->Force.X += _normalList[i].X * pressureV;
-                PointMassList[i]->Force.Y += _normalList[i].Y * pressureV;
+                PointMassList[i]->force.X += _normalList[i].X * pressureV;
+                PointMassList[i]->force.Y += _normalList[i].Y * pressureV;
 
-                PointMassList[j]->Force.X += _normalList[j].X * pressureV;
-                PointMassList[j]->Force.Y += _normalList[j].Y * pressureV;
+                PointMassList[j]->force.X += _normalList[j].X * pressureV;
+                PointMassList[j]->force.Y += _normalList[j].Y * pressureV;
             }
         }
     }

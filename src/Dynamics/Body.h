@@ -1,8 +1,8 @@
 #pragma once
 
-#include <Collision/AABB.h>
-#include <Collision/PointMass.h>
-#include <Collision/Shape.h>
+#include <collision/aabb.h>
+#include <collision/point_mass.h>
+#include <collision/shape.h>
 #include <Math/Vector2.h>
 #include <Utils/Bitmask.h>
 #include <vector>

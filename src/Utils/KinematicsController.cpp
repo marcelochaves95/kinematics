@@ -1,5 +1,5 @@
 #include <Utils/KinematicsController.h>
-#include <Collision/Collision.h>
+#include <collision/collision.h>
 #include <Math/Mathf.h>
 #include <algorithm>
 #include <cmath>
@@ -71,8 +71,8 @@ namespace kinematics
     {
         kinematics::AABB box = body.Aabb;
 
-        int minX = static_cast<int>(mathf::Floor((box.Min.X - Aabb.Min.X) / Cell.X));
-        int maxX = static_cast<int>(mathf::Floor((box.Max.X - Aabb.Min.X) / Cell.X));
+        int minX = static_cast<int>(mathf::Floor((box.min.X - Aabb.min.X) / Cell.X));
+        int maxX = static_cast<int>(mathf::Floor((box.max.X - Aabb.min.X) / Cell.X));
         if (minX < 0)
         {
             minX = 0;
@@ -90,8 +90,8 @@ namespace kinematics
             maxX = 32;
         }
 
-        int minY = static_cast<int>(mathf::Floor((box.Min.Y - Aabb.Min.Y) / Cell.Y));
-        int maxY = static_cast<int>(mathf::Floor((box.Max.Y - Aabb.Min.Y) / Cell.Y));
+        int minY = static_cast<int>(mathf::Floor((box.min.Y - Aabb.min.Y) / Cell.Y));
+        int maxY = static_cast<int>(mathf::Floor((box.max.Y - Aabb.min.Y) / Cell.Y));
         if (minY < 0)
         {
             minY = 0;
@@ -127,7 +127,7 @@ namespace kinematics
         for (size_t i = 0; i < BodyList.size(); i++)
         {
             Body& body = *BodyList[i];
-            if (!body.Aabb.Contains(point.X, point.Y))
+            if (!body.Aabb.contains(point.X, point.Y))
             {
                 continue;
             }
@@ -154,21 +154,21 @@ namespace kinematics
             BodyList[i]->RotateShape(0);
             BodyList[i]->Update(0);
 
-            if (BodyList[i]->Aabb.Min.X < min.X)
+            if (BodyList[i]->Aabb.min.X < min.X)
             {
-                min.X = BodyList[i]->Aabb.Min.X;
+                min.X = BodyList[i]->Aabb.min.X;
             }
-            if (BodyList[i]->Aabb.Min.Y < min.Y)
+            if (BodyList[i]->Aabb.min.Y < min.Y)
             {
-                min.Y = BodyList[i]->Aabb.Min.Y;
+                min.Y = BodyList[i]->Aabb.min.Y;
             }
-            if (BodyList[i]->Aabb.Max.X > max.X)
+            if (BodyList[i]->Aabb.max.X > max.X)
             {
-                max.X = BodyList[i]->Aabb.Max.X;
+                max.X = BodyList[i]->Aabb.max.X;
             }
-            if (BodyList[i]->Aabb.Max.Y > max.Y)
+            if (BodyList[i]->Aabb.max.Y > max.Y)
             {
-                max.Y = BodyList[i]->Aabb.Max.Y;
+                max.Y = BodyList[i]->Aabb.max.Y;
             }
         }
 
@@ -230,7 +230,7 @@ namespace kinematics
 
         for (size_t i = 0; i < ChainList.size(); i++)
         {
-            ChainList[i]->Update(elapsed);
+            ChainList[i]->update(elapsed);
         }
 
         for (size_t i = 0; i < BodyList.size(); i++)
@@ -248,7 +248,7 @@ namespace kinematics
                     continue;
                 }
 
-                if (!BodyList[i]->Aabb.Intersects(BodyList[j]->Aabb))
+                if (!BodyList[i]->Aabb.intersects(BodyList[j]->Aabb))
                 {
                     continue;
                 }
@@ -257,74 +257,74 @@ namespace kinematics
                 {
                     OnAABBCollision(*BodyList[i], *BodyList[j]);
                 }
-                Collision::Intersects(*BodyList[j], *BodyList[i], _collisions);
-                Collision::Intersects(*BodyList[i], *BodyList[j], _collisions);
+                Collision::intersects(*BodyList[j], *BodyList[i], _collisions);
+                Collision::intersects(*BodyList[i], *BodyList[j], _collisions);
             }
         }
 
         for (size_t i = 0; i < _collisions.size(); i++)
         {
             const CollisionInfo& info = _collisions[i];
-            const PointMassPtr& A = info.PointMassA;
-            const PointMassPtr& B1 = info.PointMassB;
-            const PointMassPtr& B2 = info.PointMassC;
+            const PointMassPtr& A = info.point_mass_a;
+            const PointMassPtr& B1 = info.point_mass_b;
+            const PointMassPtr& B2 = info.point_mass_c;
             if (OnCollision)
             {
-                OnCollision(*info.BodyA, *info.BodyB, info);
+                OnCollision(*info.body_a, *info.body_b, info);
             }
 
-            Vector2 bVel((B1->Velocity.X + B2->Velocity.X) * 0.5f,
-                (B1->Velocity.Y + B2->Velocity.Y) * 0.5f);
-            Vector2 relVel(A->Velocity.X - bVel.X, A->Velocity.Y - bVel.Y);
-            float relDot = Vector2::Dot(relVel, info.Normal);
+            Vector2 bVel((B1->velocity.X + B2->velocity.X) * 0.5f,
+                (B1->velocity.Y + B2->velocity.Y) * 0.5f);
+            Vector2 relVel(A->velocity.X - bVel.X, A->velocity.Y - bVel.Y);
+            float relDot = Vector2::Dot(relVel, info.normal);
 
             if (OnPenetration)
             {
-                OnPenetration(info.Penetration, *info.BodyA, *info.BodyB);
+                OnPenetration(info.penetration, *info.body_a, *info.body_b);
             }
 
-            if (info.Penetration > 1.0f)
+            if (info.penetration > 1.0f)
             {
                 PenetrationCount++;
                 continue;
             }
 
-            float b1inf = 1.0f - info.EdgeDistance;
-            float b2inf = info.EdgeDistance;
-            float b2MassSum = (std::isinf(B1->Mass) || std::isinf(B2->Mass))
+            float b1inf = 1.0f - info.edge_distance;
+            float b2inf = info.edge_distance;
+            float b2MassSum = (std::isinf(B1->mass) || std::isinf(B2->mass))
                                   ? std::numeric_limits<float>::infinity()
-                                  : (B1->Mass + B2->Mass);
-            float massSum = A->Mass + b2MassSum;
+                                  : (B1->mass + B2->mass);
+            float massSum = A->mass + b2MassSum;
             float moveA;
             float moveB;
             // Cap single-frame position correction to 0.1 m (see the C# original).
             const float MaxCorrection = 0.1f;
-            if (std::isinf(A->Mass))
+            if (std::isinf(A->mass))
             {
                 moveA = 0.0f;
-                moveB = mathf::Min(info.Penetration, MaxCorrection) + 0.001f;
+                moveB = mathf::Min(info.penetration, MaxCorrection) + 0.001f;
             }
             else if (std::isinf(b2MassSum))
             {
-                moveA = mathf::Min(info.Penetration, MaxCorrection) + 0.001f;
+                moveA = mathf::Min(info.penetration, MaxCorrection) + 0.001f;
                 moveB = 0.0f;
             }
             else
             {
-                moveA = info.Penetration * (b2MassSum / massSum);
-                moveB = info.Penetration * (A->Mass / massSum);
+                moveA = info.penetration * (b2MassSum / massSum);
+                moveB = info.penetration * (A->mass / massSum);
             }
 
             float B1move = moveB * b1inf;
             float B2move = moveB * b2inf;
-            float invMassA = std::isinf(A->Mass) ? 0.0f : 1.0f / A->Mass;
+            float invMassA = std::isinf(A->mass) ? 0.0f : 1.0f / A->mass;
             float invMassB = std::isinf(b2MassSum) ? 0.0f : 1.0f / b2MassSum;
             float jDenom = invMassA + invMassB;
             Vector2 numV;
             float elasticity = Elasticity;
             numV.X = relVel.X * elasticity;
             numV.Y = relVel.Y * elasticity;
-            float jNumerator = Vector2::Dot(numV, info.Normal);
+            float jNumerator = Vector2::Dot(numV, info.normal);
             jNumerator = -jNumerator;
             // jDenom == 0 means both colliding sides are effectively immovable
             // (infinite mass): there is no impulse to distribute. Guard the
@@ -332,46 +332,46 @@ namespace kinematics
             // updates below are already mass-guarded, so these would be unused,
             // but this keeps the math defined if those guards ever change.)
             float j = jDenom > 0.0f ? jNumerator / jDenom : 0.0f;
-            if (!std::isinf(A->Mass))
+            if (!std::isinf(A->mass))
             {
-                A->Position.X += info.Normal.X * moveA;
-                A->Position.Y += info.Normal.Y * moveA;
+                A->position.X += info.normal.X * moveA;
+                A->position.Y += info.normal.Y * moveA;
             }
 
-            if (!std::isinf(B1->Mass))
+            if (!std::isinf(B1->mass))
             {
-                B1->Position.X -= info.Normal.X * B1move;
-                B1->Position.Y -= info.Normal.Y * B1move;
+                B1->position.X -= info.normal.X * B1move;
+                B1->position.Y -= info.normal.Y * B1move;
             }
 
-            if (!std::isinf(B2->Mass))
+            if (!std::isinf(B2->mass))
             {
-                B2->Position.X -= info.Normal.X * B2move;
-                B2->Position.Y -= info.Normal.Y * B2move;
+                B2->position.X -= info.normal.X * B2move;
+                B2->position.Y -= info.normal.Y * B2move;
             }
 
-            Vector2 tangent = info.Normal.Perpendicular();
+            Vector2 tangent = info.normal.Perpendicular();
             float fNumerator = Vector2::Dot(relVel, tangent);
             fNumerator *= Friction;
             float f = jDenom > 0.0f ? fNumerator / jDenom : 0.0f;
             if (relDot <= mathf::Epsilon)
             {
-                if (!std::isinf(A->Mass))
+                if (!std::isinf(A->mass))
                 {
-                    A->Velocity.X += info.Normal.X * (j / A->Mass) - tangent.X * (f / A->Mass);
-                    A->Velocity.Y += info.Normal.Y * (j / A->Mass) - tangent.Y * (f / A->Mass);
+                    A->velocity.X += info.normal.X * (j / A->mass) - tangent.X * (f / A->mass);
+                    A->velocity.Y += info.normal.Y * (j / A->mass) - tangent.Y * (f / A->mass);
                 }
 
                 if (!std::isinf(b2MassSum))
                 {
-                    B1->Velocity.X -= info.Normal.X * (j / b2MassSum) * b1inf - tangent.X * (f / b2MassSum) * b1inf;
-                    B1->Velocity.Y -= info.Normal.Y * (j / b2MassSum) * b1inf - tangent.Y * (f / b2MassSum) * b1inf;
+                    B1->velocity.X -= info.normal.X * (j / b2MassSum) * b1inf - tangent.X * (f / b2MassSum) * b1inf;
+                    B1->velocity.Y -= info.normal.Y * (j / b2MassSum) * b1inf - tangent.Y * (f / b2MassSum) * b1inf;
                 }
 
                 if (!std::isinf(b2MassSum))
                 {
-                    B2->Velocity.X -= info.Normal.X * (j / b2MassSum) * b2inf - tangent.X * (f / b2MassSum) * b2inf;
-                    B2->Velocity.Y -= info.Normal.Y * (j / b2MassSum) * b2inf - tangent.Y * (f / b2MassSum) * b2inf;
+                    B2->velocity.X -= info.normal.X * (j / b2MassSum) * b2inf - tangent.X * (f / b2MassSum) * b2inf;
+                    B2->velocity.Y -= info.normal.Y * (j / b2MassSum) * b2inf - tangent.Y * (f / b2MassSum) * b2inf;
                 }
             }
         }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Collision/Shape.h>
+#include <collision/shape.h>
 #include <Dynamics/SpringBody.h>
 #include <Math/Vector2.h>
 #include <vector>
