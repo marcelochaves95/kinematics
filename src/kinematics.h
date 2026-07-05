@@ -15,7 +15,7 @@
 #include <collision/chain.h>
 #include <collision/collision.h>
 #include <collision/collision_info.h>
-#include <Dynamics/Body.h>
-#include <Dynamics/SpringBody.h>
-#include <Dynamics/PressureBody.h>
+#include <dynamics/body.h>
+#include <dynamics/spring_body.h>
+#include <dynamics/pressure_body.h>
 #include <Utils/KinematicsController.h>

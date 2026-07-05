@@ -25,9 +25,9 @@ add_library(kinematics STATIC
     src/collision/chain.cpp
     src/collision/collision_info.cpp
     src/collision/collision.cpp
-    src/Dynamics/Body.cpp
-    src/Dynamics/SpringBody.cpp
-    src/Dynamics/PressureBody.cpp
+    src/dynamics/body.cpp
+    src/dynamics/spring_body.cpp
+    src/dynamics/pressure_body.cpp
     src/Utils/Bitmask.cpp
     src/Utils/KinematicsController.cpp)
 target_include_directories(kinematics PUBLIC

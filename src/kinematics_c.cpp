@@ -4,9 +4,9 @@
 #include <collision/chain.h>
 #include <collision/point_mass.h>
 #include <collision/shape.h>
-#include <Dynamics/Body.h>
-#include <Dynamics/PressureBody.h>
-#include <Dynamics/SpringBody.h>
+#include <dynamics/body.h>
+#include <dynamics/pressure_body.h>
+#include <dynamics/spring_body.h>
 #include <math/vector2.h>
 #include <Utils/KinematicsController.h>
 #include <cmath>
@@ -46,9 +46,9 @@ namespace
     int addBody(KnWorld* w, const std::shared_ptr<Body>& body, float posX, float posY,
         float gravX, float gravY, int isStatic)
     {
-        body->Position = Vector2(posX, posY);
-        body->Gravity = Vector2(gravX, gravY);
-        body->IsStatic = isStatic != 0;
+        body->position = Vector2(posX, posY);
+        body->gravity = Vector2(gravX, gravY);
+        body->is_static = isStatic != 0;
         w->ctrl.Add(body);
         return static_cast<int>(w->ctrl.BodyList.size()) - 1;
     }
@@ -124,12 +124,12 @@ void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, fl
     }
     for (auto& body : world->ctrl.BodyList)
     {
-        if (body->IsStatic)
+        if (body->is_static)
         {
             continue;
         }
-        float dx = body->Position.x - wx;
-        float dy = body->Position.y - wy;
+        float dx = body->position.x - wx;
+        float dy = body->position.y - wy;
         float dist = std::sqrt(dx * dx + dy * dy);
         if (dist < 0.01f || dist > radius)
         {
@@ -138,12 +138,12 @@ void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, fl
         float s = strength * (1.0f - dist / radius);
         float vx = dx / dist * s;
         float vy = dy / dist * s;
-        for (auto& pm : body->PointMassList)
+        for (auto& pm : body->point_mass_list)
         {
             pm->velocity.x += vx;
             pm->velocity.y += vy;
         }
-        body->UpdateBodyPositionVelocityForce();
+        body->update_body_position_velocity_force();
     }
     for (auto& chain : world->ctrl.ChainList)
     {
@@ -285,11 +285,11 @@ void kn_world_step(KnWorld* world, double dt, int substeps)
         {
             for (auto& body : world->ctrl.BodyList)
             {
-                if (body->IsStatic)
+                if (body->is_static)
                 {
                     continue;
                 }
-                for (auto& pm : body->PointMassList)
+                for (auto& pm : body->point_mass_list)
                 {
                     pm->force.x -= world->drag * pm->velocity.x;
                     pm->force.y -= world->drag * pm->velocity.y;
@@ -321,7 +321,7 @@ int kn_body_is_static(KnWorld* world, int body)
     {
         return 0;
     }
-    return world->ctrl.BodyList[body]->IsStatic ? 1 : 0;
+    return world->ctrl.BodyList[body]->is_static ? 1 : 0;
 }
 
 int kn_body_point_count(KnWorld* world, int body)
@@ -330,7 +330,7 @@ int kn_body_point_count(KnWorld* world, int body)
     {
         return 0;
     }
-    return static_cast<int>(world->ctrl.BodyList[body]->PointMassList.size());
+    return static_cast<int>(world->ctrl.BodyList[body]->point_mass_list.size());
 }
 
 int kn_body_get_points(KnWorld* world, int body, float* outXY, int maxPoints)
@@ -339,7 +339,7 @@ int kn_body_get_points(KnWorld* world, int body, float* outXY, int maxPoints)
     {
         return 0;
     }
-    return copyPoints(world->ctrl.BodyList[body]->PointMassList, outXY, maxPoints);
+    return copyPoints(world->ctrl.BodyList[body]->point_mass_list, outXY, maxPoints);
 }
 
 void kn_body_get_position(KnWorld* world, int body, float* outX, float* outY)
@@ -350,11 +350,11 @@ void kn_body_get_position(KnWorld* world, int body, float* outX, float* outY)
     }
     if (outX)
     {
-        *outX = world->ctrl.BodyList[body]->Position.x;
+        *outX = world->ctrl.BodyList[body]->position.x;
     }
     if (outY)
     {
-        *outY = world->ctrl.BodyList[body]->Position.y;
+        *outY = world->ctrl.BodyList[body]->position.y;
     }
 }
 
@@ -364,7 +364,7 @@ void kn_body_apply_force(KnWorld* world, int body, float px, float py, float fx,
     {
         return;
     }
-    world->ctrl.BodyList[body]->ApplyForce(Vector2(px, py), Vector2(fx, fy));
+    world->ctrl.BodyList[body]->apply_force(Vector2(px, py), Vector2(fx, fy));
 }
 
 int kn_chain_point_count(KnWorld* world, int chain)

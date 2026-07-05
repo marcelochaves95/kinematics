@@ -3,7 +3,7 @@
 #include <collision/aabb.h>
 #include <collision/chain.h>
 #include <collision/collision_info.h>
-#include <Dynamics/Body.h>
+#include <dynamics/body.h>
 #include <math/vector2.h>
 #include <functional>
 #include <memory>

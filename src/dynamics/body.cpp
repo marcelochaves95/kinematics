@@ -1,4 +1,4 @@
-#include <Dynamics/Body.h>
+#include <dynamics/body.h>
 #include <math/mathf.h>
 #include <math/vector3.h>
 #include <cmath>
@@ -9,45 +9,45 @@ namespace kinematics
 {
     Body::Body(const Shape& shape, float mass)
     {
-        _baseShape = shape;
-        CurrentShape = shape.clone();
-        Count = shape.count;
-        PointMassList.reserve(static_cast<size_t>(shape.count));
+        _base_shape = shape;
+        current_shape = shape.clone();
+        count = shape.count;
+        point_mass_list.reserve(static_cast<size_t>(shape.count));
         for (int i = 0; i < shape.count; i++)
         {
-            PointMassList.push_back(std::make_shared<PointMass>(shape.points[i], mass));
+            point_mass_list.push_back(std::make_shared<PointMass>(shape.points[i], mass));
         }
     }
 
-    void Body::ApplyInternalForces(double /*elapsed*/)
+    void Body::apply_internal_forces(double)
     {
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < count; i++)
         {
-            float mass = PointMassList[i]->mass;
+            float mass = point_mass_list[i]->mass;
             if (!std::isinf(mass))
             {
-                PointMassList[i]->force += Gravity * mass;
+                point_mass_list[i]->force += gravity * mass;
             }
         }
     }
 
-    void Body::UpdateBodyPositionVelocityForce()
+    void Body::update_body_position_velocity_force()
     {
-        GetBodyPositionVelocityForce(Position, Velocity, _force);
+        get_body_position_velocity_force(position, velocity, _force);
     }
 
-    void Body::RotateShape(double /*elapsed*/)
+    void Body::rotate_shape(double)
     {
         float angle = 0.0f;
         int originalSign = 1;
         float originalAngle = 0.0f;
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < count; i++)
         {
             Vector2 baseNormal = Vector2::normalize(
-                Vector2(_baseShape.points[i].x, _baseShape.points[i].y));
+                Vector2(_base_shape.points[i].x, _base_shape.points[i].y));
             Vector2 currentNormal = Vector2::normalize(
-                Vector2(PointMassList[i]->position.x - Position.x,
-                    PointMassList[i]->position.y - Position.y));
+                Vector2(point_mass_list[i]->position.x - position.x,
+                    point_mass_list[i]->position.y - position.y));
 
             float dot = Vector2::dot(baseNormal, currentNormal);
             if (dot > 1.0f)
@@ -84,47 +84,47 @@ namespace kinematics
             angle += thisAngle;
         }
 
-        angle /= Count;
+        angle /= count;
 
         float cos = mathf::cos(angle);
         float sin = mathf::sin(angle);
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < count; i++)
         {
-            float x = _baseShape.points[i].x;
-            float y = _baseShape.points[i].y;
-            CurrentShape.points[i].x = cos * x - sin * y + Position.x;
-            CurrentShape.points[i].y = cos * y + sin * x + Position.y;
+            float x = _base_shape.points[i].x;
+            float y = _base_shape.points[i].y;
+            current_shape.points[i].x = cos * x - sin * y + position.x;
+            current_shape.points[i].y = cos * y + sin * x + position.y;
         }
     }
 
-    void Body::Update(double elapsed)
+    void Body::update(double elapsed)
     {
-        if (!_isDirty)
+        if (!_is_dirty)
         {
             return;
         }
 
-        SetBodyPositionVelocityForce(Position, Velocity, _force);
-        RotateShape(elapsed);
-        ApplyInternalForces(elapsed);
-        UpdatePointMasses(elapsed);
-        UpdateAABB(elapsed);
-        UpdateBodyPositionVelocityForce();
-        if (IsStatic)
+        set_body_position_velocity_force(position, velocity, _force);
+        rotate_shape(elapsed);
+        apply_internal_forces(elapsed);
+        update_point_masses(elapsed);
+        update_aabb(elapsed);
+        update_body_position_velocity_force();
+        if (is_static)
         {
-            _isDirty = false;
+            _is_dirty = false;
         }
     }
 
-    bool Body::Contains(const Vector2& point) const
+    bool Body::contains(const Vector2& point) const
     {
-        Vector2 endPt(Aabb.max.x + 0.1f, point.y);
+        Vector2 endPt(aabb.max.x + 0.1f, point.y);
         bool inside = false;
-        Vector2 edgeSt = PointMassList[0]->position;
-        for (int i = 0; i < Count; i++)
+        Vector2 edgeSt = point_mass_list[0]->position;
+        for (int i = 0; i < count; i++)
         {
-            Vector2 edgeEnd = i < Count - 1 ? PointMassList[i + 1]->position
-                                            : PointMassList[0]->position;
+            Vector2 edgeEnd = i < count - 1 ? point_mass_list[i + 1]->position
+                                            : point_mass_list[0]->position;
             if ((edgeSt.y <= point.y && edgeEnd.y > point.y) ||
                 (edgeSt.y > point.y && edgeEnd.y <= point.y))
             {
@@ -140,7 +140,7 @@ namespace kinematics
         return inside;
     }
 
-    float Body::GetClosestPoint(Vector2 point, Vector2& closest, Vector2& normal,
+    float Body::get_closest_point(Vector2 point, Vector2& closest, Vector2& normal,
         int& pointA, int& pointB, float& edgeD)
     {
         closest = Vector2::ZERO;
@@ -149,16 +149,16 @@ namespace kinematics
         edgeD = 0.0f;
         normal = Vector2::ZERO;
         float closestD = std::numeric_limits<float>::max();
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < count; i++)
         {
             Vector2 tempHit, tempNorm;
             float tempEdgeD;
-            float dist = GetClosestPointOnEdge(point, i, tempHit, tempNorm, tempEdgeD);
+            float dist = get_closest_point_on_edge(point, i, tempHit, tempNorm, tempEdgeD);
             if (dist < closestD)
             {
                 closestD = dist;
                 pointA = i;
-                pointB = i < Count - 1 ? i + 1 : 0;
+                pointB = i < count - 1 ? i + 1 : 0;
                 edgeD = tempEdgeD;
                 normal = tempNorm;
                 closest = tempHit;
@@ -167,16 +167,16 @@ namespace kinematics
         return closestD;
     }
 
-    float Body::GetClosestPointOnEdge(Vector2 point, int edgeNum, Vector2& hitPt,
+    float Body::get_closest_point_on_edge(Vector2 point, int edgeNum, Vector2& hitPt,
         Vector2& normal, float& edgeD)
     {
         hitPt = Vector2(0.0f, 0.0f);
         normal = Vector2(0.0f, 0.0f);
         edgeD = 0.0f;
         float distance;
-        Vector2 ptA = PointMassList[edgeNum]->position;
-        Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1]->position
-                                          : PointMassList[0]->position;
+        Vector2 ptA = point_mass_list[edgeNum]->position;
+        Vector2 ptB = edgeNum < count - 1 ? point_mass_list[edgeNum + 1]->position
+                                          : point_mass_list[0]->position;
         Vector2 toP(point.x - ptA.x, point.y - ptA.y);
         Vector2 e(ptB.x - ptA.x, ptB.y - ptA.y);
 
@@ -218,16 +218,16 @@ namespace kinematics
         return distance;
     }
 
-    float Body::GetClosestPointOnEdgeSquared(Vector2 point, int edgeNum, Vector2& hitPt,
+    float Body::get_closest_point_on_edge_squared(Vector2 point, int edgeNum, Vector2& hitPt,
         Vector2& normal, float& edgeD)
     {
         hitPt = Vector2(0.0f, 0.0f);
         normal = Vector2(0.0f, 0.0f);
         edgeD = 0.0f;
         float distanceSquared;
-        Vector2 ptA = PointMassList[edgeNum]->position;
-        Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1]->position
-                                          : PointMassList[0]->position;
+        Vector2 ptA = point_mass_list[edgeNum]->position;
+        Vector2 ptB = edgeNum < count - 1 ? point_mass_list[edgeNum + 1]->position
+                                          : point_mass_list[0]->position;
         Vector2 toP(point.x - ptA.x, point.y - ptA.y);
         Vector2 edge(ptB.x - ptA.x, ptB.y - ptA.y);
 
@@ -269,13 +269,13 @@ namespace kinematics
         return distanceSquared;
     }
 
-    PointMassPtr Body::GetClosestPointMass(Vector2 point, float& dist)
+    PointMassPtr Body::get_closest_point_mass(Vector2 point, float& dist)
     {
         float closestSQD = 100000.0f;
         int closest = -1;
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < count; i++)
         {
-            float thisD = (point - PointMassList[i]->position).length_squared();
+            float thisD = (point - point_mass_list[i]->position).length_squared();
             if (thisD < closestSQD)
             {
                 closestSQD = thisD;
@@ -283,79 +283,79 @@ namespace kinematics
             }
         }
         dist = mathf::sqrt(closestSQD);
-        return PointMassList[closest];
+        return point_mass_list[closest];
     }
 
-    void Body::ApplyForce(const Vector2& point, const Vector2& force)
+    void Body::apply_force(const Vector2& point, const Vector2& force)
     {
-        Vector2 r = Position - point;
+        Vector2 r = position - point;
         float torqueForce = Vector3::cross(r.vector3_from_vector2(),
             force.vector3_from_vector2()).z;
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < count; i++)
         {
-            Vector2 toPt = PointMassList[i]->position - Position;
+            Vector2 toPt = point_mass_list[i]->position - position;
             Vector2 torque(toPt.y, -toPt.x);
-            PointMassList[i]->force += torque * torqueForce;
-            PointMassList[i]->force += force;
+            point_mass_list[i]->force += torque * torqueForce;
+            point_mass_list[i]->force += force;
         }
     }
 
-    void Body::UpdatePointMasses(double elapsed)
+    void Body::update_point_masses(double elapsed)
     {
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < count; i++)
         {
-            PointMassList[i]->velocity.x *= DAMPING;
-            PointMassList[i]->velocity.y *= DAMPING;
-            PointMassList[i]->update(elapsed);
+            point_mass_list[i]->velocity.x *= DAMPING;
+            point_mass_list[i]->velocity.y *= DAMPING;
+            point_mass_list[i]->update(elapsed);
         }
     }
 
-    void Body::UpdateAABB(double elapsed)
+    void Body::update_aabb(double elapsed)
     {
-        Aabb.clear();
-        for (int i = 0; i < Count; i++)
+        aabb.clear();
+        for (int i = 0; i < count; i++)
         {
-            float x = PointMassList[i]->position.x;
-            float y = PointMassList[i]->position.y;
-            Aabb.add(x, y);
-            x += static_cast<float>(PointMassList[i]->velocity.x * elapsed);
-            y += static_cast<float>(PointMassList[i]->velocity.y * elapsed);
-            Aabb.add(x, y);
+            float x = point_mass_list[i]->position.x;
+            float y = point_mass_list[i]->position.y;
+            aabb.add(x, y);
+            x += static_cast<float>(point_mass_list[i]->velocity.x * elapsed);
+            y += static_cast<float>(point_mass_list[i]->velocity.y * elapsed);
+            aabb.add(x, y);
         }
     }
 
-    void Body::SetBodyPositionVelocityForce(Vector2 position, Vector2 velocity, Vector2 force)
+    void Body::set_body_position_velocity_force(Vector2 position, Vector2 velocity, Vector2 force)
     {
         Vector2 currentPosition, currentVelocity, currentForce;
-        GetBodyPositionVelocityForce(currentPosition, currentVelocity, currentForce);
-        for (int i = 0; i < Count; i++)
+        get_body_position_velocity_force(currentPosition, currentVelocity, currentForce);
+        for (int i = 0; i < count; i++)
         {
-            PointMassList[i]->position -= currentPosition;
-            PointMassList[i]->position += position;
-            PointMassList[i]->velocity -= currentVelocity;
-            PointMassList[i]->velocity += velocity;
-            PointMassList[i]->force -= currentForce;
-            PointMassList[i]->force += force;
+            point_mass_list[i]->position -= currentPosition;
+            point_mass_list[i]->position += position;
+            point_mass_list[i]->velocity -= currentVelocity;
+            point_mass_list[i]->velocity += velocity;
+            point_mass_list[i]->force -= currentForce;
+            point_mass_list[i]->force += force;
         }
     }
 
-    void Body::GetBodyPositionVelocityForce(Vector2& position, Vector2& velocity, Vector2& force)
+    void Body::get_body_position_velocity_force(Vector2& position, Vector2& velocity, Vector2& force)
     {
-        float inverse_count = 1.0f / Count;
+        float inverse_count = 1.0f / count;
         position.x = 0.0f;
         position.y = 0.0f;
         velocity.x = 0.0f;
         velocity.y = 0.0f;
         force.x = 0.0f;
         force.y = 0.0f;
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < count; i++)
         {
-            position.x += PointMassList[i]->position.x * inverse_count;
-            position.y += PointMassList[i]->position.y * inverse_count;
-            velocity.x += PointMassList[i]->velocity.x * inverse_count;
-            velocity.y += PointMassList[i]->velocity.y * inverse_count;
-            force.x += PointMassList[i]->force.x * inverse_count;
-            force.y += PointMassList[i]->force.y * inverse_count;
+            position.x += point_mass_list[i]->position.x * inverse_count;
+            position.y += point_mass_list[i]->position.y * inverse_count;
+            velocity.x += point_mass_list[i]->velocity.x * inverse_count;
+            velocity.y += point_mass_list[i]->velocity.y * inverse_count;
+            force.x += point_mass_list[i]->force.x * inverse_count;
+            force.y += point_mass_list[i]->force.y * inverse_count;
         }
     }
 }

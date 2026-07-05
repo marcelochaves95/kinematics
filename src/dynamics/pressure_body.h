@@ -1,13 +1,9 @@
 #pragma once
 
 #include <collision/shape.h>
-#include <Dynamics/SpringBody.h>
+#include <dynamics/spring_body.h>
 #include <math/vector2.h>
 #include <vector>
-
-// Port of Dynamics/PressureBody.cs — adds gas-pressure forces: each edge pushes
-// outward along the vertex normals proportionally to pressure / volume (the
-// volume is a shoelace-style estimate).
 
 namespace kinematics
 {
@@ -17,12 +13,12 @@ namespace kinematics
         PressureBody(const Shape& s, float mass, float gasPressure, float edgeSpringK,
             float edgeSpringDamp, float shapeSpringK, float shapeSpringDamp);
 
-        void ApplyInternalForces(double elapsed) override;
+        void apply_internal_forces(double elapsed) override;
 
     private:
         float _volume = 0.0f;
         float _pressure;
-        std::vector<float> _edgeLengthList;
-        std::vector<Vector2> _normalList;
+        std::vector<float> _edge_length_list;
+        std::vector<Vector2> _normal_list;
     };
 }

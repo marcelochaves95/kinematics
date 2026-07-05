@@ -69,7 +69,7 @@ namespace kinematics
 
     void KinematicsController::UpdateBitmask(Body& body)
     {
-        kinematics::AABB box = body.Aabb;
+        kinematics::AABB box = body.aabb;
 
         int minX = static_cast<int>(mathf::floor((box.min.x - Aabb.min.x) / Cell.x));
         int maxX = static_cast<int>(mathf::floor((box.max.x - Aabb.min.x) / Cell.x));
@@ -109,16 +109,16 @@ namespace kinematics
             maxY = 32;
         }
 
-        body.BitmaskX.Clear();
+        body.bitmask_x.Clear();
         for (int i = minX; i <= maxX; i++)
         {
-            body.BitmaskX.SetOn(i);
+            body.bitmask_x.SetOn(i);
         }
 
-        body.BitmaskY.Clear();
+        body.bitmask_y.Clear();
         for (int i = minY; i <= maxY; i++)
         {
-            body.BitmaskY.SetOn(i);
+            body.bitmask_y.SetOn(i);
         }
     }
 
@@ -127,11 +127,11 @@ namespace kinematics
         for (size_t i = 0; i < BodyList.size(); i++)
         {
             Body& body = *BodyList[i];
-            if (!body.Aabb.contains(point.x, point.y))
+            if (!body.aabb.contains(point.x, point.y))
             {
                 continue;
             }
-            if (body.Contains(point))
+            if (body.contains(point))
             {
                 return true;
             }
@@ -146,29 +146,29 @@ namespace kinematics
 
         for (size_t i = 0; i < BodyList.size(); i++)
         {
-            if (!BodyList[i]->IsStatic)
+            if (!BodyList[i]->is_static)
             {
                 continue;
             }
 
-            BodyList[i]->RotateShape(0);
-            BodyList[i]->Update(0);
+            BodyList[i]->rotate_shape(0);
+            BodyList[i]->update(0);
 
-            if (BodyList[i]->Aabb.min.x < min.x)
+            if (BodyList[i]->aabb.min.x < min.x)
             {
-                min.x = BodyList[i]->Aabb.min.x;
+                min.x = BodyList[i]->aabb.min.x;
             }
-            if (BodyList[i]->Aabb.min.y < min.y)
+            if (BodyList[i]->aabb.min.y < min.y)
             {
-                min.y = BodyList[i]->Aabb.min.y;
+                min.y = BodyList[i]->aabb.min.y;
             }
-            if (BodyList[i]->Aabb.max.x > max.x)
+            if (BodyList[i]->aabb.max.x > max.x)
             {
-                max.x = BodyList[i]->Aabb.max.x;
+                max.x = BodyList[i]->aabb.max.x;
             }
-            if (BodyList[i]->Aabb.max.y > max.y)
+            if (BodyList[i]->aabb.max.y > max.y)
             {
-                max.y = BodyList[i]->Aabb.max.y;
+                max.y = BodyList[i]->aabb.max.y;
             }
         }
 
@@ -181,12 +181,12 @@ namespace kinematics
         for (size_t i = 0; i < BodyList.size(); i++)
         {
             Body& body = *BodyList[i];
-            if (body.IsStatic)
+            if (body.is_static)
             {
                 continue;
             }
 
-            float distance = (body.Position - position).length();
+            float distance = (body.position - position).length();
             Vector2 point;
             if (distance > far_)
             {
@@ -205,8 +205,8 @@ namespace kinematics
                     point += position;
                 }
 
-                BodyList[i]->Position = point;
-                BodyList[i]->Update(0);
+                BodyList[i]->position = point;
+                BodyList[i]->update(0);
             }
         }
     }
@@ -224,7 +224,7 @@ namespace kinematics
 
         for (size_t i = 0; i < BodyList.size(); i++)
         {
-            BodyList[i]->Update(elapsed);
+            BodyList[i]->update(elapsed);
             UpdateBitmask(*BodyList[i]);
         }
 
@@ -237,18 +237,18 @@ namespace kinematics
         {
             for (size_t j = i + 1; j < BodyList.size(); j++)
             {
-                if (BodyList[i]->IsStatic && BodyList[j]->IsStatic)
+                if (BodyList[i]->is_static && BodyList[j]->is_static)
                 {
                     continue;
                 }
 
-                if ((BodyList[i]->BitmaskX.Mask & BodyList[j]->BitmaskX.Mask) == 0 ||
-                    (BodyList[i]->BitmaskY.Mask & BodyList[j]->BitmaskY.Mask) == 0)
+                if ((BodyList[i]->bitmask_x.Mask & BodyList[j]->bitmask_x.Mask) == 0 ||
+                    (BodyList[i]->bitmask_y.Mask & BodyList[j]->bitmask_y.Mask) == 0)
                 {
                     continue;
                 }
 
-                if (!BodyList[i]->Aabb.intersects(BodyList[j]->Aabb))
+                if (!BodyList[i]->aabb.intersects(BodyList[j]->aabb))
                 {
                     continue;
                 }
@@ -378,7 +378,7 @@ namespace kinematics
 
         for (size_t i = 0; i < BodyList.size(); i++)
         {
-            BodyList[i]->UpdateBodyPositionVelocityForce();
+            BodyList[i]->update_body_position_velocity_force();
         }
 
         // Step finished: apply any removals deferred from callbacks above.
