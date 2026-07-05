@@ -19,7 +19,7 @@ SettleResult settle(float springDamp, int steps) {
     auto anchorA = std::make_shared<PointMass>(Vector2(-5.0f, 2.0f), INF);
     auto anchorB = std::make_shared<PointMass>(Vector2(5.0f, 2.0f), INF);
     const float mass = 0.25f;
-    Chain chain(anchorA, anchorB, /*count*/ 20, /*k*/ 120.0f, springDamp, mass);
+    Chain chain(anchorA, anchorB, 20, 120.0f, springDamp, mass);
 
     for (Spring& s : chain.spring_list) {
         s.d *= 1.5f;
@@ -56,7 +56,7 @@ TEST_CASE(spring_rest_length_defaults_to_distance) {
 TEST_CASE(spring_explicit_rest_length) {
     auto a = std::make_shared<PointMass>(Vector2(0, 0), 1.0f);
     auto b = std::make_shared<PointMass>(Vector2(3, 4), 1.0f);
-    Spring s(a, b, 100.0f, 5.0f, /*length*/ 2.0f);
+    Spring s(a, b, 100.0f, 5.0f, 2.0f);
     CHECK_NEAR(s.d, 2.0f, EPS);
 }
 
@@ -64,7 +64,7 @@ TEST_CASE(spring_stretched_pulls_together) {
 
     auto a = std::make_shared<PointMass>(Vector2(1, 0), 1.0f);
     auto b = std::make_shared<PointMass>(Vector2(-1, 0), 1.0f);
-    Spring s(a, b, 10.0f, 0.0f, /*length*/ 1.0f);
+    Spring s(a, b, 10.0f, 0.0f, 1.0f);
     Vector2 f = Spring::spring_force(s);
     CHECK_NEAR(f.x, -10.0f, 1e-4);
     CHECK_NEAR(f.y, 0.0f, EPS);
@@ -73,7 +73,7 @@ TEST_CASE(spring_stretched_pulls_together) {
 TEST_CASE(spring_at_rest_zero_force) {
     auto a = std::make_shared<PointMass>(Vector2(2, 0), 1.0f);
     auto b = std::make_shared<PointMass>(Vector2(0, 0), 1.0f);
-    Spring s(a, b, 50.0f, 3.0f, /*length*/ 2.0f);
+    Spring s(a, b, 50.0f, 3.0f, 2.0f);
     Vector2 f = Spring::spring_force(s);
     CHECK_NEAR(f.x, 0.0f, 1e-4);
     CHECK_NEAR(f.y, 0.0f, 1e-4);
@@ -98,13 +98,13 @@ TEST_CASE(chain_topology) {
 
 TEST_CASE(chain_stable_at_springdamp_6) {
 
-    SettleResult r = settle(/*springDamp*/ 6.0f, /*steps*/ 300);
+    SettleResult r = settle( 6.0f, 300);
     CHECK(r.maxSpeed < 0.5f);
     CHECK(r.midY > 4.0f);
 }
 
 TEST_CASE(chain_unstable_at_springdamp_8) {
 
-    SettleResult r = settle(/*springDamp*/ 8.0f, /*steps*/ 300);
+    SettleResult r = settle( 8.0f, 300);
     CHECK(r.maxSpeed > 1.0f);
 }

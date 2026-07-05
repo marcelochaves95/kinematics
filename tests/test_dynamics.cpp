@@ -93,7 +93,7 @@ TEST_CASE(springbody_stays_cohesive) {
 
 TEST_CASE(pressurebody_holds_together) {
     Shape s = unit_square();
-    PressureBody b(s, 1.0f, /*gasPressure*/ 30.0f, 150.0f, 10.0f, 200.0f, 15.0f);
+    PressureBody b(s, 1.0f, 30.0f, 150.0f, 10.0f, 200.0f, 15.0f);
     b.position = Vector2(0.0f, 0.0f);
     b.gravity = Vector2(0.0f, 9.8f);
 

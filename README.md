@@ -25,7 +25,7 @@ Screen-space: **Y increases downward**. Gravity points in the `+Y` direction.
 
 ```
 src/            engine — .h declarations + .cpp definitions
-                (Math/, Collision/, Dynamics/, Utils/) + the C ABI (kinematics_c.h / .cpp)
+                (math/, collision/, dynamics/, utils/) + the C ABI (kinematics_c.h / .cpp)
                 <kinematics.h> is an umbrella include for the whole public API
 tests/          unit tests (zero-dependency harness)
 demo/           WebAssembly demo (Emscripten) — see demo/README.md
@@ -39,24 +39,22 @@ CMakeLists.txt  builds the engine static lib, the C ABI shared lib, and tests
 using namespace kinematics;
 
 Shape shape;
-shape.Begin(true);
-shape.Add(Vector2(-0.5f, -0.5f));
-shape.Add(Vector2( 0.5f, -0.5f));
-shape.Add(Vector2( 0.5f,  0.5f));
-shape.Add(Vector2(-0.5f,  0.5f));
-shape.End();
+shape.begin(true);
+shape.add(Vector2(-0.5f, -0.5f));
+shape.add(Vector2( 0.5f, -0.5f));
+shape.add(Vector2( 0.5f,  0.5f));
+shape.add(Vector2(-0.5f,  0.5f));
+shape.end();
 
-auto body = std::make_shared<SpringBody>(shape, /*mass*/ 1.0f,
-    /*edgeK*/ 150.0f, /*edgeDamp*/ 10.0f,
-    /*shapeK*/ 200.0f, /*shapeDamp*/ 15.0f);
-body->Position = Vector2(0.0f, 0.0f);
-body->Gravity  = Vector2(0.0f, 9.8f);
+auto body = std::make_shared<SpringBody>(shape, 1.0f,
+    150.0f, 10.0f, 200.0f, 15.0f);
+body->position = Vector2(0.0f, 0.0f);
+body->gravity  = Vector2(0.0f, 9.8f);
 
 KinematicsController controller;
-controller.Add(body);
+controller.add(body);
 
-// game loop
-controller.Update(elapsed);
+controller.update(elapsed);
 ```
 
 ## Using from other languages
