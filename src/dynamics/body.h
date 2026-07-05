@@ -4,7 +4,7 @@
 #include <collision/point_mass.h>
 #include <collision/shape.h>
 #include <math/vector2.h>
-#include <Utils/Bitmask.h>
+#include <utils/bitmask.h>
 #include <vector>
 
 namespace kinematics

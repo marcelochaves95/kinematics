@@ -28,8 +28,8 @@ add_library(kinematics STATIC
     src/dynamics/body.cpp
     src/dynamics/spring_body.cpp
     src/dynamics/pressure_body.cpp
-    src/Utils/Bitmask.cpp
-    src/Utils/KinematicsController.cpp)
+    src/utils/bitmask.cpp
+    src/utils/kinematics_controller.cpp)
 target_include_directories(kinematics PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_compile_features(kinematics PUBLIC cxx_std_17)

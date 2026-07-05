@@ -8,7 +8,7 @@
 #include <dynamics/pressure_body.h>
 #include <dynamics/spring_body.h>
 #include <math/vector2.h>
-#include <Utils/KinematicsController.h>
+#include <utils/kinematics_controller.h>
 #include <cmath>
 #include <limits>
 #include <memory>
@@ -35,12 +35,12 @@ namespace
 
     bool validBody(KnWorld* w, int h)
     {
-        return w && h >= 0 && static_cast<size_t>(h) < w->ctrl.BodyList.size();
+        return w && h >= 0 && static_cast<size_t>(h) < w->ctrl.body_list.size();
     }
 
     bool validChain(KnWorld* w, int h)
     {
-        return w && h >= 0 && static_cast<size_t>(h) < w->ctrl.ChainList.size();
+        return w && h >= 0 && static_cast<size_t>(h) < w->ctrl.chain_list.size();
     }
 
     int addBody(KnWorld* w, const std::shared_ptr<Body>& body, float posX, float posY,
@@ -49,8 +49,8 @@ namespace
         body->position = Vector2(posX, posY);
         body->gravity = Vector2(gravX, gravY);
         body->is_static = isStatic != 0;
-        w->ctrl.Add(body);
-        return static_cast<int>(w->ctrl.BodyList.size()) - 1;
+        w->ctrl.add(body);
+        return static_cast<int>(w->ctrl.body_list.size()) - 1;
     }
 
     int copyPoints(const std::vector<PointMassPtr>& pml, float* outXY, int maxPoints)
@@ -83,7 +83,7 @@ void kn_world_set_limits(KnWorld* world, float minX, float minY, float maxX, flo
 {
     if (world)
     {
-        world->ctrl.SetWorldLimits(Vector2(minX, minY), Vector2(maxX, maxY));
+        world->ctrl.set_world_limits(Vector2(minX, minY), Vector2(maxX, maxY));
     }
 }
 
@@ -91,7 +91,7 @@ void kn_world_set_friction(KnWorld* world, float friction)
 {
     if (world)
     {
-        world->ctrl.Friction = friction;
+        world->ctrl.friction = friction;
     }
 }
 
@@ -99,7 +99,7 @@ void kn_world_set_elasticity(KnWorld* world, float elasticity)
 {
     if (world)
     {
-        world->ctrl.Elasticity = elasticity;
+        world->ctrl.elasticity = elasticity;
     }
 }
 
@@ -122,7 +122,7 @@ void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, fl
     {
         return;
     }
-    for (auto& body : world->ctrl.BodyList)
+    for (auto& body : world->ctrl.body_list)
     {
         if (body->is_static)
         {
@@ -145,7 +145,7 @@ void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, fl
         }
         body->update_body_position_velocity_force();
     }
-    for (auto& chain : world->ctrl.ChainList)
+    for (auto& chain : world->ctrl.chain_list)
     {
         for (size_t i = 1; i + 1 < chain->point_mass_list.size(); i++)
         {
@@ -237,8 +237,8 @@ int kn_world_add_chain(KnWorld* world, float ax, float ay, float bx, float by,
         auto from = std::make_shared<PointMass>(Vector2(ax, ay), std::numeric_limits<float>::infinity());
         auto to = std::make_shared<PointMass>(Vector2(bx, by), std::numeric_limits<float>::infinity());
         auto chain = std::make_shared<Chain>(from, to, count, k, damping, mass);
-        world->ctrl.Add(chain);
-        return static_cast<int>(world->ctrl.ChainList.size()) - 1;
+        world->ctrl.add(chain);
+        return static_cast<int>(world->ctrl.chain_list.size()) - 1;
     }
     catch (...)
     {
@@ -269,7 +269,7 @@ void kn_world_step(KnWorld* world, double dt, int substeps)
     {
         // PreUpdate forces, re-applied each substep (mirrors the demo's scenes):
         // chain gravity + linear drag on non-static body point masses.
-        for (auto& chain : world->ctrl.ChainList)
+        for (auto& chain : world->ctrl.chain_list)
         {
             for (size_t i = 1; i + 1 < chain->point_mass_list.size(); i++)
             {
@@ -283,7 +283,7 @@ void kn_world_step(KnWorld* world, double dt, int substeps)
         }
         if (world->drag != 0.0f)
         {
-            for (auto& body : world->ctrl.BodyList)
+            for (auto& body : world->ctrl.body_list)
             {
                 if (body->is_static)
                 {
@@ -296,23 +296,23 @@ void kn_world_step(KnWorld* world, double dt, int substeps)
                 }
             }
         }
-        world->ctrl.Update(sub);
+        world->ctrl.update(sub);
     }
 }
 
 int kn_world_penetration_count(KnWorld* world)
 {
-    return world ? world->ctrl.PenetrationCount : 0;
+    return world ? world->ctrl.penetration_count : 0;
 }
 
 int kn_world_body_count(KnWorld* world)
 {
-    return world ? static_cast<int>(world->ctrl.BodyList.size()) : 0;
+    return world ? static_cast<int>(world->ctrl.body_list.size()) : 0;
 }
 
 int kn_world_chain_count(KnWorld* world)
 {
-    return world ? static_cast<int>(world->ctrl.ChainList.size()) : 0;
+    return world ? static_cast<int>(world->ctrl.chain_list.size()) : 0;
 }
 
 int kn_body_is_static(KnWorld* world, int body)
@@ -321,7 +321,7 @@ int kn_body_is_static(KnWorld* world, int body)
     {
         return 0;
     }
-    return world->ctrl.BodyList[body]->is_static ? 1 : 0;
+    return world->ctrl.body_list[body]->is_static ? 1 : 0;
 }
 
 int kn_body_point_count(KnWorld* world, int body)
@@ -330,7 +330,7 @@ int kn_body_point_count(KnWorld* world, int body)
     {
         return 0;
     }
-    return static_cast<int>(world->ctrl.BodyList[body]->point_mass_list.size());
+    return static_cast<int>(world->ctrl.body_list[body]->point_mass_list.size());
 }
 
 int kn_body_get_points(KnWorld* world, int body, float* outXY, int maxPoints)
@@ -339,7 +339,7 @@ int kn_body_get_points(KnWorld* world, int body, float* outXY, int maxPoints)
     {
         return 0;
     }
-    return copyPoints(world->ctrl.BodyList[body]->point_mass_list, outXY, maxPoints);
+    return copyPoints(world->ctrl.body_list[body]->point_mass_list, outXY, maxPoints);
 }
 
 void kn_body_get_position(KnWorld* world, int body, float* outX, float* outY)
@@ -350,11 +350,11 @@ void kn_body_get_position(KnWorld* world, int body, float* outX, float* outY)
     }
     if (outX)
     {
-        *outX = world->ctrl.BodyList[body]->position.x;
+        *outX = world->ctrl.body_list[body]->position.x;
     }
     if (outY)
     {
-        *outY = world->ctrl.BodyList[body]->position.y;
+        *outY = world->ctrl.body_list[body]->position.y;
     }
 }
 
@@ -364,7 +364,7 @@ void kn_body_apply_force(KnWorld* world, int body, float px, float py, float fx,
     {
         return;
     }
-    world->ctrl.BodyList[body]->apply_force(Vector2(px, py), Vector2(fx, fy));
+    world->ctrl.body_list[body]->apply_force(Vector2(px, py), Vector2(fx, fy));
 }
 
 int kn_chain_point_count(KnWorld* world, int chain)
@@ -373,7 +373,7 @@ int kn_chain_point_count(KnWorld* world, int chain)
     {
         return 0;
     }
-    return static_cast<int>(world->ctrl.ChainList[chain]->point_mass_list.size());
+    return static_cast<int>(world->ctrl.chain_list[chain]->point_mass_list.size());
 }
 
 int kn_chain_get_points(KnWorld* world, int chain, float* outXY, int maxPoints)
@@ -382,5 +382,5 @@ int kn_chain_get_points(KnWorld* world, int chain, float* outXY, int maxPoints)
     {
         return 0;
     }
-    return copyPoints(world->ctrl.ChainList[chain]->point_mass_list, outXY, maxPoints);
+    return copyPoints(world->ctrl.chain_list[chain]->point_mass_list, outXY, maxPoints);
 }

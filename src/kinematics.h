@@ -18,4 +18,4 @@
 #include <dynamics/body.h>
 #include <dynamics/spring_body.h>
 #include <dynamics/pressure_body.h>
-#include <Utils/KinematicsController.h>
+#include <utils/kinematics_controller.h>

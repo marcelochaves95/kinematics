@@ -1,7 +1,7 @@
 #pragma once
 
 #include <math/vector2.h>
-#include <Utils/KinematicsController.h>
+#include <utils/kinematics_controller.h>
 
 // Internal definition of the opaque KnWorld (shared between the C ABI
 // implementation and the demo scene builders). NOT part of the public C header.

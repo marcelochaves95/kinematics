@@ -1,4 +1,4 @@
-#include <Utils/KinematicsController.h>
+#include <utils/kinematics_controller.h>
 #include <collision/collision.h>
 #include <math/mathf.h>
 #include <algorithm>
@@ -7,72 +7,68 @@
 
 namespace kinematics
 {
-    void KinematicsController::Add(const std::shared_ptr<Chain>& chain)
+    void KinematicsController::add(const std::shared_ptr<Chain>& chain)
     {
-        if (std::find(ChainList.begin(), ChainList.end(), chain) == ChainList.end())
+        if (std::find(chain_list.begin(), chain_list.end(), chain) == chain_list.end())
         {
-            ChainList.push_back(chain);
+            chain_list.push_back(chain);
         }
     }
 
-    void KinematicsController::Remove(const std::shared_ptr<Chain>& chain)
+    void KinematicsController::remove(const std::shared_ptr<Chain>& chain)
     {
-        auto it = std::find(ChainList.begin(), ChainList.end(), chain);
-        if (it != ChainList.end())
+        auto it = std::find(chain_list.begin(), chain_list.end(), chain);
+        if (it != chain_list.end())
         {
-            ChainList.erase(it);
+            chain_list.erase(it);
         }
     }
 
-    void KinematicsController::Add(const std::shared_ptr<Body>& body)
+    void KinematicsController::add(const std::shared_ptr<Body>& body)
     {
-        if (std::find(BodyList.begin(), BodyList.end(), body) == BodyList.end())
+        if (std::find(body_list.begin(), body_list.end(), body) == body_list.end())
         {
-            BodyList.push_back(body);
+            body_list.push_back(body);
         }
     }
 
-    void KinematicsController::Remove(const std::shared_ptr<Body>& body)
+    void KinematicsController::remove(const std::shared_ptr<Body>& body)
     {
         if (_stepping)
         {
-            // Defer: collision records still reference this body this frame.
-            _pendingRemove.push_back(body);
+
+            _pending_remove.push_back(body);
             return;
         }
-        auto it = std::find(BodyList.begin(), BodyList.end(), body);
-        if (it != BodyList.end())
+        auto it = std::find(body_list.begin(), body_list.end(), body);
+        if (it != body_list.end())
         {
-            BodyList.erase(it);
+            body_list.erase(it);
         }
     }
 
-    void KinematicsController::SetWorldLimits(Vector2 min, Vector2 max)
+    void KinematicsController::set_world_limits(Vector2 min, Vector2 max)
     {
-        Aabb = kinematics::AABB(min, max);
-        Size = max - min;
-        Cell = Size / 32.0f;
+        aabb = kinematics::AABB(min, max);
+        size = max - min;
+        cell = size / 32.0f;
 
-        // Guard against a degenerate (zero-extent) world — e.g. no static bodies
-        // and no explicit limits, which leaves min == max == (0,0). Without this,
-        // UpdateBitmask divides by Cell.x/Cell.y == 0 -> Inf/NaN -> UB on the int
-        // cast. A unit cell just maps every body into the same broadphase column.
-        if (Cell.x <= 0.0f)
+        if (cell.x <= 0.0f)
         {
-            Cell.x = 1.0f;
+            cell.x = 1.0f;
         }
-        if (Cell.y <= 0.0f)
+        if (cell.y <= 0.0f)
         {
-            Cell.y = 1.0f;
+            cell.y = 1.0f;
         }
     }
 
-    void KinematicsController::UpdateBitmask(Body& body)
+    void KinematicsController::update_bitmask(Body& body)
     {
         kinematics::AABB box = body.aabb;
 
-        int minX = static_cast<int>(mathf::floor((box.min.x - Aabb.min.x) / Cell.x));
-        int maxX = static_cast<int>(mathf::floor((box.max.x - Aabb.min.x) / Cell.x));
+        int minX = static_cast<int>(mathf::floor((box.min.x - aabb.min.x) / cell.x));
+        int maxX = static_cast<int>(mathf::floor((box.max.x - aabb.min.x) / cell.x));
         if (minX < 0)
         {
             minX = 0;
@@ -90,8 +86,8 @@ namespace kinematics
             maxX = 32;
         }
 
-        int minY = static_cast<int>(mathf::floor((box.min.y - Aabb.min.y) / Cell.y));
-        int maxY = static_cast<int>(mathf::floor((box.max.y - Aabb.min.y) / Cell.y));
+        int minY = static_cast<int>(mathf::floor((box.min.y - aabb.min.y) / cell.y));
+        int maxY = static_cast<int>(mathf::floor((box.max.y - aabb.min.y) / cell.y));
         if (minY < 0)
         {
             minY = 0;
@@ -109,24 +105,24 @@ namespace kinematics
             maxY = 32;
         }
 
-        body.bitmask_x.Clear();
+        body.bitmask_x.clear();
         for (int i = minX; i <= maxX; i++)
         {
-            body.bitmask_x.SetOn(i);
+            body.bitmask_x.set_on(i);
         }
 
-        body.bitmask_y.Clear();
+        body.bitmask_y.clear();
         for (int i = minY; i <= maxY; i++)
         {
-            body.bitmask_y.SetOn(i);
+            body.bitmask_y.set_on(i);
         }
     }
 
-    bool KinematicsController::IsPointInsideAnyBody(Vector2 point)
+    bool KinematicsController::is_point_inside_any_body(Vector2 point)
     {
-        for (size_t i = 0; i < BodyList.size(); i++)
+        for (size_t i = 0; i < body_list.size(); i++)
         {
-            Body& body = *BodyList[i];
+            Body& body = *body_list[i];
             if (!body.aabb.contains(point.x, point.y))
             {
                 continue;
@@ -139,48 +135,48 @@ namespace kinematics
         return false;
     }
 
-    void KinematicsController::Initialize()
+    void KinematicsController::initialize()
     {
         Vector2 min = Vector2::ZERO;
         Vector2 max = Vector2::ZERO;
 
-        for (size_t i = 0; i < BodyList.size(); i++)
+        for (size_t i = 0; i < body_list.size(); i++)
         {
-            if (!BodyList[i]->is_static)
+            if (!body_list[i]->is_static)
             {
                 continue;
             }
 
-            BodyList[i]->rotate_shape(0);
-            BodyList[i]->update(0);
+            body_list[i]->rotate_shape(0);
+            body_list[i]->update(0);
 
-            if (BodyList[i]->aabb.min.x < min.x)
+            if (body_list[i]->aabb.min.x < min.x)
             {
-                min.x = BodyList[i]->aabb.min.x;
+                min.x = body_list[i]->aabb.min.x;
             }
-            if (BodyList[i]->aabb.min.y < min.y)
+            if (body_list[i]->aabb.min.y < min.y)
             {
-                min.y = BodyList[i]->aabb.min.y;
+                min.y = body_list[i]->aabb.min.y;
             }
-            if (BodyList[i]->aabb.max.x > max.x)
+            if (body_list[i]->aabb.max.x > max.x)
             {
-                max.x = BodyList[i]->aabb.max.x;
+                max.x = body_list[i]->aabb.max.x;
             }
-            if (BodyList[i]->aabb.max.y > max.y)
+            if (body_list[i]->aabb.max.y > max.y)
             {
-                max.y = BodyList[i]->aabb.max.y;
+                max.y = body_list[i]->aabb.max.y;
             }
         }
 
-        SetWorldLimits(min, max);
+        set_world_limits(min, max);
         _initialized = true;
     }
 
-    void KinematicsController::MoveDistantBodies(Vector2 position, float near_, float far_)
+    void KinematicsController::move_distant_bodies(Vector2 position, float near_, float far_)
     {
-        for (size_t i = 0; i < BodyList.size(); i++)
+        for (size_t i = 0; i < body_list.size(); i++)
         {
-            Body& body = *BodyList[i];
+            Body& body = *body_list[i];
             if (body.is_static)
             {
                 continue;
@@ -190,75 +186,75 @@ namespace kinematics
             Vector2 point;
             if (distance > far_)
             {
-                point.x = nextFloat() - 0.5f;
-                point.y = nextFloat() - 0.5f;
+                point.x = next_float() - 0.5f;
+                point.y = next_float() - 0.5f;
                 point.normalize();
-                point = point * (near_ + (far_ - near_) * nextFloat());
+                point = point * (near_ + (far_ - near_) * next_float());
                 point += position;
 
-                while (IsPointInsideAnyBody(point))
+                while (is_point_inside_any_body(point))
                 {
-                    point.x = nextFloat() - 0.5f;
-                    point.y = nextFloat() - 0.5f;
+                    point.x = next_float() - 0.5f;
+                    point.y = next_float() - 0.5f;
                     point.normalize();
-                    point = point * (near_ + (far_ - near_) * nextFloat());
+                    point = point * (near_ + (far_ - near_) * next_float());
                     point += position;
                 }
 
-                BodyList[i]->position = point;
-                BodyList[i]->update(0);
+                body_list[i]->position = point;
+                body_list[i]->update(0);
             }
         }
     }
 
-    void KinematicsController::Update(double elapsed)
+    void KinematicsController::update(double elapsed)
     {
         if (!_initialized)
         {
-            Initialize();
+            initialize();
         }
 
-        PenetrationCount = 0;
+        penetration_count = 0;
         _collisions.clear();
         _stepping = true;
 
-        for (size_t i = 0; i < BodyList.size(); i++)
+        for (size_t i = 0; i < body_list.size(); i++)
         {
-            BodyList[i]->update(elapsed);
-            UpdateBitmask(*BodyList[i]);
+            body_list[i]->update(elapsed);
+            update_bitmask(*body_list[i]);
         }
 
-        for (size_t i = 0; i < ChainList.size(); i++)
+        for (size_t i = 0; i < chain_list.size(); i++)
         {
-            ChainList[i]->update(elapsed);
+            chain_list[i]->update(elapsed);
         }
 
-        for (size_t i = 0; i < BodyList.size(); i++)
+        for (size_t i = 0; i < body_list.size(); i++)
         {
-            for (size_t j = i + 1; j < BodyList.size(); j++)
+            for (size_t j = i + 1; j < body_list.size(); j++)
             {
-                if (BodyList[i]->is_static && BodyList[j]->is_static)
+                if (body_list[i]->is_static && body_list[j]->is_static)
                 {
                     continue;
                 }
 
-                if ((BodyList[i]->bitmask_x.Mask & BodyList[j]->bitmask_x.Mask) == 0 ||
-                    (BodyList[i]->bitmask_y.Mask & BodyList[j]->bitmask_y.Mask) == 0)
+                if ((body_list[i]->bitmask_x.mask & body_list[j]->bitmask_x.mask) == 0 ||
+                    (body_list[i]->bitmask_y.mask & body_list[j]->bitmask_y.mask) == 0)
                 {
                     continue;
                 }
 
-                if (!BodyList[i]->aabb.intersects(BodyList[j]->aabb))
+                if (!body_list[i]->aabb.intersects(body_list[j]->aabb))
                 {
                     continue;
                 }
 
-                if (OnAABBCollision)
+                if (on_aabb_collision)
                 {
-                    OnAABBCollision(*BodyList[i], *BodyList[j]);
+                    on_aabb_collision(*body_list[i], *body_list[j]);
                 }
-                Collision::intersects(*BodyList[j], *BodyList[i], _collisions);
-                Collision::intersects(*BodyList[i], *BodyList[j], _collisions);
+                Collision::intersects(*body_list[j], *body_list[i], _collisions);
+                Collision::intersects(*body_list[i], *body_list[j], _collisions);
             }
         }
 
@@ -268,9 +264,9 @@ namespace kinematics
             const PointMassPtr& A = info.point_mass_a;
             const PointMassPtr& B1 = info.point_mass_b;
             const PointMassPtr& B2 = info.point_mass_c;
-            if (OnCollision)
+            if (on_collision)
             {
-                OnCollision(*info.body_a, *info.body_b, info);
+                on_collision(*info.body_a, *info.body_b, info);
             }
 
             Vector2 bVel((B1->velocity.x + B2->velocity.x) * 0.5f,
@@ -278,14 +274,14 @@ namespace kinematics
             Vector2 relVel(A->velocity.x - bVel.x, A->velocity.y - bVel.y);
             float relDot = Vector2::dot(relVel, info.normal);
 
-            if (OnPenetration)
+            if (on_penetration)
             {
-                OnPenetration(info.penetration, *info.body_a, *info.body_b);
+                on_penetration(info.penetration, *info.body_a, *info.body_b);
             }
 
             if (info.penetration > 1.0f)
             {
-                PenetrationCount++;
+                penetration_count++;
                 continue;
             }
 
@@ -297,7 +293,7 @@ namespace kinematics
             float massSum = A->mass + b2MassSum;
             float moveA;
             float moveB;
-            // Cap single-frame position correction to 0.1 m (see the C# original).
+
             const float MaxCorrection = 0.1f;
             if (std::isinf(A->mass))
             {
@@ -321,16 +317,12 @@ namespace kinematics
             float invMassB = std::isinf(b2MassSum) ? 0.0f : 1.0f / b2MassSum;
             float jDenom = invMassA + invMassB;
             Vector2 numV;
-            float elasticity = Elasticity;
+            float elasticity = this->elasticity;
             numV.x = relVel.x * elasticity;
             numV.y = relVel.y * elasticity;
             float jNumerator = Vector2::dot(numV, info.normal);
             jNumerator = -jNumerator;
-            // jDenom == 0 means both colliding sides are effectively immovable
-            // (infinite mass): there is no impulse to distribute. Guard the
-            // divides so j/f stay finite instead of Inf/NaN. (Today the velocity
-            // updates below are already mass-guarded, so these would be unused,
-            // but this keeps the math defined if those guards ever change.)
+
             float j = jDenom > 0.0f ? jNumerator / jDenom : 0.0f;
             if (!std::isinf(A->mass))
             {
@@ -352,7 +344,7 @@ namespace kinematics
 
             Vector2 tangent = info.normal.perpendicular();
             float fNumerator = Vector2::dot(relVel, tangent);
-            fNumerator *= Friction;
+            fNumerator *= friction;
             float f = jDenom > 0.0f ? fNumerator / jDenom : 0.0f;
             if (relDot <= mathf::EPSILON)
             {
@@ -376,25 +368,24 @@ namespace kinematics
             }
         }
 
-        for (size_t i = 0; i < BodyList.size(); i++)
+        for (size_t i = 0; i < body_list.size(); i++)
         {
-            BodyList[i]->update_body_position_velocity_force();
+            body_list[i]->update_body_position_velocity_force();
         }
 
-        // Step finished: apply any removals deferred from callbacks above.
         _stepping = false;
-        for (const std::shared_ptr<Body>& body : _pendingRemove)
+        for (const std::shared_ptr<Body>& body : _pending_remove)
         {
-            auto it = std::find(BodyList.begin(), BodyList.end(), body);
-            if (it != BodyList.end())
+            auto it = std::find(body_list.begin(), body_list.end(), body);
+            if (it != body_list.end())
             {
-                BodyList.erase(it);
+                body_list.erase(it);
             }
         }
-        _pendingRemove.clear();
+        _pending_remove.clear();
     }
 
-    float KinematicsController::nextFloat()
+    float KinematicsController::next_float()
     {
         return std::uniform_real_distribution<float>(0.0f, 1.0f)(_random);
     }
