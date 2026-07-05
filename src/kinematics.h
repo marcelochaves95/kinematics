@@ -1,10 +1,5 @@
 #pragma once
 
-// Umbrella header: a single include that pulls in the whole public C++ API.
-//
-//     #include <kinematics.h>
-//     using namespace kinematics;
-
 #include <math/mathf.h>
 #include <math/vector2.h>
 #include <math/vector3.h>

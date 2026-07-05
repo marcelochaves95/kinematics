@@ -3,10 +3,10 @@
 #include <cmath>
 #include <stdexcept>
 
-#include <Collision/AABB.h>
-#include <Collision/PointMass.h>
-#include <Collision/Shape.h>
-#include <Math/Mathf.h>
+#include <collision/aabb.h>
+#include <collision/point_mass.h>
+#include <collision/shape.h>
+#include <math/mathf.h>
 
 using namespace kinematics;
 
@@ -14,144 +14,139 @@ namespace {
 constexpr double EPS = 1e-6;
 }
 
-// ── AABB ─────────────────────────────────────────────────────────
 TEST_CASE(aabb_default_is_invalid) {
     AABB box;
-    CHECK(box.IsValid == false);
-    CHECK(box.Contains(0.0f, 0.0f) == false);
+    CHECK(box.is_valid == false);
+    CHECK(box.contains(0.0f, 0.0f) == false);
 }
 
 TEST_CASE(aabb_add_grows_box) {
     AABB box;
-    box.Add(1.0f, 2.0f);   // first Add seeds Min=Max=(1,2)
-    CHECK(box.IsValid == true);
-    CHECK_NEAR(box.Min.X, 1.0f, EPS);
-    CHECK_NEAR(box.Max.Y, 2.0f, EPS);
+    box.add(1.0f, 2.0f);
+    CHECK(box.is_valid == true);
+    CHECK_NEAR(box.min.x, 1.0f, EPS);
+    CHECK_NEAR(box.max.y, 2.0f, EPS);
 
-    box.Add(5.0f, -3.0f);
-    CHECK_NEAR(box.Min.X, 1.0f, EPS);
-    CHECK_NEAR(box.Max.X, 5.0f, EPS);
-    CHECK_NEAR(box.Min.Y, -3.0f, EPS);
-    CHECK_NEAR(box.Max.Y, 2.0f, EPS);
+    box.add(5.0f, -3.0f);
+    CHECK_NEAR(box.min.x, 1.0f, EPS);
+    CHECK_NEAR(box.max.x, 5.0f, EPS);
+    CHECK_NEAR(box.min.y, -3.0f, EPS);
+    CHECK_NEAR(box.max.y, 2.0f, EPS);
 }
 
 TEST_CASE(aabb_contains_and_clear) {
     AABB box(Vector2(0, 0), Vector2(10, 10));
-    CHECK(box.Contains(5, 5) == true);
-    CHECK(box.Contains(-1, 5) == false);
-    CHECK(box.Contains(5, 11) == false);
+    CHECK(box.contains(5, 5) == true);
+    CHECK(box.contains(-1, 5) == false);
+    CHECK(box.contains(5, 11) == false);
 
-    box.Clear();
-    CHECK(box.IsValid == false);
-    CHECK(box.Contains(5, 5) == false);
+    box.clear();
+    CHECK(box.is_valid == false);
+    CHECK(box.contains(5, 5) == false);
 }
 
 TEST_CASE(aabb_intersects) {
     AABB a(Vector2(0, 0), Vector2(4, 4));
     AABB b(Vector2(3, 3), Vector2(6, 6));
     AABB c(Vector2(5, 5), Vector2(7, 7));
-    CHECK(a.Intersects(b) == true);
-    CHECK(a.Intersects(c) == false);
-    CHECK(b.Intersects(c) == true);
+    CHECK(a.intersects(b) == true);
+    CHECK(a.intersects(c) == false);
+    CHECK(b.intersects(c) == true);
 }
 
-// ── PointMass ────────────────────────────────────────────────────
 TEST_CASE(pointmass_gravity_integration) {
-    // Semi-implicit Euler with the engine's order: v += F/m*dt, then x += v*dt.
+
     PointMass pm(Vector2(0, 0), 1.0f);
     const double dt = 1.0 / 60.0;
     const float g = 9.8f;
 
-    pm.Force.Y = g * pm.Mass; // external gravity force for this step
-    pm.Update(dt);
+    pm.force.y = g * pm.mass;
+    pm.update(dt);
 
-    float expectedV = g * (float)dt;          // 9.8 / 60
-    float expectedY = expectedV * (float)dt;  // v * dt
-    CHECK_NEAR(pm.Velocity.Y, expectedV, EPS);
-    CHECK_NEAR(pm.Position.Y, expectedY, EPS);
-    CHECK_NEAR(pm.Force.Y, 0.0f, EPS); // force cleared after Update
+    float expectedV = g * (float)dt;
+    float expectedY = expectedV * (float)dt;
+    CHECK_NEAR(pm.velocity.y, expectedV, EPS);
+    CHECK_NEAR(pm.position.y, expectedY, EPS);
+    CHECK_NEAR(pm.force.y, 0.0f, EPS);
 }
 
 TEST_CASE(pointmass_maxstep_clamp) {
-    float savedMax = PointMass::MaxStep;
-    PointMass::MaxStep = 0.4f;
+    float savedMax = PointMass::MAX_STEP;
+    PointMass::MAX_STEP = 0.4f;
 
     PointMass pm(Vector2(0, 0), 1.0f);
-    pm.Velocity.X = 1000.0f; // |v|*dt = 1000/60 ≈ 16.7 m >> 0.4 m cap
-    pm.Force = Vector2::Zero;
+    pm.velocity.x = 1000.0f;
+    pm.force = Vector2::ZERO;
     const double dt = 1.0 / 60.0;
-    pm.Update(dt);
+    pm.update(dt);
 
-    // Clamp forces displacement to exactly MaxStep, and velocity to MaxStep/dt.
-    CHECK_NEAR(pm.Position.X, 0.4f, 1e-5);
-    CHECK_NEAR(pm.Velocity.X, 0.4f / (float)dt, 1e-3);
+    CHECK_NEAR(pm.position.x, 0.4f, 1e-5);
+    CHECK_NEAR(pm.velocity.x, 0.4f / (float)dt, 1e-3);
 
-    PointMass::MaxStep = savedMax;
+    PointMass::MAX_STEP = savedMax;
 }
 
 TEST_CASE(pointmass_zero_mass_is_safe) {
-    // A zero (or negative) mass must not produce Inf/NaN. It is treated as
-    // immovable-under-force: k = 0, so velocity/position stay finite.
+
     PointMass pm(Vector2(0.0f, 0.0f), 0.0f);
-    pm.Force = Vector2(0.0f, 9.8f);
-    pm.Update(1.0 / 60.0);
-    CHECK(std::isfinite(pm.Velocity.Y));
-    CHECK(std::isfinite(pm.Position.Y));
-    CHECK_NEAR(pm.Velocity.Y, 0.0f, 1e-6); // force ignored (k = 0)
+    pm.force = Vector2(0.0f, 9.8f);
+    pm.update(1.0 / 60.0);
+    CHECK(std::isfinite(pm.velocity.y));
+    CHECK(std::isfinite(pm.position.y));
+    CHECK_NEAR(pm.velocity.y, 0.0f, 1e-6);
 }
 
 TEST_CASE(pointmass_below_cap_unclamped) {
-    float savedMax = PointMass::MaxStep;
-    PointMass::MaxStep = 0.4f;
+    float savedMax = PointMass::MAX_STEP;
+    PointMass::MAX_STEP = 0.4f;
 
     PointMass pm(Vector2(0, 0), 1.0f);
-    pm.Velocity.X = 6.0f; // |v|*dt = 0.1 m < 0.4 m -> untouched
-    pm.Force = Vector2::Zero;
+    pm.velocity.x = 6.0f;
+    pm.force = Vector2::ZERO;
     const double dt = 1.0 / 60.0;
-    pm.Update(dt);
+    pm.update(dt);
 
-    CHECK_NEAR(pm.Velocity.X, 6.0f, EPS);
-    CHECK_NEAR(pm.Position.X, 0.1f, 1e-5);
+    CHECK_NEAR(pm.velocity.x, 6.0f, EPS);
+    CHECK_NEAR(pm.position.x, 0.1f, 1e-5);
 
-    PointMass::MaxStep = savedMax;
+    PointMass::MAX_STEP = savedMax;
 }
 
-// ── Shape ────────────────────────────────────────────────────────
 TEST_CASE(shape_build_uncentered) {
     Shape s;
-    s.Begin(false);
-    s.Add(Vector2(0, 0));
-    s.Add(Vector2(2, 0));
-    s.Add(Vector2(2, 2));
-    s.Add(Vector2(0, 2));
-    s.End();
+    s.begin(false);
+    s.add(Vector2(0, 0));
+    s.add(Vector2(2, 0));
+    s.add(Vector2(2, 2));
+    s.add(Vector2(0, 2));
+    s.end();
 
-    CHECK(s.Count == 4);
-    Vector2 c = s.GetCenter();
-    CHECK_NEAR(c.X, 1.0f, EPS);
-    CHECK_NEAR(c.Y, 1.0f, EPS);
+    CHECK(s.count == 4);
+    Vector2 c = s.get_center();
+    CHECK_NEAR(c.x, 1.0f, EPS);
+    CHECK_NEAR(c.y, 1.0f, EPS);
 }
 
 TEST_CASE(shape_build_centered) {
     Shape s;
-    s.Begin(true); // centers at zero on End()
-    s.Add(Vector2(0, 0));
-    s.Add(Vector2(2, 0));
-    s.Add(Vector2(2, 2));
-    s.Add(Vector2(0, 2));
-    s.End();
+    s.begin(true);
+    s.add(Vector2(0, 0));
+    s.add(Vector2(2, 0));
+    s.add(Vector2(2, 2));
+    s.add(Vector2(0, 2));
+    s.end();
 
-    Vector2 c = s.GetCenter();
-    CHECK_NEAR(c.X, 0.0f, 1e-5);
-    CHECK_NEAR(c.Y, 0.0f, 1e-5);
+    Vector2 c = s.get_center();
+    CHECK_NEAR(c.x, 0.0f, 1e-5);
+    CHECK_NEAR(c.y, 0.0f, 1e-5);
 }
 
 TEST_CASE(shape_begin_twice_throws) {
     Shape s;
-    s.Begin(false);
+    s.begin(false);
     bool threw = false;
     try {
-        s.Begin(false);
+        s.begin(false);
     } catch (const std::logic_error&) {
         threw = true;
     }
@@ -160,29 +155,29 @@ TEST_CASE(shape_begin_twice_throws) {
 
 TEST_CASE(shape_clone_is_independent) {
     Shape s;
-    s.Begin(false);
-    s.Add(Vector2(1, 1));
-    s.Add(Vector2(3, 5));
-    s.End();
+    s.begin(false);
+    s.add(Vector2(1, 1));
+    s.add(Vector2(3, 5));
+    s.end();
 
-    Shape clone = s.Clone();
-    CHECK(clone.Count == 2);
-    clone.Points[0].X = 99.0f;            // mutate clone
-    CHECK_NEAR(s.Points[0].X, 1.0f, EPS); // original unaffected
+    Shape clone = s.clone();
+    CHECK(clone.count == 2);
+    clone.points[0].x = 99.0f;
+    CHECK_NEAR(s.points[0].x, 1.0f, EPS);
 }
 
 TEST_CASE(shape_transform_translate_only) {
     std::vector<Vector2> pts = {Vector2(1, 0), Vector2(0, 1)};
-    auto out = Shape::Transform(pts, Vector2(10, 20), 0.0f, Vector2::One);
-    CHECK_NEAR(out[0].X, 11.0f, EPS);
-    CHECK_NEAR(out[0].Y, 20.0f, EPS);
-    CHECK_NEAR(out[1].X, 10.0f, EPS);
-    CHECK_NEAR(out[1].Y, 21.0f, EPS);
+    auto out = Shape::transform(pts, Vector2(10, 20), 0.0f, Vector2::ONE);
+    CHECK_NEAR(out[0].x, 11.0f, EPS);
+    CHECK_NEAR(out[0].y, 20.0f, EPS);
+    CHECK_NEAR(out[1].x, 10.0f, EPS);
+    CHECK_NEAR(out[1].y, 21.0f, EPS);
 }
 
 TEST_CASE(shape_transform_rotate_90) {
     std::vector<Vector2> pts = {Vector2(1, 0)};
-    auto out = Shape::Transform(pts, Vector2::Zero, mathf::PI / 2.0f, Vector2::One);
-    CHECK_NEAR(out[0].X, 0.0f, 1e-6);
-    CHECK_NEAR(out[0].Y, 1.0f, 1e-6);
+    auto out = Shape::transform(pts, Vector2::ZERO, mathf::PI / 2.0f, Vector2::ONE);
+    CHECK_NEAR(out[0].x, 0.0f, 1e-6);
+    CHECK_NEAR(out[0].y, 1.0f, 1e-6);
 }

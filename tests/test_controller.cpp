@@ -4,11 +4,11 @@
 #include <limits>
 #include <memory>
 
-#include <Collision/Collision.h>
-#include <Dynamics/Body.h>
-#include <Dynamics/SpringBody.h>
-#include <Utils/Bitmask.h>
-#include <Utils/KinematicsController.h>
+#include <collision/collision.h>
+#include <dynamics/body.h>
+#include <dynamics/spring_body.h>
+#include <utils/bitmask.h>
+#include <utils/kinematics_controller.h>
 
 using namespace kinematics;
 
@@ -17,169 +17,159 @@ constexpr float INF = std::numeric_limits<float>::infinity();
 
 Shape box(float hw, float hh) {
     Shape s;
-    s.Begin(true);
-    s.Add(Vector2(-hw, -hh));
-    s.Add(Vector2(hw, -hh));
-    s.Add(Vector2(hw, hh));
-    s.Add(Vector2(-hw, hh));
-    s.End();
+    s.begin(true);
+    s.add(Vector2(-hw, -hh));
+    s.add(Vector2(hw, -hh));
+    s.add(Vector2(hw, hh));
+    s.add(Vector2(-hw, hh));
+    s.end();
     return s;
 }
 
-std::shared_ptr<Body> makeFloor() {
-    // Thin static slab spanning x[-10,10], y[5,6] (top face at y=5).
+std::shared_ptr<Body> make_floor() {
+
     auto floor = std::make_shared<Body>(box(10.0f, 0.5f), INF);
-    floor->IsStatic = true;
-    floor->Position = Vector2(0.0f, 5.5f);
+    floor->is_static = true;
+    floor->position = Vector2(0.0f, 5.5f);
     return floor;
 }
-} // namespace
-
-// ── Bitmask high bit must be well-defined (no signed-shift UB) ───
-TEST_CASE(bitmask_high_bit_is_defined) {
-    Bitmask m;
-    m.SetOn(32); // -> 1u << 31; would be UB if Mask were a signed int
-    CHECK(m.Mask != 0u);
-    m.SetOff(32);
-    CHECK(m.Mask == 0u);
-    m.Clear();
-    CHECK(m.Mask == 0u);
 }
 
-// ── Add/Remove dedup ─────────────────────────────────────────────
+TEST_CASE(bitmask_high_bit_is_defined) {
+    Bitmask m;
+    m.set_on(32);
+    CHECK(m.mask != 0u);
+    m.set_off(32);
+    CHECK(m.mask == 0u);
+    m.clear();
+    CHECK(m.mask == 0u);
+}
+
 TEST_CASE(controller_add_remove_dedup) {
     KinematicsController ctrl;
     auto b = std::make_shared<Body>(box(0.5f, 0.5f), 1.0f);
-    ctrl.Add(b);
-    ctrl.Add(b); // duplicate ignored
-    CHECK(ctrl.BodyList.size() == 1);
-    ctrl.Remove(b);
-    CHECK(ctrl.BodyList.size() == 0);
+    ctrl.add(b);
+    ctrl.add(b);
+    CHECK(ctrl.body_list.size() == 1);
+    ctrl.remove(b);
+    CHECK(ctrl.body_list.size() == 0);
 }
 
-// ── Narrowphase directly ─────────────────────────────────────────
 TEST_CASE(collision_intersects_finds_contacts) {
     auto a = std::make_shared<Body>(box(0.5f, 0.5f), 1.0f);
     auto b = std::make_shared<Body>(box(0.5f, 0.5f), 1.0f);
-    a->Position = Vector2(0.0f, 0.0f);
-    b->Position = Vector2(0.3f, 0.0f); // overlaps A on the +X side
+    a->position = Vector2(0.0f, 0.0f);
+    b->position = Vector2(0.3f, 0.0f);
     const double dt = 1.0 / 60.0;
-    a->Update(dt); // populate AABB / CurrentShape
-    b->Update(dt);
+    a->update(dt);
+    b->update(dt);
 
     std::vector<CollisionInfo> contacts;
-    Collision::Intersects(*a, *b, contacts);
+    Collision::intersects(*a, *b, contacts);
     CHECK(contacts.size() >= 1);
     if (!contacts.empty()) {
-        CHECK(contacts[0].BodyA == a.get());
-        CHECK(contacts[0].BodyB == b.get());
-        // Emitted contacts are always fully populated (no null/dummy point masses).
-        CHECK(contacts[0].PointMassA != nullptr);
-        CHECK(contacts[0].PointMassB != nullptr);
-        CHECK(contacts[0].PointMassC != nullptr);
+        CHECK(contacts[0].body_a == a.get());
+        CHECK(contacts[0].body_b == b.get());
+
+        CHECK(contacts[0].point_mass_a != nullptr);
+        CHECK(contacts[0].point_mass_b != nullptr);
+        CHECK(contacts[0].point_mass_c != nullptr);
     }
 }
 
-// ── Degenerate world (no static bodies) must not divide by zero ──
 TEST_CASE(controller_no_static_bodies_is_safe) {
     KinematicsController ctrl;
     auto blob = std::make_shared<SpringBody>(box(0.5f, 0.5f), 1.0f, 150.0f, 10.0f, 200.0f, 15.0f);
-    blob->Gravity = Vector2(0.0f, 9.8f);
-    ctrl.Add(blob); // no static bodies, no SetWorldLimits -> world would be zero-size
+    blob->gravity = Vector2(0.0f, 9.8f);
+    ctrl.add(blob);
 
     const double dt = 1.0 / 60.0;
     for (int i = 0; i < 60; i++) {
-        ctrl.Update(dt); // must not divide by zero / produce NaN
+        ctrl.update(dt);
     }
-    CHECK(std::isfinite(blob->Position.Y));
-    CHECK(blob->Position.Y > 0.0f); // it fell (no floor to catch it)
+    CHECK(std::isfinite(blob->position.y));
+    CHECK(blob->position.y > 0.0f);
 }
 
-// ── Integration: a falling body is caught by the floor ───────────
 TEST_CASE(body_caught_by_floor) {
     KinematicsController ctrl;
-    ctrl.Add(makeFloor());
+    ctrl.add(make_floor());
     auto blob = std::make_shared<SpringBody>(box(0.5f, 0.5f), 1.0f, 150.0f, 10.0f, 200.0f, 15.0f);
-    blob->Position = Vector2(0.0f, 2.0f);
-    blob->Gravity = Vector2(0.0f, 9.8f);
-    ctrl.Add(blob);
+    blob->position = Vector2(0.0f, 2.0f);
+    blob->gravity = Vector2(0.0f, 9.8f);
+    ctrl.add(blob);
 
     const double dt = 1.0 / 60.0;
     float yAt180 = 0.0f;
     for (int i = 0; i < 300; i++) {
-        if (i == 180) yAt180 = blob->Position.Y;
-        ctrl.Update(dt);
+        if (i == 180) yAt180 = blob->position.y;
+        ctrl.update(dt);
     }
 
-    CHECK(std::isfinite(blob->Position.Y));
-    CHECK(blob->Position.Y > 5.0f);              // reached the floor (fell from y=2)
-    CHECK(blob->Position.Y < 7.0f);              // caught, didn't tunnel through
-    CHECK(std::fabs(blob->Position.Y - yAt180) < 0.5f); // settled / stable
-    CHECK(ctrl.PenetrationCount == 0);           // no deep blow-through with a thin slab
+    CHECK(std::isfinite(blob->position.y));
+    CHECK(blob->position.y > 5.0f);
+    CHECK(blob->position.y < 7.0f);
+    CHECK(std::fabs(blob->position.y - yAt180) < 0.5f);
+    CHECK(ctrl.penetration_count == 0);
 }
 
-// ── Contrast: a body that misses the floor keeps falling ─────────
 TEST_CASE(body_misses_floor_keeps_falling) {
     KinematicsController ctrl;
-    ctrl.Add(makeFloor());
+    ctrl.add(make_floor());
     auto blob = std::make_shared<SpringBody>(box(0.5f, 0.5f), 1.0f, 150.0f, 10.0f, 200.0f, 15.0f);
-    blob->Position = Vector2(50.0f, 2.0f); // far to the right of the slab (x[-10,10])
-    blob->Gravity = Vector2(0.0f, 9.8f);
-    ctrl.Add(blob);
+    blob->position = Vector2(50.0f, 2.0f);
+    blob->gravity = Vector2(0.0f, 9.8f);
+    ctrl.add(blob);
 
     const double dt = 1.0 / 60.0;
     for (int i = 0; i < 300; i++) {
-        ctrl.Update(dt);
+        ctrl.update(dt);
     }
-    // No collider underneath -> free fall well past where the floor would catch it.
-    CHECK(blob->Position.Y > 50.0f);
+
+    CHECK(blob->position.y > 50.0f);
 }
 
-// ── Removing a body from inside a callback is safe (deferred) ─────
 TEST_CASE(remove_body_from_callback_is_safe) {
     KinematicsController ctrl;
-    ctrl.Add(makeFloor());
+    ctrl.add(make_floor());
     auto blob = std::make_shared<SpringBody>(box(0.5f, 0.5f), 1.0f, 150.0f, 10.0f, 200.0f, 15.0f);
-    blob->Position = Vector2(0.0f, 2.0f);
-    blob->Gravity = Vector2(0.0f, 9.8f);
-    ctrl.Add(blob);
+    blob->position = Vector2(0.0f, 2.0f);
+    blob->gravity = Vector2(0.0f, 9.8f);
+    ctrl.add(blob);
 
-    // On first contact, drop the controller's shared_ptr AND ask to remove it.
-    // Without deferral the raw Body* in queued CollisionInfos would dangle.
     bool removed = false;
-    ctrl.OnCollision = [&](Body&, Body&, const CollisionInfo&) {
+    ctrl.on_collision = [&](Body&, Body&, const CollisionInfo&) {
         if (!removed) {
             removed = true;
-            ctrl.Remove(blob);
-            blob.reset(); // release the test's own reference too
+            ctrl.remove(blob);
+            blob.reset();
         }
     };
 
     const double dt = 1.0 / 60.0;
     for (int i = 0; i < 300; i++) {
-        ctrl.Update(dt); // must not use-after-free
+        ctrl.update(dt);
     }
     CHECK(removed);
-    CHECK(ctrl.BodyList.size() == 1); // only the floor remains
+    CHECK(ctrl.body_list.size() == 1);
 }
 
-// ── Callbacks fire during contact ────────────────────────────────
 TEST_CASE(collision_callbacks_fire) {
     KinematicsController ctrl;
-    ctrl.Add(makeFloor());
+    ctrl.add(make_floor());
     auto blob = std::make_shared<SpringBody>(box(0.5f, 0.5f), 1.0f, 150.0f, 10.0f, 200.0f, 15.0f);
-    blob->Position = Vector2(0.0f, 2.0f);
-    blob->Gravity = Vector2(0.0f, 9.8f);
-    ctrl.Add(blob);
+    blob->position = Vector2(0.0f, 2.0f);
+    blob->gravity = Vector2(0.0f, 9.8f);
+    ctrl.add(blob);
 
     int aabbHits = 0;
     int contactHits = 0;
-    ctrl.OnAABBCollision = [&](Body&, Body&) { aabbHits++; };
-    ctrl.OnCollision = [&](Body&, Body&, const CollisionInfo&) { contactHits++; };
+    ctrl.on_aabb_collision = [&](Body&, Body&) { aabbHits++; };
+    ctrl.on_collision = [&](Body&, Body&, const CollisionInfo&) { contactHits++; };
 
     const double dt = 1.0 / 60.0;
     for (int i = 0; i < 300; i++) {
-        ctrl.Update(dt);
+        ctrl.update(dt);
     }
 
     CHECK(aabbHits > 0);

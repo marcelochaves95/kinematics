@@ -1,10 +1,5 @@
 #pragma once
 
-// Minimal zero-dependency test harness (keeps the project dependency-free, in
-// the spirit of the engine). Swap for doctest/Catch2 via FetchContent later if
-// richer features are wanted — the TEST_CASE/CHECK surface is intentionally a
-// subset of theirs so the migration is mechanical.
-
 #include <cmath>
 #include <cstdio>
 #include <functional>
@@ -50,7 +45,7 @@ inline int run_all() {
     return failures() == 0 ? 0 : 1;
 }
 
-} // namespace kt
+}
 
 #define TEST_CASE(name)                                                        \
     static void name();                                                        \

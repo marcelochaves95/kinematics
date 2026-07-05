@@ -5,9 +5,6 @@
 
 #include <kinematics_c.h>
 
-// Exercises the extern "C" surface (here compiled as C++, but a real C program
-// links the shared library the same way — validated separately in the build).
-
 namespace {
 constexpr double EPS = 1e-6;
 }
@@ -23,7 +20,7 @@ TEST_CASE(capi_invalid_handle_is_safe) {
     KnWorld* w = kn_world_create();
     CHECK(kn_body_point_count(w, 999) == 0);
     float x = -1.0f, y = -1.0f;
-    kn_body_get_position(w, 999, &x, &y); // no-op, must not crash
+    kn_body_get_position(w, 999, &x, &y);
     kn_world_destroy(w);
 }
 
@@ -62,7 +59,7 @@ TEST_CASE(capi_chain_readback) {
     int ch = kn_world_add_chain(w, -5, 2, 5, 2, 20, 120, 6, 0.25f);
     CHECK(ch == 0);
     kn_world_set_chain_gravity(w, 0, 9.8f);
-    // a static body is needed so the world derives its limits on the first step
+
     float fp[] = {-10, -0.5f, 10, -0.5f, 10, 0.5f, -10, 0.5f};
     kn_world_add_rigid_body(w, fp, 4, INFINITY, 0, 20, 0, 0, 1);
 
@@ -75,8 +72,8 @@ TEST_CASE(capi_chain_readback) {
     std::vector<float> buf(static_cast<size_t>(2 * n), 0.0f);
     int written = kn_chain_get_points(w, ch, buf.data(), n);
     CHECK(written == 21);
-    CHECK(std::isfinite(buf[2 * 10 + 1])); // midpoint finite
-    CHECK(buf[2 * 10 + 1] > 2.0f);         // sagged below the anchors (y down)
+    CHECK(std::isfinite(buf[2 * 10 + 1]));
+    CHECK(buf[2 * 10 + 1] > 2.0f);
 
     kn_world_destroy(w);
 }
