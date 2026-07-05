@@ -1,5 +1,5 @@
 #include <collision/point_mass.h>
-#include <Math/Mathf.h>
+#include <math/mathf.h>
 
 namespace kinematics
 {
@@ -7,28 +7,28 @@ namespace kinematics
 
     PointMass::PointMass(const Vector2& position, float mass) : mass(mass), position(position)
     {
-        velocity = Vector2::Zero;
-        force = Vector2::Zero;
+        velocity = Vector2::ZERO;
+        force = Vector2::ZERO;
     }
 
     void PointMass::update(double elapsed)
     {
         float dt = static_cast<float>(elapsed);
         float k = mass > 0.0f ? dt / mass : 0.0f;
-        velocity.X += force.X * k;
-        velocity.Y += force.Y * k;
+        velocity.x += force.x * k;
+        velocity.y += force.y * k;
 
-        float stepSq = (velocity.X * velocity.X + velocity.Y * velocity.Y) * dt * dt;
+        float stepSq = (velocity.x * velocity.x + velocity.y * velocity.y) * dt * dt;
         if (stepSq > MAX_STEP * MAX_STEP)
         {
-            float scale = MAX_STEP / mathf::Sqrt(stepSq);
-            velocity.X *= scale;
-            velocity.Y *= scale;
+            float scale = MAX_STEP / mathf::sqrt(stepSq);
+            velocity.x *= scale;
+            velocity.y *= scale;
         }
 
-        position.X += velocity.X * dt;
-        position.Y += velocity.Y * dt;
-        force.X = 0.0f;
-        force.Y = 0.0f;
+        position.x += velocity.x * dt;
+        position.y += velocity.y * dt;
+        force.x = 0.0f;
+        force.y = 0.0f;
     }
 }

@@ -1,5 +1,5 @@
 #include <collision/chain.h>
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 #include <memory>
 
 namespace kinematics
@@ -7,16 +7,16 @@ namespace kinematics
     Chain::Chain(PointMassPtr from, PointMassPtr to, int count, float k, float damping, float mass)
     {
         this->damping = 0.99f;
-        float length = Vector2::Distance(from->position, to->position) / static_cast<float>(count);
+        float length = Vector2::distance(from->position, to->position) / static_cast<float>(count);
         Vector2 direction = to->position - from->position;
-        direction.Normalize();
+        direction.normalize();
 
         point_mass_list.reserve(static_cast<size_t>(count) + 1);
         for (int i = 0; i < count + 1; i++)
         {
             point_mass_list.push_back(std::make_shared<PointMass>(
-                Vector2(from->position.X + direction.X * length * i,
-                    from->position.Y + direction.Y * length * i),
+                Vector2(from->position.x + direction.x * length * i,
+                    from->position.y + direction.y * length * i),
                 mass));
         }
 
@@ -36,16 +36,16 @@ namespace kinematics
         {
             Spring& spring = spring_list[i];
             Vector2 force = Spring::spring_force(spring);
-            spring.point_mass_a->force.X += force.X;
-            spring.point_mass_a->force.Y += force.Y;
-            spring.point_mass_b->force.X -= force.X;
-            spring.point_mass_b->force.Y -= force.Y;
+            spring.point_mass_a->force.x += force.x;
+            spring.point_mass_a->force.y += force.y;
+            spring.point_mass_b->force.x -= force.x;
+            spring.point_mass_b->force.y -= force.y;
         }
 
         for (size_t i = 1; i + 1 < point_mass_list.size(); i++)
         {
-            point_mass_list[i]->velocity.X *= damping;
-            point_mass_list[i]->velocity.Y *= damping;
+            point_mass_list[i]->velocity.x *= damping;
+            point_mass_list[i]->velocity.y *= damping;
             point_mass_list[i]->update(elapsed);
         }
     }

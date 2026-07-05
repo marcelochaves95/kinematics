@@ -15,9 +15,9 @@ set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_RELEASE ON)
 
 # ── Engine library (static; headers in src/, included as <Math/Vector2.h>) ──
 add_library(kinematics STATIC
-    src/Math/Mathf.cpp
-    src/Math/Vector2.cpp
-    src/Math/Vector3.cpp
+    src/math/mathf.cpp
+    src/math/vector2.cpp
+    src/math/vector3.cpp
     src/collision/aabb.cpp
     src/collision/point_mass.cpp
     src/collision/shape.cpp

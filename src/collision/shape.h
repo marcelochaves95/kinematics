@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 #include <vector>
 
 namespace kinematics

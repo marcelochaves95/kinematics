@@ -1,5 +1,5 @@
 #include <Dynamics/PressureBody.h>
-#include <Math/Mathf.h>
+#include <math/mathf.h>
 
 namespace kinematics
 {
@@ -23,31 +23,31 @@ namespace kinematics
             int prev = i > 0 ? i - 1 : Count - 1;
             int next = i < Count - 1 ? i + 1 : 0;
 
-            Vector2 edge1N(PointMassList[i]->position.X - PointMassList[prev]->position.X,
-                PointMassList[i]->position.Y - PointMassList[prev]->position.Y);
-            edge1N = edge1N.Perpendicular();
+            Vector2 edge1N(PointMassList[i]->position.x - PointMassList[prev]->position.x,
+                PointMassList[i]->position.y - PointMassList[prev]->position.y);
+            edge1N = edge1N.perpendicular();
 
-            Vector2 edge2N(PointMassList[next]->position.X - PointMassList[i]->position.X,
-                PointMassList[next]->position.Y - PointMassList[i]->position.Y);
-            edge2N = edge2N.Perpendicular();
+            Vector2 edge2N(PointMassList[next]->position.x - PointMassList[i]->position.x,
+                PointMassList[next]->position.y - PointMassList[i]->position.y);
+            edge2N = edge2N.perpendicular();
 
-            Vector2 norm(edge1N.X + edge2N.X, edge1N.Y + edge2N.Y);
+            Vector2 norm(edge1N.x + edge2N.x, edge1N.y + edge2N.y);
 
-            float nL = mathf::Sqrt(norm.X * norm.X + norm.Y * norm.Y);
+            float nL = mathf::sqrt(norm.x * norm.x + norm.y * norm.y);
             if (nL > 0.001f)
             {
-                norm.X /= nL;
-                norm.Y /= nL;
+                norm.x /= nL;
+                norm.y /= nL;
             }
 
-            float edgeL = mathf::Sqrt(edge2N.X * edge2N.X + edge2N.Y * edge2N.Y);
+            float edgeL = mathf::sqrt(edge2N.x * edge2N.x + edge2N.y * edge2N.y);
 
             _normalList[i] = norm;
             _edgeLengthList[i] = edgeL;
 
-            float xDistance = mathf::Abs(PointMassList[i]->position.X -
-                PointMassList[next]->position.X);
-            float volumeProduct = xDistance * mathf::Abs(norm.X) * edgeL;
+            float xDistance = mathf::abs(PointMassList[i]->position.x -
+                PointMassList[next]->position.x);
+            float volumeProduct = xDistance * mathf::abs(norm.x) * edgeL;
             _volume += 0.5f * volumeProduct;
         }
 
@@ -55,7 +55,7 @@ namespace kinematics
         // 1/_volume would be Inf and spread NaN through every point mass,
         // corrupting the body permanently. A valid body's volume is order 1,
         // far above this threshold, so this never trips in normal use.
-        if (_volume > mathf::Epsilon)
+        if (_volume > mathf::EPSILON)
         {
             float invVolume = 1.0f / _volume;
 
@@ -64,11 +64,11 @@ namespace kinematics
                 int j = i < Count - 1 ? i + 1 : 0;
 
                 float pressureV = invVolume * _edgeLengthList[i] * _pressure;
-                PointMassList[i]->force.X += _normalList[i].X * pressureV;
-                PointMassList[i]->force.Y += _normalList[i].Y * pressureV;
+                PointMassList[i]->force.x += _normalList[i].x * pressureV;
+                PointMassList[i]->force.y += _normalList[i].y * pressureV;
 
-                PointMassList[j]->force.X += _normalList[j].X * pressureV;
-                PointMassList[j]->force.Y += _normalList[j].Y * pressureV;
+                PointMassList[j]->force.x += _normalList[j].x * pressureV;
+                PointMassList[j]->force.y += _normalList[j].y * pressureV;
             }
         }
     }

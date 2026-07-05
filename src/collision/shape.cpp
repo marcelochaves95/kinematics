@@ -1,5 +1,5 @@
 #include <collision/shape.h>
-#include <Math/Mathf.h>
+#include <math/mathf.h>
 #include <stdexcept>
 
 namespace kinematics
@@ -58,8 +58,8 @@ namespace kinematics
         float y = 0.0f;
         for (int i = 0; i < count; i++)
         {
-            x += points[i].X;
-            y += points[i].Y;
+            x += points[i].x;
+            y += points[i].y;
         }
         x /= count;
         y /= count;
@@ -72,30 +72,30 @@ namespace kinematics
         float y = 0.0f;
         for (int i = 0; i < count; i++)
         {
-            x += points[i].X;
-            y += points[i].Y;
+            x += points[i].x;
+            y += points[i].y;
         }
         x /= count;
         y /= count;
         for (int i = 0; i < count; i++)
         {
-            points[i].X -= x;
-            points[i].Y -= y;
+            points[i].x -= x;
+            points[i].y -= y;
         }
     }
 
     std::vector<Vector2> Shape::transform(const std::vector<Vector2>& points,
         const Vector2& position, float angle, const Vector2& scale)
     {
-        float cos = mathf::Cos(angle);
-        float sin = mathf::Sin(angle);
+        float cos = mathf::cos(angle);
+        float sin = mathf::sin(angle);
         std::vector<Vector2> out(points.size());
         for (size_t i = 0; i < points.size(); i++)
         {
-            float x = points[i].X * scale.X;
-            float y = points[i].Y * scale.Y;
-            out[i].X = cos * x - sin * y + position.X;
-            out[i].Y = cos * y + sin * x + position.Y;
+            float x = points[i].x * scale.x;
+            float y = points[i].y * scale.y;
+            out[i].x = cos * x - sin * y + position.x;
+            out[i].y = cos * y + sin * x + position.y;
         }
         return out;
     }

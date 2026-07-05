@@ -2,7 +2,7 @@
 
 #include <collision/shape.h>
 #include <Dynamics/SpringBody.h>
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 #include <vector>
 
 // Port of Dynamics/PressureBody.cs — adds gas-pressure forces: each edge pushes

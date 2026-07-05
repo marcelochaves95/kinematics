@@ -1,7 +1,7 @@
 #pragma once
 
 #include <collision/point_mass.h>
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 
 namespace kinematics
 {

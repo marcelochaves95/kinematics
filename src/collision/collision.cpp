@@ -1,8 +1,8 @@
 #include <collision/collision.h>
 #include <collision/aabb.h>
 #include <Dynamics/Body.h>
-#include <Math/Mathf.h>
-#include <Math/Vector2.h>
+#include <math/mathf.h>
+#include <math/vector2.h>
 
 namespace kinematics
 {
@@ -16,7 +16,7 @@ namespace kinematics
         for (int i = 0; i < bApmCount; i++)
         {
             Vector2 pt = bodyA.PointMassList[i]->position;
-            if (!boxB.contains(pt.X, pt.Y))
+            if (!boxB.contains(pt.x, pt.y))
             {
                 continue;
             }
@@ -29,10 +29,10 @@ namespace kinematics
             int nextPt = i < bApmCount - 1 ? i + 1 : 0;
             Vector2 prev = bodyA.PointMassList[prevPt]->position;
             Vector2 next = bodyA.PointMassList[nextPt]->position;
-            Vector2 fromPrev(pt.X - prev.X, pt.Y - prev.Y);
-            Vector2 toNext(next.X - pt.X, next.Y - pt.Y);
-            Vector2 ptNorm(fromPrev.X + toNext.X, fromPrev.Y + toNext.Y);
-            ptNorm = ptNorm.Perpendicular();
+            Vector2 fromPrev(pt.x - prev.x, pt.y - prev.y);
+            Vector2 toNext(next.x - pt.x, next.y - pt.y);
+            Vector2 ptNorm(fromPrev.x + toNext.x, fromPrev.y + toNext.y);
+            ptNorm = ptNorm.perpendicular();
 
             float closestAway = 100000.0f;
             float closestSame = 100000.0f;
@@ -52,8 +52,8 @@ namespace kinematics
 
                 Vector2 pt1 = bodyB.PointMassList[b1]->position;
                 Vector2 pt2 = bodyB.PointMassList[b2]->position;
-                float distToA = (pt1.X - pt.X) * (pt1.X - pt.X) + (pt1.Y - pt.Y) * (pt1.Y - pt.Y);
-                float distToB = (pt2.X - pt.X) * (pt2.X - pt.X) + (pt2.Y - pt.Y) * (pt2.Y - pt.Y);
+                float distToA = (pt1.x - pt.x) * (pt1.x - pt.x) + (pt1.y - pt.y) * (pt1.y - pt.y);
+                float distToB = (pt2.x - pt.x) * (pt2.x - pt.x) + (pt2.y - pt.y) * (pt2.y - pt.y);
                 if (distToA > closestAway && distToA > closestSame &&
                     distToB > closestAway && distToB > closestSame)
                 {
@@ -63,7 +63,7 @@ namespace kinematics
                 Vector2 hitPt, normal;
                 float edgeD;
                 float dist = bodyB.GetClosestPointOnEdgeSquared(pt, j, hitPt, normal, edgeD);
-                float dot = Vector2::Dot(ptNorm, normal);
+                float dot = Vector2::dot(ptNorm, normal);
                 if (dot <= 0.0f)
                 {
                     if (dist < closestAway)
@@ -95,12 +95,12 @@ namespace kinematics
 
             if (found && closestAway > 0.3f && closestSame < closestAway)
             {
-                infoSame.penetration = mathf::Sqrt(infoSame.penetration);
+                infoSame.penetration = mathf::sqrt(infoSame.penetration);
                 out.push_back(infoSame);
             }
             else if (found)
             {
-                infoAway.penetration = mathf::Sqrt(infoAway.penetration);
+                infoAway.penetration = mathf::sqrt(infoAway.penetration);
                 out.push_back(infoAway);
             }
         }

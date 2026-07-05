@@ -1,5 +1,5 @@
 #include <collision/spring.h>
-#include <Math/Mathf.h>
+#include <math/mathf.h>
 #include <utility>
 
 namespace kinematics
@@ -17,7 +17,7 @@ namespace kinematics
 
     void Spring::reset()
     {
-        d = (point_mass_a->position - point_mass_b->position).Length();
+        d = (point_mass_a->position - point_mass_b->position).length();
     }
 
     Vector2 Spring::spring_force(const Spring& spring)
@@ -31,28 +31,28 @@ namespace kinematics
         const Vector2& posB, const Vector2& velB,
         float springD, float springK, float damping)
     {
-        float BtoAX = posA.X - posB.X;
-        float BtoAY = posA.Y - posB.Y;
-        float distance = mathf::Sqrt(mathf::Pow(BtoAX, 2.0f) + mathf::Pow(BtoAY, 2.0f));
+        float BtoAX = posA.x - posB.x;
+        float BtoAY = posA.y - posB.y;
+        float distance = mathf::sqrt(mathf::pow(BtoAX, 2.0f) + mathf::pow(BtoAY, 2.0f));
         Vector2 forceOut;
-        if (distance > mathf::Epsilon)
+        if (distance > mathf::EPSILON)
         {
             BtoAX /= distance;
             BtoAY /= distance;
         }
         else
         {
-            forceOut.X = 0.0f;
-            forceOut.Y = 0.0f;
+            forceOut.x = 0.0f;
+            forceOut.y = 0.0f;
             return forceOut;
         }
 
         distance = springD - distance;
-        float relVelX = velA.X - velB.X;
-        float relVelY = velA.Y - velB.Y;
+        float relVelX = velA.x - velB.x;
+        float relVelY = velA.y - velB.y;
         float totalRelVel = relVelX * BtoAX + relVelY * BtoAY;
-        forceOut.X = BtoAX * (distance * springK - totalRelVel * damping);
-        forceOut.Y = BtoAY * (distance * springK - totalRelVel * damping);
+        forceOut.x = BtoAX * (distance * springK - totalRelVel * damping);
+        forceOut.y = BtoAY * (distance * springK - totalRelVel * damping);
         return forceOut;
     }
 }

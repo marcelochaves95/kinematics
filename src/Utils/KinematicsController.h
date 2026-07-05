@@ -4,7 +4,7 @@
 #include <collision/chain.h>
 #include <collision/collision_info.h>
 #include <Dynamics/Body.h>
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 #include <functional>
 #include <memory>
 #include <random>

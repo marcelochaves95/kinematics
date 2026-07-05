@@ -9,8 +9,8 @@ namespace kinematics
         point_mass_a = nullptr;
         point_mass_b = nullptr;
         point_mass_c = nullptr;
-        point = Vector2::Zero;
-        normal = Vector2::Zero;
+        point = Vector2::ZERO;
+        normal = Vector2::ZERO;
         edge_distance = 0.0f;
         penetration = 0.0f;
     }

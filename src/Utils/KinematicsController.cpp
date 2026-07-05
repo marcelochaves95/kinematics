@@ -1,6 +1,6 @@
 #include <Utils/KinematicsController.h>
 #include <collision/collision.h>
-#include <Math/Mathf.h>
+#include <math/mathf.h>
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -55,15 +55,15 @@ namespace kinematics
 
         // Guard against a degenerate (zero-extent) world — e.g. no static bodies
         // and no explicit limits, which leaves min == max == (0,0). Without this,
-        // UpdateBitmask divides by Cell.X/Cell.Y == 0 -> Inf/NaN -> UB on the int
+        // UpdateBitmask divides by Cell.x/Cell.y == 0 -> Inf/NaN -> UB on the int
         // cast. A unit cell just maps every body into the same broadphase column.
-        if (Cell.X <= 0.0f)
+        if (Cell.x <= 0.0f)
         {
-            Cell.X = 1.0f;
+            Cell.x = 1.0f;
         }
-        if (Cell.Y <= 0.0f)
+        if (Cell.y <= 0.0f)
         {
-            Cell.Y = 1.0f;
+            Cell.y = 1.0f;
         }
     }
 
@@ -71,8 +71,8 @@ namespace kinematics
     {
         kinematics::AABB box = body.Aabb;
 
-        int minX = static_cast<int>(mathf::Floor((box.min.X - Aabb.min.X) / Cell.X));
-        int maxX = static_cast<int>(mathf::Floor((box.max.X - Aabb.min.X) / Cell.X));
+        int minX = static_cast<int>(mathf::floor((box.min.x - Aabb.min.x) / Cell.x));
+        int maxX = static_cast<int>(mathf::floor((box.max.x - Aabb.min.x) / Cell.x));
         if (minX < 0)
         {
             minX = 0;
@@ -90,8 +90,8 @@ namespace kinematics
             maxX = 32;
         }
 
-        int minY = static_cast<int>(mathf::Floor((box.min.Y - Aabb.min.Y) / Cell.Y));
-        int maxY = static_cast<int>(mathf::Floor((box.max.Y - Aabb.min.Y) / Cell.Y));
+        int minY = static_cast<int>(mathf::floor((box.min.y - Aabb.min.y) / Cell.y));
+        int maxY = static_cast<int>(mathf::floor((box.max.y - Aabb.min.y) / Cell.y));
         if (minY < 0)
         {
             minY = 0;
@@ -127,7 +127,7 @@ namespace kinematics
         for (size_t i = 0; i < BodyList.size(); i++)
         {
             Body& body = *BodyList[i];
-            if (!body.Aabb.contains(point.X, point.Y))
+            if (!body.Aabb.contains(point.x, point.y))
             {
                 continue;
             }
@@ -141,8 +141,8 @@ namespace kinematics
 
     void KinematicsController::Initialize()
     {
-        Vector2 min = Vector2::Zero;
-        Vector2 max = Vector2::Zero;
+        Vector2 min = Vector2::ZERO;
+        Vector2 max = Vector2::ZERO;
 
         for (size_t i = 0; i < BodyList.size(); i++)
         {
@@ -154,21 +154,21 @@ namespace kinematics
             BodyList[i]->RotateShape(0);
             BodyList[i]->Update(0);
 
-            if (BodyList[i]->Aabb.min.X < min.X)
+            if (BodyList[i]->Aabb.min.x < min.x)
             {
-                min.X = BodyList[i]->Aabb.min.X;
+                min.x = BodyList[i]->Aabb.min.x;
             }
-            if (BodyList[i]->Aabb.min.Y < min.Y)
+            if (BodyList[i]->Aabb.min.y < min.y)
             {
-                min.Y = BodyList[i]->Aabb.min.Y;
+                min.y = BodyList[i]->Aabb.min.y;
             }
-            if (BodyList[i]->Aabb.max.X > max.X)
+            if (BodyList[i]->Aabb.max.x > max.x)
             {
-                max.X = BodyList[i]->Aabb.max.X;
+                max.x = BodyList[i]->Aabb.max.x;
             }
-            if (BodyList[i]->Aabb.max.Y > max.Y)
+            if (BodyList[i]->Aabb.max.y > max.y)
             {
-                max.Y = BodyList[i]->Aabb.max.Y;
+                max.y = BodyList[i]->Aabb.max.y;
             }
         }
 
@@ -186,21 +186,21 @@ namespace kinematics
                 continue;
             }
 
-            float distance = (body.Position - position).Length();
+            float distance = (body.Position - position).length();
             Vector2 point;
             if (distance > far_)
             {
-                point.X = nextFloat() - 0.5f;
-                point.Y = nextFloat() - 0.5f;
-                point.Normalize();
+                point.x = nextFloat() - 0.5f;
+                point.y = nextFloat() - 0.5f;
+                point.normalize();
                 point = point * (near_ + (far_ - near_) * nextFloat());
                 point += position;
 
                 while (IsPointInsideAnyBody(point))
                 {
-                    point.X = nextFloat() - 0.5f;
-                    point.Y = nextFloat() - 0.5f;
-                    point.Normalize();
+                    point.x = nextFloat() - 0.5f;
+                    point.y = nextFloat() - 0.5f;
+                    point.normalize();
                     point = point * (near_ + (far_ - near_) * nextFloat());
                     point += position;
                 }
@@ -273,10 +273,10 @@ namespace kinematics
                 OnCollision(*info.body_a, *info.body_b, info);
             }
 
-            Vector2 bVel((B1->velocity.X + B2->velocity.X) * 0.5f,
-                (B1->velocity.Y + B2->velocity.Y) * 0.5f);
-            Vector2 relVel(A->velocity.X - bVel.X, A->velocity.Y - bVel.Y);
-            float relDot = Vector2::Dot(relVel, info.normal);
+            Vector2 bVel((B1->velocity.x + B2->velocity.x) * 0.5f,
+                (B1->velocity.y + B2->velocity.y) * 0.5f);
+            Vector2 relVel(A->velocity.x - bVel.x, A->velocity.y - bVel.y);
+            float relDot = Vector2::dot(relVel, info.normal);
 
             if (OnPenetration)
             {
@@ -302,11 +302,11 @@ namespace kinematics
             if (std::isinf(A->mass))
             {
                 moveA = 0.0f;
-                moveB = mathf::Min(info.penetration, MaxCorrection) + 0.001f;
+                moveB = mathf::min(info.penetration, MaxCorrection) + 0.001f;
             }
             else if (std::isinf(b2MassSum))
             {
-                moveA = mathf::Min(info.penetration, MaxCorrection) + 0.001f;
+                moveA = mathf::min(info.penetration, MaxCorrection) + 0.001f;
                 moveB = 0.0f;
             }
             else
@@ -322,9 +322,9 @@ namespace kinematics
             float jDenom = invMassA + invMassB;
             Vector2 numV;
             float elasticity = Elasticity;
-            numV.X = relVel.X * elasticity;
-            numV.Y = relVel.Y * elasticity;
-            float jNumerator = Vector2::Dot(numV, info.normal);
+            numV.x = relVel.x * elasticity;
+            numV.y = relVel.y * elasticity;
+            float jNumerator = Vector2::dot(numV, info.normal);
             jNumerator = -jNumerator;
             // jDenom == 0 means both colliding sides are effectively immovable
             // (infinite mass): there is no impulse to distribute. Guard the
@@ -334,44 +334,44 @@ namespace kinematics
             float j = jDenom > 0.0f ? jNumerator / jDenom : 0.0f;
             if (!std::isinf(A->mass))
             {
-                A->position.X += info.normal.X * moveA;
-                A->position.Y += info.normal.Y * moveA;
+                A->position.x += info.normal.x * moveA;
+                A->position.y += info.normal.y * moveA;
             }
 
             if (!std::isinf(B1->mass))
             {
-                B1->position.X -= info.normal.X * B1move;
-                B1->position.Y -= info.normal.Y * B1move;
+                B1->position.x -= info.normal.x * B1move;
+                B1->position.y -= info.normal.y * B1move;
             }
 
             if (!std::isinf(B2->mass))
             {
-                B2->position.X -= info.normal.X * B2move;
-                B2->position.Y -= info.normal.Y * B2move;
+                B2->position.x -= info.normal.x * B2move;
+                B2->position.y -= info.normal.y * B2move;
             }
 
-            Vector2 tangent = info.normal.Perpendicular();
-            float fNumerator = Vector2::Dot(relVel, tangent);
+            Vector2 tangent = info.normal.perpendicular();
+            float fNumerator = Vector2::dot(relVel, tangent);
             fNumerator *= Friction;
             float f = jDenom > 0.0f ? fNumerator / jDenom : 0.0f;
-            if (relDot <= mathf::Epsilon)
+            if (relDot <= mathf::EPSILON)
             {
                 if (!std::isinf(A->mass))
                 {
-                    A->velocity.X += info.normal.X * (j / A->mass) - tangent.X * (f / A->mass);
-                    A->velocity.Y += info.normal.Y * (j / A->mass) - tangent.Y * (f / A->mass);
+                    A->velocity.x += info.normal.x * (j / A->mass) - tangent.x * (f / A->mass);
+                    A->velocity.y += info.normal.y * (j / A->mass) - tangent.y * (f / A->mass);
                 }
 
                 if (!std::isinf(b2MassSum))
                 {
-                    B1->velocity.X -= info.normal.X * (j / b2MassSum) * b1inf - tangent.X * (f / b2MassSum) * b1inf;
-                    B1->velocity.Y -= info.normal.Y * (j / b2MassSum) * b1inf - tangent.Y * (f / b2MassSum) * b1inf;
+                    B1->velocity.x -= info.normal.x * (j / b2MassSum) * b1inf - tangent.x * (f / b2MassSum) * b1inf;
+                    B1->velocity.y -= info.normal.y * (j / b2MassSum) * b1inf - tangent.y * (f / b2MassSum) * b1inf;
                 }
 
                 if (!std::isinf(b2MassSum))
                 {
-                    B2->velocity.X -= info.normal.X * (j / b2MassSum) * b2inf - tangent.X * (f / b2MassSum) * b2inf;
-                    B2->velocity.Y -= info.normal.Y * (j / b2MassSum) * b2inf - tangent.Y * (f / b2MassSum) * b2inf;
+                    B2->velocity.x -= info.normal.x * (j / b2MassSum) * b2inf - tangent.x * (f / b2MassSum) * b2inf;
+                    B2->velocity.y -= info.normal.y * (j / b2MassSum) * b2inf - tangent.y * (f / b2MassSum) * b2inf;
                 }
             }
         }

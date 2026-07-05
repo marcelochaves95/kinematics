@@ -5,9 +5,9 @@
 //     #include <kinematics.h>
 //     using namespace kinematics;
 
-#include <Math/Mathf.h>
-#include <Math/Vector2.h>
-#include <Math/Vector3.h>
+#include <math/mathf.h>
+#include <math/vector2.h>
+#include <math/vector3.h>
 #include <collision/aabb.h>
 #include <collision/shape.h>
 #include <collision/point_mass.h>

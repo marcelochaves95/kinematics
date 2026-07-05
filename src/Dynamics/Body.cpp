@@ -1,6 +1,6 @@
 #include <Dynamics/Body.h>
-#include <Math/Mathf.h>
-#include <Math/Vector3.h>
+#include <math/mathf.h>
+#include <math/vector3.h>
 #include <cmath>
 #include <limits>
 #include <memory>
@@ -43,13 +43,13 @@ namespace kinematics
         float originalAngle = 0.0f;
         for (int i = 0; i < Count; i++)
         {
-            Vector2 baseNormal = Vector2::Normalize(
-                Vector2(_baseShape.points[i].X, _baseShape.points[i].Y));
-            Vector2 currentNormal = Vector2::Normalize(
-                Vector2(PointMassList[i]->position.X - Position.X,
-                    PointMassList[i]->position.Y - Position.Y));
+            Vector2 baseNormal = Vector2::normalize(
+                Vector2(_baseShape.points[i].x, _baseShape.points[i].y));
+            Vector2 currentNormal = Vector2::normalize(
+                Vector2(PointMassList[i]->position.x - Position.x,
+                    PointMassList[i]->position.y - Position.y));
 
-            float dot = Vector2::Dot(baseNormal, currentNormal);
+            float dot = Vector2::dot(baseNormal, currentNormal);
             if (dot > 1.0f)
             {
                 dot = 1.0f;
@@ -59,8 +59,8 @@ namespace kinematics
                 dot = -1.0f;
             }
 
-            float thisAngle = mathf::Acos(dot);
-            if (!baseNormal.IsCounterClockwise(currentNormal))
+            float thisAngle = mathf::acos(dot);
+            if (!baseNormal.is_counter_clockwise(currentNormal))
             {
                 thisAngle = -thisAngle;
             }
@@ -74,7 +74,7 @@ namespace kinematics
             {
                 float diff = thisAngle - originalAngle;
                 int thisSign = thisAngle >= 0.0f ? 1 : -1;
-                if (mathf::Abs(diff) > mathf::PI && thisSign != originalSign)
+                if (mathf::abs(diff) > mathf::PI && thisSign != originalSign)
                 {
                     thisAngle = thisSign == -1 ? thisAngle + mathf::PI * 2.0f
                                                : thisAngle - mathf::PI * 2.0f;
@@ -86,14 +86,14 @@ namespace kinematics
 
         angle /= Count;
 
-        float cos = mathf::Cos(angle);
-        float sin = mathf::Sin(angle);
+        float cos = mathf::cos(angle);
+        float sin = mathf::sin(angle);
         for (int i = 0; i < Count; i++)
         {
-            float x = _baseShape.points[i].X;
-            float y = _baseShape.points[i].Y;
-            CurrentShape.points[i].X = cos * x - sin * y + Position.X;
-            CurrentShape.points[i].Y = cos * y + sin * x + Position.Y;
+            float x = _baseShape.points[i].x;
+            float y = _baseShape.points[i].y;
+            CurrentShape.points[i].x = cos * x - sin * y + Position.x;
+            CurrentShape.points[i].y = cos * y + sin * x + Position.y;
         }
     }
 
@@ -118,19 +118,19 @@ namespace kinematics
 
     bool Body::Contains(const Vector2& point) const
     {
-        Vector2 endPt(Aabb.max.X + 0.1f, point.Y);
+        Vector2 endPt(Aabb.max.x + 0.1f, point.y);
         bool inside = false;
         Vector2 edgeSt = PointMassList[0]->position;
         for (int i = 0; i < Count; i++)
         {
             Vector2 edgeEnd = i < Count - 1 ? PointMassList[i + 1]->position
                                             : PointMassList[0]->position;
-            if ((edgeSt.Y <= point.Y && edgeEnd.Y > point.Y) ||
-                (edgeSt.Y > point.Y && edgeEnd.Y <= point.Y))
+            if ((edgeSt.y <= point.y && edgeEnd.y > point.y) ||
+                (edgeSt.y > point.y && edgeEnd.y <= point.y))
             {
-                float slope = (edgeEnd.X - edgeSt.X) / (edgeEnd.Y - edgeSt.Y);
-                float hitX = edgeSt.X + ((point.Y - edgeSt.Y) * slope);
-                if (hitX >= point.X && hitX <= endPt.X)
+                float slope = (edgeEnd.x - edgeSt.x) / (edgeEnd.y - edgeSt.y);
+                float hitX = edgeSt.x + ((point.y - edgeSt.y) * slope);
+                if (hitX >= point.x && hitX <= endPt.x)
                 {
                     inside = !inside;
                 }
@@ -143,11 +143,11 @@ namespace kinematics
     float Body::GetClosestPoint(Vector2 point, Vector2& closest, Vector2& normal,
         int& pointA, int& pointB, float& edgeD)
     {
-        closest = Vector2::Zero;
+        closest = Vector2::ZERO;
         pointA = -1;
         pointB = -1;
         edgeD = 0.0f;
-        normal = Vector2::Zero;
+        normal = Vector2::ZERO;
         float closestD = std::numeric_limits<float>::max();
         for (int i = 0; i < Count; i++)
         {
@@ -177,40 +177,40 @@ namespace kinematics
         Vector2 ptA = PointMassList[edgeNum]->position;
         Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1]->position
                                           : PointMassList[0]->position;
-        Vector2 toP(point.X - ptA.X, point.Y - ptA.Y);
-        Vector2 e(ptB.X - ptA.X, ptB.Y - ptA.Y);
+        Vector2 toP(point.x - ptA.x, point.y - ptA.y);
+        Vector2 e(ptB.x - ptA.x, ptB.y - ptA.y);
 
-        float edgeLength = mathf::Sqrt(e.X * e.X + e.Y * e.Y);
-        if (edgeLength > mathf::Epsilon)
+        float edgeLength = mathf::sqrt(e.x * e.x + e.y * e.y);
+        if (edgeLength > mathf::EPSILON)
         {
-            e.X /= edgeLength;
-            e.Y /= edgeLength;
+            e.x /= edgeLength;
+            e.y /= edgeLength;
         }
 
-        Vector2 perpendicular = e.Perpendicular();
-        float dot = Vector2::Dot(toP, e);
-        if (dot <= mathf::Epsilon)
+        Vector2 perpendicular = e.perpendicular();
+        float dot = Vector2::dot(toP, e);
+        if (dot <= mathf::EPSILON)
         {
-            distance = Vector2::Distance(point, ptA);
+            distance = Vector2::distance(point, ptA);
             hitPt = ptA;
             edgeD = 0.0f;
             normal = perpendicular;
         }
         else if (dot >= edgeLength)
         {
-            distance = Vector2::Distance(point, ptB);
+            distance = Vector2::distance(point, ptB);
             hitPt = ptB;
             edgeD = 1.0f;
             normal = perpendicular;
         }
         else
         {
-            Vector3 toP3(toP.X, toP.Y, 0.0f);
-            Vector3 e3(e.X, e.Y, 0.0f);
-            e3 = Vector3::Cross(toP3, e3);
-            distance = mathf::Abs(e3.Z);
-            hitPt.X = ptA.X + e.X * dot;
-            hitPt.Y = ptA.Y + e.Y * dot;
+            Vector3 toP3(toP.x, toP.y, 0.0f);
+            Vector3 e3(e.x, e.y, 0.0f);
+            e3 = Vector3::cross(toP3, e3);
+            distance = mathf::abs(e3.z);
+            hitPt.x = ptA.x + e.x * dot;
+            hitPt.y = ptA.y + e.y * dot;
             edgeD = dot / edgeLength;
             normal = perpendicular;
         }
@@ -228,40 +228,40 @@ namespace kinematics
         Vector2 ptA = PointMassList[edgeNum]->position;
         Vector2 ptB = edgeNum < Count - 1 ? PointMassList[edgeNum + 1]->position
                                           : PointMassList[0]->position;
-        Vector2 toP(point.X - ptA.X, point.Y - ptA.Y);
-        Vector2 edge(ptB.X - ptA.X, ptB.Y - ptA.Y);
+        Vector2 toP(point.x - ptA.x, point.y - ptA.y);
+        Vector2 edge(ptB.x - ptA.x, ptB.y - ptA.y);
 
-        float edgeLength = mathf::Sqrt(edge.X * edge.X + edge.Y * edge.Y);
-        if (edgeLength > mathf::Epsilon)
+        float edgeLength = mathf::sqrt(edge.x * edge.x + edge.y * edge.y);
+        if (edgeLength > mathf::EPSILON)
         {
-            edge.X /= edgeLength;
-            edge.Y /= edgeLength;
+            edge.x /= edgeLength;
+            edge.y /= edgeLength;
         }
 
-        Vector2 perpendicular = edge.Perpendicular();
-        float dot = Vector2::Dot(toP, edge);
-        if (dot <= mathf::Epsilon)
+        Vector2 perpendicular = edge.perpendicular();
+        float dot = Vector2::dot(toP, edge);
+        if (dot <= mathf::EPSILON)
         {
-            distanceSquared = Vector2::DistanceSquared(point, ptA);
+            distanceSquared = Vector2::distance_squared(point, ptA);
             hitPt = ptA;
             edgeD = 0.0f;
             normal = perpendicular;
         }
         else if (dot >= edgeLength)
         {
-            distanceSquared = Vector2::DistanceSquared(point, ptB);
+            distanceSquared = Vector2::distance_squared(point, ptB);
             hitPt = ptB;
             edgeD = 1.0f;
             normal = perpendicular;
         }
         else
         {
-            Vector3 toP3(toP.X, toP.Y, 0.0f);
-            Vector3 e3(edge.X, edge.Y, 0.0f);
-            e3 = Vector3::Cross(toP3, e3);
-            distanceSquared = mathf::Abs(e3.Z * e3.Z);
-            hitPt.X = ptA.X + edge.X * dot;
-            hitPt.Y = ptA.Y + edge.Y * dot;
+            Vector3 toP3(toP.x, toP.y, 0.0f);
+            Vector3 e3(edge.x, edge.y, 0.0f);
+            e3 = Vector3::cross(toP3, e3);
+            distanceSquared = mathf::abs(e3.z * e3.z);
+            hitPt.x = ptA.x + edge.x * dot;
+            hitPt.y = ptA.y + edge.y * dot;
             edgeD = dot / edgeLength;
             normal = perpendicular;
         }
@@ -275,26 +275,26 @@ namespace kinematics
         int closest = -1;
         for (int i = 0; i < Count; i++)
         {
-            float thisD = (point - PointMassList[i]->position).LengthSquared();
+            float thisD = (point - PointMassList[i]->position).length_squared();
             if (thisD < closestSQD)
             {
                 closestSQD = thisD;
                 closest = i;
             }
         }
-        dist = mathf::Sqrt(closestSQD);
+        dist = mathf::sqrt(closestSQD);
         return PointMassList[closest];
     }
 
     void Body::ApplyForce(const Vector2& point, const Vector2& force)
     {
         Vector2 r = Position - point;
-        float torqueForce = Vector3::Cross(r.Vector3FromVector2(),
-            force.Vector3FromVector2()).Z;
+        float torqueForce = Vector3::cross(r.vector3_from_vector2(),
+            force.vector3_from_vector2()).z;
         for (int i = 0; i < Count; i++)
         {
             Vector2 toPt = PointMassList[i]->position - Position;
-            Vector2 torque(toPt.Y, -toPt.X);
+            Vector2 torque(toPt.y, -toPt.x);
             PointMassList[i]->force += torque * torqueForce;
             PointMassList[i]->force += force;
         }
@@ -304,8 +304,8 @@ namespace kinematics
     {
         for (int i = 0; i < Count; i++)
         {
-            PointMassList[i]->velocity.X *= DAMPING;
-            PointMassList[i]->velocity.Y *= DAMPING;
+            PointMassList[i]->velocity.x *= DAMPING;
+            PointMassList[i]->velocity.y *= DAMPING;
             PointMassList[i]->update(elapsed);
         }
     }
@@ -315,11 +315,11 @@ namespace kinematics
         Aabb.clear();
         for (int i = 0; i < Count; i++)
         {
-            float x = PointMassList[i]->position.X;
-            float y = PointMassList[i]->position.Y;
+            float x = PointMassList[i]->position.x;
+            float y = PointMassList[i]->position.y;
             Aabb.add(x, y);
-            x += static_cast<float>(PointMassList[i]->velocity.X * elapsed);
-            y += static_cast<float>(PointMassList[i]->velocity.Y * elapsed);
+            x += static_cast<float>(PointMassList[i]->velocity.x * elapsed);
+            y += static_cast<float>(PointMassList[i]->velocity.y * elapsed);
             Aabb.add(x, y);
         }
     }
@@ -342,20 +342,20 @@ namespace kinematics
     void Body::GetBodyPositionVelocityForce(Vector2& position, Vector2& velocity, Vector2& force)
     {
         float inverse_count = 1.0f / Count;
-        position.X = 0.0f;
-        position.Y = 0.0f;
-        velocity.X = 0.0f;
-        velocity.Y = 0.0f;
-        force.X = 0.0f;
-        force.Y = 0.0f;
+        position.x = 0.0f;
+        position.y = 0.0f;
+        velocity.x = 0.0f;
+        velocity.y = 0.0f;
+        force.x = 0.0f;
+        force.y = 0.0f;
         for (int i = 0; i < Count; i++)
         {
-            position.X += PointMassList[i]->position.X * inverse_count;
-            position.Y += PointMassList[i]->position.Y * inverse_count;
-            velocity.X += PointMassList[i]->velocity.X * inverse_count;
-            velocity.Y += PointMassList[i]->velocity.Y * inverse_count;
-            force.X += PointMassList[i]->force.X * inverse_count;
-            force.Y += PointMassList[i]->force.Y * inverse_count;
+            position.x += PointMassList[i]->position.x * inverse_count;
+            position.y += PointMassList[i]->position.y * inverse_count;
+            velocity.x += PointMassList[i]->velocity.x * inverse_count;
+            velocity.y += PointMassList[i]->velocity.y * inverse_count;
+            force.x += PointMassList[i]->force.x * inverse_count;
+            force.y += PointMassList[i]->force.y * inverse_count;
         }
     }
 }

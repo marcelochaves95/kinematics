@@ -1,5 +1,5 @@
 #include <Dynamics/SpringBody.h>
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 
 namespace kinematics
 {
@@ -30,10 +30,10 @@ namespace kinematics
         {
             Spring& spring = _springs[i];
             force = Spring::spring_force(spring);
-            spring.point_mass_a->force.X += force.X;
-            spring.point_mass_a->force.Y += force.Y;
-            spring.point_mass_b->force.X -= force.X;
-            spring.point_mass_b->force.Y -= force.Y;
+            spring.point_mass_a->force.x += force.x;
+            spring.point_mass_a->force.y += force.y;
+            spring.point_mass_b->force.x -= force.x;
+            spring.point_mass_b->force.y -= force.y;
         }
 
         if (_isConstrained)
@@ -48,8 +48,8 @@ namespace kinematics
                         PointMassList[i]->position, PointMassList[i]->velocity,
                         CurrentShape.points[i], PointMassList[i]->velocity,
                         0.0f, _shapeK, _shapeDamping);
-                    PointMassList[i]->force.X += force.X;
-                    PointMassList[i]->force.Y += force.Y;
+                    PointMassList[i]->force.x += force.x;
+                    PointMassList[i]->force.y += force.y;
                 }
             }
         }

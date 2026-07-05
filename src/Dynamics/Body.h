@@ -3,7 +3,7 @@
 #include <collision/aabb.h>
 #include <collision/point_mass.h>
 #include <collision/shape.h>
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 #include <Utils/Bitmask.h>
 #include <vector>
 
@@ -21,7 +21,7 @@ namespace kinematics
         bool IsStatic = false;
         Vector2 Position;
         Vector2 Velocity;
-        Vector2 Gravity = Vector2::Zero;
+        Vector2 Gravity = Vector2::ZERO;
         std::vector<PointMassPtr> PointMassList;
         Shape CurrentShape;
 

@@ -10,40 +10,40 @@ namespace kinematics
     {
         if (is_valid)
         {
-            if (x < min.X)
+            if (x < min.x)
             {
-                min.X = x;
+                min.x = x;
             }
-            else if (x > max.X)
+            else if (x > max.x)
             {
-                max.X = x;
+                max.x = x;
             }
 
-            if (y < min.Y)
+            if (y < min.y)
             {
-                min.Y = y;
+                min.y = y;
             }
-            else if (y > max.Y)
+            else if (y > max.y)
             {
-                max.Y = y;
+                max.y = y;
             }
         }
         else
         {
-            min.X = x;
-            max.X = x;
-            min.Y = y;
-            max.Y = y;
+            min.x = x;
+            max.x = x;
+            min.y = y;
+            max.y = y;
             is_valid = true;
         }
     }
 
     void AABB::clear()
     {
-        min.X = 0.0f;
-        max.X = 0.0f;
-        min.Y = 0.0f;
-        max.Y = 0.0f;
+        min.x = 0.0f;
+        max.x = 0.0f;
+        min.y = 0.0f;
+        max.y = 0.0f;
         is_valid = false;
     }
 
@@ -51,11 +51,11 @@ namespace kinematics
     {
         if (is_valid)
         {
-            if (x < min.X || x > max.X)
+            if (x < min.x || x > max.x)
             {
                 return false;
             }
-            if (y < min.Y || y > max.Y)
+            if (y < min.y || y > max.y)
             {
                 return false;
             }
@@ -69,11 +69,11 @@ namespace kinematics
 
     bool AABB::intersects(const AABB& aabb) const
     {
-        if (max.X < aabb.min.X || min.X > aabb.max.X)
+        if (max.x < aabb.min.x || min.x > aabb.max.x)
         {
             return false;
         }
-        if (max.Y < aabb.min.Y || min.Y > aabb.max.Y)
+        if (max.y < aabb.min.y || min.y > aabb.max.y)
         {
             return false;
         }

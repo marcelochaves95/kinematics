@@ -7,7 +7,7 @@
 #include <Dynamics/Body.h>
 #include <Dynamics/PressureBody.h>
 #include <Dynamics/SpringBody.h>
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 #include <Utils/KinematicsController.h>
 #include <cmath>
 #include <limits>
@@ -62,8 +62,8 @@ namespace
         }
         for (int i = 0; i < n; i++)
         {
-            outXY[2 * i] = pml[i]->position.X;
-            outXY[2 * i + 1] = pml[i]->position.Y;
+            outXY[2 * i] = pml[i]->position.x;
+            outXY[2 * i + 1] = pml[i]->position.y;
         }
         return n;
     }
@@ -128,8 +128,8 @@ void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, fl
         {
             continue;
         }
-        float dx = body->Position.X - wx;
-        float dy = body->Position.Y - wy;
+        float dx = body->Position.x - wx;
+        float dy = body->Position.y - wy;
         float dist = std::sqrt(dx * dx + dy * dy);
         if (dist < 0.01f || dist > radius)
         {
@@ -140,8 +140,8 @@ void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, fl
         float vy = dy / dist * s;
         for (auto& pm : body->PointMassList)
         {
-            pm->velocity.X += vx;
-            pm->velocity.Y += vy;
+            pm->velocity.x += vx;
+            pm->velocity.y += vy;
         }
         body->UpdateBodyPositionVelocityForce();
     }
@@ -150,16 +150,16 @@ void kn_world_apply_impulse(KnWorld* world, float wx, float wy, float radius, fl
         for (size_t i = 1; i + 1 < chain->point_mass_list.size(); i++)
         {
             auto& pm = chain->point_mass_list[i];
-            float dx = pm->position.X - wx;
-            float dy = pm->position.Y - wy;
+            float dx = pm->position.x - wx;
+            float dy = pm->position.y - wy;
             float dist = std::sqrt(dx * dx + dy * dy);
             if (dist < 0.01f || dist > radius)
             {
                 continue;
             }
             float s = strength * (1.0f - dist / radius);
-            pm->velocity.X += dx / dist * s;
-            pm->velocity.Y += dy / dist * s;
+            pm->velocity.x += dx / dist * s;
+            pm->velocity.y += dy / dist * s;
         }
     }
 }
@@ -276,8 +276,8 @@ void kn_world_step(KnWorld* world, double dt, int substeps)
                 float m = chain->point_mass_list[i]->mass;
                 if (!std::isinf(m))
                 {
-                    chain->point_mass_list[i]->force.X += world->chainGravity.X * m;
-                    chain->point_mass_list[i]->force.Y += world->chainGravity.Y * m;
+                    chain->point_mass_list[i]->force.x += world->chainGravity.x * m;
+                    chain->point_mass_list[i]->force.y += world->chainGravity.y * m;
                 }
             }
         }
@@ -291,8 +291,8 @@ void kn_world_step(KnWorld* world, double dt, int substeps)
                 }
                 for (auto& pm : body->PointMassList)
                 {
-                    pm->force.X -= world->drag * pm->velocity.X;
-                    pm->force.Y -= world->drag * pm->velocity.Y;
+                    pm->force.x -= world->drag * pm->velocity.x;
+                    pm->force.y -= world->drag * pm->velocity.y;
                 }
             }
         }
@@ -350,11 +350,11 @@ void kn_body_get_position(KnWorld* world, int body, float* outX, float* outY)
     }
     if (outX)
     {
-        *outX = world->ctrl.BodyList[body]->Position.X;
+        *outX = world->ctrl.BodyList[body]->Position.x;
     }
     if (outY)
     {
-        *outY = world->ctrl.BodyList[body]->Position.Y;
+        *outY = world->ctrl.BodyList[body]->Position.y;
     }
 }
 

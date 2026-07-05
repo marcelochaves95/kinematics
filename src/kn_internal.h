@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Math/Vector2.h>
+#include <math/vector2.h>
 #include <Utils/KinematicsController.h>
 
 // Internal definition of the opaque KnWorld (shared between the C ABI
